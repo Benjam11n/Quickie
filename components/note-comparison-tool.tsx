@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Product } from "@/lib/types";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Plus, Sparkles } from "lucide-react";
+import { useState } from "react";
+
 import { ProductSelector } from "@/components/product-selector";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Product } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const MAX_COMPARISONS = 3;
@@ -94,13 +95,13 @@ export function NoteComparisonTool({
         <h2 className="text-2xl font-bold">Note Comparison</h2>
         {selectedProducts.length < MAX_COMPARISONS && (
           <Button onClick={() => setShowSelector(true)} className="glow-effect">
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="mr-2 size-4" />
             Add Perfume
           </Button>
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {selectedProducts.map((product, index) => (
           <motion.div
             key={product.id}
@@ -109,33 +110,33 @@ export function NoteComparisonTool({
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="p-6 relative overflow-hidden">
+            <Card className="relative overflow-hidden p-6">
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute top-2 right-2"
+                className="absolute right-2 top-2"
                 onClick={() => handleRemoveProduct(index)}
               >
-                <X className="h-4 w-4" />
+                <X className="size-4" />
               </Button>
 
               <div className="space-y-4">
-                <div className="aspect-square relative rounded-lg overflow-hidden">
+                <div className="relative aspect-square overflow-hidden rounded-lg">
                   <img
                     src={product.images[0]}
                     alt={product.name}
-                    className="object-cover w-full h-full"
+                    className="size-full object-cover"
                   />
                 </div>
 
                 <div>
-                  <h3 className="font-semibold text-lg">{product.name}</h3>
+                  <h3 className="text-lg font-semibold">{product.name}</h3>
                   <p className="text-muted-foreground">{product.brand}</p>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary" />
+                    <Sparkles className="size-4 text-primary" />
                     <h4 className="font-medium">Unique Notes</h4>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -152,7 +153,7 @@ export function NoteComparisonTool({
                 </div>
 
                 {selectedProducts.length > 1 && index > 0 && (
-                  <div className="pt-4 border-t">
+                  <div className="border-t pt-4">
                     <p className="text-sm text-muted-foreground">
                       Similarity with {selectedProducts[0].name}:
                       <span className="ml-2 font-medium text-primary">
@@ -172,8 +173,8 @@ export function NoteComparisonTool({
       </div>
 
       {selectedProducts.length >= 2 && (
-        <Card className="p-6 bg-gradient-to-br from-pink-500/10 to-violet-500/10">
-          <h3 className="font-semibold mb-4">Common Notes</h3>
+        <Card className="bg-gradient-to-br from-pink-500/10 to-violet-500/10 p-6">
+          <h3 className="mb-4 font-semibold">Common Notes</h3>
           <div className="flex flex-wrap gap-2">
             {Array.from(overlappingNotes).map((note) => (
               <Badge key={note} className="gradient-border">

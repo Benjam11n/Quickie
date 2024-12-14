@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ProductSelector } from "@/components/product-selector";
-import { ComparisonView } from "@/components/comparison/comparison-view";
 import { Plus, Scale } from "lucide-react";
+import { useState } from "react";
+
+import { ComparisonView } from "@/components/comparison/comparison-view";
+import { ProductSelector } from "@/components/product-selector";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Product } from "@/lib/types";
 
 export default function ComparePage() {
@@ -31,11 +32,11 @@ export default function ComparePage() {
       <div className="space-y-8">
         <div>
           <h1 className="text-4xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
               Compare Fragrances
             </span>
           </h1>
-          <p className="text-muted-foreground mt-2">
+          <p className="mt-2 text-muted-foreground">
             Compare perfumes and analyze their notes, characteristics, and
             similarities.
           </p>
@@ -43,9 +44,9 @@ export default function ComparePage() {
 
         {selectedProducts.length === 0 ? (
           <Card className="p-8 text-center">
-            <div className="max-w-sm mx-auto space-y-4">
-              <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
-                <Scale className="h-8 w-8 text-primary" />
+            <div className="mx-auto max-w-sm space-y-4">
+              <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-primary/10">
+                <Scale className="size-8 text-primary" />
               </div>
               <h3 className="text-lg font-semibold">Start Comparing</h3>
               <p className="text-muted-foreground">
@@ -56,7 +57,7 @@ export default function ComparePage() {
                 onClick={() => setShowSelector(true)}
                 className="glow-effect"
               >
-                <Plus className="mr-2 h-4 w-4" />
+                <Plus className="mr-2 size-4" />
                 Add Perfume
               </Button>
             </div>
@@ -69,7 +70,7 @@ export default function ComparePage() {
                   onClick={() => setShowSelector(true)}
                   className="glow-effect"
                 >
-                  <Plus className="mr-2 h-4 w-4" />
+                  <Plus className="mr-2 size-4" />
                   Add Perfume ({selectedProducts.length}/3)
                 </Button>
               )}

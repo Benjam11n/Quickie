@@ -1,4 +1,3 @@
-import { Card } from "@/components/ui/card";
 import {
   MapPin,
   Star,
@@ -9,6 +8,8 @@ import {
   Share2,
   TrendingUp,
 } from "lucide-react";
+
+import { Card } from "@/components/ui/card";
 
 const features = [
   {
@@ -65,37 +66,37 @@ const features = [
 export function Features() {
   return (
     <section className="container">
-      <div className="text-center space-y-4 mb-12">
+      <div className="mb-12 space-y-4 text-center">
         <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
           Why Choose Quickie
         </h2>
-        <p className="text-muted-foreground max-w-[600px] mx-auto">
+        <p className="mx-auto max-w-[600px] text-muted-foreground">
           Experience the future of fragrance discovery with our innovative
           platform.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {features.map((feature) => {
           const Icon = feature.icon;
           return (
             <Card
               key={feature.title}
-              className="p-6 hover-lift gradient-border relative overflow-hidden group"
+              className="hover-lift gradient-border group relative overflow-hidden p-6"
             >
               <div
-                className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
+                className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5`}
               />
 
               <div className="space-y-4">
                 <div
-                  className={`w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br ${feature.gradient}`}
+                  className={`flex size-12 items-center justify-center rounded-full bg-gradient-to-br ${feature.gradient}`}
                 >
-                  <Icon className="h-6 w-6 text-white" />
+                  <Icon className="size-6 text-white" />
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="font-semibold text-xl">{feature.title}</h3>
+                  <h3 className="text-xl font-semibold">{feature.title}</h3>
                   <p className="text-muted-foreground">{feature.description}</p>
                 </div>
               </div>

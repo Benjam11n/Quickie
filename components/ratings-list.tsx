@@ -1,7 +1,9 @@
-import { Product, UserPerfume } from "@/lib/types";
-import { Card } from "@/components/ui/card";
-import { StarRating } from "@/components/star-rating";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { StarRating } from '@/components/star-rating';
+import { Card } from '@/components/ui/card';
+import { Product, UserPerfume } from '@/lib/types';
 
 interface RatingsListProps {
   items: UserPerfume[];
@@ -16,7 +18,7 @@ export function RatingsList({
 }: RatingsListProps) {
   if (items.length === 0) {
     return (
-      <div className="text-center py-12">
+      <div className="py-12 text-center">
         <p className="text-muted-foreground">{emptyMessage}</p>
       </div>
     );
@@ -31,11 +33,11 @@ export function RatingsList({
         return (
           <Card key={item.productId} className="p-6">
             <div className="flex gap-6">
-              <div className="w-24 h-24 relative rounded-lg overflow-hidden">
-                <img
+              <div className="relative size-24 overflow-hidden rounded-lg">
+                <Image
                   src={product.images[0]}
                   alt={product.name}
-                  className="object-cover w-full h-full"
+                  className="size-full object-cover"
                 />
               </div>
 
@@ -43,7 +45,7 @@ export function RatingsList({
                 <div>
                   <Link
                     href={`/product/${product.id}`}
-                    className="text-lg font-semibold hover:text-primary transition-colors"
+                    className="text-lg font-semibold transition-colors hover:text-primary"
                   >
                     {product.name}
                   </Link>

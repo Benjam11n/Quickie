@@ -1,12 +1,13 @@
 "use client";
 
+import { Sparkles, ThumbsUp } from "lucide-react";
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
+
 import { ProductCard } from "@/components/product-card";
+import { QuizCard } from "@/components/quiz-card";
+import { Card } from "@/components/ui/card";
 import { useUserPerfumes } from "@/hooks/use-user-perfumes";
 import { products } from "@/lib/data";
-import { Sparkles, ThumbsUp } from "lucide-react";
-import { QuizCard } from "@/components/quiz-card";
 
 export default function RecommendationsPage() {
   const { collections } = useUserPerfumes();
@@ -94,7 +95,7 @@ export default function RecommendationsPage() {
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
           <h1 className="text-4xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
               Perfect Matches
             </span>
           </h1>
@@ -107,11 +108,11 @@ export default function RecommendationsPage() {
           <QuizCard onComplete={() => setShowQuiz(false)} />
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="p-6 bg-gradient-to-br from-pink-500/10 to-violet-500/10">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <Card className="bg-gradient-to-br from-pink-500/10 to-violet-500/10 p-6">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-full bg-primary/10">
-                    <Sparkles className="h-6 w-6 text-primary" />
+                  <div className="rounded-full bg-primary/10 p-3">
+                    <Sparkles className="size-6 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-semibold">AI-Powered Matches</h3>
@@ -122,10 +123,10 @@ export default function RecommendationsPage() {
                 </div>
               </Card>
 
-              <Card className="p-6 bg-gradient-to-br from-pink-500/10 to-violet-500/10">
+              <Card className="bg-gradient-to-br from-pink-500/10 to-violet-500/10 p-6">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-full bg-primary/10">
-                    <ThumbsUp className="h-6 w-6 text-primary" />
+                  <div className="rounded-full bg-primary/10 p-3">
+                    <ThumbsUp className="size-6 text-primary" />
                   </div>
                   <div>
                     <h3 className="font-semibold">
@@ -139,7 +140,7 @@ export default function RecommendationsPage() {
               </Card>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {recommendations.map((product) => (
                 <ProductCard
                   key={product.id}

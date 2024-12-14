@@ -1,6 +1,10 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,12 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth";
-import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 interface AuthDialogProps {
   open?: boolean;
@@ -83,7 +84,7 @@ export function AuthDialog({ open, onOpenChange, onSuccess }: AuthDialogProps) {
           {error && <p className="text-sm text-red-500">{error}</p>}
           <div className="space-y-2">
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
               Sign In
             </Button>
             <Button

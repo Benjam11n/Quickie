@@ -1,40 +1,41 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
-import { useAuth } from "@/lib/auth";
-import { Loader2 } from "lucide-react";
-import Link from "next/link";
+import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useAuth } from '@/lib/auth';
 
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const { login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
+    setError('');
 
     try {
       // In a real app, you would call your registration API here
       // For now, we'll just log them in
       const success = await login(email, password);
       if (success) {
-        router.push("/profile");
+        router.push('/profile');
       } else {
-        setError("Registration failed");
+        setError('Registration failed');
       }
     } catch (err) {
-      setError("An error occurred");
+      setError('An error occurred');
     } finally {
       setIsLoading(false);
     }
@@ -42,8 +43,8 @@ export default function RegisterPage() {
 
   return (
     <div className="container py-10">
-      <div className="max-w-md mx-auto space-y-6">
-        <div className="text-center space-y-2">
+      <div className="mx-auto max-w-md space-y-6">
+        <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">Create Your Account</h1>
           <p className="text-muted-foreground">
             Start your fragrance journey today
@@ -87,11 +88,11 @@ export default function RegisterPage() {
             {error && <p className="text-sm text-red-500">{error}</p>}
             <div className="space-y-2">
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
                 Create Account
               </Button>
-              <p className="text-sm text-center text-muted-foreground">
-                Already have an account?{" "}
+              <p className="text-center text-sm text-muted-foreground">
+                Already have an account?{' '}
                 <Link href="/login" className="text-primary hover:underline">
                   Sign in
                 </Link>

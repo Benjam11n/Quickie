@@ -6,11 +6,11 @@ export default function NoteComparisonPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-4xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
               Note Comparison
             </span>
           </h1>
-          <p className="text-muted-foreground mt-2">
+          <p className="mt-2 text-muted-foreground">
             Compare fragrance notes and discover similarities between your
             favorites.
           </p>

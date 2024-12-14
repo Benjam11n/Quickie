@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import { Wind, Clock, DollarSign, Sparkles, Activity } from "lucide-react";
-import { motion } from "framer-motion";
-import { RatingBar } from "./rating-bar";
+import { motion } from 'framer-motion';
+import { Wind, Clock, DollarSign, Sparkles, Activity } from 'lucide-react';
+
+import { RatingBar } from './rating-bar';
 
 interface RatingMetricsProps {
   rating: {
@@ -17,40 +18,40 @@ interface RatingMetricsProps {
 
 const metrics = [
   {
-    key: "sillage",
-    label: "Sillage",
+    key: 'sillage',
+    label: 'Sillage',
     icon: Wind,
-    description: "How far the fragrance projects",
+    description: 'How far the fragrance projects',
   },
   {
-    key: "longevity",
-    label: "Longevity",
+    key: 'longevity',
+    label: 'Longevity',
     icon: Clock,
-    description: "How long the fragrance lasts",
+    description: 'How long the fragrance lasts',
   },
   {
-    key: "value",
-    label: "Value",
+    key: 'value',
+    label: 'Value',
     icon: DollarSign,
-    description: "Price to quality ratio",
+    description: 'Price to quality ratio',
   },
   {
-    key: "projection",
-    label: "Projection",
+    key: 'projection',
+    label: 'Projection',
     icon: Activity,
-    description: "Strength of the scent",
+    description: 'Strength of the scent',
   },
   {
-    key: "complexity",
-    label: "Complexity",
+    key: 'complexity',
+    label: 'Complexity',
     icon: Sparkles,
-    description: "Depth and evolution of notes",
+    description: 'Depth and evolution of notes',
   },
 ];
 
 export function RatingMetrics({ rating, onChange }: RatingMetricsProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
       {metrics.map((metric, index) => {
         const Icon = metric.icon;
         return (
@@ -63,15 +64,15 @@ export function RatingMetrics({ rating, onChange }: RatingMetricsProps) {
           >
             <div className="flex items-center justify-between">
               <div className="group relative flex items-center gap-2">
-                <Icon className="h-5 w-5 text-primary" />
+                <Icon className="size-5 text-primary" />
                 <span className="font-medium">{metric.label}</span>
 
                 {/* Tooltip */}
-                <div className="absolute -top-8 left-0 w-48 p-2 bg-popover rounded-lg text-xs opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                <div className="invisible absolute -top-8 left-0 w-48 rounded-lg bg-popover p-2 text-xs opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
                   {metric.description}
                 </div>
               </div>
-              <span className="text-primary font-medium">
+              <span className="font-medium text-primary">
                 {rating[metric.key as keyof typeof rating]}
               </span>
             </div>
@@ -81,7 +82,7 @@ export function RatingMetrics({ rating, onChange }: RatingMetricsProps) {
               onChange={(value) => onChange({ ...rating, [metric.key]: value })}
             />
 
-            <div className="h-2 bg-secondary rounded-full overflow-hidden">
+            <div className="h-2 overflow-hidden rounded-full bg-secondary">
               <motion.div
                 className="h-full bg-gradient-to-r from-pink-500 to-violet-500"
                 initial={{ width: 0 }}

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 
 interface RatingDistributionProps {
   productId: string;
@@ -25,7 +25,7 @@ export function RatingDistribution({ productId }: RatingDistributionProps) {
         {distribution.map((item, index) => (
           <div key={item.rating} className="flex items-center gap-4">
             <div className="w-12 text-right font-medium">{item.rating} ★</div>
-            <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
+            <div className="h-2 flex-1 overflow-hidden rounded-full bg-secondary">
               <motion.div
                 className="h-full bg-gradient-to-r from-pink-500 to-violet-500"
                 initial={{ width: 0 }}

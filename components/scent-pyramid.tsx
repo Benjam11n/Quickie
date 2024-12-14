@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 interface Note {
   name: string;
@@ -46,7 +46,7 @@ export function ScentPyramid({ notes }: ScentPyramidProps) {
   ];
 
   return (
-    <div className="relative h-[500px] flex items-center justify-center">
+    <div className="relative flex h-[500px] items-center justify-center">
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
         {sections.map((section, index) => (
           <motion.div
@@ -60,12 +60,12 @@ export function ScentPyramid({ notes }: ScentPyramidProps) {
           >
             <motion.div
               className={`
-                absolute left-1/2 transform -translate-x-1/2
-                h-full bg-gradient-to-r ${section.gradient}
-                rounded-lg shadow-lg backdrop-blur-sm
-                transition-all duration-300
+                absolute left-1/2 h-full -translate-x-1/2
+                bg-gradient-to-r ${section.gradient}
                 flex items-center justify-center
-                overflow-hidden
+                overflow-hidden rounded-lg
+                shadow-lg backdrop-blur-sm transition-all
+                duration-300
               `}
               initial={{
                 width: `${(sections.length - index) * 30}%`,
@@ -86,9 +86,9 @@ export function ScentPyramid({ notes }: ScentPyramidProps) {
             >
               <div className="absolute inset-0 bg-black/10" />
 
-              <div className="relative text-white p-6 w-full">
-                <div className="text-center space-y-2">
-                  <h3 className="font-bold text-lg tracking-wide">
+              <div className="relative w-full p-6 text-white">
+                <div className="space-y-2 text-center">
+                  <h3 className="text-lg font-bold tracking-wide">
                     {section.label}
                   </h3>
                   <p className="text-sm text-white/80">{section.description}</p>
@@ -99,12 +99,12 @@ export function ScentPyramid({ notes }: ScentPyramidProps) {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="flex flex-wrap justify-center gap-2 mt-4"
+                        className="mt-4 flex flex-wrap justify-center gap-2"
                       >
                         {section.notes.map((note) => (
                           <motion.span
                             key={note.name}
-                            className="inline-flex items-center gap-1 bg-white/20 px-3 py-1.5 rounded-full text-sm backdrop-blur-sm"
+                            className="inline-flex items-center gap-1 rounded-full bg-white/20 px-3 py-1.5 text-sm backdrop-blur-sm"
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                           >

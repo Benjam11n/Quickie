@@ -1,11 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArticleCard as ArticleCardType } from "@/lib/types/news";
+import { Heart, MessageCircle, Share2 } from "lucide-react";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Heart, MessageCircle, Share2 } from "lucide-react";
+import { ArticleCard as ArticleCardType } from "@/lib/types/news";
+
 
 interface ArticleGridProps {
   articles: ArticleCardType[];
@@ -13,7 +15,7 @@ interface ArticleGridProps {
 
 export function ArticleGrid({ articles }: ArticleGridProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {articles.map((article, index) => (
         <motion.div
           key={article.title}
@@ -22,34 +24,34 @@ export function ArticleGrid({ articles }: ArticleGridProps) {
           transition={{ delay: index * 0.1 }}
           className="group"
         >
-          <article className="relative h-full rounded-lg border bg-card/30 backdrop-blur-sm overflow-hidden hover:border-primary/50 transition-colors">
-            <div className="aspect-[16/9] relative overflow-hidden">
+          <article className="relative h-full overflow-hidden rounded-lg border bg-card/30 backdrop-blur-sm transition-colors hover:border-primary/50">
+            <div className="relative aspect-[16/9] overflow-hidden">
               <motion.img
                 src={article.image}
                 alt={article.title}
-                className="w-full h-full object-cover"
+                className="size-full object-cover"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               />
-              <div className="absolute top-4 left-4">
+              <div className="absolute left-4 top-4">
                 <Badge variant="secondary" className="backdrop-blur-sm">
                   {article.category}
                 </Badge>
               </div>
             </div>
 
-            <div className="p-6 space-y-4">
-              <h3 className="text-xl font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+            <div className="space-y-4 p-6">
+              <h3 className="line-clamp-2 text-xl font-semibold transition-colors group-hover:text-primary">
                 {article.title}
               </h3>
 
-              <p className="text-muted-foreground line-clamp-2">
+              <p className="line-clamp-2 text-muted-foreground">
                 {article.excerpt}
               </p>
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Avatar className="h-8 w-8">
+                  <Avatar className="size-8">
                     <AvatarImage src={article.author.avatar} />
                     <AvatarFallback>
                       {article.author.name.slice(0, 2).toUpperCase()}
@@ -64,14 +66,14 @@ export function ArticleGrid({ articles }: ArticleGridProps) {
                 </div>
 
                 <div className="flex items-center gap-1">
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <Heart className="h-4 w-4" />
+                  <Button variant="ghost" size="icon" className="size-8">
+                    <Heart className="size-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <MessageCircle className="h-4 w-4" />
+                  <Button variant="ghost" size="icon" className="size-8">
+                    <MessageCircle className="size-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <Share2 className="h-4 w-4" />
+                  <Button variant="ghost" size="icon" className="size-8">
+                    <Share2 className="size-4" />
                   </Button>
                 </div>
               </div>

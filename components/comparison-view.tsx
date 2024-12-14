@@ -1,17 +1,19 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Product } from "@/lib/types";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+
 import { ScentProfile } from "@/components/scent-profile";
 import { ScentPyramid } from "@/components/scent-pyramid";
 import { StarRating } from "@/components/star-rating";
-import { useUserPerfumes } from "@/hooks/use-user-perfumes";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { useUserPerfumes } from "@/hooks/use-user-perfumes";
+import { Product } from "@/lib/types";
+
 
 interface ComparisonViewProps {
   product1: Product;
@@ -45,13 +47,13 @@ export function ComparisonView({ product1, product2 }: ComparisonViewProps) {
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
           <Link href="/catalog">
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="size-4" />
           </Link>
         </Button>
         <h1 className="text-3xl font-bold">Compare Fragrances</h1>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {[product1, product2].map((product, index) => {
           const userPerfume = index === 0 ? userPerfume1 : userPerfume2;
 
@@ -62,12 +64,12 @@ export function ComparisonView({ product1, product2 }: ComparisonViewProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
             >
-              <Card className="p-6 space-y-6">
-                <div className="aspect-square relative rounded-lg overflow-hidden">
+              <Card className="space-y-6 p-6">
+                <div className="relative aspect-square overflow-hidden rounded-lg">
                   <img
                     src={product.images[0]}
                     alt={product.name}
-                    className="object-cover w-full h-full"
+                    className="size-full object-cover"
                   />
                 </div>
 
@@ -110,9 +112,9 @@ export function ComparisonView({ product1, product2 }: ComparisonViewProps) {
         })}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <Card className="p-6">
-          <h3 className="text-xl font-bold mb-4">Scent Profile Comparison</h3>
+          <h3 className="mb-4 text-xl font-bold">Scent Profile Comparison</h3>
           <div className="grid grid-cols-2 gap-4">
             <ScentProfile profile={product1.scentProfile} />
             <ScentProfile profile={product2.scentProfile} />
@@ -120,7 +122,7 @@ export function ComparisonView({ product1, product2 }: ComparisonViewProps) {
         </Card>
 
         <Card className="p-6">
-          <h3 className="text-xl font-bold mb-4">Note Pyramid Comparison</h3>
+          <h3 className="mb-4 text-xl font-bold">Note Pyramid Comparison</h3>
           <div className="grid grid-cols-2 gap-4">
             <ScentPyramid notes={product1.notes} />
             <ScentPyramid notes={product2.notes} />
@@ -129,7 +131,7 @@ export function ComparisonView({ product1, product2 }: ComparisonViewProps) {
       </div>
 
       <Card className="p-6">
-        <h3 className="text-xl font-bold mb-4">Detailed Comparison</h3>
+        <h3 className="mb-4 text-xl font-bold">Detailed Comparison</h3>
         <div className="space-y-4">
           {Object.entries(product1.scentProfile).map(([key, value1]) => {
             const value2 =
@@ -137,7 +139,7 @@ export function ComparisonView({ product1, product2 }: ComparisonViewProps) {
             const comparison = compareValue(value1, value2);
 
             return (
-              <div key={key} className="grid grid-cols-3 gap-4 items-center">
+              <div key={key} className="grid grid-cols-3 items-center gap-4">
                 <div className={getValueClass(comparison)}>{value1}%</div>
                 <div className="text-center font-medium capitalize">{key}</div>
                 <div

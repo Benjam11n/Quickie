@@ -1,6 +1,7 @@
+import { Star } from "lucide-react";
+
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Star } from "lucide-react";
 
 interface InsightsProps {
   insights: {
@@ -40,12 +41,12 @@ export function CollectionInsights({ insights }: InsightsProps) {
     insights.ratedCount > 0 ? insights.totalRating / insights.ratedCount : 0;
 
   return (
-    <Card className="p-6 space-y-8">
+    <Card className="space-y-8 p-6">
       <div>
-        <h3 className="text-xl font-bold mb-6">Collection Insights</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h3 className="mb-6 text-xl font-bold">Collection Insights</h3>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           <div className="space-y-2">
-            <h4 className="font-medium text-sm text-muted-foreground">
+            <h4 className="text-sm font-medium text-muted-foreground">
               Top Categories
             </h4>
             <div className="space-y-4">
@@ -62,7 +63,7 @@ export function CollectionInsights({ insights }: InsightsProps) {
           </div>
 
           <div className="space-y-2">
-            <h4 className="font-medium text-sm text-muted-foreground">
+            <h4 className="text-sm font-medium text-muted-foreground">
               Dominant Notes
             </h4>
             <div className="space-y-4">
@@ -79,7 +80,7 @@ export function CollectionInsights({ insights }: InsightsProps) {
           </div>
 
           <div className="space-y-2">
-            <h4 className="font-medium text-sm text-muted-foreground">
+            <h4 className="text-sm font-medium text-muted-foreground">
               Brand Distribution
             </h4>
             <div className="space-y-4">
@@ -96,14 +97,14 @@ export function CollectionInsights({ insights }: InsightsProps) {
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-medium text-sm text-muted-foreground">
+            <h4 className="text-sm font-medium text-muted-foreground">
               Rating Overview
             </h4>
             <div className="flex items-center gap-2">
               <div className="text-3xl font-bold">
                 {averageRating.toFixed(1)}
               </div>
-              <Star className="h-6 w-6 text-yellow-500 fill-current" />
+              <Star className="size-6 fill-current text-yellow-500" />
             </div>
             <div className="text-sm text-muted-foreground">
               Based on {insights.ratedCount} ratings

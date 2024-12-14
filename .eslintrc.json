@@ -1,50 +1,47 @@
 {
-  // Extends from multiple ESLint configurations
   "extends": [
-    "next/core-web-vitals", // Next.js performance rules
-    "next/typescript", // Next.js TypeScript rules
-    "standard", // StandardJS style guide
-    "plugin:tailwindcss/recommended", // Tailwind CSS rules
-    "prettier" // Prettier compatibility
+    "next/core-web-vitals",
+    "next/typescript",
+    "standard",
+    "plugin:tailwindcss/recommended",
+    "prettier"
   ],
-  // Use TypeScript parser
-  "parser": "@typescript-eslint/parser",
-  // Enable import and TypeScript plugins
-  "plugins": ["import", "@typescript-eslint"],
-  // Custom rules configuration
+  "plugins": ["import"],
   "rules": {
-    // Configure import ordering
     "import/order": [
       "error",
       {
-        // Define import groups order
         "groups": [
-          "builtin", // Node.js built-in modules
-          "external", // npm packages
-          "internal", // internal aliases
-          ["parent", "sibling"], // relative imports
-          "index", // index files
-          "object" // object imports
+          "builtin", // Built-in types are first
+          "external", // External libraries
+          "internal", // Internal modules
+          ["parent", "sibling"], // Parent and sibling types can be mingled together
+          "index", // Then the index file
+          "object" // Object imports
         ],
-        // Add newline between import groups
         "newlines-between": "always",
-        // Custom group patterns
         "pathGroups": [
           {
-            "pattern": "@app/**", // Group @app imports
+            "pattern": "@app/**",
             "group": "external",
             "position": "after"
           }
         ],
-        // Exclude built-in modules from pathGroups
         "pathGroupsExcludedImportTypes": ["builtin"],
-
-        // Sort imports alphabetically
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true
         }
       }
     ]
-  }
+  },
+  "ignorePatterns": ["components/ui/**"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ]
 }

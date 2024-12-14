@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -14,11 +15,11 @@ export function ProductGallery({ images }: ProductGalleryProps) {
   return (
     <div className="space-y-4">
       <Card className="overflow-hidden">
-        <div className="aspect-square relative">
+        <div className="relative aspect-square">
           <img
             src={images[selectedImage]}
             alt="Product"
-            className="object-cover w-full h-full"
+            className="size-full object-cover"
           />
         </div>
       </Card>
@@ -33,11 +34,11 @@ export function ProductGallery({ images }: ProductGalleryProps) {
             )}
             onClick={() => setSelectedImage(index)}
           >
-            <div className="aspect-square relative">
+            <div className="relative aspect-square">
               <img
                 src={image}
                 alt={`Product view ${index + 1}`}
-                className="object-cover w-full h-full"
+                className="size-full object-cover"
               />
             </div>
           </Card>

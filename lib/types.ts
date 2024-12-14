@@ -1,3 +1,8 @@
+export interface Note {
+  name: string;
+  percentage: number;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -24,11 +29,6 @@ export interface Product {
   };
 }
 
-export interface Note {
-  name: string;
-  percentage: number;
-}
-
 export interface UserPerfume {
   productId: string;
   addedAt: string;
@@ -36,6 +36,11 @@ export interface UserPerfume {
   isFavorite: boolean;
   rating?: number;
   review?: string;
+}
+
+export interface Position {
+  x: number;
+  y: number;
 }
 
 export interface MoodBoard {
@@ -52,11 +57,6 @@ export interface MoodBoard {
   }[];
   isPublic: boolean;
   shareUrl?: string;
-}
-
-export interface Position {
-  x: number;
-  y: number;
 }
 
 export interface VendingLocation {

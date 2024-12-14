@@ -1,6 +1,11 @@
 "use client";
 
+import { Search, SlidersHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+import { ProductCard } from "@/components/product-card";
+import { ProductFilters } from "@/components/product-filters";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,12 +16,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ProductCard } from "@/components/product-card";
-import { ProductFilters } from "@/components/product-filters";
 import { useUserPerfumes } from "@/hooks/use-user-perfumes";
 import { products } from "@/lib/data";
-import { Search, SlidersHorizontal } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 type SortOption =
   | "price-asc"
@@ -119,18 +120,18 @@ export default function CatalogPage() {
       <div className="space-y-8">
         <div>
           <h1 className="text-4xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
               Discover Fragrances
             </span>
           </h1>
-          <p className="text-muted-foreground mt-2">
+          <p className="mt-2 text-muted-foreground">
             Explore our curated collection of premium perfumes.
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col gap-4 md:flex-row">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search fragrances..."
               value={search}
@@ -161,21 +162,21 @@ export default function CatalogPage() {
             onClick={() => setShowFilters(!showFilters)}
             className="w-[200px]"
           >
-            <SlidersHorizontal className="mr-2 h-4 w-4" />
+            <SlidersHorizontal className="mr-2 size-4" />
             Filters
           </Button>
         </div>
 
         <div className="flex gap-8">
           {showFilters && (
-            <Card className="w-[300px] p-6 shrink-0">
+            <Card className="w-[300px] shrink-0 p-6">
               <ProductFilters filters={filters} setFilters={setFilters} />
             </Card>
           )}
 
           <div className="flex-1 space-y-6">
             {selectedForComparison.length > 0 && (
-              <div className="sticky top-20 z-10 bg-background/80 backdrop-blur-sm p-4 rounded-lg border shadow-lg">
+              <div className="sticky top-20 z-10 rounded-lg border bg-background/80 p-4 shadow-lg backdrop-blur-sm">
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-muted-foreground">
                     {selectedForComparison.length} selected for comparison
@@ -191,7 +192,7 @@ export default function CatalogPage() {
               </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
@@ -208,7 +209,7 @@ export default function CatalogPage() {
             </div>
 
             {filteredProducts.length === 0 && (
-              <div className="text-center py-12">
+              <div className="py-12 text-center">
                 <p className="text-muted-foreground">
                   No fragrances found matching your criteria.
                 </p>

@@ -1,21 +1,22 @@
 "use client";
-
-import { Navigation } from "@/components/navigation";
-import { Footer } from "@/components/footer";
 import { AuthDialog } from "@/components/auth-dialog";
+import { Footer } from "@/components/footer";
+import { Navigation } from "@/components/navigation";
 import { useAuthDialog } from "@/hooks/use-auth-dialog";
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const { isOpen, close, onSuccess } = useAuthDialog();
 
   return (
-    <>
-      <Navigation />
-      <main className="min-h-screen bg-background px-4 sm:px-6 lg:px-8">
-        <div className="max-w-[1400px] mx-auto">{children}</div>
+    <div className="flex min-h-screen flex-col">
+      <main className="w-full flex-1 bg-background">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Navigation />
+          {children}
+          <Footer />
+        </div>
       </main>
-      <Footer />
       <AuthDialog open={isOpen} onOpenChange={close} onSuccess={onSuccess} />
-    </>
+    </div>
   );
 }

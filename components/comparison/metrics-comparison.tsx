@@ -1,7 +1,5 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import { Product } from "@/lib/types";
 import { motion } from "framer-motion";
 import {
   Clock,
@@ -11,6 +9,9 @@ import {
   Wind,
   Sparkles,
 } from "lucide-react";
+
+import { Card } from "@/components/ui/card";
+import { Product } from "@/lib/types";
 
 interface MetricsComparisonProps {
   products: Product[];
@@ -53,13 +54,13 @@ export function MetricsComparison({ products }: MetricsComparisonProps) {
   ];
 
   return (
-    <Card className="p-6 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-background/10 to-background/30 backdrop-blur-sm z-0" />
+    <Card className="relative overflow-hidden p-6">
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-background/10 to-background/30 backdrop-blur-sm" />
 
       <div className="relative">
-        <h3 className="text-xl font-bold mb-6">Additional Metrics</h3>
+        <h3 className="mb-6 text-xl font-bold">Additional Metrics</h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {metrics.map((metric, index) => {
             const Icon = metric.icon;
             return (
@@ -71,7 +72,7 @@ export function MetricsComparison({ products }: MetricsComparisonProps) {
                 className="space-y-2"
               >
                 <div className="flex items-center gap-2 text-muted-foreground">
-                  <Icon className="h-4 w-4" />
+                  <Icon className="size-4" />
                   <span>{metric.label}</span>
                 </div>
 
@@ -79,7 +80,7 @@ export function MetricsComparison({ products }: MetricsComparisonProps) {
                   {products.map((product) => (
                     <div
                       key={product.id}
-                      className="p-3 rounded-lg bg-accent/50 backdrop-blur-sm"
+                      className="rounded-lg bg-accent/50 p-3 backdrop-blur-sm"
                     >
                       <div className="text-sm text-muted-foreground">
                         {product.name}

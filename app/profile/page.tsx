@@ -1,11 +1,11 @@
 "use client";
 
+import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useUserPerfumes } from "@/hooks/use-user-perfumes";
-import { products } from "@/lib/data";
+
 import { CollectionGrid } from "@/components/collection-grid";
 import { RatingsList } from "@/components/ratings-list";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -13,8 +13,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useUserPerfumes } from "@/hooks/use-user-perfumes";
+import { products } from "@/lib/data";
 
 type SortOption =
   | "rating-desc"
@@ -85,7 +86,7 @@ export default function ProfilePage() {
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
           <h1 className="text-4xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
               Your Fragrance Journey
             </span>
           </h1>
@@ -94,9 +95,9 @@ export default function ProfilePage() {
           </p>
         </div>
 
-        <div className="flex gap-4 items-center">
+        <div className="flex items-center gap-4">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search your perfumes..."
               className="pl-10"

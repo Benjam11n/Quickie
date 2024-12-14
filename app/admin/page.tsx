@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Sprout, MapPin, Star, Database, Activity } from "lucide-react";
+import { Users, Sprout, MapPin, Star, Database, Activity } from 'lucide-react';
+import { useState, useEffect } from 'react';
+
+import { Card } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Mock data for preview
 const mockData = {
@@ -14,7 +15,7 @@ const mockData = {
   },
   perfumes: {
     total: 156,
-    topBrands: ["Quickie Signature", "YSL", "Dior"],
+    topBrands: ['Quickie Signature', 'YSL', 'Dior'],
     avgRating: 4.2,
   },
   machines: {
@@ -43,44 +44,44 @@ export default function AdminPage() {
 
   const stats = [
     {
-      title: "Users",
+      title: 'Users',
       icon: Users,
       stats: [
-        { label: "Total Users", value: mockData.users.total },
-        { label: "Active Users", value: mockData.users.active },
-        { label: "New Today", value: mockData.users.newToday },
+        { label: 'Total Users', value: mockData.users.total },
+        { label: 'Active Users', value: mockData.users.active },
+        { label: 'New Today', value: mockData.users.newToday },
       ],
-      gradient: "from-blue-500 to-cyan-500",
+      gradient: 'from-blue-500 to-cyan-500',
     },
     {
-      title: "Perfumes",
+      title: 'Perfumes',
       icon: Sprout,
       stats: [
-        { label: "Total Perfumes", value: mockData.perfumes.total },
-        { label: "Average Rating", value: mockData.perfumes.avgRating },
-        { label: "Top Brands", value: mockData.perfumes.topBrands.length },
+        { label: 'Total Perfumes', value: mockData.perfumes.total },
+        { label: 'Average Rating', value: mockData.perfumes.avgRating },
+        { label: 'Top Brands', value: mockData.perfumes.topBrands.length },
       ],
-      gradient: "from-pink-500 to-rose-500",
+      gradient: 'from-pink-500 to-rose-500',
     },
     {
-      title: "Vending Machines",
+      title: 'Vending Machines',
       icon: MapPin,
       stats: [
-        { label: "Total Machines", value: mockData.machines.total },
-        { label: "Active Machines", value: mockData.machines.active },
-        { label: "Total Samples", value: mockData.machines.totalSamples },
+        { label: 'Total Machines', value: mockData.machines.total },
+        { label: 'Active Machines', value: mockData.machines.active },
+        { label: 'Total Samples', value: mockData.machines.totalSamples },
       ],
-      gradient: "from-purple-500 to-indigo-500",
+      gradient: 'from-purple-500 to-indigo-500',
     },
     {
-      title: "Reviews",
+      title: 'Reviews',
       icon: Star,
       stats: [
-        { label: "Total Reviews", value: mockData.reviews.total },
-        { label: "Average Rating", value: mockData.reviews.avgRating },
-        { label: "Today", value: mockData.reviews.todayCount },
+        { label: 'Total Reviews', value: mockData.reviews.total },
+        { label: 'Average Rating', value: mockData.reviews.avgRating },
+        { label: 'Today', value: mockData.reviews.todayCount },
       ],
-      gradient: "from-amber-500 to-orange-500",
+      gradient: 'from-amber-500 to-orange-500',
     },
   ];
 
@@ -89,7 +90,7 @@ export default function AdminPage() {
       <div className="space-y-8">
         {/* Header */}
         <div className="flex items-center gap-4">
-          <Database className="h-8 w-8 text-primary" />
+          <Database className="size-8 text-primary" />
           <div>
             <h1 className="text-3xl font-bold">Database Overview</h1>
             <p className="text-muted-foreground">MongoDB Integration Preview</p>
@@ -97,31 +98,31 @@ export default function AdminPage() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {stats.map((stat) => {
             const Icon = stat.icon;
             return (
               <Card
                 key={stat.title}
-                className={`p-6 relative overflow-hidden hover-lift gradient-border group`}
+                className={`hover-lift gradient-border group relative overflow-hidden p-6`}
               >
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
+                  className={`absolute inset-0 bg-gradient-to-br ${stat.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5`}
                 />
 
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div
-                      className={`w-10 h-10 rounded-lg bg-gradient-to-br ${stat.gradient} flex items-center justify-center`}
+                      className={`size-10 rounded-lg bg-gradient-to-br ${stat.gradient} flex items-center justify-center`}
                     >
-                      <Icon className="h-5 w-5 text-white" />
+                      <Icon className="size-5 text-white" />
                     </div>
-                    <Activity className="h-4 w-4 text-muted-foreground" />
+                    <Activity className="size-4 text-muted-foreground" />
                   </div>
 
                   <div>
-                    <h3 className="font-semibold text-lg">{stat.title}</h3>
-                    <div className="space-y-1 mt-2">
+                    <h3 className="text-lg font-semibold">{stat.title}</h3>
+                    <div className="mt-2 space-y-1">
                       {stat.stats.map((item) => (
                         <div
                           key={item.label}
@@ -152,26 +153,26 @@ export default function AdminPage() {
             </TabsList>
 
             <TabsContent value="user" className="mt-4">
-              <pre className="bg-muted p-4 rounded-lg overflow-auto">
+              <pre className="overflow-auto rounded-lg bg-muted p-4">
                 {JSON.stringify(
                   {
-                    email: "user@example.com",
+                    email: 'user@example.com',
                     profile: {
-                      name: "John Doe",
+                      name: 'John Doe',
                       preferences: {
-                        favoriteNotes: ["Vanilla", "Rose"],
-                        dislikedNotes: ["Oud"],
+                        favoriteNotes: ['Vanilla', 'Rose'],
+                        dislikedNotes: ['Oud'],
                       },
                     },
                     history: {
                       triedPerfumes: [
                         {
-                          perfumeId: "ObjectId(...)",
+                          perfumeId: 'ObjectId(...)',
                           rating: 4,
-                          review: "Amazing fragrance!",
+                          review: 'Amazing fragrance!',
                         },
                       ],
-                      wishlist: ["ObjectId(...)"],
+                      wishlist: ['ObjectId(...)'],
                     },
                   },
                   null,
@@ -181,15 +182,15 @@ export default function AdminPage() {
             </TabsContent>
 
             <TabsContent value="perfume" className="mt-4">
-              <pre className="bg-muted p-4 rounded-lg overflow-auto">
+              <pre className="overflow-auto rounded-lg bg-muted p-4">
                 {JSON.stringify(
                   {
-                    name: "Midnight Rendezvous",
-                    brand: "Quickie Signature",
+                    name: 'Midnight Rendezvous',
+                    brand: 'Quickie Signature',
                     notes: {
-                      top: ["Bergamot", "Pink Pepper"],
-                      middle: ["Rose", "Jasmine"],
-                      base: ["Vanilla", "Musk"],
+                      top: ['Bergamot', 'Pink Pepper'],
+                      middle: ['Rose', 'Jasmine'],
+                      base: ['Vanilla', 'Musk'],
                     },
                     characteristics: {
                       sillage: 8,
@@ -208,28 +209,28 @@ export default function AdminPage() {
             </TabsContent>
 
             <TabsContent value="machine" className="mt-4">
-              <pre className="bg-muted p-4 rounded-lg overflow-auto">
+              <pre className="overflow-auto rounded-lg bg-muted p-4">
                 {JSON.stringify(
                   {
                     location: {
-                      type: "Point",
+                      type: 'Point',
                       coordinates: [-73.935242, 40.73061],
-                      address: "123 Main St",
-                      area: "Manhattan",
+                      address: '123 Main St',
+                      area: 'Manhattan',
                     },
                     inventory: [
                       {
-                        perfumeId: "ObjectId(...)",
+                        perfumeId: 'ObjectId(...)',
                         stock: 5,
-                        lastRefilled: "2024-03-15T10:00:00Z",
+                        lastRefilled: '2024-03-15T10:00:00Z',
                       },
                     ],
-                    status: "active",
+                    status: 'active',
                     metrics: {
                       totalSamples: 1234,
                       popularTimes: {
-                        "18:00": 45,
-                        "19:00": 67,
+                        '18:00': 45,
+                        '19:00': 67,
                       },
                     },
                   },
@@ -240,15 +241,15 @@ export default function AdminPage() {
             </TabsContent>
 
             <TabsContent value="review" className="mt-4">
-              <pre className="bg-muted p-4 rounded-lg overflow-auto">
+              <pre className="overflow-auto rounded-lg bg-muted p-4">
                 {JSON.stringify(
                   {
-                    userId: "ObjectId(...)",
-                    perfumeId: "ObjectId(...)",
-                    vendingMachineId: "ObjectId(...)",
+                    userId: 'ObjectId(...)',
+                    perfumeId: 'ObjectId(...)',
+                    vendingMachineId: 'ObjectId(...)',
                     rating: 5,
-                    review: "Perfect for date nights!",
-                    tags: ["romantic", "long-lasting"],
+                    review: 'Perfect for date nights!',
+                    tags: ['romantic', 'long-lasting'],
                     likes: 23,
                   },
                   null,

@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Card } from "@/components/ui/card";
+import { useEffect, useRef, useState } from "react";
+
 import { Badge } from "@/components/ui/badge";
-import { SeasonalRating } from "@/lib/types/fragrance";
+import { Card } from "@/components/ui/card";
 import { Season, Weather } from "@/lib/types/enums";
+import { SeasonalRating } from "@/lib/types/fragrance";
 import { cn } from "@/lib/utils";
 
 interface SeasonalWheelProps {
@@ -59,14 +60,14 @@ export function SeasonalWheel({ seasonal }: SeasonalWheelProps) {
   };
 
   return (
-    <Card className="p-6 space-y-6">
+    <Card className="space-y-6 p-6">
       <h3 className="text-lg font-semibold">Seasonal Compatibility</h3>
 
       <div className="relative">
         <svg
           ref={svgRef}
           viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-          className="w-full aspect-square"
+          className="aspect-square w-full"
         >
           {seasonal.map(({ season, rating }) => (
             <motion.path
@@ -99,7 +100,7 @@ export function SeasonalWheel({ seasonal }: SeasonalWheelProps) {
                 y={y}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="text-sm font-medium fill-current"
+                className="fill-current text-sm font-medium"
               >
                 {season}
               </text>
@@ -111,7 +112,7 @@ export function SeasonalWheel({ seasonal }: SeasonalWheelProps) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="absolute bottom-4 left-4 right-4 bg-background/95 backdrop-blur-sm border rounded-lg p-4"
+            className="absolute inset-x-4 bottom-4 rounded-lg border bg-background/95 p-4 backdrop-blur-sm"
           >
             <div className="space-y-4">
               <div className="flex items-center justify-between">

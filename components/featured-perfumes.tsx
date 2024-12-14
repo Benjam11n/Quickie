@@ -1,3 +1,6 @@
+import { ShoppingCart } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -5,8 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
 
 const featuredPerfumes = [
   {
@@ -38,26 +39,26 @@ const featuredPerfumes = [
 export function FeaturedPerfumes() {
   return (
     <section className="container">
-      <h2 className="text-3xl font-bold tracking-tight mb-8">
-        <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-transparent bg-clip-text">
+      <h2 className="mb-8 text-3xl font-bold tracking-tight">
+        <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">
           Tonight's Specials
         </span>
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {featuredPerfumes.map((perfume) => (
           <Card
             key={perfume.name}
-            className="overflow-hidden hover-lift gradient-border"
+            className="hover-lift gradient-border overflow-hidden"
           >
-            <div className="aspect-square relative overflow-hidden group">
+            <div className="group relative aspect-square overflow-hidden">
               <img
                 src={perfume.image}
                 alt={perfume.name}
-                className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                className="size-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6">
+              <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/60 to-transparent pb-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 <Button className="glow-effect" size="sm">
-                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  <ShoppingCart className="mr-2 size-4" />
                   Take Me Home
                 </Button>
               </div>
@@ -71,10 +72,10 @@ export function FeaturedPerfumes() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground mb-4">
+              <p className="mb-4 text-muted-foreground">
                 {perfume.description}
               </p>
-              <p className="text-lg font-bold bg-gradient-to-r from-pink-500 to-violet-500 text-transparent bg-clip-text">
+              <p className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-lg font-bold text-transparent">
                 {perfume.price}
               </p>
             </CardContent>

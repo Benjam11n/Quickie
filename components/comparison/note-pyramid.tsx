@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Clock } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 
 interface Note {
@@ -53,7 +54,7 @@ export function NotePyramid({
   ];
 
   return (
-    <div className="relative h-[500px] flex items-center justify-center">
+    <div className="relative flex h-[500px] items-center justify-center">
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
         {sections.map((section, index) => (
           <motion.div
@@ -86,19 +87,19 @@ export function NotePyramid({
             >
               <div className="absolute inset-0 bg-black/10" />
 
-              <div className="relative text-white p-6 w-full">
-                <div className="text-center space-y-2">
-                  <h3 className="font-bold text-lg tracking-wide">
+              <div className="relative w-full p-6 text-white">
+                <div className="space-y-2 text-center">
+                  <h3 className="text-lg font-bold tracking-wide">
                     {section.label}
                   </h3>
                   <div className="flex items-center justify-center gap-2 text-sm text-white/80">
-                    <Clock className="h-4 w-4" />
+                    <Clock className="size-4" />
                     {section.duration}
                   </div>
 
                   <AnimatePresence>
                     <motion.div
-                      className="flex flex-wrap justify-center gap-2 mt-4"
+                      className="mt-4 flex flex-wrap justify-center gap-2"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}

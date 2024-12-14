@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import { Card } from "@/components/ui/card";
 import { NoteHarmony, Note } from "@/lib/types/fragrance";
 import { cn } from "@/lib/utils";
@@ -77,7 +78,7 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
         }
       >
         <div className="text-center">
-          <div className="font-medium text-sm">{note.name}</div>
+          <div className="text-sm font-medium">{note.name}</div>
           <div className="text-xs text-muted-foreground">{note.family}</div>
         </div>
       </motion.div>
@@ -85,7 +86,7 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
   };
 
   return (
-    <Card className="p-6 space-y-6">
+    <Card className="space-y-6 p-6">
       <h3 className="text-lg font-semibold">Note Harmony</h3>
 
       <div ref={containerRef} className="relative h-[500px]">
@@ -133,7 +134,7 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
                     stroke={note.color}
                     strokeWidth={2}
                     strokeDasharray="5,5"
-                    className="absolute top-0 left-0"
+                    className="absolute left-0 top-0"
                     style={{
                       zIndex: -1,
                     }}
@@ -146,11 +147,11 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="absolute bottom-4 left-4 right-4 bg-background/95 backdrop-blur-sm border rounded-lg p-4"
+                className="absolute inset-x-4 bottom-4 rounded-lg border bg-background/95 p-4 backdrop-blur-sm"
               >
-                <div className="flex items-center gap-2 mb-2">
+                <div className="mb-2 flex items-center gap-2">
                   <div
-                    className="w-3 h-3 rounded-full"
+                    className="size-3 rounded-full"
                     style={{ backgroundColor: selectedHarmony.primary.color }}
                   />
                   <h4 className="font-medium">
@@ -160,14 +161,14 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-muted-foreground mb-2">
+                    <p className="mb-2 text-sm text-muted-foreground">
                       Complementary Notes
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {selectedHarmony.complementary.map((note) => (
                         <span
                           key={note.name}
-                          className="inline-flex items-center px-2 py-1 rounded-full text-xs"
+                          className="inline-flex items-center rounded-full px-2 py-1 text-xs"
                           style={{
                             backgroundColor: `${note.color}20`,
                             color: note.color,
@@ -180,14 +181,14 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
                   </div>
 
                   <div>
-                    <p className="text-sm text-muted-foreground mb-2">
+                    <p className="mb-2 text-sm text-muted-foreground">
                       Contrasting Notes
                     </p>
                     <div className="flex flex-wrap gap-1">
                       {selectedHarmony.contrasting.map((note) => (
                         <span
                           key={note.name}
-                          className="inline-flex items-center px-2 py-1 rounded-full text-xs"
+                          className="inline-flex items-center rounded-full px-2 py-1 text-xs"
                           style={{
                             backgroundColor: `${note.color}20`,
                             color: note.color,

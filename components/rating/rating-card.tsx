@@ -1,14 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { RatingMetrics } from "./rating-metrics";
-import { RatingDistribution } from "./rating-distribution";
-import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { motion } from "framer-motion";
+import { ThumbsUp, ThumbsDown } from "lucide-react";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+
+import { RatingDistribution } from "./rating-distribution";
+import { RatingMetrics } from "./rating-metrics";
+
 
 interface RatingCardProps {
   productId: string;
@@ -72,7 +75,7 @@ export function RatingCard({
       <div className="flex items-center justify-between">
         <div className="space-y-1">
           <div className="flex items-baseline gap-2">
-            <span className="text-4xl font-bold bg-gradient-to-r from-pink-500 to-violet-500 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-4xl font-bold text-transparent">
               {calculateOverallScore()}
             </span>
             <span className="text-sm text-muted-foreground">/ 5.0</span>
@@ -87,7 +90,7 @@ export function RatingCard({
             className="gap-2"
             onClick={() => setHelpful((prev) => ({ ...prev, up: prev.up + 1 }))}
           >
-            <ThumbsUp className="h-4 w-4" />
+            <ThumbsUp className="size-4" />
             <span>{helpful.up}</span>
           </Button>
           <Button
@@ -98,7 +101,7 @@ export function RatingCard({
               setHelpful((prev) => ({ ...prev, down: prev.down + 1 }))
             }
           >
-            <ThumbsDown className="h-4 w-4" />
+            <ThumbsDown className="size-4" />
             <span>{helpful.down}</span>
           </Button>
         </div>

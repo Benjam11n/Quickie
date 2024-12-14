@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/auth";
-import { useAuthDialog } from "@/hooks/use-auth-dialog";
 import { User } from "lucide-react";
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import { useAuthDialog } from "@/hooks/use-auth-dialog";
+import { useAuth } from "@/lib/auth";
 
 export function AuthButtons() {
   const { isAuthenticated } = useAuth();
@@ -14,7 +15,7 @@ export function AuthButtons() {
     return (
       <Button asChild variant="ghost" size="sm">
         <Link href="/profile">
-          <User className="h-4 w-4 mr-2" />
+          <User className="mr-2 size-4" />
           Profile
         </Link>
       </Button>

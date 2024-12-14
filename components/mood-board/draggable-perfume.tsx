@@ -2,8 +2,9 @@
 
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { Product } from "@/lib/types";
 import { motion } from "framer-motion";
+
+import { Product } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface DraggablePerfumeProps {
@@ -42,17 +43,17 @@ export function DraggablePerfume({
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
-      <div className="bg-card rounded-lg overflow-hidden shadow-lg">
-        <div className="aspect-square relative">
+      <div className="overflow-hidden rounded-lg bg-card shadow-lg">
+        <div className="relative aspect-square">
           <img
             src={product.images[0]}
             alt={product.name}
-            className="object-cover w-full h-full"
+            className="size-full object-cover"
           />
         </div>
         <div className="p-2">
-          <p className="text-sm font-medium truncate">{product.name}</p>
-          <p className="text-xs text-muted-foreground truncate">
+          <p className="truncate text-sm font-medium">{product.name}</p>
+          <p className="truncate text-xs text-muted-foreground">
             {product.brand}
           </p>
         </div>

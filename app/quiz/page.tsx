@@ -1,30 +1,31 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 
 const questions = [
   {
     id: 1,
     question: "What's your ideal date night?",
     options: [
-      { id: "a", text: "Candlelit dinner", vibe: "romantic" },
-      { id: "b", text: "Dancing till dawn", vibe: "energetic" },
-      { id: "c", text: "Netflix and chill", vibe: "cozy" },
-      { id: "d", text: "Adventure sports", vibe: "fresh" },
+      { id: 'a', text: 'Candlelit dinner', vibe: 'romantic' },
+      { id: 'b', text: 'Dancing till dawn', vibe: 'energetic' },
+      { id: 'c', text: 'Netflix and chill', vibe: 'cozy' },
+      { id: 'd', text: 'Adventure sports', vibe: 'fresh' },
     ],
   },
   {
     id: 2,
-    question: "Pick your power move:",
+    question: 'Pick your power move:',
     options: [
-      { id: "a", text: "The subtle wink", vibe: "subtle" },
-      { id: "b", text: "The confident strut", vibe: "bold" },
-      { id: "c", text: "The mysterious smile", vibe: "mysterious" },
-      { id: "d", text: "The genuine laugh", vibe: "fresh" },
+      { id: 'a', text: 'The subtle wink', vibe: 'subtle' },
+      { id: 'b', text: 'The confident strut', vibe: 'bold' },
+      { id: 'c', text: 'The mysterious smile', vibe: 'mysterious' },
+      { id: 'd', text: 'The genuine laugh', vibe: 'fresh' },
     ],
   },
   // Add more questions as needed
@@ -46,7 +47,7 @@ export default function QuizPage() {
   return (
     <div className="container max-w-2xl py-10">
       <div className="space-y-8">
-        <div className="text-center space-y-4">
+        <div className="space-y-4 text-center">
           <h1 className="text-4xl font-bold">Find Your Perfect Match</h1>
           <p className="text-muted-foreground">
             Let's get to know your desires...
@@ -64,7 +65,7 @@ export default function QuizPage() {
             transition={{ duration: 0.3 }}
           >
             <Card className="p-6">
-              <h2 className="text-2xl font-semibold mb-6">
+              <h2 className="mb-6 text-2xl font-semibold">
                 {questions[currentQuestion].question}
               </h2>
               <div className="grid gap-4">
@@ -72,7 +73,7 @@ export default function QuizPage() {
                   <Button
                     key={option.id}
                     variant="outline"
-                    className="h-auto p-4 text-left gradient-border"
+                    className="gradient-border h-auto p-4 text-left"
                     onClick={() =>
                       handleAnswer(questions[currentQuestion].id, option.id)
                     }

@@ -1,6 +1,9 @@
 "use client";
 
+import { motion } from "framer-motion";
+import { Search } from "lucide-react";
 import { useState } from "react";
+
 import {
   Dialog,
   DialogContent,
@@ -9,10 +12,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Product } from "@/lib/types";
 import { products } from "@/lib/data";
-import { Search } from "lucide-react";
-import { motion } from "framer-motion";
+import { Product } from "@/lib/types";
 
 interface ProductSelectorProps {
   open: boolean;
@@ -45,7 +46,7 @@ export function ProductSelector({
         </DialogHeader>
 
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search perfumes..."
             value={search}
@@ -64,14 +65,14 @@ export function ProductSelector({
                 transition={{ delay: index * 0.05 }}
               >
                 <button
-                  className="w-full p-4 rounded-lg hover:bg-accent flex items-center gap-4 transition-colors"
+                  className="flex w-full items-center gap-4 rounded-lg p-4 transition-colors hover:bg-accent"
                   onClick={() => onSelect(product)}
                 >
-                  <div className="w-12 h-12 rounded-md overflow-hidden">
+                  <div className="size-12 overflow-hidden rounded-md">
                     <img
                       src={product.images[0]}
                       alt={product.name}
-                      className="w-full h-full object-cover"
+                      className="size-full object-cover"
                     />
                   </div>
                   <div className="text-left">

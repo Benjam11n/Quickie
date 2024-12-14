@@ -1,5 +1,5 @@
-import { Product } from "@/lib/types";
 import { ComparisonView } from "@/components/comparison-view";
+import { Product } from "@/lib/types";
 
 interface ProductDetailsProps {
   product1: Product;

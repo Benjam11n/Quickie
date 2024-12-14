@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   MapPin,
   Mail,
@@ -12,6 +10,9 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 export function Footer() {
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,11 +22,11 @@ export function Footer() {
   return (
     <footer className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <Heart className="h-6 w-6 text-primary" />
+              <Heart className="size-6 text-primary" />
               <span className="text-xl font-bold">Quickie</span>
             </div>
             <p className="text-sm text-muted-foreground">
@@ -41,7 +42,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/catalog"
-                  className="hover:text-primary transition-colors"
+                  className="transition-colors hover:text-primary"
                 >
                   Browse Fragrances
                 </Link>
@@ -49,7 +50,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/locations"
-                  className="hover:text-primary transition-colors"
+                  className="transition-colors hover:text-primary"
                 >
                   Find Machines
                 </Link>
@@ -57,7 +58,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/compare"
-                  className="hover:text-primary transition-colors"
+                  className="transition-colors hover:text-primary"
                 >
                   Compare Scents
                 </Link>
@@ -65,7 +66,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/profile"
-                  className="hover:text-primary transition-colors"
+                  className="transition-colors hover:text-primary"
                 >
                   My Collection
                 </Link>
@@ -78,11 +79,11 @@ export function Footer() {
             <h3 className="font-semibold">Contact</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
+                <MapPin className="size-4" />
                 New York, NY
               </li>
               <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4" />
+                <Mail className="size-4" />
                 hello@quickie.com
               </li>
             </ul>
@@ -92,21 +93,21 @@ export function Footer() {
                 size="icon"
                 className="hover:text-primary"
               >
-                <Instagram className="h-4 w-4" />
+                <Instagram className="size-4" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 className="hover:text-primary"
               >
-                <Twitter className="h-4 w-4" />
+                <Twitter className="size-4" />
               </Button>
               <Button
                 variant="ghost"
                 size="icon"
                 className="hover:text-primary"
               >
-                <Facebook className="h-4 w-4" />
+                <Facebook className="size-4" />
               </Button>
             </div>
           </div>
@@ -132,18 +133,18 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t text-center text-sm text-muted-foreground">
+        <div className="mt-16 border-t pt-8 text-center text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} Quickie. All rights reserved.</p>
           <div className="mt-2 flex justify-center gap-4">
             <Link
               href="/privacy"
-              className="hover:text-primary transition-colors"
+              className="transition-colors hover:text-primary"
             >
               Privacy Policy
             </Link>
             <Link
               href="/terms"
-              className="hover:text-primary transition-colors"
+              className="transition-colors hover:text-primary"
             >
               Terms of Service
             </Link>

@@ -1,5 +1,5 @@
-import { products } from "@/lib/data";
 import { SingleProductView } from "@/components/single-product-view";
+import { products } from "@/lib/data";
 
 export function generateStaticParams() {
   return products.map((product) => ({

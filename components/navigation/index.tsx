@@ -1,12 +1,13 @@
 "use client";
 
+import { Sparkles } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Sparkles } from "lucide-react";
-import { routes } from "./routes";
-import { NavLink } from "./nav-link";
-import { AuthButtons } from "./auth-buttons";
 import React from "react";
+
+import { AuthButtons } from "./auth-buttons";
+import { NavLink } from "./nav-link";
+import { routes } from "./routes";
 import { MobileNav } from "../../components/mobile-nav";
 import { ThemeToggle } from "../../components/theme-toggle";
 
@@ -18,10 +19,10 @@ export function Navigation() {
       <nav className="container flex h-16 items-center">
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">
-            <Sparkles className="h-6 w-6" />
-            <span className="font-bold inline-block">Quickie</span>
+            <Sparkles className="size-6" />
+            <span className="inline-block font-bold">Quickie</span>
           </Link>
-          <div className="hidden md:flex gap-6">
+          <div className="hidden gap-6 md:flex">
             {routes.map((route) => (
               <NavLink
                 key={route.href}
@@ -33,7 +34,7 @@ export function Navigation() {
           </div>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden items-center gap-2 md:flex">
             <ThemeToggle />
             <AuthButtons />
           </div>

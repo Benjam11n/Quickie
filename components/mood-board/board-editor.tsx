@@ -1,14 +1,17 @@
 "use client";
 
+import { Save } from "lucide-react";
 import { useState } from "react";
-import { Card } from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useMoodBoards } from "@/hooks/use-mood-boards";
+import { MoodBoard, Product } from "@/lib/types";
+
 import { BoardCanvas } from "./board-canvas";
 import { BoardSidebar } from "./board-sidebar";
-import { MoodBoard, Product } from "@/lib/types";
-import { useMoodBoards } from "@/hooks/use-mood-boards";
-import { Save } from "lucide-react";
+
 
 interface BoardEditorProps {
   board: MoodBoard;
@@ -40,11 +43,11 @@ export function BoardEditor({ board, products }: BoardEditorProps) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           onBlur={handleNameChange}
-          className="text-xl font-bold bg-transparent border-none hover:bg-accent px-2 rounded-md max-w-md"
+          className="max-w-md rounded-md border-none bg-transparent px-2 text-xl font-bold hover:bg-accent"
         />
 
         <Button className="gap-2">
-          <Save className="h-4 w-4" />
+          <Save className="size-4" />
           Save Changes
         </Button>
       </div>

@@ -1,5 +1,5 @@
-import { products } from "@/lib/data";
 import { ComparisonView } from "@/components/comparison-view";
+import { products } from "@/lib/data";
 
 export function generateStaticParams() {
   const params: { id1: string; id2: string }[] = [];

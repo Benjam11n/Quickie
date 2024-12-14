@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+
 import { Card } from "@/components/ui/card";
 import { FragranceCharacteristic } from "@/lib/types/fragrance";
 
@@ -20,7 +21,7 @@ export function MoodVisualizer({ characteristics }: MoodVisualizerProps) {
     if (!ctx) return;
 
     let animationFrameId: number;
-    let particles: Array<{
+    const particles: Array<{
       x: number;
       y: number;
       radius: number;
@@ -112,16 +113,16 @@ export function MoodVisualizer({ characteristics }: MoodVisualizerProps) {
   }, [characteristics]);
 
   return (
-    <Card className="p-6 space-y-6 overflow-hidden">
+    <Card className="space-y-6 overflow-hidden p-6">
       <h3 className="text-lg font-semibold">Mood Visualization</h3>
 
       <div className="relative">
         <canvas
           ref={canvasRef}
-          className="w-full aspect-video rounded-lg bg-black/5"
+          className="aspect-video w-full rounded-lg bg-black/5"
         />
 
-        <div className="absolute bottom-4 left-4 right-4 bg-background/95 backdrop-blur-sm border rounded-lg p-4">
+        <div className="absolute inset-x-4 bottom-4 rounded-lg border bg-background/95 p-4 backdrop-blur-sm">
           <div className="flex flex-wrap gap-4">
             {characteristics.map((characteristic) => (
               <motion.div
@@ -130,7 +131,7 @@ export function MoodVisualizer({ characteristics }: MoodVisualizerProps) {
                 whileHover={{ scale: 1.05 }}
               >
                 <div
-                  className="w-3 h-3 rounded-full"
+                  className="size-3 rounded-full"
                   style={{ backgroundColor: characteristic.color }}
                 />
                 <span className="text-sm font-medium">

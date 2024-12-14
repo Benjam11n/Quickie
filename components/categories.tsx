@@ -1,3 +1,5 @@
+import { Droplets, Flower, Sun, Moon, Wind, Heart } from "lucide-react";
+
 import {
   Card,
   CardContent,
@@ -5,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Droplets, Flower, Sun, Moon, Wind, Heart } from "lucide-react";
 
 const categories = [
   {
@@ -49,12 +50,12 @@ const categories = [
 export function Categories() {
   return (
     <section className="container">
-      <h2 className="text-3xl font-bold tracking-tight mb-8">
-        <span className="bg-gradient-to-r from-violet-500 to-indigo-500 text-transparent bg-clip-text">
+      <h2 className="mb-8 text-3xl font-bold tracking-tight">
+        <span className="bg-gradient-to-r from-violet-500 to-indigo-500 bg-clip-text text-transparent">
           Pick Your Pleasure
         </span>
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((category) => {
           const Icon = category.icon;
           return (
@@ -64,18 +65,18 @@ export function Categories() {
             >
               <CardHeader>
                 <div
-                  className={`rounded-full p-2 w-12 h-12 flex items-center justify-center bg-gradient-to-br ${category.gradient} transform transition-transform group-hover:scale-110`}
+                  className={`flex size-12 items-center justify-center rounded-full bg-gradient-to-br p-2 ${category.gradient} transition-transform group-hover:scale-110`}
                 >
-                  <Icon className="h-6 w-6 text-white" />
+                  <Icon className="size-6 text-white" />
                 </div>
-                <CardTitle className="group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-violet-500 group-hover:text-transparent group-hover:bg-clip-text transition-all duration-300">
+                <CardTitle className="transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-violet-500 group-hover:bg-clip-text group-hover:text-transparent">
                   {category.title}
                 </CardTitle>
                 <CardDescription>{category.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div
-                  className={`h-2 w-full bg-gradient-to-r ${category.gradient} rounded-full transform origin-left transition-transform group-hover:scale-x-110`}
+                  className={`h-2 w-full bg-gradient-to-r ${category.gradient} origin-left rounded-full transition-transform group-hover:scale-x-110`}
                 />
               </CardContent>
             </Card>

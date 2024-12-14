@@ -1,35 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { useAuth } from "@/lib/auth";
-import { useUserPerfumes } from "@/hooks/use-user-perfumes";
-import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import {
   Menu,
   X,
-  User,
   Home,
   Search,
   Scale,
   MapPin,
   Heart,
-  BookOpen,
   Settings,
   HelpCircle,
   LogOut,
-  ChevronRight,
   Star,
   Grid,
   TrendingUp,
   Newspaper,
   Sparkles,
 } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+
+import { ThemeToggle } from "@/components/theme-toggle";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useUserPerfumes } from "@/hooks/use-user-perfumes";
+import { useAuth } from "@/lib/auth";
+import { cn } from "@/lib/utils";
 
 const mainNavItems = [
   { href: "/", label: "Home", icon: Home },
@@ -82,7 +80,7 @@ export function MobileNav() {
         className="md:hidden"
         onClick={() => setIsOpen(true)}
       >
-        <Menu className="h-5 w-5" />
+        <Menu className="size-5" />
       </Button>
 
       <AnimatePresence>
@@ -93,7 +91,7 @@ export function MobileNav() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 md:hidden"
+              className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm md:hidden"
               onClick={() => setIsOpen(false)}
             />
 
@@ -103,14 +101,14 @@ export function MobileNav() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 20 }}
-              className="fixed inset-y-0 left-0 w-full max-w-xs bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-r z-50 md:hidden"
+              className="fixed inset-y-0 left-0 z-50 w-full max-w-xs border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden"
             >
               <div className="flex h-full flex-col">
                 {/* Header */}
-                <div className="p-4 border-b">
+                <div className="border-b p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="h-5 w-5 text-primary" />
+                      <Sparkles className="size-5 text-primary" />
                       <span className="font-bold">Quickie</span>
                     </div>
                     <div className="flex items-center gap-2">
@@ -120,7 +118,7 @@ export function MobileNav() {
                         size="icon"
                         onClick={() => setIsOpen(false)}
                       >
-                        <X className="h-5 w-5" />
+                        <X className="size-5" />
                       </Button>
                     </div>
                   </div>
@@ -128,16 +126,16 @@ export function MobileNav() {
 
                 {/* User Profile */}
                 {user ? (
-                  <div className="p-4 border-b">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                  <div className="border-b p-4">
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="flex size-12 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-purple-500 font-bold text-white">
                         {user.name.slice(0, 2).toUpperCase()}
                       </div>
                       <div>
                         <div className="font-semibold">{user.name}</div>
                         <Link
                           href="/profile"
-                          className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                          className="text-sm text-muted-foreground transition-colors hover:text-primary"
                           onClick={() => setIsOpen(false)}
                         >
                           View Profile
@@ -150,7 +148,7 @@ export function MobileNav() {
                     </div>
                   </div>
                 ) : (
-                  <div className="p-4 border-b">
+                  <div className="border-b p-4">
                     <Button
                       className="w-full"
                       onClick={() => {
@@ -182,7 +180,7 @@ export function MobileNav() {
                                 : "transparent"
                             )}
                           >
-                            <item.icon className="mr-2 h-4 w-4" />
+                            <item.icon className="mr-2 size-4" />
                             <span>{item.label}</span>
                           </span>
                         </Link>
@@ -208,7 +206,7 @@ export function MobileNav() {
                                 : "transparent"
                             )}
                           >
-                            <item.icon className="mr-2 h-4 w-4" />
+                            <item.icon className="mr-2 size-4" />
                             <span>{item.label}</span>
                           </span>
                         </Link>
@@ -235,7 +233,7 @@ export function MobileNav() {
                                   : "transparent"
                               )}
                             >
-                              <item.icon className="mr-2 h-4 w-4" />
+                              <item.icon className="mr-2 size-4" />
                               <span>{item.label}</span>
                             </span>
                           </Link>
@@ -245,9 +243,9 @@ export function MobileNav() {
                             logout();
                             setIsOpen(false);
                           }}
-                          className="w-full group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors text-destructive"
+                          className="group flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-destructive transition-colors hover:bg-accent hover:text-accent-foreground"
                         >
-                          <LogOut className="mr-2 h-4 w-4" />
+                          <LogOut className="mr-2 size-4" />
                           <span>Log Out</span>
                         </button>
                       </div>

@@ -1,11 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
+
 
 export function NewsletterCTA() {
   const [email, setEmail] = useState("");
@@ -29,9 +31,9 @@ export function NewsletterCTA() {
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10" />
 
-      <div className="relative p-6 space-y-6">
+      <div className="relative space-y-6 p-6">
         <div className="flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-primary" />
+          <Sparkles className="size-5 text-primary" />
           <h2 className="text-xl font-semibold">Stay Updated</h2>
         </div>
 
@@ -51,7 +53,7 @@ export function NewsletterCTA() {
 
           <Button
             type="submit"
-            className="w-full glow-effect"
+            className="glow-effect w-full"
             disabled={status === "loading" || status === "success"}
           >
             {status === "loading" ? (
@@ -60,7 +62,7 @@ export function NewsletterCTA() {
                 animate={{ opacity: 1 }}
                 className="flex items-center gap-2"
               >
-                <div className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                <div className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
                 Subscribing...
               </motion.div>
             ) : status === "success" ? (
@@ -69,7 +71,7 @@ export function NewsletterCTA() {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex items-center gap-2"
               >
-                <Sparkles className="h-4 w-4" />
+                <Sparkles className="size-4" />
                 Subscribed!
               </motion.div>
             ) : (

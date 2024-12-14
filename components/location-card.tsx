@@ -1,7 +1,6 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   MapPin,
   Navigation,
@@ -9,12 +8,16 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { VendingLocation } from "@/lib/types";
-import { products } from "@/lib/data";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { products } from "@/lib/data";
+import { VendingLocation } from "@/lib/types";
+import { cn } from "@/lib/utils";
+
+
 
 interface LocationCardProps {
   location: VendingLocation;
@@ -44,14 +47,14 @@ export function LocationCard({
           <div className="space-y-1">
             <h3 className="font-semibold">{location.name}</h3>
             <div className="flex items-center text-sm text-muted-foreground">
-              <MapPin className="h-4 w-4 mr-1" />
+              <MapPin className="mr-1 size-4" />
               {location.address}
             </div>
           </div>
           <Button
             variant="ghost"
             size="icon"
-            className="h-8 w-8"
+            className="size-8"
             onClick={(e) => {
               e.stopPropagation();
               window.open(
@@ -60,13 +63,13 @@ export function LocationCard({
               );
             }}
           >
-            <Navigation className="h-4 w-4" />
+            <Navigation className="size-4" />
           </Button>
         </div>
 
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center text-muted-foreground">
-            <Clock className="h-4 w-4 mr-1" />
+            <Clock className="mr-1 size-4" />
             {location.hours}
           </div>
           <Button
@@ -79,9 +82,9 @@ export function LocationCard({
             }}
           >
             {showPerfumes ? (
-              <ChevronUp className="h-4 w-4 mr-1" />
+              <ChevronUp className="mr-1 size-4" />
             ) : (
-              <ChevronDown className="h-4 w-4 mr-1" />
+              <ChevronDown className="mr-1 size-4" />
             )}
             {location.stockLevel} fragrances
           </Button>
@@ -96,7 +99,7 @@ export function LocationCard({
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <div className="pt-2 space-y-2 border-t">
+              <div className="space-y-2 border-t pt-2">
                 {location.availablePerfumes.map((item) => {
                   const product = products.find((p) => p.id === item.productId);
                   if (!product) return null;
@@ -108,7 +111,7 @@ export function LocationCard({
                     >
                       <div>
                         <p className="font-medium">{product.name}</p>
-                        <p className="text-muted-foreground text-xs">
+                        <p className="text-xs text-muted-foreground">
                           {product.brand}
                         </p>
                       </div>

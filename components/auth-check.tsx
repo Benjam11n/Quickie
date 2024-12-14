@@ -1,8 +1,9 @@
 "use client";
 
-import { useAuth } from "@/lib/auth";
-import { useAuthDialog } from "@/hooks/use-auth-dialog";
 import { ReactNode } from "react";
+
+import { useAuthDialog } from "@/hooks/use-auth-dialog";
+import { useAuth } from "@/lib/auth";
 
 interface AuthCheckProps {
   children: ReactNode;

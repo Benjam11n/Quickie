@@ -1,12 +1,15 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Heart, ShoppingCart, Check, ExternalLink, Scale } from "lucide-react";
-import { Product, UserPerfume } from "@/lib/types";
-import { useUserPerfumes } from "@/hooks/use-user-perfumes";
-import { StarRating } from "@/components/star-rating";
-import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+
+import { StarRating } from "@/components/star-rating";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useUserPerfumes } from "@/hooks/use-user-perfumes";
+import { Product, UserPerfume } from "@/lib/types";
+import { cn } from "@/lib/utils";
+
+
 
 interface ProductCardProps {
   product: Product;
@@ -59,15 +62,15 @@ export function ProductCard({
       )}
       onClick={handleCardClick}
     >
-      <div className="aspect-square relative overflow-hidden">
+      <div className="relative aspect-square overflow-hidden">
         <img
           src={product.images[0]}
           alt={product.name}
-          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+          className="size-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         {userPerfume?.rating && (
-          <div className="absolute top-2 right-2 z-10">
+          <div className="absolute right-2 top-2 z-10">
             <Badge variant="secondary" className="bg-black/70 text-white">
               <StarRating rating={userPerfume.rating} className="scale-75" />
             </Badge>
@@ -76,9 +79,9 @@ export function ProductCard({
       </div>
 
       <CardHeader className="space-y-2">
-        <div className="flex justify-between items-start">
+        <div className="flex items-start justify-between">
           <div>
-            <h3 className="font-semibold hover:text-primary transition-colors">
+            <h3 className="font-semibold transition-colors hover:text-primary">
               {product.name}
             </h3>
             <p className="text-sm text-muted-foreground">{product.brand}</p>
@@ -110,14 +113,14 @@ export function ProductCard({
                 )}
                 onClick={handleCompareClick}
               >
-                <Scale className="h-4 w-4" />
+                <Scale className="size-4" />
               </Button>
             )}
           </div>
         </div>
 
         {userPerfume?.review && (
-          <p className="text-sm text-muted-foreground line-clamp-2">
+          <p className="line-clamp-2 text-sm text-muted-foreground">
             "{userPerfume.review}"
           </p>
         )}
@@ -125,12 +128,12 @@ export function ProductCard({
 
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between">
-          <span className="text-lg font-bold bg-gradient-to-r from-pink-500 to-violet-500 text-transparent bg-clip-text">
+          <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-lg font-bold text-transparent">
             ${product.price}
           </span>
           <div className="flex gap-2">
             <Button size="sm" variant="outline" onClick={handleBuyClick}>
-              <ExternalLink className="h-4 w-4 mr-2" />
+              <ExternalLink className="mr-2 size-4" />
               Buy
             </Button>
             <Button
@@ -143,12 +146,12 @@ export function ProductCard({
             >
               {userPerfume?.inCollection ? (
                 <>
-                  <Check className="h-4 w-4 mr-2" />
+                  <Check className="mr-2 size-4" />
                   In Collection
                 </>
               ) : (
                 <>
-                  <ShoppingCart className="h-4 w-4 mr-2" />
+                  <ShoppingCart className="mr-2 size-4" />
                   Add
                 </>
               )}

@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
+import Link from "next/link";
+
+import { cn } from "@/lib/utils";
 
 interface NavLinkProps {
   href: string;
@@ -20,7 +21,7 @@ export function NavLink({ href, label, active, icon: Icon }: NavLinkProps) {
         active ? "text-foreground" : "text-foreground/60"
       )}
     >
-      {Icon && <Icon className="mr-2 h-4 w-4" />}
+      {Icon && <Icon className="mr-2 size-4" />}
       {label}
     </Link>
   );

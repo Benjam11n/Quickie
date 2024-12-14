@@ -1,7 +1,6 @@
 "use client";
 
-import { Radar } from "recharts";
-import {
+import { Radar ,
   RadarChart,
   PolarGrid,
   PolarAngleAxis,
@@ -31,7 +30,7 @@ export function ScentProfile({ profile }: ScentProfileProps) {
   ];
 
   return (
-    <div className="w-full aspect-square">
+    <div className="aspect-square w-full">
       <ResponsiveContainer width="100%" height="100%">
         <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
           <PolarGrid

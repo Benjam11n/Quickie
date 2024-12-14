@@ -1,15 +1,16 @@
 "use client";
 
+import { Plus, Share2, Tags, X } from "lucide-react";
+import { useState } from "react";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MoodBoard, Product } from "@/lib/types";
 import { useMoodBoards } from "@/hooks/use-mood-boards";
-import { Plus, Share2, Tags, X } from "lucide-react";
-import { useState } from "react";
+import { MoodBoard, Product } from "@/lib/types";
 
 interface BoardSidebarProps {
   board: MoodBoard;
@@ -65,7 +66,7 @@ export function BoardSidebar({
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold">Board Tags</h3>
-            <Tags className="h-4 w-4 text-muted-foreground" />
+            <Tags className="size-4 text-muted-foreground" />
           </div>
 
           <form onSubmit={handleAddTag} className="flex gap-2">
@@ -76,7 +77,7 @@ export function BoardSidebar({
               className="flex-1"
             />
             <Button type="submit" size="icon" variant="ghost">
-              <Plus className="h-4 w-4" />
+              <Plus className="size-4" />
             </Button>
           </form>
 
@@ -89,7 +90,7 @@ export function BoardSidebar({
                 onClick={() => removeTagFromBoard(board.id, tag)}
               >
                 {tag}
-                <X className="ml-1 h-3 w-3" />
+                <X className="ml-1 size-3" />
               </Badge>
             ))}
           </div>
@@ -105,18 +106,18 @@ export function BoardSidebar({
               size="icon"
               onClick={() => toggleBoardVisibility(board.id)}
             >
-              <Share2 className="h-4 w-4" />
+              <Share2 className="size-4" />
             </Button>
           </div>
 
           <div className="space-y-3">
             {normalizedDistribution.map(({ name, percentage }) => (
               <div key={name}>
-                <div className="flex justify-between text-sm mb-1">
+                <div className="mb-1 flex justify-between text-sm">
                   <span>{name}</span>
                   <span>{percentage.toFixed(1)}%</span>
                 </div>
-                <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                <div className="h-2 overflow-hidden rounded-full bg-secondary">
                   <div
                     className="h-full bg-primary transition-all duration-500"
                     style={{ width: `${percentage}%` }}
@@ -130,7 +131,7 @@ export function BoardSidebar({
 
       <Card className="p-4">
         <Label className="text-sm font-medium">Add Perfumes</Label>
-        <ScrollArea className="h-[300px] mt-2">
+        <ScrollArea className="mt-2 h-[300px]">
           <div className="space-y-2 pr-4">
             {products
               .filter(
@@ -139,18 +140,18 @@ export function BoardSidebar({
               .map((product) => (
                 <button
                   key={product.id}
-                  className="w-full p-2 rounded-lg hover:bg-accent flex items-center gap-3 transition-colors"
+                  className="flex w-full items-center gap-3 rounded-lg p-2 transition-colors hover:bg-accent"
                   onClick={() => onAddPerfume(product)}
                 >
-                  <div className="w-12 h-12 rounded-md overflow-hidden">
+                  <div className="size-12 overflow-hidden rounded-md">
                     <img
                       src={product.images[0]}
                       alt={product.name}
-                      className="w-full h-full object-cover"
+                      className="size-full object-cover"
                     />
                   </div>
                   <div className="text-left">
-                    <p className="font-medium text-sm">{product.name}</p>
+                    <p className="text-sm font-medium">{product.name}</p>
                     <p className="text-xs text-muted-foreground">
                       {product.brand}
                     </p>

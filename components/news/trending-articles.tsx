@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Card } from "@/components/ui/card";
-import { TrendingArticle } from "@/lib/types/news";
 import { MessageCircle, TrendingUp } from "lucide-react";
 import Link from "next/link";
+
+import { Card } from "@/components/ui/card";
+import { TrendingArticle } from "@/lib/types/news";
 
 const trendingArticles: TrendingArticle[] = [
   {
@@ -35,9 +36,9 @@ const trendingArticles: TrendingArticle[] = [
 
 export function TrendingArticles() {
   return (
-    <Card className="p-6 bg-card/30 backdrop-blur-sm">
-      <div className="flex items-center gap-2 mb-6">
-        <TrendingUp className="h-5 w-5 text-primary" />
+    <Card className="bg-card/30 p-6 backdrop-blur-sm">
+      <div className="mb-6 flex items-center gap-2">
+        <TrendingUp className="size-5 text-primary" />
         <h2 className="text-xl font-semibold">Trending Now</h2>
       </div>
 
@@ -50,17 +51,17 @@ export function TrendingArticles() {
             transition={{ delay: index * 0.1 }}
           >
             <Link href="#" className="group flex gap-4">
-              <span className="text-2xl font-bold text-primary/50 group-hover:text-primary transition-colors">
+              <span className="text-2xl font-bold text-primary/50 transition-colors group-hover:text-primary">
                 {article.position.toString().padStart(2, "0")}
               </span>
               <div className="space-y-2">
-                <h3 className="font-medium line-clamp-2 group-hover:text-primary transition-colors">
+                <h3 className="line-clamp-2 font-medium transition-colors group-hover:text-primary">
                   {article.title}
                 </h3>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                   <span>{article.views.toLocaleString()} views</span>
                   <div className="flex items-center gap-1">
-                    <MessageCircle className="h-4 w-4" />
+                    <MessageCircle className="size-4" />
                     {article.comments}
                   </div>
                 </div>

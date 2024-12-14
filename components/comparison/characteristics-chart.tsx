@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+
 import { Product } from "@/lib/types";
 
 interface CharacteristicsChartProps {
@@ -81,16 +82,16 @@ export function CharacteristicsChart({ products }: CharacteristicsChartProps) {
           content={({ active, payload, label }) => {
             if (active && payload && payload.length) {
               return (
-                <div className="bg-background/95 backdrop-blur-sm border rounded-lg p-3 shadow-lg">
+                <div className="rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur-sm">
                   <p className="font-medium">{label}</p>
-                  <div className="space-y-1 mt-2">
+                  <div className="mt-2 space-y-1">
                     {payload.map((entry: any) => (
                       <div
                         key={entry.name}
                         className="flex items-center gap-2 text-sm"
                       >
                         <div
-                          className="w-3 h-3 rounded-full"
+                          className="size-3 rounded-full"
                           style={{ backgroundColor: entry.color }}
                         />
                         <span>{entry.name}:</span>

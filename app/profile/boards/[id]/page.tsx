@@ -1,16 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { BoardCanvas } from '@/components/mood-board/board-canvas';
-import { BoardSidebar } from '@/components/mood-board/board-sidebar';
-import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { products } from '@/lib/data';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { useParams, notFound } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+import { BoardCanvas } from '@/components/mood-board/board-canvas';
+import { BoardSidebar } from '@/components/mood-board/board-sidebar';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useMoodBoards } from '@/hooks/use-mood-boards';
+import { products } from '@/lib/data';
 
 export default function BoardPage() {
   const params = useParams();
@@ -46,10 +46,10 @@ export default function BoardPage() {
 
   return (
     <div className="container py-10">
-      <div className="flex items-center gap-4 mb-8">
+      <div className="mb-8 flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
           <Link href="/profile?tab=boards">
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="size-4" />
           </Link>
         </Button>
 
@@ -58,12 +58,12 @@ export default function BoardPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             onBlur={handleNameChange}
-            className="text-xl font-bold bg-transparent border-none hover:bg-accent px-2 rounded-md"
+            className="rounded-md border-none bg-transparent px-2 text-xl font-bold hover:bg-accent"
           />
         </div>
 
         <Button className="gap-2">
-          <Save className="h-4 w-4" />
+          <Save className="size-4" />
           Save Changes
         </Button>
       </div>

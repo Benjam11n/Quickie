@@ -1,4 +1,5 @@
 import { Product } from "@/lib/types";
+import { Season, TimeOfDay, Weather, NoteFamily } from "@/lib/types/enums";
 import {
   EnhancedFragrance,
   Note,
@@ -7,7 +8,6 @@ import {
   NoteHarmony,
   FragranceCharacteristic,
 } from "@/lib/types/fragrance";
-import { Season, TimeOfDay, Weather, NoteFamily } from "@/lib/types/enums";
 
 const NOTE_COLORS = {
   [NoteFamily.Citrus]: "#F59E0B",
@@ -25,7 +25,7 @@ function mapNote(name: string, intensity: number, family: NoteFamily): Note {
     name,
     intensity,
     color: NOTE_COLORS[family],
-    family: family,
+    family,
   };
 }
 

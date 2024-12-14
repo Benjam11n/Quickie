@@ -1,11 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Clock, Share2 } from "lucide-react";
-import { HeroArticle } from "@/lib/types/news";
 import Link from "next/link";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { HeroArticle } from "@/lib/types/news";
+
 
 interface NewsHeroProps {
   article: HeroArticle;
@@ -28,7 +30,7 @@ export function NewsHero({ article }: NewsHeroProps) {
         <img
           src={article.image}
           alt={article.title}
-          className="w-full h-full object-cover"
+          className="size-full object-cover"
         />
         <div
           className="absolute inset-0"
@@ -53,15 +55,15 @@ export function NewsHero({ article }: NewsHeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Badge className="bg-primary/20 text-primary backdrop-blur-sm border-primary/20">
+            <Badge className="border-primary/20 bg-primary/20 text-primary backdrop-blur-sm">
               {article.category}
             </Badge>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+            <h1 className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">
               {article.title}
             </h1>
 
-            <p className="text-lg text-purple-100/90 line-clamp-2">
+            <p className="line-clamp-2 text-lg text-purple-100/90">
               {article.excerpt}
             </p>
 
@@ -83,7 +85,7 @@ export function NewsHero({ article }: NewsHeroProps) {
                     </time>
                     <span>•</span>
                     <div className="flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
+                      <Clock className="size-4" />
                       {article.readingTime} min read
                     </div>
                   </div>
@@ -91,11 +93,11 @@ export function NewsHero({ article }: NewsHeroProps) {
               </div>
 
               <motion.button
-                className="p-2 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors"
+                className="rounded-full bg-white/10 p-2 backdrop-blur-sm transition-colors hover:bg-white/20"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Share2 className="h-5 w-5 text-white" />
+                <Share2 className="size-5 text-white" />
               </motion.button>
             </div>
           </motion.div>
@@ -103,7 +105,7 @@ export function NewsHero({ article }: NewsHeroProps) {
       </div>
 
       {/* Gradient Overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent pointer-events-none" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
     </motion.div>
   );
 }

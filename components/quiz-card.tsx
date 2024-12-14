@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 
 interface QuizCardProps {
   onComplete: () => void;
@@ -60,9 +61,9 @@ export function QuizCard({ onComplete }: QuizCardProps) {
   };
 
   return (
-    <Card className="p-8 max-w-2xl mx-auto">
+    <Card className="mx-auto max-w-2xl p-8">
       <div className="space-y-8">
-        <div className="text-center space-y-4">
+        <div className="space-y-4 text-center">
           <h2 className="text-2xl font-bold">Find Your Perfect Match</h2>
           <p className="text-muted-foreground">
             Let's get to know your desires...
@@ -88,7 +89,7 @@ export function QuizCard({ onComplete }: QuizCardProps) {
                   <Button
                     key={option.id}
                     variant="outline"
-                    className="h-auto p-4 text-left justify-start gradient-border"
+                    className="gradient-border h-auto justify-start p-4 text-left"
                     onClick={() =>
                       handleAnswer(questions[currentQuestion].id, option.id)
                     }

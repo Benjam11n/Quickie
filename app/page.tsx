@@ -1,5 +1,5 @@
-import { Hero } from "@/components/hero";
 import { Features } from "@/components/features";
+import { Hero } from "@/components/hero";
 import { HowItWorks } from "@/components/how-it-works";
 import { VendingLocations } from "@/components/vending-locations";
 

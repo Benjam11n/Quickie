@@ -1,12 +1,14 @@
 "use client";
 
-import { NewsHero } from "@/components/news/news-hero";
-import { CategoryNav } from "@/components/news/category-nav";
-import { ArticleGrid } from "@/components/news/article-grid";
-import { TrendingArticles } from "@/components/news/trending-articles";
-import { NewsletterCTA } from "@/components/news/newsletter-cta";
-import { mockArticles, mockCategories } from "@/lib/data/news-data";
 import { useState } from "react";
+
+import { ArticleGrid } from "@/components/news/article-grid";
+import { CategoryNav } from "@/components/news/category-nav";
+import { NewsHero } from "@/components/news/news-hero";
+import { NewsletterCTA } from "@/components/news/newsletter-cta";
+import { TrendingArticles } from "@/components/news/trending-articles";
+import { mockArticles, mockCategories } from "@/lib/data/news-data";
+
 
 export default function NewsPage() {
   const [activeCategory, setActiveCategory] = useState<string>("all");
@@ -30,9 +32,9 @@ export default function NewsPage() {
           <ArticleGrid articles={featuredArticles} />
         </div>
 
-        <div className="container grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="container grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <h2 className="text-2xl font-bold mb-6">Latest Articles</h2>
+            <h2 className="mb-6 text-2xl font-bold">Latest Articles</h2>
             {/* Latest Articles Component will go here */}
           </div>
           <div className="space-y-8">

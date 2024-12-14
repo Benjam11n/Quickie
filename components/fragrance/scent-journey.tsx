@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+
 import { Card } from "@/components/ui/card";
 import { TimelinePoint, Note } from "@/lib/types/fragrance";
 import { cn } from "@/lib/utils";
@@ -67,12 +68,12 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
   }, [currentTime, timeline]);
 
   return (
-    <Card className="p-6 space-y-6">
+    <Card className="space-y-6 p-6">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold">Scent Journey</h3>
         <button
           onClick={() => setIsPlaying(!isPlaying)}
-          className="text-sm text-primary hover:text-primary/80 transition-colors"
+          className="text-sm text-primary transition-colors hover:text-primary/80"
         >
           {isPlaying ? "Pause" : "Play"} Journey
         </button>
@@ -113,7 +114,7 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
                 if (active && payload && payload.length) {
                   const point = payload[0].payload as TimelinePoint;
                   return (
-                    <div className="bg-background/95 backdrop-blur-sm border rounded-lg p-3 shadow-lg">
+                    <div className="rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur-sm">
                       <p className="font-medium">
                         {Math.floor(point.time / 60)}h {point.time % 60}m
                       </p>
@@ -122,13 +123,13 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
                       </p>
                       <div className="mt-2">
                         <p className="text-sm font-medium">Active Notes:</p>
-                        <div className="flex flex-wrap gap-1 mt-1">
+                        <div className="mt-1 flex flex-wrap gap-1">
                           {point.activeNotes.map((noteName) => {
                             const note = allNotes[noteName];
                             return (
                               <span
                                 key={noteName}
-                                className="inline-flex items-center px-2 py-1 rounded-full text-xs"
+                                className="inline-flex items-center rounded-full px-2 py-1 text-xs"
                                 style={{
                                   backgroundColor: `${note.color}20`,
                                   color: note.color,
@@ -172,7 +173,7 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
               </span>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
               {currentPoint.activeNotes.map((noteName) => {
                 const note = allNotes[noteName];
                 return (
@@ -188,12 +189,12 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
                   >
                     <div className="flex items-center gap-2">
                       <div
-                        className="w-3 h-3 rounded-full"
+                        className="size-3 rounded-full"
                         style={{ backgroundColor: note.color }}
                       />
                       <span className="font-medium">{noteName}</span>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1">
+                    <p className="mt-1 text-sm text-muted-foreground">
                       {note.family}
                     </p>
                   </div>
