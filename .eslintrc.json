@@ -1,3 +1,50 @@
 {
-  "extends": "next/core-web-vitals"
+  // Extends from multiple ESLint configurations
+  "extends": [
+    "next/core-web-vitals", // Next.js performance rules
+    "next/typescript", // Next.js TypeScript rules
+    "standard", // StandardJS style guide
+    "plugin:tailwindcss/recommended", // Tailwind CSS rules
+    "prettier" // Prettier compatibility
+  ],
+  // Use TypeScript parser
+  "parser": "@typescript-eslint/parser",
+  // Enable import and TypeScript plugins
+  "plugins": ["import", "@typescript-eslint"],
+  // Custom rules configuration
+  "rules": {
+    // Configure import ordering
+    "import/order": [
+      "error",
+      {
+        // Define import groups order
+        "groups": [
+          "builtin", // Node.js built-in modules
+          "external", // npm packages
+          "internal", // internal aliases
+          ["parent", "sibling"], // relative imports
+          "index", // index files
+          "object" // object imports
+        ],
+        // Add newline between import groups
+        "newlines-between": "always",
+        // Custom group patterns
+        "pathGroups": [
+          {
+            "pattern": "@app/**", // Group @app imports
+            "group": "external",
+            "position": "after"
+          }
+        ],
+        // Exclude built-in modules from pathGroups
+        "pathGroupsExcludedImportTypes": ["builtin"],
+
+        // Sort imports alphabetically
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  }
 }

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ArrowRight, MapPin, Sparkles, Star } from "lucide-react";
+import { MapPin, Sparkles, Star } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function Hero() {
