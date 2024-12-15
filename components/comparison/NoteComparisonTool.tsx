@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { X, Plus, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 
-import { ProductSelector } from '@/components/fragrance/product-selector';
+import { ProductSelector } from '@/components/fragrance/ProductSelector';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';

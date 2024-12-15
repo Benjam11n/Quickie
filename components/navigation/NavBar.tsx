@@ -6,12 +6,12 @@ import { usePathname } from 'next/navigation';
 
 import { ThemeToggle } from '@/components/theme/theme-toggle';
 
-import { AuthButtons } from './auth-buttons';
-import MobileNav from './mobile-nav';
-import { NavLink } from './nav-link';
+import { AuthButtons } from './AuthButtons';
+import { NavLink } from './NavLink';
 import { navLinks } from '@/constants';
+import { MobileNavTrigger } from './MobileNavTrigger';
 
-export function Navigation() {
+export function NavBar() {
   const pathname = usePathname();
 
   return (
@@ -38,7 +38,7 @@ export function Navigation() {
             <ThemeToggle />
             <AuthButtons />
           </div>
-          <MobileNav />
+          <MobileNavTrigger />
         </div>
       </nav>
     </header>

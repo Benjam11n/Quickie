@@ -1,3 +1,3 @@
-export { Navigation } from './navigation';
-export { NavLink } from './nav-link';
-export { AuthButtons } from './auth-buttons';
+export { NavLink } from './NavLink';
+export { AuthButtons } from './AuthButtons';
+export { NavBar } from './NavBar';

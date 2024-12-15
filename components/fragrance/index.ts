@@ -4,3 +4,6 @@ export { NoteHarmonyVisualizer } from './NoteHarmonyVisualizer';
 export { ScentJourney } from './ScentJourney';
 export { SeasonalWheel } from './SeasonalWheel';
 export { SingleProductView } from './SingleProductView';
+export { ProductCard } from './ProductCard';
+export { ProductFilters } from './ProductFilters';
+export { ProductSelector } from './ProductSelector';

@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
@@ -28,6 +28,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/utils/auth';
+import { useNavStore } from '@/hooks/use-nav-store';
 
 const mainNavItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -49,8 +50,8 @@ const userNavItems = [
   { href: '/help', label: 'Help & Support', icon: HelpCircle },
 ];
 
-const MobileNav = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const MobileSidebar = () => {
+  const { isOpen, closeNav } = useNavStore();
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const { collections } = useUserPerfumes();
@@ -74,15 +75,6 @@ const MobileNav = () => {
 
   return (
     <>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="md:hidden"
-        onClick={() => setIsOpen(true)}
-      >
-        <Menu className="size-5" />
-      </Button>
-
       <AnimatePresence>
         {isOpen && (
           <>
@@ -92,16 +84,18 @@ const MobileNav = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm md:hidden"
-              onClick={() => setIsOpen(false)}
+              onClick={() => closeNav()}
             />
 
             {/* Sidebar */}
             <motion.div
-              initial={{ x: '-100%' }}
+              initial={{ x: '100%' }}
               animate={{ x: 0 }}
-              exit={{ x: '-100%' }}
+              exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 20 }}
-              className="fixed inset-y-0 left-0 z-50 w-full max-w-xs border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 md:hidden"
+              className="fixed inset-y-0 right-0 z-50 w-full max-w-xs border-l 
+              bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 
+              md:hidden"
             >
               <div className="flex h-full flex-col">
                 {/* Header */}
@@ -116,7 +110,7 @@ const MobileNav = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => setIsOpen(false)}
+                        onClick={() => closeNav()}
                       >
                         <X className="size-5" />
                       </Button>
@@ -136,7 +130,7 @@ const MobileNav = () => {
                         <Link
                           href="/profile"
                           className="text-sm text-muted-foreground transition-colors hover:text-primary"
-                          onClick={() => setIsOpen(false)}
+                          onClick={() => closeNav()}
                         >
                           View Profile
                         </Link>
@@ -152,7 +146,7 @@ const MobileNav = () => {
                     <Button
                       className="w-full"
                       onClick={() => {
-                        setIsOpen(false);
+                        closeNav();
                         // Open auth dialog
                       }}
                     >
@@ -170,7 +164,7 @@ const MobileNav = () => {
                         <Link
                           key={item.href}
                           href={item.href}
-                          onClick={() => setIsOpen(false)}
+                          onClick={() => closeNav()}
                         >
                           <span
                             className={cn(
@@ -196,7 +190,7 @@ const MobileNav = () => {
                         <Link
                           key={item.href}
                           href={item.href}
-                          onClick={() => setIsOpen(false)}
+                          onClick={() => closeNav()}
                         >
                           <span
                             className={cn(
@@ -223,7 +217,7 @@ const MobileNav = () => {
                           <Link
                             key={item.href}
                             href={item.href}
-                            onClick={() => setIsOpen(false)}
+                            onClick={() => closeNav()}
                           >
                             <span
                               className={cn(
@@ -241,7 +235,7 @@ const MobileNav = () => {
                         <button
                           onClick={() => {
                             logout();
-                            setIsOpen(false);
+                            closeNav();
                           }}
                           className="group flex w-full items-center rounded-md px-3 py-2 text-sm font-medium text-destructive transition-colors hover:bg-accent hover:text-accent-foreground"
                         >
@@ -261,4 +255,4 @@ const MobileNav = () => {
   );
 };
 
-export default MobileNav;
+export default MobileSidebar;

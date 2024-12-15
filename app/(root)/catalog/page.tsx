@@ -4,8 +4,8 @@ import { Search, SlidersHorizontal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { ProductCard } from '@/components/fragrance/product-card';
-import { ProductFilters } from '@/components/fragrance/product-filters';
+import { ProductCard } from '@/components/fragrance/ProductCard';
+import { ProductFilters } from '@/components/fragrance/ProductFilters';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';

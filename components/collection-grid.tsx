@@ -1,4 +1,4 @@
-import { ProductCard } from '@/components/fragrance/product-card';
+import { ProductCard } from '@/components/fragrance/ProductCard';
 import { Product, UserPerfume } from '@/types/fragrance';
 
 interface CollectionGridProps {
