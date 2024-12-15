@@ -12,8 +12,8 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { products } from '@/lib/types/data';
-import { Product } from '@/lib/types/fragrance';
+import { products } from '@/types/data';
+import { Product } from '@/types/fragrance';
 interface ProductSelectorProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;

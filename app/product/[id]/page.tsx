@@ -1,5 +1,5 @@
 import { SingleProductView } from '@/components/fragrance/SingleProductView';
-import { products } from '@/lib/types/data';
+import { products } from '@/types/data';
 
 export async function generateStaticParams() {
   return products.map((product) => ({

@@ -10,7 +10,7 @@ import { BoardSidebar } from '@/components/mood-board/BoardSidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { products } from '@/lib/types/data';
+import { products } from '@/types/data';
 
 export default function BoardPage() {
   const params = useParams();

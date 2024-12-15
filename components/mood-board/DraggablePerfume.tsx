@@ -4,7 +4,7 @@ import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { motion } from 'framer-motion';
 
-import { Product } from '@/lib/types/fragrance';
+import { Product } from '@/types/fragrance';
 import { cn } from '@/lib/utils';
 
 interface DraggablePerfumeProps {

@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 import { LocationCard } from '@/components/location/LocationCard';
 import { Input } from '@/components/ui/input';
-import { vendingLocations } from '@/lib/types/data';
+import { vendingLocations } from '@/types/data';
 
 import '@/styles/map.css';
 

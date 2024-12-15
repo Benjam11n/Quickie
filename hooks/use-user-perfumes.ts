@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { UserPerfume } from '@/lib/types';
+import { UserPerfume } from '@/types';
 
 interface UserPerfumesState {
   collections: UserPerfume[];

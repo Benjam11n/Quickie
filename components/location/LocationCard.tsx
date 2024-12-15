@@ -13,8 +13,8 @@ import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { VendingLocation } from '@/lib/types';
-import { products } from '@/lib/types/data';
+import { VendingLocation } from '@/types';
+import { products } from '@/types/data';
 import { cn } from '@/lib/utils';
 
 interface LocationCardProps {

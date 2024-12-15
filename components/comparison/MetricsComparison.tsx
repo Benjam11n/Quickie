@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 
 import { Card } from '@/components/ui/card';
-import { Product } from '@/lib/types/fragrance';
+import { Product } from '@/types/fragrance';
 interface MetricsComparisonProps {
   products: Product[];
 }

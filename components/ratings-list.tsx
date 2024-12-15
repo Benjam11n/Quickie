@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { StarRating } from '@/components/star-rating';
 import { Card } from '@/components/ui/card';
-import { Product, UserPerfume } from '@/lib/types';
+import { Product, UserPerfume } from '@/types';
 
 interface RatingsListProps {
   items: UserPerfume[];

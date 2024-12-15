@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { MoodBoard } from '@/lib/types';
+import { MoodBoard } from '@/types';
 
 interface BoardShareProps {
   board: MoodBoard;

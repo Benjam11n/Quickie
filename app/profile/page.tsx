@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
-import { products } from '@/lib/types/data';
+import { products } from '@/types/data';
 
 type SortOption =
   | 'rating-desc'

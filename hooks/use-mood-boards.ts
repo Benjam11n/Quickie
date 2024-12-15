@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { MoodBoard } from '@/lib/types';
+import { MoodBoard } from '@/types';
 import { nanoid } from 'nanoid';
 
 interface MoodBoardsState {

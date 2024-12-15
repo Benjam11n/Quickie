@@ -1,4 +1,4 @@
-import { EnhancedFragrance } from '@/lib/types/fragrance';
+import { EnhancedFragrance } from '@/types/fragrance';
 
 import { NoteHarmonyVisualizer } from './NoteHarmonyVisualizer';
 import { ScentJourney } from './ScentJourney';

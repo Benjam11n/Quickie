@@ -7,7 +7,7 @@ import { ProductCard } from '@/components/product-card';
 import { QuizCard } from '@/components/quiz-card';
 import { Card } from '@/components/ui/card';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
-import { products } from '@/lib/types/data';
+import { products } from '@/types/data';
 
 export default function RecommendationsPage() {
   const { collections } = useUserPerfumes();

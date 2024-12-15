@@ -8,7 +8,7 @@ import { ProductSelector } from '@/components/product-selector';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Product } from '@/lib/types/fragrance';
+import { Product } from '@/types/fragrance';
 const MAX_COMPARISONS = 3;
 
 interface NoteComparisonToolProps {

@@ -17,7 +17,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
-import { products } from '@/lib/types/data';
+import { products } from '@/types/data';
 
 type SortOption =
   | 'price-asc'

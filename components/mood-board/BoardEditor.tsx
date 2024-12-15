@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { MoodBoard, Product } from '@/lib/types';
+import { MoodBoard, Product } from '@/types';
 
 import { BoardCanvas } from './BoardCanvas';
 import { BoardSidebar } from './BoardSidebar';

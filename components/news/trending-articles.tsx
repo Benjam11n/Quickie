@@ -1,34 +1,34 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { MessageCircle, TrendingUp } from "lucide-react";
-import Link from "next/link";
+import { motion } from 'framer-motion';
+import { MessageCircle, TrendingUp } from 'lucide-react';
+import Link from 'next/link';
 
-import { Card } from "@/components/ui/card";
-import { TrendingArticle } from "@/lib/types/news";
+import { Card } from '@/components/ui/card';
+import { TrendingArticle } from '@/types/news';
 
 const trendingArticles: TrendingArticle[] = [
   {
     position: 1,
-    title: "The Science Behind Fragrance Longevity: Expert Tips Revealed",
+    title: 'The Science Behind Fragrance Longevity: Expert Tips Revealed',
     views: 12453,
     comments: 89,
   },
   {
     position: 2,
-    title: "Top 10 Most Anticipated Perfume Releases of 2024",
+    title: 'Top 10 Most Anticipated Perfume Releases of 2024',
     views: 8932,
     comments: 67,
   },
   {
     position: 3,
-    title: "How to Choose the Perfect Signature Scent",
+    title: 'How to Choose the Perfect Signature Scent',
     views: 7645,
     comments: 45,
   },
   {
     position: 4,
-    title: "The Rise of Sustainable Fragrances",
+    title: 'The Rise of Sustainable Fragrances',
     views: 6234,
     comments: 34,
   },
@@ -52,7 +52,7 @@ export function TrendingArticles() {
           >
             <Link href="#" className="group flex gap-4">
               <span className="text-2xl font-bold text-primary/50 transition-colors group-hover:text-primary">
-                {article.position.toString().padStart(2, "0")}
+                {article.position.toString().padStart(2, '0')}
               </span>
               <div className="space-y-2">
                 <h3 className="line-clamp-2 font-medium transition-colors group-hover:text-primary">

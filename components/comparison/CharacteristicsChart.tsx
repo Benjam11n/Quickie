@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from 'recharts';
 
-import { Product } from '@/lib/types/fragrance';
+import { Product } from '@/types/fragrance';
 
 interface CharacteristicsChartProps {
   products: Product[];

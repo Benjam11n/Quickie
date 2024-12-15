@@ -8,7 +8,7 @@ import { ComparisonView } from '@/components/comparison';
 import { ProductSelector } from '@/components/product-selector';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Product } from '@/lib/types/fragrance';
+import { Product } from '@/types/fragrance';
 
 export default function ComparePage() {
   const router = useRouter();

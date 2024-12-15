@@ -5,7 +5,7 @@ import { useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Category } from '@/lib/types/news';
+import { Category } from '@/types/news';
 import { cn } from '@/lib/utils';
 
 interface CategoryNavProps {

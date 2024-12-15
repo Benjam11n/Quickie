@@ -6,8 +6,8 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
 import { Badge } from '@/components/ui/badge';
-import { VendingLocation } from '@/lib/types';
-import { products } from '@/lib/types/data';
+import { VendingLocation } from '@/types';
+import { products } from '@/types/data';
 
 // Fix for default marker icon
 const icon = L.icon({

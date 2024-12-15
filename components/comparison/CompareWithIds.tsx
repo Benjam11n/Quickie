@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { ComparisonView } from '@/components/comparison/ComparisonView';
 import { ProductSelector } from '@/components/product-selector';
 import { Button } from '@/components/ui/button';
-import { Product } from '@/lib/types/fragrance';
+import { Product } from '@/types/fragrance';
 
 interface CompareWithIdsProps {
   initialProducts: Product[];

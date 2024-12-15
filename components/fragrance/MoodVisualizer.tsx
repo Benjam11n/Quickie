@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 
 import { Card } from '@/components/ui/card';
-import { FragranceCharacteristic } from '@/lib/types/fragrance';
+import { FragranceCharacteristic } from '@/types/fragrance';
 
 interface MoodVisualizerProps {
   characteristics: FragranceCharacteristic[];
@@ -116,10 +116,7 @@ export function MoodVisualizer({ characteristics }: MoodVisualizerProps) {
     <Card className="space-y-6 overflow-hidden p-6">
       <h3 className="text-lg font-semibold">Mood Visualization</h3>
       <div className="relative h-[500px]">
-        <canvas
-          ref={canvasRef}
-          className="size-full rounded-lg bg-black/5"
-        />
+        <canvas ref={canvasRef} className="size-full rounded-lg bg-black/5" />
         <div className="absolute inset-x-4 bottom-4 rounded-lg border bg-background/95 p-4 backdrop-blur-sm">
           <div className="flex flex-wrap gap-4">
             {characteristics.map((characteristic) => (

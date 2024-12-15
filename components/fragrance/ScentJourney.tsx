@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 
 import { Card } from '@/components/ui/card';
-import { TimelinePoint, Note } from '@/lib/types/fragrance';
+import { TimelinePoint, Note } from '@/types/fragrance';
 import { cn } from '@/lib/utils';
 
 interface ScentJourneyProps {

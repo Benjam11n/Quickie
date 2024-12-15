@@ -1,4 +1,4 @@
-import { Season, TimeOfDay, Weather, NoteFamily } from '@/lib/types/enums';
+import { Season, TimeOfDay, Weather, NoteFamily } from '@/types/enums';
 import {
   EnhancedFragrance,
   Note,
@@ -7,7 +7,7 @@ import {
   NoteHarmony,
   FragranceCharacteristic,
   Product,
-} from '@/lib/types/fragrance';
+} from '@/types/fragrance';
 
 const NOTE_COLORS = {
   [NoteFamily.Citrus]: '#F59E0B',

@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
-import { Product, UserPerfume } from '@/lib/types';
+import { Product, UserPerfume } from '@/types';
 import { cn } from '@/lib/utils';
 
 interface ProductCardProps {

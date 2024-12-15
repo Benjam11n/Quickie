@@ -5,7 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 
 import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { MoodBoard, Product } from '@/lib/types';
+import { MoodBoard, Product } from '@/types';
 
 import { DraggablePerfume } from './DraggablePerfume';
 import { DroppableArea } from './DroppableArea';

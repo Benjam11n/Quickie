@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { MoodBoard, Product } from '@/lib/types';
+import { MoodBoard, Product } from '@/types';
 
 interface BoardSidebarProps {
   board: MoodBoard;

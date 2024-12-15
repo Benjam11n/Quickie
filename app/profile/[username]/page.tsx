@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
-import { products } from '@/lib/types/data';
+import { products } from '@/types/data';
 
 export default function ProfilePage() {
   const params = useParams();

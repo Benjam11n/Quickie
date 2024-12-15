@@ -1,6 +1,6 @@
 import { CompareWithIds } from '@/components/comparison';
-import { products } from '@/lib/types/data';
-import { Product } from '@/lib/types/fragrance';
+import { products } from '@/types/data';
+import { Product } from '@/types/fragrance';
 export function generateStaticParams() {
   const params: { ids: string[] }[] = [];
   products.forEach((product1, index) => {

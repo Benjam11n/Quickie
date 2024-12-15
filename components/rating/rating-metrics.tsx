@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { Wind, Clock, DollarSign, Sparkles, Activity } from 'lucide-react';
 
-import { Rating } from '@/lib/types/fragrance';
+import { Rating } from '@/types/fragrance';
 
 import { RatingBar } from './rating-bar';
 

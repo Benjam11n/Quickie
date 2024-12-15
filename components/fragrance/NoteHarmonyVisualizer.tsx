@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Card } from '@/components/ui/card';
-import { NoteHarmony, Note } from '@/lib/types/fragrance';
+import { NoteHarmony, Note } from '@/types/fragrance';
 import { cn } from '@/lib/utils';
 
 interface NoteHarmonyVisualizerProps {

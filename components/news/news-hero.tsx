@@ -5,7 +5,7 @@ import { Clock, Share2 } from 'lucide-react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { HeroArticle } from '@/lib/types/news';
+import { HeroArticle } from '@/types/news';
 
 interface NewsHeroProps {
   article: HeroArticle;

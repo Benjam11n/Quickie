@@ -3,8 +3,8 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
-import { brands, categories, notes } from '@/lib/types/data';
-import { FragranceFilters } from '@/lib/types/fragrance';
+import { brands, categories, notes } from '@/types/data';
+import { FragranceFilters } from '@/types/fragrance';
 
 interface ProductFiltersProps {
   filters: FragranceFilters;
