@@ -1,13 +1,11 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { Clock, Share2 } from "lucide-react";
-import Link from "next/link";
+import { motion } from 'framer-motion';
+import { Clock, Share2 } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { HeroArticle } from "@/lib/types/news";
-
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { HeroArticle } from '@/lib/types/news';
 
 interface NewsHeroProps {
   article: HeroArticle;
@@ -37,11 +35,11 @@ export function NewsHero({ article }: NewsHeroProps) {
           style={{
             background: `linear-gradient(to bottom, 
               ${article.gradient.from}${Math.round(
-              article.gradient.opacity * 255
-            ).toString(16)} 0%, 
+                article.gradient.opacity * 255
+              ).toString(16)} 0%, 
               ${article.gradient.to}${Math.round(
-              article.gradient.opacity * 255
-            ).toString(16)} 100%)`,
+                article.gradient.opacity * 255
+              ).toString(16)} 100%)`,
           }}
         />
       </motion.div>

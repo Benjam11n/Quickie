@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 
-import "./globals.css";
-import { ClientLayout } from "@/components/client-layout";
-import { ThemeProvider } from "@/components/theme-provider";
+import './globals.css';
+import { ClientLayout } from '@/components/client-layout';
+import { ThemeProvider } from '@/components/theme-provider';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Quickie | Instant Fragrance Gratification",
+  title: 'Quickie | Instant Fragrance Gratification',
   description:
     "Life's too short for long-term commitments. Get your fragrance fix, instantly.",
 };

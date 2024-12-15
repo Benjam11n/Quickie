@@ -34,7 +34,7 @@ export function RatingsList({
           <Card key={item.productId} className="p-6">
             <div className="flex gap-6">
               <div className="relative size-24 overflow-hidden rounded-lg">
-                <Image
+                <img
                   src={product.images[0]}
                   alt={product.name}
                   className="size-full object-cover"

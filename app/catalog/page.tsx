@@ -1,37 +1,37 @@
-"use client";
+'use client';
 
-import { Search, SlidersHorizontal } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Search, SlidersHorizontal } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { ProductCard } from "@/components/product-card";
-import { ProductFilters } from "@/components/product-filters";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { ProductCard } from '@/components/product-card';
+import { ProductFilters } from '@/components/product-filters';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { useUserPerfumes } from "@/hooks/use-user-perfumes";
-import { products } from "@/lib/data";
+} from '@/components/ui/select';
+import { useUserPerfumes } from '@/hooks/use-user-perfumes';
+import { products } from '@/lib/types/data';
 
 type SortOption =
-  | "price-asc"
-  | "price-desc"
-  | "name-asc"
-  | "name-desc"
-  | "rating-desc"
-  | "rating-asc";
+  | 'price-asc'
+  | 'price-desc'
+  | 'name-asc'
+  | 'name-desc'
+  | 'rating-desc'
+  | 'rating-asc';
 
 export default function CatalogPage() {
   const router = useRouter();
   const { collections } = useUserPerfumes();
-  const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState<SortOption>("rating-desc");
+  const [search, setSearch] = useState('');
+  const [sortBy, setSortBy] = useState<SortOption>('rating-desc');
   const [showFilters, setShowFilters] = useState(false);
   const [selectedForComparison, setSelectedForComparison] = useState<string[]>(
     []
@@ -80,17 +80,17 @@ export default function CatalogPage() {
       const userPerfumeB = collections.find((p) => p.productId === b.id);
 
       switch (sortBy) {
-        case "price-asc":
+        case 'price-asc':
           return a.price - b.price;
-        case "price-desc":
+        case 'price-desc':
           return b.price - a.price;
-        case "name-asc":
+        case 'name-asc':
           return a.name.localeCompare(b.name);
-        case "name-desc":
+        case 'name-desc':
           return b.name.localeCompare(a.name);
-        case "rating-desc":
+        case 'rating-desc':
           return (userPerfumeB?.rating || 0) - (userPerfumeA?.rating || 0);
-        case "rating-asc":
+        case 'rating-asc':
           return (userPerfumeA?.rating || 0) - (userPerfumeB?.rating || 0);
         default:
           return 0;
@@ -111,7 +111,7 @@ export default function CatalogPage() {
 
   const handleCompare = () => {
     if (selectedForComparison.length >= 2) {
-      router.push(`/compare/${selectedForComparison.join("/")}`);
+      router.push(`/compare/${selectedForComparison.join('/')}`);
     }
   };
 

@@ -5,12 +5,12 @@ import Link from 'next/link';
 import { useParams, notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { BoardCanvas } from '@/components/mood-board/board-canvas';
-import { BoardSidebar } from '@/components/mood-board/board-sidebar';
+import { BoardCanvas } from '@/components/mood-board/BoardCanvas';
+import { BoardSidebar } from '@/components/mood-board/BoardSidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { products } from '@/lib/data';
+import { products } from '@/lib/types/data';
 
 export default function BoardPage() {
   const params = useParams();

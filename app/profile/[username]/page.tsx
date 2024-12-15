@@ -1,20 +1,19 @@
-"use client";
+'use client';
 
-import { Plus, Layout, Grid, Star, BookMarked, Settings } from "lucide-react";
-import { useParams } from "next/navigation";
-import { useState } from "react";
+import { Plus, Layout, Grid, Star, BookMarked, Settings } from 'lucide-react';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
 
-import { CollectionGrid } from "@/components/collection-grid";
-import { CollectionInsights } from "@/components/collection-insights";
-import { MoodBoardGrid } from "@/components/mood-board/mood-board-grid";
-import { RatingsList } from "@/components/ratings-list";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useMoodBoards } from "@/hooks/use-mood-boards";
-import { useUserPerfumes } from "@/hooks/use-user-perfumes";
-import { products } from "@/lib/data";
-
+import { CollectionGrid } from '@/components/collection-grid';
+import { CollectionInsights } from '@/components/collection-insights';
+import { MoodBoardGrid } from '@/components/mood-board/MoodBoardGrid';
+import { RatingsList } from '@/components/ratings-list';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useMoodBoards } from '@/hooks/use-mood-boards';
+import { useUserPerfumes } from '@/hooks/use-user-perfumes';
+import { products } from '@/lib/types/data';
 
 export default function ProfilePage() {
   const params = useParams();

@@ -1,15 +1,13 @@
-import { Heart, ShoppingCart, Check, ExternalLink, Scale } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Heart, ShoppingCart, Check, ExternalLink, Scale } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
-import { StarRating } from "@/components/star-rating";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useUserPerfumes } from "@/hooks/use-user-perfumes";
-import { Product, UserPerfume } from "@/lib/types";
-import { cn } from "@/lib/utils";
-
-
+import { StarRating } from '@/components/star-rating';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { useUserPerfumes } from '@/hooks/use-user-perfumes';
+import { Product, UserPerfume } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 interface ProductCardProps {
   product: Product;
@@ -29,7 +27,7 @@ export function ProductCard({
 
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Don't navigate if clicking on buttons
-    if (!(e.target as HTMLElement).closest("button")) {
+    if (!(e.target as HTMLElement).closest('button')) {
       router.push(`/product/${product.id}`);
     }
   };
@@ -46,7 +44,7 @@ export function ProductCard({
 
   const handleBuyClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    window.open(product.affiliateLink, "_blank");
+    window.open(product.affiliateLink, '_blank');
   };
 
   const handleCompareClick = (e: React.MouseEvent) => {
@@ -57,8 +55,8 @@ export function ProductCard({
   return (
     <Card
       className={cn(
-        "overflow-hidden hover-lift gradient-border group cursor-pointer",
-        isSelectedForComparison && "ring-2 ring-primary"
+        'overflow-hidden hover-lift gradient-border group cursor-pointer',
+        isSelectedForComparison && 'ring-2 ring-primary'
       )}
       onClick={handleCardClick}
     >
@@ -91,15 +89,15 @@ export function ProductCard({
               variant="ghost"
               size="icon"
               className={cn(
-                "h-8 w-8",
-                userPerfume?.isFavorite && "text-red-500"
+                'h-8 w-8',
+                userPerfume?.isFavorite && 'text-red-500'
               )}
               onClick={handleFavoriteClick}
             >
               <Heart
                 className={cn(
-                  "h-4 w-4",
-                  userPerfume?.isFavorite && "fill-current"
+                  'h-4 w-4',
+                  userPerfume?.isFavorite && 'fill-current'
                 )}
               />
             </Button>
@@ -108,8 +106,8 @@ export function ProductCard({
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  "h-8 w-8",
-                  isSelectedForComparison && "text-primary"
+                  'h-8 w-8',
+                  isSelectedForComparison && 'text-primary'
                 )}
                 onClick={handleCompareClick}
               >
@@ -139,8 +137,8 @@ export function ProductCard({
             <Button
               size="sm"
               className={cn(
-                "glow-effect",
-                userPerfume?.inCollection && "bg-green-500 hover:bg-green-600"
+                'glow-effect',
+                userPerfume?.inCollection && 'bg-green-500 hover:bg-green-600'
               )}
               onClick={handleCollectionClick}
             >

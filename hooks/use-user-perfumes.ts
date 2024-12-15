@@ -1,6 +1,6 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
-import { UserPerfume } from "@/lib/types";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { UserPerfume } from '@/lib/types';
 
 interface UserPerfumesState {
   collections: UserPerfume[];
@@ -98,7 +98,7 @@ export const useUserPerfumes = create<UserPerfumesState>()(
         })),
     }),
     {
-      name: "user-perfumes-storage",
+      name: 'user-perfumes-storage',
     }
   )
 );

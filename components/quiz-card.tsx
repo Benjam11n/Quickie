@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 
 interface QuizCardProps {
   onComplete: () => void;
@@ -16,37 +16,37 @@ const questions = [
     id: 1,
     question: "What's your ideal date night?",
     options: [
-      { id: "a", text: "Candlelit dinner", vibe: "romantic" },
-      { id: "b", text: "Dancing till dawn", vibe: "energetic" },
-      { id: "c", text: "Netflix and chill", vibe: "cozy" },
-      { id: "d", text: "Adventure sports", vibe: "fresh" },
+      { id: 'a', text: 'Candlelit dinner', vibe: 'romantic' },
+      { id: 'b', text: 'Dancing till dawn', vibe: 'energetic' },
+      { id: 'c', text: 'Netflix and chill', vibe: 'cozy' },
+      { id: 'd', text: 'Adventure sports', vibe: 'fresh' },
     ],
   },
   {
     id: 2,
-    question: "Pick your power move:",
+    question: 'Pick your power move:',
     options: [
-      { id: "a", text: "The subtle wink", vibe: "subtle" },
-      { id: "b", text: "The confident strut", vibe: "bold" },
-      { id: "c", text: "The mysterious smile", vibe: "mysterious" },
-      { id: "d", text: "The genuine laugh", vibe: "fresh" },
+      { id: 'a', text: 'The subtle wink', vibe: 'subtle' },
+      { id: 'b', text: 'The confident strut', vibe: 'bold' },
+      { id: 'c', text: 'The mysterious smile', vibe: 'mysterious' },
+      { id: 'd', text: 'The genuine laugh', vibe: 'fresh' },
     ],
   },
   {
     id: 3,
-    question: "Your favorite time of day?",
+    question: 'Your favorite time of day?',
     options: [
-      { id: "a", text: "Early morning", vibe: "fresh" },
-      { id: "b", text: "Sunset", vibe: "romantic" },
-      { id: "c", text: "Midnight", vibe: "mysterious" },
-      { id: "d", text: "Golden afternoon", vibe: "warm" },
+      { id: 'a', text: 'Early morning', vibe: 'fresh' },
+      { id: 'b', text: 'Sunset', vibe: 'romantic' },
+      { id: 'c', text: 'Midnight', vibe: 'mysterious' },
+      { id: 'd', text: 'Golden afternoon', vibe: 'warm' },
     ],
   },
 ];
 
 export function QuizCard({ onComplete }: QuizCardProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [_answers, setAnswers] = useState<Record<number, string>>({});
 
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 
@@ -66,7 +66,7 @@ export function QuizCard({ onComplete }: QuizCardProps) {
         <div className="space-y-4 text-center">
           <h2 className="text-2xl font-bold">Find Your Perfect Match</h2>
           <p className="text-muted-foreground">
-            Let's get to know your desires...
+            Let&apos;s get to know your desires...
           </p>
         </div>
 

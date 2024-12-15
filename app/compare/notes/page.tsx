@@ -1,4 +1,4 @@
-import { NoteComparisonTool } from '@/components/note-comparison-tool';
+import { NoteComparisonTool } from '@/components/comparison';
 
 export default function NoteComparisonPage() {
   return (

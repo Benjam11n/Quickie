@@ -1,35 +1,35 @@
-"use client";
+'use client';
 
-import { Search } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Search } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
-import { CollectionGrid } from "@/components/collection-grid";
-import { RatingsList } from "@/components/ratings-list";
-import { Input } from "@/components/ui/input";
+import { CollectionGrid } from '@/components/collection-grid';
+import { RatingsList } from '@/components/ratings-list';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useUserPerfumes } from "@/hooks/use-user-perfumes";
-import { products } from "@/lib/data";
+} from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useUserPerfumes } from '@/hooks/use-user-perfumes';
+import { products } from '@/lib/types/data';
 
 type SortOption =
-  | "rating-desc"
-  | "rating-asc"
-  | "name-asc"
-  | "name-desc"
-  | "recent"
-  | "oldest";
+  | 'rating-desc'
+  | 'rating-asc'
+  | 'name-asc'
+  | 'name-desc'
+  | 'recent'
+  | 'oldest';
 
 export default function ProfilePage() {
   const { collections } = useUserPerfumes();
   const [mounted, setMounted] = useState(false);
-  const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState<SortOption>("rating-desc");
+  const [search, setSearch] = useState('');
+  const [sortBy, setSortBy] = useState<SortOption>('rating-desc');
 
   useEffect(() => {
     setMounted(true);
@@ -49,17 +49,17 @@ export default function ProfilePage() {
       const productB = products.find((p) => p.id === b.productId);
 
       switch (sortBy) {
-        case "rating-desc":
+        case 'rating-desc':
           return (b.rating || 0) - (a.rating || 0);
-        case "rating-asc":
+        case 'rating-asc':
           return (a.rating || 0) - (b.rating || 0);
-        case "name-asc":
-          return (productA?.name || "").localeCompare(productB?.name || "");
-        case "name-desc":
-          return (productB?.name || "").localeCompare(productA?.name || "");
-        case "recent":
+        case 'name-asc':
+          return (productA?.name || '').localeCompare(productB?.name || '');
+        case 'name-desc':
+          return (productB?.name || '').localeCompare(productA?.name || '');
+        case 'recent':
           return new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime();
-        case "oldest":
+        case 'oldest':
           return new Date(a.addedAt).getTime() - new Date(b.addedAt).getTime();
         default:
           return 0;

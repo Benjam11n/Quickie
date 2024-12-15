@@ -3,13 +3,13 @@
 import { Search } from 'lucide-react';
 import { useState } from 'react';
 
-import { LocationCard } from '@/components/location-card';
+import { LocationCard } from '@/components/location/LocationCard';
 import { Input } from '@/components/ui/input';
-import { vendingLocations } from '@/lib/data';
+import { vendingLocations } from '@/lib/types/data';
 
 import '@/styles/map.css';
 
-import { LocationMap } from '@/components/location-map';
+import { LocationMap } from '@/components/location/LocationMap';
 
 export default function LocationsPage() {
   const [search, setSearch] = useState('');

@@ -3,17 +3,13 @@
 import { motion } from 'framer-motion';
 import { Wind, Clock, DollarSign, Sparkles, Activity } from 'lucide-react';
 
+import { Rating } from '@/lib/types/fragrance';
+
 import { RatingBar } from './rating-bar';
 
 interface RatingMetricsProps {
-  rating: {
-    sillage: number;
-    longevity: number;
-    value: number;
-    projection: number;
-    complexity: number;
-  };
-  onChange: (rating: any) => void;
+  rating: Rating;
+  onChange: (rating: Rating) => void;
 }
 
 const metrics = [

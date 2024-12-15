@@ -1,29 +1,22 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { ThumbsUp, ThumbsDown } from "lucide-react";
-import { useState } from "react";
+import { motion } from 'framer-motion';
+import { ThumbsUp, ThumbsDown } from 'lucide-react';
+import { useState } from 'react';
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
+import { RatingWithReview } from '@/lib/types/fragrance';
+import { cn } from '@/lib/utils';
 
-import { RatingDistribution } from "./rating-distribution";
-import { RatingMetrics } from "./rating-metrics";
-
+import { RatingDistribution } from './rating-distribution';
+import { RatingMetrics } from './rating-metrics';
 
 interface RatingCardProps {
   productId: string;
-  initialRating?: {
-    sillage: number;
-    longevity: number;
-    value: number;
-    projection: number;
-    complexity: number;
-    review?: string;
-  };
-  onSubmit: (rating: any) => void;
+  initialRating?: RatingWithReview;
+  onSubmit: (rating: RatingWithReview) => void;
   className?: string;
 }
 
@@ -40,7 +33,7 @@ export function RatingCard({
     projection: initialRating?.projection || 0,
     complexity: initialRating?.complexity || 0,
   });
-  const [review, setReview] = useState(initialRating?.review || "");
+  const [review, setReview] = useState(initialRating?.review || '');
   const [helpful, setHelpful] = useState({ up: 423, down: 12 });
 
   const calculateOverallScore = () => {
@@ -70,7 +63,7 @@ export function RatingCard({
   const isComplete = Object.values(rating).every((value) => value > 0);
 
   return (
-    <Card className={cn("p-6 space-y-8", className)}>
+    <Card className={cn('p-6 space-y-8', className)}>
       {/* Header with Overall Score */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">

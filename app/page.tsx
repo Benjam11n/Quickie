@@ -1,7 +1,9 @@
-import { Features } from "@/components/features";
-import { Hero } from "@/components/hero";
-import { HowItWorks } from "@/components/how-it-works";
-import { VendingLocations } from "@/components/vending-locations";
+import {
+  Features,
+  Hero,
+  HowItWorks,
+  VendingLocations,
+} from '@/components/home';
 
 export default function Home() {
   return (

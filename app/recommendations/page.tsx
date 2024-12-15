@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Sparkles, ThumbsUp } from "lucide-react";
-import { useState } from "react";
+import { Sparkles, ThumbsUp } from 'lucide-react';
+import { useState } from 'react';
 
-import { ProductCard } from "@/components/product-card";
-import { QuizCard } from "@/components/quiz-card";
-import { Card } from "@/components/ui/card";
-import { useUserPerfumes } from "@/hooks/use-user-perfumes";
-import { products } from "@/lib/data";
+import { ProductCard } from '@/components/product-card';
+import { QuizCard } from '@/components/quiz-card';
+import { Card } from '@/components/ui/card';
+import { useUserPerfumes } from '@/hooks/use-user-perfumes';
+import { products } from '@/lib/types/data';
 
 export default function RecommendationsPage() {
   const { collections } = useUserPerfumes();

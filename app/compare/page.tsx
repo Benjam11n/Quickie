@@ -1,30 +1,49 @@
-"use client";
+'use client';
 
-import { Plus, Scale } from "lucide-react";
-import { useState } from "react";
+import { Plus, Scale } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { ComparisonView } from "@/components/comparison/comparison-view";
-import { ProductSelector } from "@/components/product-selector";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Product } from "@/lib/types";
+import { ComparisonView } from '@/components/comparison';
+import { ProductSelector } from '@/components/product-selector';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Product } from '@/lib/types/fragrance';
 
 export default function ComparePage() {
+  const router = useRouter();
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [showSelector, setShowSelector] = useState(false);
 
   const handleAddProduct = (product: Product) => {
-    setSelectedProducts((prev) => {
-      if (prev.length >= 3) {
-        return [...prev.slice(1), product];
-      }
-      return [...prev, product];
-    });
+    const newProducts =
+      selectedProducts.length >= 3
+        ? [...selectedProducts.slice(1), product]
+        : [...selectedProducts, product];
+
+    setSelectedProducts(newProducts);
     setShowSelector(false);
+
+    // Create URL path with product IDs
+    const productIds = newProducts.map((p) => p.id).join('/');
+    if (productIds) {
+      router.push(`/compare/${productIds}`);
+    } else {
+      router.push('/compare');
+    }
   };
 
   const handleRemoveProduct = (productId: string) => {
-    setSelectedProducts((prev) => prev.filter((p) => p.id !== productId));
+    const newProducts = selectedProducts.filter((p) => p.id !== productId);
+    setSelectedProducts(newProducts);
+
+    // Update URL after removing product
+    const productIds = newProducts.map((p) => p.id).join('/');
+    if (productIds) {
+      router.push(`/compare/${productIds}`);
+    } else {
+      router.push('/compare');
+    }
   };
 
   return (

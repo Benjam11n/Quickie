@@ -1,4 +1,45 @@
-import { Season, TimeOfDay, Weather } from "./enums";
+import { Season, TimeOfDay, Weather } from './enums';
+
+export interface OldNote {
+  name: string;
+  percentage: number;
+}
+
+export interface ScentProfile {
+  intensity: number;
+  longevity: number;
+  sillage: number;
+  versatility: number;
+  uniqueness: number;
+  value: number;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  brand: string;
+  price: number;
+  size: number;
+  description: string;
+  affiliateLink: string;
+  images: string[];
+  categories: string[];
+  notes: {
+    top: OldNote[];
+    middle: OldNote[];
+    base: OldNote[];
+  };
+  scentProfile: ScentProfile;
+}
+
+export interface UserPerfume {
+  productId: string;
+  addedAt: string;
+  inCollection: boolean;
+  isFavorite: boolean;
+  rating?: number;
+  review?: string;
+}
 
 export interface Note {
   name: string;
@@ -12,7 +53,7 @@ export interface TimelinePoint {
   time: number; // minutes
   intensity: number;
   activeNotes: string[];
-  phase: "top" | "middle" | "base";
+  phase: 'top' | 'middle' | 'base';
 }
 
 export interface SeasonalRating {
@@ -48,10 +89,31 @@ export interface EnhancedFragrance {
   timeline: TimelinePoint[];
   seasonal: SeasonalRating[];
   characteristics: FragranceCharacteristic[];
+  scentProfile: ScentProfile;
   harmony: NoteHarmony[];
   colorProfile: {
     primary: string;
     secondary: string;
     accent: string;
   };
+}
+
+export interface Rating {
+  sillage: number;
+  longevity: number;
+  value: number;
+  projection: number;
+  complexity: number;
+}
+
+export interface RatingWithReview extends Rating {
+  review?: string;
+  overall?: number;
+}
+
+export interface FragranceFilters {
+  priceRange: number[];
+  brands: string[];
+  categories: string[];
+  notes: string[];
 }

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -10,9 +10,17 @@ interface MoodBoardsState {
   createBoard: (name: string, description?: string) => MoodBoard;
   updateBoard: (id: string, updates: Partial<MoodBoard>) => void;
   deleteBoard: (id: string) => void;
-  addPerfumeToBoard: (boardId: string, perfumeId: string, position: { x: number; y: number }) => void;
+  addPerfumeToBoard: (
+    boardId: string,
+    perfumeId: string,
+    position: { x: number; y: number }
+  ) => void;
   removePerfumeFromBoard: (boardId: string, perfumeId: string) => void;
-  updatePerfumePosition: (boardId: string, perfumeId: string, position: { x: number; y: number }) => void;
+  updatePerfumePosition: (
+    boardId: string,
+    perfumeId: string,
+    position: { x: number; y: number }
+  ) => void;
   toggleBoardVisibility: (boardId: string) => void;
   addTagToBoard: (boardId: string, tag: string) => void;
   removeTagFromBoard: (boardId: string, tag: string) => void;
@@ -29,16 +37,16 @@ export const useMoodBoards = create<MoodBoardsState>()(
           description,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
-          userId: "user-1", // Replace with actual user ID
+          userId: 'user-1', // Replace with actual user ID
           tags: [],
           perfumes: [],
-          isPublic: false
+          isPublic: false,
         };
-        
+
         set((state) => ({
-          boards: [...state.boards, newBoard]
+          boards: [...state.boards, newBoard],
         }));
-        
+
         return newBoard;
       },
       updateBoard: (id, updates) =>
@@ -47,11 +55,11 @@ export const useMoodBoards = create<MoodBoardsState>()(
             board.id === id
               ? { ...board, ...updates, updatedAt: new Date().toISOString() }
               : board
-          )
+          ),
         })),
       deleteBoard: (id) =>
         set((state) => ({
-          boards: state.boards.filter((board) => board.id !== id)
+          boards: state.boards.filter((board) => board.id !== id),
         })),
       addPerfumeToBoard: (boardId, perfumeId, position) =>
         set((state) => ({
@@ -60,10 +68,10 @@ export const useMoodBoards = create<MoodBoardsState>()(
               ? {
                   ...board,
                   perfumes: [...board.perfumes, { id: perfumeId, position }],
-                  updatedAt: new Date().toISOString()
+                  updatedAt: new Date().toISOString(),
                 }
               : board
-          )
+          ),
         })),
       removePerfumeFromBoard: (boardId, perfumeId) =>
         set((state) => ({
@@ -72,10 +80,10 @@ export const useMoodBoards = create<MoodBoardsState>()(
               ? {
                   ...board,
                   perfumes: board.perfumes.filter((p) => p.id !== perfumeId),
-                  updatedAt: new Date().toISOString()
+                  updatedAt: new Date().toISOString(),
                 }
               : board
-          )
+          ),
         })),
       updatePerfumePosition: (boardId, perfumeId, position) =>
         set((state) => ({
@@ -86,10 +94,10 @@ export const useMoodBoards = create<MoodBoardsState>()(
                   perfumes: board.perfumes.map((p) =>
                     p.id === perfumeId ? { ...p, position } : p
                   ),
-                  updatedAt: new Date().toISOString()
+                  updatedAt: new Date().toISOString(),
                 }
               : board
-          )
+          ),
         })),
       toggleBoardVisibility: (boardId) =>
         set((state) => ({
@@ -101,10 +109,10 @@ export const useMoodBoards = create<MoodBoardsState>()(
                   shareUrl: !board.isPublic
                     ? `${window.location.origin}/board/${board.id}`
                     : undefined,
-                  updatedAt: new Date().toISOString()
+                  updatedAt: new Date().toISOString(),
                 }
               : board
-          )
+          ),
         })),
       addTagToBoard: (boardId, tag) =>
         set((state) => ({
@@ -113,10 +121,10 @@ export const useMoodBoards = create<MoodBoardsState>()(
               ? {
                   ...board,
                   tags: [...board.tags, tag],
-                  updatedAt: new Date().toISOString()
+                  updatedAt: new Date().toISOString(),
                 }
               : board
-          )
+          ),
         })),
       removeTagFromBoard: (boardId, tag) =>
         set((state) => ({
@@ -125,14 +133,14 @@ export const useMoodBoards = create<MoodBoardsState>()(
               ? {
                   ...board,
                   tags: board.tags.filter((t) => t !== tag),
-                  updatedAt: new Date().toISOString()
+                  updatedAt: new Date().toISOString(),
                 }
               : board
-          )
-        }))
+          ),
+        })),
     }),
     {
-      name: 'mood-boards-storage'
+      name: 'mood-boards-storage',
     }
   )
 );

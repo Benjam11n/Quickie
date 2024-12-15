@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { useRef } from "react";
+import { motion } from 'framer-motion';
+import { useRef } from 'react';
 
-import { Button } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Category } from "@/lib/types/news";
-import { cn } from "@/lib/utils";
+import { Button } from '@/components/ui/button';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { Category } from '@/lib/types/news';
+import { cn } from '@/lib/utils';
 
 interface CategoryNavProps {
   categories: Category[];
@@ -34,10 +34,10 @@ export function CategoryNav({
               <Button
                 variant="ghost"
                 className={cn(
-                  "relative px-4 py-2 rounded-full transition-colors",
+                  'relative px-4 py-2 rounded-full transition-colors',
                   activeCategory === category.slug
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-primary"
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-primary'
                 )}
                 onClick={() => onCategoryChange(category.slug)}
               >
@@ -49,7 +49,7 @@ export function CategoryNav({
                   <motion.div
                     className="absolute inset-0 rounded-full bg-primary/10"
                     layoutId="activeCategory"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                   />
                 )}
               </Button>

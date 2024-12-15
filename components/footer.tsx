@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   MapPin,
@@ -7,11 +7,11 @@ import {
   Twitter,
   Facebook,
   Heart,
-} from "lucide-react";
-import Link from "next/link";
+} from 'lucide-react';
+import Link from 'next/link';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export function Footer() {
   const handleSubscribe = (e: React.FormEvent) => {
@@ -125,7 +125,7 @@ export function Footer() {
                 placeholder="Enter your email"
                 className="max-w-[220px]"
               />
-              <Button type="submit" variant="secondary">
+              <Button type="submit" variant="premium">
                 Subscribe
               </Button>
             </form>
@@ -133,9 +133,9 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 border-t pt-8 text-center text-sm text-muted-foreground">
+        <div className="mt-16 flex justify-between border-t pt-8 text-center text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} Quickie. All rights reserved.</p>
-          <div className="mt-2 flex justify-center gap-4">
+          <div className="flex justify-center gap-4">
             <Link
               href="/privacy"
               className="transition-colors hover:text-primary"

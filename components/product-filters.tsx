@@ -1,18 +1,14 @@
-"use client";
+'use client';
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { brands, categories, notes } from "@/lib/data";
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
+import { brands, categories, notes } from '@/lib/types/data';
+import { FragranceFilters } from '@/lib/types/fragrance';
 
 interface ProductFiltersProps {
-  filters: {
-    priceRange: number[];
-    brands: string[];
-    categories: string[];
-    notes: string[];
-  };
-  setFilters: (filters: any) => void;
+  filters: FragranceFilters;
+  setFilters: (filters: FragranceFilters) => void;
 }
 
 export function ProductFilters({ filters, setFilters }: ProductFiltersProps) {

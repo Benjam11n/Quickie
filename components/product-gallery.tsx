@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
-import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 interface ProductGalleryProps {
   images: string[];
@@ -29,8 +29,8 @@ export function ProductGallery({ images }: ProductGalleryProps) {
           <Card
             key={index}
             className={cn(
-              "cursor-pointer overflow-hidden transition-all hover:ring-2 hover:ring-primary",
-              selectedImage === index && "ring-2 ring-primary"
+              'cursor-pointer overflow-hidden transition-all hover:ring-2 hover:ring-primary',
+              selectedImage === index && 'ring-2 ring-primary'
             )}
             onClick={() => setSelectedImage(index)}
           >

@@ -1,5 +1,4 @@
-import { Product } from "@/lib/types";
-import { Season, TimeOfDay, Weather, NoteFamily } from "@/lib/types/enums";
+import { Season, TimeOfDay, Weather, NoteFamily } from '@/lib/types/enums';
 import {
   EnhancedFragrance,
   Note,
@@ -7,17 +6,18 @@ import {
   SeasonalRating,
   NoteHarmony,
   FragranceCharacteristic,
-} from "@/lib/types/fragrance";
+  Product,
+} from '@/lib/types/fragrance';
 
 const NOTE_COLORS = {
-  [NoteFamily.Citrus]: "#F59E0B",
-  [NoteFamily.Floral]: "#EC4899",
-  [NoteFamily.Woody]: "#92400E",
-  [NoteFamily.Oriental]: "#7C3AED",
-  [NoteFamily.Fresh]: "#10B981",
-  [NoteFamily.Spicy]: "#EF4444",
-  [NoteFamily.Green]: "#34D399",
-  [NoteFamily.Aquatic]: "#0EA5E9",
+  [NoteFamily.Citrus]: '#F59E0B',
+  [NoteFamily.Floral]: '#EC4899',
+  [NoteFamily.Woody]: '#92400E',
+  [NoteFamily.Oriental]: '#7C3AED',
+  [NoteFamily.Fresh]: '#10B981',
+  [NoteFamily.Spicy]: '#EF4444',
+  [NoteFamily.Green]: '#34D399',
+  [NoteFamily.Aquatic]: '#0EA5E9',
 };
 
 function mapNote(name: string, intensity: number, family: NoteFamily): Note {
@@ -42,7 +42,7 @@ function generateTimeline(notes: {
       time: i,
       intensity: Math.max(0, 100 - i * 2),
       activeNotes: notes.top.map((n) => n.name),
-      phase: "top",
+      phase: 'top',
     });
   }
 
@@ -55,7 +55,7 @@ function generateTimeline(notes: {
         ...notes.middle.map((n) => n.name),
         ...notes.base.slice(0, 1).map((n) => n.name),
       ],
-      phase: "middle",
+      phase: 'middle',
     });
   }
 
@@ -65,7 +65,7 @@ function generateTimeline(notes: {
       time: i,
       intensity: Math.max(0, 60 - (i - 180) / 8),
       activeNotes: notes.base.map((n) => n.name),
-      phase: "base",
+      phase: 'base',
     });
   }
 
@@ -136,28 +136,28 @@ function generateCharacteristics(product: Product): FragranceCharacteristic[] {
 
   return [
     {
-      name: "Intensity",
+      name: 'Intensity',
       value: scentProfile.intensity,
-      color: "#EF4444",
-      description: "Overall strength of the fragrance",
+      color: '#EF4444',
+      description: 'Overall strength of the fragrance',
     },
     {
-      name: "Longevity",
+      name: 'Longevity',
       value: scentProfile.longevity,
-      color: "#8B5CF6",
-      description: "How long the scent lasts",
+      color: '#8B5CF6',
+      description: 'How long the scent lasts',
     },
     {
-      name: "Sillage",
+      name: 'Sillage',
       value: scentProfile.sillage,
-      color: "#10B981",
-      description: "How far the fragrance projects",
+      color: '#10B981',
+      description: 'How far the fragrance projects',
     },
     {
-      name: "Uniqueness",
+      name: 'Uniqueness',
       value: scentProfile.uniqueness,
-      color: "#F59E0B",
-      description: "How distinctive the fragrance is",
+      color: '#F59E0B',
+      description: 'How distinctive the fragrance is',
     },
   ];
 }
@@ -187,10 +187,11 @@ export function mapProductToEnhancedFragrance(
     seasonal: generateSeasonalRatings(product),
     harmony: generateNoteHarmony(mappedNotes),
     characteristics: generateCharacteristics(product),
+    scentProfile: product.scentProfile,
     colorProfile: {
-      primary: "#EC4899",
-      secondary: "#8B5CF6",
-      accent: "#10B981",
+      primary: '#EC4899',
+      secondary: '#8B5CF6',
+      accent: '#10B981',
     },
   };
 }

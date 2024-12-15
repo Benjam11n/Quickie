@@ -1,20 +1,19 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { Search } from "lucide-react";
-import { useState } from "react";
+import { motion } from 'framer-motion';
+import { Search } from 'lucide-react';
+import { useState } from 'react';
 
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { products } from "@/lib/data";
-import { Product } from "@/lib/types";
-
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { products } from '@/lib/types/data';
+import { Product } from '@/lib/types/fragrance';
 interface ProductSelectorProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -28,7 +27,7 @@ export function ProductSelector({
   onSelect,
   excludeIds = [],
 }: ProductSelectorProps) {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   const filteredProducts = products
     .filter((product) => !excludeIds.includes(product.id))
