@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { ComparisonView } from '@/components/comparison';
-import { ProductSelector } from '@/components/product-selector';
+import { ProductSelector } from '@/components/fragrance/product-selector';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Product } from '@/types/fragrance';

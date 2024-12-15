@@ -3,7 +3,7 @@
 import { Sparkles, ThumbsUp } from 'lucide-react';
 import { useState } from 'react';
 
-import { ProductCard } from '@/components/product-card';
+import { ProductCard } from '@/components/fragrance/product-card';
 import { QuizCard } from '@/components/quiz-card';
 import { Card } from '@/components/ui/card';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';

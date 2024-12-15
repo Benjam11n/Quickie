@@ -1,5 +1,5 @@
-import { ProductCard } from '@/components/product-card';
-import { Product, UserPerfume } from '@/types';
+import { ProductCard } from '@/components/fragrance/product-card';
+import { Product, UserPerfume } from '@/types/fragrance';
 
 interface CollectionGridProps {
   items: UserPerfume[];

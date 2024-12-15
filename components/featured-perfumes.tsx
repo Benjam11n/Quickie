@@ -1,38 +1,39 @@
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 
+// TODO: NOT USED
 const featuredPerfumes = [
   {
-    name: "Midnight Rendezvous",
-    brand: "Quickie Signature",
-    description: "A seductive affair of dark rose and vanilla bourbon",
-    price: "$129.99",
+    name: 'Midnight Rendezvous',
+    brand: 'Quickie Signature',
+    description: 'A seductive affair of dark rose and vanilla bourbon',
+    price: '$129.99',
     image:
-      "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=800&auto=format&fit=crop&q=60",
+      'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=800&auto=format&fit=crop&q=60',
   },
   {
-    name: "Morning After",
-    brand: "Quickie Essentials",
-    description: "Fresh and invigorating, like new beginnings",
-    price: "$89.99",
+    name: 'Morning After',
+    brand: 'Quickie Essentials',
+    description: 'Fresh and invigorating, like new beginnings',
+    price: '$89.99',
     image:
-      "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&auto=format&fit=crop&q=60",
+      'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&auto=format&fit=crop&q=60',
   },
   {
-    name: "Secret Affair",
-    brand: "Quickie Reserve",
-    description: "Mysterious amber wrapped in forbidden spices",
-    price: "$149.99",
+    name: 'Secret Affair',
+    brand: 'Quickie Reserve',
+    description: 'Mysterious amber wrapped in forbidden spices',
+    price: '$149.99',
     image:
-      "https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&auto=format&fit=crop&q=60",
+      'https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&auto=format&fit=crop&q=60',
   },
 ];
 

@@ -1,29 +1,28 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
-import { useState } from "react";
+import { motion } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
+import { useState } from 'react';
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 
 export function NewsletterCTA() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [status, setStatus] = useState<
-    "idle" | "loading" | "success" | "error"
-  >("idle");
+    'idle' | 'loading' | 'success' | 'error'
+  >('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
 
-    setStatus("loading");
+    setStatus('loading');
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    setStatus("success");
-    setEmail("");
+    setStatus('success');
+    setEmail('');
   };
 
   return (
@@ -54,9 +53,9 @@ export function NewsletterCTA() {
           <Button
             type="submit"
             className="glow-effect w-full"
-            disabled={status === "loading" || status === "success"}
+            disabled={status === 'loading' || status === 'success'}
           >
-            {status === "loading" ? (
+            {status === 'loading' ? (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -65,7 +64,7 @@ export function NewsletterCTA() {
                 <div className="size-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
                 Subscribing...
               </motion.div>
-            ) : status === "success" ? (
+            ) : status === 'success' ? (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -75,7 +74,7 @@ export function NewsletterCTA() {
                 Subscribed!
               </motion.div>
             ) : (
-              "Subscribe Now"
+              'Subscribe Now'
             )}
           </Button>
         </form>

@@ -1,8 +1,8 @@
 'use client';
 import { AuthDialog } from '@/components/auth/auth-dialog';
-import { Footer } from '@/components/footer';
 import { Navigation } from '@/components/navigation/navigation';
 import { useAuthDialog } from '@/hooks/use-auth-dialog';
+import { Footer } from './Footer';
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const { isOpen, close, onSuccess } = useAuthDialog();
