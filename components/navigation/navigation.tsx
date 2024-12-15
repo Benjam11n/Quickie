@@ -9,7 +9,7 @@ import { ThemeToggle } from '@/components/theme/theme-toggle';
 import { AuthButtons } from './auth-buttons';
 import MobileNav from './mobile-nav';
 import { NavLink } from './nav-link';
-import { routes } from './routes';
+import { navLinks } from '@/constants';
 
 export function Navigation() {
   const pathname = usePathname();
@@ -23,12 +23,12 @@ export function Navigation() {
             <span className="inline-block font-bold">Quickie</span>
           </Link>
           <div className="hidden gap-6 md:flex">
-            {routes.map((route) => (
+            {navLinks.map((navLink) => (
               <NavLink
-                key={route.href}
-                href={route.href}
-                label={route.label}
-                active={route.active(pathname)}
+                key={navLink.href}
+                href={navLink.href}
+                label={navLink.label}
+                active={navLink.active(pathname)}
               />
             ))}
           </div>

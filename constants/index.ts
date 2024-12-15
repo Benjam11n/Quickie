@@ -1,4 +1,12 @@
-export const routes = [
+interface Navlink {
+  href: string;
+  label: string;
+  active: (pathname: string) => boolean;
+}
+
+type Navlinks = Navlink[];
+
+export const navLinks: Navlinks = [
   {
     href: '/',
     label: 'Home',
@@ -24,4 +32,4 @@ export const routes = [
     label: 'Newsletter',
     active: (pathname: string) => pathname === '/news',
   },
-] as const;
+];
