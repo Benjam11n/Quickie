@@ -48,4 +48,5 @@ AccountSchema.pre('save', async function (next) {
 });
 
 const Account = models?.Account || model<IAccountDoc>('Account', AccountSchema);
+
 export default Account;

@@ -10,18 +10,21 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { MoodBoard, Product } from '@/types';
+import { MoodBoard } from '@/types';
+import { Product } from '@/types/fragrance';
 
 interface BoardSidebarProps {
   board: MoodBoard;
   products: Product[];
   onAddPerfume: (product: Product) => void;
+  selectedSquare: number | null;
 }
 
 export function BoardSidebar({
   board,
   products,
   onAddPerfume,
+  selectedSquare,
 }: BoardSidebarProps) {
   const { addTagToBoard, removeTagFromBoard, toggleBoardVisibility } =
     useMoodBoards();
@@ -101,6 +104,49 @@ export function BoardSidebar({
       </Card>
 
       <Card className="p-4">
+        <Label className="text-sm font-medium">
+          {selectedSquare !== null
+            ? `Add Perfume to Square ${selectedSquare + 1}`
+            : 'Select a square first'}
+        </Label>
+        <ScrollArea className="mt-2 h-[300px]">
+          <div className="space-y-2 pr-4">
+            {selectedSquare === null ? (
+              <p className="text-sm text-muted-foreground p-2">
+                Click on an empty square in the board to add a perfume
+              </p>
+            ) : (
+              products
+                .filter(
+                  (product) => !board.perfumes.some((p) => p.id === product.id)
+                )
+                .map((product) => (
+                  <button
+                    key={product.id}
+                    className="flex w-full items-center gap-3 rounded-lg p-2 transition-colors hover:bg-accent"
+                    onClick={() => onAddPerfume(product)}
+                  >
+                    <div className="size-12 overflow-hidden rounded-md">
+                      <img
+                        src={product.images[0]}
+                        alt={product.name}
+                        className="size-full object-cover"
+                      />
+                    </div>
+                    <div className="text-left">
+                      <p className="text-sm font-medium">{product.name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {product.brand}
+                      </p>
+                    </div>
+                  </button>
+                ))
+            )}
+          </div>
+        </ScrollArea>
+      </Card>
+
+      <Card className="p-4">
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold">Note Distribution</h3>
@@ -130,39 +176,6 @@ export function BoardSidebar({
             ))}
           </div>
         </div>
-      </Card>
-
-      <Card className="p-4">
-        <Label className="text-sm font-medium">Add Perfumes</Label>
-        <ScrollArea className="mt-2 h-[300px]">
-          <div className="space-y-2 pr-4">
-            {products
-              .filter(
-                (product) => !board.perfumes.some((p) => p.id === product.id)
-              )
-              .map((product) => (
-                <button
-                  key={product.id}
-                  className="flex w-full items-center gap-3 rounded-lg p-2 transition-colors hover:bg-accent"
-                  onClick={() => onAddPerfume(product)}
-                >
-                  <div className="size-12 overflow-hidden rounded-md">
-                    <img
-                      src={product.images[0]}
-                      alt={product.name}
-                      className="size-full object-cover"
-                    />
-                  </div>
-                  <div className="text-left">
-                    <p className="text-sm font-medium">{product.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {product.brand}
-                    </p>
-                  </div>
-                </button>
-              ))}
-          </div>
-        </ScrollArea>
       </Card>
     </div>
   );

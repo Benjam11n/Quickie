@@ -1,23 +1,17 @@
-'use client';
-
 import { useDroppable } from '@dnd-kit/core';
 
-import { cn } from '@/lib/utils';
-
 interface DroppableAreaProps {
+  id: number;
   children: React.ReactNode;
 }
 
-export function DroppableArea({ children }: DroppableAreaProps) {
-  const { isOver, setNodeRef } = useDroppable({
-    id: 'board',
+export function DroppableArea({ id, children }: DroppableAreaProps) {
+  const { setNodeRef } = useDroppable({
+    id: id.toString(),
   });
 
   return (
-    <div
-      ref={setNodeRef}
-      className={cn('w-full h-full relative', isOver && 'bg-primary/5')}
-    >
+    <div ref={setNodeRef} className="relative">
       {children}
     </div>
   );

@@ -1,18 +1,18 @@
-import mongoose, { Schema, Document } from "mongoose";
+import { Schema, Document, models, model, Types } from 'mongoose';
 
-export interface IVendingMachine extends Document {
+export interface IVendingMachine {
   location: {
-    type: "Point";
+    type: 'Point';
     coordinates: [number, number];
     address: string;
     area: string;
   };
   inventory: Array<{
-    perfumeId: mongoose.Types.ObjectId;
+    perfumeId: Types.ObjectId;
     stock: number;
     lastRefilled: Date;
   }>;
-  status: "active" | "maintenance" | "inactive";
+  status: 'active' | 'maintenance' | 'inactive';
   metrics: {
     totalSamples: number;
     popularTimes: Record<string, number>;
@@ -21,12 +21,14 @@ export interface IVendingMachine extends Document {
   updatedAt: Date;
 }
 
+export interface IVendingMachineDoc extends IVendingMachine, Document {}
+
 const VendingMachineSchema = new Schema<IVendingMachine>(
   {
     location: {
       type: {
         type: String,
-        enum: ["Point"],
+        enum: ['Point'],
         required: true,
       },
       coordinates: {
@@ -48,7 +50,7 @@ const VendingMachineSchema = new Schema<IVendingMachine>(
       {
         perfumeId: {
           type: Schema.Types.ObjectId,
-          ref: "Perfume",
+          ref: 'Perfume',
           required: true,
         },
         stock: {
@@ -64,8 +66,8 @@ const VendingMachineSchema = new Schema<IVendingMachine>(
     ],
     status: {
       type: String,
-      enum: ["active", "maintenance", "inactive"],
-      default: "active",
+      enum: ['active', 'maintenance', 'inactive'],
+      default: 'active',
     },
     metrics: {
       totalSamples: {
@@ -85,8 +87,10 @@ const VendingMachineSchema = new Schema<IVendingMachine>(
 );
 
 // Create geospatial index
-VendingMachineSchema.index({ location: "2dsphere" });
+VendingMachineSchema.index({ location: '2dsphere' });
 
-export const VendingMachine =
-  mongoose.models.VendingMachine ||
-  mongoose.model<IVendingMachine>("VendingMachine", VendingMachineSchema);
+const VendingMachine =
+  models?.VendingMachine ||
+  model<IVendingMachine>('VendingMachine', VendingMachineSchema);
+
+export default VendingMachine;
