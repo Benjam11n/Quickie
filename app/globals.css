@@ -78,7 +78,7 @@
   }
 
   .premium-gradient {
-    @apply bg-gradient-to-br from-violet-600 via-fuchsia-500 to-cyan-500;
+    @apply bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500;
   }
 
   .iridescent-border {
@@ -114,4 +114,22 @@
 .animate-gradient {
   background-size: 200% auto;
   animation: gradient 8s linear infinite;
+}
+
+@layer utilities {
+  .paragraph-regular {
+    @apply text-[16px] font-normal leading-[22.4px];
+  }
+
+  .paragraph-medium {
+    @apply text-[16px] font-medium leading-[22.4px];
+  }
+
+  .paragraph-semibold {
+    @apply text-[16px] font-semibold leading-[20.8px];
+  }
+
+  .invert-colors {
+    @apply invert dark:invert-0;
+  }
 }

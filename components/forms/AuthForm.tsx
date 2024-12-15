@@ -83,7 +83,7 @@ const AuthForm = <T extends FieldValues>({
           </p>
         </div>
 
-        <Card className="p-6">
+        <Card className="p-6 border-none">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
@@ -96,7 +96,7 @@ const AuthForm = <T extends FieldValues>({
                   name={field as Path<T>}
                   render={({ field }) => (
                     <FormItem className="flex w-full flex-col gap-2.5">
-                      <FormLabel className="paragraph-medium text-dark400_light700">
+                      <FormLabel className="paragraph-medium">
                         {field.name === 'email'
                           ? 'Email Address'
                           : field.name.charAt(0).toUpperCase() +
@@ -107,7 +107,7 @@ const AuthForm = <T extends FieldValues>({
                           required
                           type={field.name === 'password' ? 'password' : 'text'}
                           {...field}
-                          className="paragraph-regular background-light900_dark300 light-border-2 text-dark300_light700 no-focus min-h-12 rounded-1.5 border"
+                          className="min-h-12 rounded-1.5 border"
                         />
                       </FormControl>
                       <FormMessage />
