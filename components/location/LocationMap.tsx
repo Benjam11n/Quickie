@@ -1,13 +1,12 @@
 'use client';
 
-import L from 'leaflet';
 import { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Badge } from '@/components/ui/badge';
-import { VendingLocation } from '@/types';
 import { products } from '@/types/data';
+import { VendingLocation } from '@/types';
 
 // Fix for default marker icon
 const icon = L.icon({
@@ -97,13 +96,13 @@ export function LocationMap({
           }}
         >
           <Popup>
-            <div className="space-y-4 p-4">
+            <div className="p-4 space-y-4">
               <div>
                 <h3 className="font-semibold">{location.name}</h3>
                 <p className="text-sm text-muted-foreground">
                   {location.address}
                 </p>
-                <p className="mt-1 text-sm">{location.hours}</p>
+                <p className="text-sm mt-1">{location.hours}</p>
               </div>
 
               <div className="space-y-2">
@@ -119,7 +118,7 @@ export function LocationMap({
                     >
                       <div>
                         <p className="font-medium">{product.name}</p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-muted-foreground text-xs">
                           {product.brand}
                         </p>
                       </div>
