@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Menu,
   X,
   Home,
   Search,
@@ -165,6 +164,7 @@ const MobileSidebar = () => {
                           key={item.href}
                           href={item.href}
                           onClick={() => closeNav()}
+                          className="block"
                         >
                           <span
                             className={cn(
@@ -183,7 +183,7 @@ const MobileSidebar = () => {
 
                     {/* Community Section */}
                     <div className="space-y-1">
-                      <h4 className="px-3 text-sm font-medium text-muted-foreground">
+                      <h4 className="px-3 py-1 text-sm font-medium text-muted-foreground">
                         Community
                       </h4>
                       {communityNavItems.map((item) => (
@@ -191,6 +191,7 @@ const MobileSidebar = () => {
                           key={item.href}
                           href={item.href}
                           onClick={() => closeNav()}
+                          className="block"
                         >
                           <span
                             className={cn(
@@ -218,6 +219,7 @@ const MobileSidebar = () => {
                             key={item.href}
                             href={item.href}
                             onClick={() => closeNav()}
+                            className="block"
                           >
                             <span
                               className={cn(

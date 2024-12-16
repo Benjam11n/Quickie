@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from './button';
+import { Button } from '../components/ui/button';
+import React from 'react';
+import '../app/globals.css';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -37,13 +39,14 @@ export const Default: Story = {
     variant: 'default',
     size: 'default',
   },
+  render: (args) => <Button {...args} />,
 };
 
 export const Premium: Story = {
   args: {
-    children: 'Premium Button',
-    variant: 'premium',
-    size: 'lg',
+    children: 'Premium',
+    variant: "premium",
+    size: "lg",
   },
 };
 

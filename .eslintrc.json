@@ -4,9 +4,13 @@
     "next/typescript",
     "standard",
     "plugin:tailwindcss/recommended",
-    "prettier"
+    "prettier",
+    "plugin:storybook/recommended"
   ],
-  "plugins": ["import", "tailwindcss"],
+  "plugins": [
+    "import",
+    "tailwindcss"
+  ],
   "rules": {
     "import/order": [
       "error",
@@ -15,7 +19,10 @@
           "builtin",
           "external",
           "internal",
-          ["parent", "sibling"],
+          [
+            "parent",
+            "sibling"
+          ],
           "index",
           "object"
         ],
@@ -27,7 +34,9 @@
             "position": "after"
           }
         ],
-        "pathGroupsExcludedImportTypes": ["builtin"],
+        "pathGroupsExcludedImportTypes": [
+          "builtin"
+        ],
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true
@@ -37,14 +46,22 @@
   },
   "settings": {
     "tailwindcss": {
-      "callees": ["cn", "cva"],
+      "callees": [
+        "cn",
+        "cva"
+      ],
       "config": "tailwind.config.ts"
     }
   },
-  "ignorePatterns": ["components/ui/**"],
+  "ignorePatterns": [
+    "components/ui/**"
+  ],
   "overrides": [
     {
-      "files": ["*.ts", "*.tsx"],
+      "files": [
+        "*.ts",
+        "*.tsx"
+      ],
       "rules": {
         "no-undef": "off"
       }

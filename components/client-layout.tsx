@@ -1,4 +1,5 @@
 'use client';
+
 import { AuthDialog } from '@/components/auth/auth-dialog';
 import { useAuthDialog } from '@/hooks/use-auth-dialog';
 import { Footer } from './Footer';
