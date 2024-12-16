@@ -1,4 +1,11 @@
-import { Heart, ShoppingCart, Check, ExternalLink, Scale } from 'lucide-react';
+import {
+  Heart,
+  ShoppingCart,
+  Check,
+  ExternalLink,
+  Scale,
+  CalendarDays,
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 import { StarRating } from '@/components/star-rating';
@@ -8,6 +15,13 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { Product, UserPerfume } from '@/types/fragrance';
+import { toast } from 'sonner';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '../ui/hover-card';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 interface ProductCardProps {
   product: Product;
@@ -40,6 +54,7 @@ export function ProductCard({
   const handleCollectionClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     addToCollection(product.id);
+    toast.success('Successfully added to collection');
   };
 
   const handleBuyClick = (e: React.MouseEvent) => {
@@ -130,10 +145,33 @@ export function ProductCard({
             ${product.price}
           </span>
           <div className="flex gap-2">
-            <Button size="sm" variant="outline" onClick={handleBuyClick}>
-              <ExternalLink className="mr-2 size-4" />
-              Buy
-            </Button>
+            <HoverCard openDelay={100} closeDelay={100}>
+              <HoverCardTrigger asChild>
+                <Button size="sm" variant="outline" onClick={handleBuyClick}>
+                  <ExternalLink className="mr-2 size-4" />
+                  Buy
+                </Button>
+              </HoverCardTrigger>
+              <HoverCardContent side="top" className="w-80">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-semibold text-yellow-600 dark:text-yellow-500">
+                      External Purchase
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      We currently don't sell perfumes directly. You'll be
+                      redirected to a trusted external retailer to complete your
+                      purchase.
+                    </p>
+                  </div>
+                  <div className="space-y-1 border-t pt-2">
+                    <p className="text-xs text-muted-foreground">
+                      Note: Prices and availability may vary on external sites.
+                    </p>
+                  </div>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
             <Button
               size="sm"
               className={cn(
