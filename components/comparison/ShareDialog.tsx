@@ -1,5 +1,9 @@
 import { Copy, Share2 } from 'lucide-react';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { toast } from 'sonner';
+
+import { Button } from '../ui/button';
 import {
   DialogHeader,
   DialogTitle,
@@ -10,11 +14,9 @@ import {
   DialogFooter,
   DialogClose,
 } from '../ui/dialog';
-import { Button } from '../ui/button';
-import Image from 'next/image';
-import { Label } from '../ui/label';
 import { Input } from '../ui/input';
-import { toast } from 'sonner';
+import { Label } from '../ui/label';
+
 
 const openShareWindow = (url: string) => {
   const newWindow = window.open(url, '_blank');
@@ -78,12 +80,12 @@ export function ShareDialog() {
           </Button>
         </div>
       </DialogTrigger>
-      <DialogContent className="xs: max-w-sm sm:max-w-lg">
+      <DialogContent className="xs: max-w-sm backdrop-blur sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>Share your comparison</DialogTitle>
-          <div className="pr-4 py-6 space-x-4">
+          <div className="space-x-4 py-6 pr-4">
             <Button
-              className="shadow-md rounded-full w-16 h-16"
+              className="size-16 rounded-full shadow-md"
               variant="outline"
               onClick={() => shareToSocial.instagram(url)}
             >
@@ -96,7 +98,7 @@ export function ShareDialog() {
               />
             </Button>
             <Button
-              className="shadow-md rounded-full w-16 h-16"
+              className="size-16 rounded-full shadow-md"
               variant="outline"
               onClick={() => shareToSocial.twitter(url, shareText)}
             >
@@ -109,7 +111,7 @@ export function ShareDialog() {
               />
             </Button>
             <Button
-              className="shadow-md rounded-full w-16 h-16"
+              className="size-16 rounded-full shadow-md"
               variant="outline"
               onClick={() => shareToSocial.linkedin(url)}
             >

@@ -53,7 +53,7 @@ export function ScentPyramid({
   ];
 
   return (
-    <div className="relative flex min-h-[50vh] md:min-h-[70vh] lg:min-h-[60vh] xl:min-h-[50vh] items-center justify-center">
+    <div className="relative flex min-h-[50vh] items-center justify-center md:min-h-[70vh] lg:min-h-[60vh] xl:min-h-[50vh]">
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
         {sections.map((section, index) => (
           <motion.div
@@ -110,7 +110,7 @@ export function ScentPyramid({
                             )
                           }
                           className={cn(
-                            'px-3 py-1.5 rounded-full text-sm',
+                            'rounded-full px-3 py-1.5 text-sm',
                             'transition-all duration-200',
                             'backdrop-blur-sm',
                             selectedNote === note.name

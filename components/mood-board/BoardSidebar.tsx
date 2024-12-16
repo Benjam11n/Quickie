@@ -112,7 +112,7 @@ export function BoardSidebar({
         <ScrollArea className="mt-2 h-[300px]">
           <div className="space-y-2 pr-4">
             {selectedSquare === null ? (
-              <p className="text-sm text-muted-foreground p-2">
+              <p className="p-2 text-sm text-muted-foreground">
                 Click on an empty square in the board to add a perfume
               </p>
             ) : (

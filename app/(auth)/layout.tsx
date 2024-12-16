@@ -1,5 +1,6 @@
-import SocialAuthForm from '@/components/forms/SocialAuthForm';
 import { ReactNode } from 'react';
+
+import SocialAuthForm from '@/components/forms/SocialAuthForm';
 
 const AuthLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -9,8 +10,8 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
         bg-cover bg-center bg-no-repeat px-4 py-24"
     >
       <section
-        className="min-w-full rounded-[10px] border px-4 py-10 shadow-md sm:min-w-[520px] sm:px-8 
-          bg-white dark:bg-black text-black dark:text-white"
+        className="min-w-full rounded-[10px] border bg-white px-4 py-10 text-black shadow-md 
+          dark:bg-black dark:text-white sm:min-w-[520px] sm:px-8"
       >
         {children}
         <SocialAuthForm />

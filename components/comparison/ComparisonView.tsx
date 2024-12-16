@@ -8,8 +8,8 @@ import { StarRating } from '@/components/star-rating';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Product } from '@/types/fragrance';
 import { cn } from '@/lib/utils';
+import { Product } from '@/types/fragrance';
 
 import { CharacteristicsChart } from './CharacteristicsChart';
 import { MetricsComparison } from './MetricsComparison';

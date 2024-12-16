@@ -32,7 +32,7 @@ export function StarRating({
         >
           <Star
             className={cn(
-              'h-5 w-5 transition-all',
+              'size-5 transition-all',
               star <= rating ? 'fill-current' : 'fill-none',
               !readonly && star <= rating && 'animate-pulse'
             )}

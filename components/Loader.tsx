@@ -12,9 +12,9 @@ export function SprayLoader({ className, size = 'default' }: SprayLoaderProps) {
     <div
       className={cn(
         'relative flex items-center justify-center',
-        size === 'sm' && 'h-16 w-16',
-        size === 'default' && 'h-24 w-24',
-        size === 'lg' && 'h-32 w-32',
+        size === 'sm' && 'size-16',
+        size === 'default' && 'size-24',
+        size === 'lg' && 'size-32',
         className
       )}
     >

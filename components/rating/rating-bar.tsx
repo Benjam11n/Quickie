@@ -44,8 +44,8 @@ export function RatingBar({
               sizes[size],
               'transition-colors duration-200',
               star <= value
-                ? 'text-primary fill-primary'
-                : 'text-muted stroke-muted-foreground'
+                ? 'fill-primary text-primary'
+                : 'stroke-muted-foreground text-muted'
             )}
           />
         </motion.button>

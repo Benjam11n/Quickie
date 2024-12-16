@@ -7,8 +7,8 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { RatingWithReview } from '@/types/fragrance';
 import { cn } from '@/lib/utils';
+import { RatingWithReview } from '@/types/fragrance';
 
 import { RatingDistribution } from './rating-distribution';
 import { RatingMetrics } from './rating-metrics';
@@ -63,7 +63,7 @@ export function RatingCard({
   const isComplete = Object.values(rating).every((value) => value > 0);
 
   return (
-    <Card className={cn('p-6 space-y-8', className)}>
+    <Card className={cn('space-y-8 p-6', className)}>
       {/* Header with Overall Score */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">

@@ -103,7 +103,7 @@ export function Hero() {
 
           {/* Right Column - Interactive Vending Machine Preview */}
           <motion.div
-            className="relative sm:max-w-md max-w-xl lg:ml-24"
+            className="relative max-w-xl sm:max-w-md lg:ml-24"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}

@@ -10,9 +10,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
-import { Product } from '@/types/fragrance';
 import { cn } from '@/lib/utils';
 import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
+import { Product } from '@/types/fragrance';
 
 interface SingleProductViewProps {
   product: Product;

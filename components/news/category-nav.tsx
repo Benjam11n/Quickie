@@ -5,8 +5,8 @@ import { useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Category } from '@/types/news';
 import { cn } from '@/lib/utils';
+import { Category } from '@/types/news';
 
 interface CategoryNavProps {
   categories: Category[];
@@ -34,7 +34,7 @@ export function CategoryNav({
               <Button
                 variant="ghost"
                 className={cn(
-                  'relative px-4 py-2 rounded-full transition-colors',
+                  'relative rounded-full px-4 py-2 transition-colors',
                   activeCategory === category.slug
                     ? 'text-primary'
                     : 'text-muted-foreground hover:text-primary'

@@ -1,6 +1,7 @@
-import { Product } from '@/types/fragrance';
 import { useDraggable } from '@dnd-kit/core';
 import { motion } from 'framer-motion';
+
+import { Product } from '@/types/fragrance';
 
 interface DraggablePerfumeProps {
   id: string;
@@ -14,7 +15,7 @@ export function DraggablePerfume({
   isActive,
 }: DraggablePerfumeProps) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: id,
+    id,
   });
 
   return (
@@ -34,11 +35,11 @@ export function DraggablePerfume({
           : {}
       }
     >
-      <div className="h-full w-full p-2">
+      <div className="size-full p-2">
         <img
           src={product.images[0]}
           alt={product.name}
-          className="h-full w-full rounded-md object-cover"
+          className="size-full rounded-md object-cover"
         />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent p-2">
           <p className="text-xs font-medium text-white">{product.name}</p>

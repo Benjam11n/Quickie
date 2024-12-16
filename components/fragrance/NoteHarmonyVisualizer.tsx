@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Card } from '@/components/ui/card';
-import { NoteHarmony, Note } from '@/types/fragrance';
 import { cn } from '@/lib/utils';
+import { NoteHarmony, Note } from '@/types/fragrance';
 
 interface NoteHarmonyVisualizerProps {
   harmony: NoteHarmony[];
@@ -62,7 +62,7 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
           y: position.y - 40,
         }}
         className={cn(
-          'absolute w-20 h-20 rounded-full flex items-center justify-center',
+          'absolute flex size-20 items-center justify-center rounded-full',
           'cursor-pointer transition-shadow duration-300',
           'hover:shadow-lg hover:shadow-primary/20'
         )}

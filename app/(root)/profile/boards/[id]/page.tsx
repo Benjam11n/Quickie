@@ -4,6 +4,7 @@ import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
 import { BoardCanvas } from '@/components/mood-board/BoardCanvas';
 import { BoardSidebar } from '@/components/mood-board/BoardSidebar';
 import { Button } from '@/components/ui/button';

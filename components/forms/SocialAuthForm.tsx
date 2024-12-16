@@ -2,10 +2,11 @@
 
 import Image from 'next/image';
 import { signIn } from 'next-auth/react';
+import { toast } from 'sonner';
+
+import { ROUTES } from '@/constants/routes';
 
 import { Button } from '../ui/button';
-import { ROUTES } from '@/constants/routes';
-import { toast } from 'sonner';
 
 const SocialAuthForm = () => {
   const buttonClass = 'min-h-12 flex-1 rounded-2 px-4 py-3.5';

@@ -5,17 +5,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { ThemeToggle } from '@/components/theme/theme-toggle';
+import { navLinks } from '@/constants';
 
 import { AuthButtons } from './AuthButtons';
-import { NavLink } from './NavLink';
-import { navLinks } from '@/constants';
 import { MobileNavTrigger } from './MobileNavTrigger';
+import { NavLink } from './NavLink';
 
 export function NavBar() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-[1000] mb-8 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 mb-8 w-full border-b backdrop-blur">
       <nav className="container flex h-16 items-center px-4">
         <div className="flex gap-6 lg:gap-10">
           <Link href="/" className="flex items-center space-x-2">

@@ -5,9 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 import { Season, Weather } from '@/types/enums';
 import { SeasonalRating } from '@/types/fragrance';
-import { cn } from '@/lib/utils';
 
 interface SeasonalWheelProps {
   seasonal: SeasonalRating[];
@@ -60,10 +60,10 @@ export function SeasonalWheel({ seasonal }: SeasonalWheelProps) {
   };
 
   return (
-    <Card className="space-y-6 p-6 h-full flex flex-col">
+    <Card className="flex h-full flex-col space-y-6 p-6">
       <h3 className="text-lg font-semibold">Seasonal Compatibility</h3>
 
-      <div className="relative flex-1 flex items-center justify-center">
+      <div className="relative flex flex-1 items-center justify-center">
         <div className="w-full max-w-md">
           <svg
             ref={svgRef}

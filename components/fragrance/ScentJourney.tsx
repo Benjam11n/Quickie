@@ -12,8 +12,8 @@ import {
 } from 'recharts';
 
 import { Card } from '@/components/ui/card';
-import { TimelinePoint, Note } from '@/types/fragrance';
 import { cn } from '@/lib/utils';
+import { TimelinePoint, Note } from '@/types/fragrance';
 
 interface ScentJourneyProps {
   timeline: TimelinePoint[];
@@ -238,7 +238,7 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
                   <div
                     key={noteName}
                     className={cn(
-                      'p-3 rounded-lg transition-colors',
+                      'rounded-lg p-3 transition-colors',
                       'border border-transparent hover:border-primary'
                     )}
                     style={{

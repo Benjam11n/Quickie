@@ -2,8 +2,8 @@ import { EnhancedFragrance } from '@/types/fragrance';
 
 import { NoteHarmonyVisualizer } from './NoteHarmonyVisualizer';
 import { ScentJourney } from './ScentJourney';
-import { SeasonalWheel } from './SeasonalWheel';
 import { ScentProfile } from './ScentProfile';
+import { SeasonalWheel } from './SeasonalWheel';
 
 interface EnhancedVisualizerProps {
   fragrance: EnhancedFragrance;

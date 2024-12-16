@@ -24,10 +24,10 @@ import { useEffect } from 'react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useNavStore } from '@/hooks/use-nav-store';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/utils/auth';
-import { useNavStore } from '@/hooks/use-nav-store';
 
 const mainNavItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -168,7 +168,7 @@ const MobileSidebar = () => {
                         >
                           <span
                             className={cn(
-                              'group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors',
+                              'group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
                               pathname === item.href
                                 ? 'bg-accent'
                                 : 'transparent'
@@ -195,7 +195,7 @@ const MobileSidebar = () => {
                         >
                           <span
                             className={cn(
-                              'group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors',
+                              'group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
                               pathname === item.href
                                 ? 'bg-accent'
                                 : 'transparent'
@@ -223,7 +223,7 @@ const MobileSidebar = () => {
                           >
                             <span
                               className={cn(
-                                'group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors',
+                                'group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
                                 pathname === item.href
                                   ? 'bg-accent'
                                   : 'transparent'

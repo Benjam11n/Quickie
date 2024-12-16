@@ -8,12 +8,15 @@ import {
   MouseSensor,
 } from '@dnd-kit/core';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
+
+import { useMoodBoards } from '@/hooks/use-mood-boards';
+import { MoodBoard } from '@/types';
+import { Product } from '@/types/fragrance';
+
 import { DraggablePerfume } from './DraggablePerfume';
 import { DroppableArea } from './DroppableArea';
-import { Product } from '@/types/fragrance';
-import { MoodBoard } from '@/types';
-import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { useState } from 'react';
+
 
 interface BoardCanvasProps {
   board: MoodBoard;
@@ -78,7 +81,7 @@ export function BoardCanvas({
       onDragEnd={handleDragEnd}
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border bg-background/50">
-        <div className="grid h-full w-full grid-cols-3 gap-4 p-4">
+        <div className="grid size-full grid-cols-3 gap-4 p-4">
           {Array.from({ length: GRID_SIZE }).map((_, index) => {
             const perfume = getPerfumeAtPosition(index);
             const product = perfume
@@ -90,8 +93,8 @@ export function BoardCanvas({
                 <div
                   className={`relative aspect-square rounded-lg border-2 transition-all ${
                     selectedSquare === index
-                      ? 'border-primary border-dashed bg-primary/5'
-                      : 'border-border border-dashed hover:border-primary/50 hover:bg-primary/5'
+                      ? 'border-dashed border-primary bg-primary/5'
+                      : 'border-dashed border-border hover:border-primary/50 hover:bg-primary/5'
                   }`}
                   onClick={() => !perfume && onSquareSelect(index)}
                 >
@@ -104,7 +107,7 @@ export function BoardCanvas({
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <Plus
-                        className={`h-6 w-6 ${
+                        className={`size-6 ${
                           selectedSquare === index
                             ? 'text-primary'
                             : 'text-muted-foreground'

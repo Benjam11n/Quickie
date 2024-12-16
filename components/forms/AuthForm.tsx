@@ -1,12 +1,9 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { z, ZodType } from 'zod';
 import {
   DefaultValues,
   FieldValues,
@@ -14,9 +11,11 @@ import {
   SubmitHandler,
   useForm,
 } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z, ZodType } from 'zod';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { ROUTES } from '@/constants/routes';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -25,8 +24,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import Link from 'next/link';
-import { toast } from 'sonner';
+import { Input } from '@/components/ui/input';
+import { ROUTES } from '@/constants/routes';
+
 
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
@@ -83,7 +83,7 @@ const AuthForm = <T extends FieldValues>({
           </p>
         </div>
 
-        <Card className="p-6 border-none">
+        <Card className="border-none p-6">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
@@ -107,7 +107,7 @@ const AuthForm = <T extends FieldValues>({
                           required
                           type={field.name === 'password' ? 'password' : 'text'}
                           {...field}
-                          className="min-h-12 rounded-1.5 border"
+                          className="rounded-1.5 min-h-12 border"
                         />
                       </FormControl>
                       <FormMessage />
@@ -140,7 +140,7 @@ const AuthForm = <T extends FieldValues>({
               </div>
 
               {formType === 'SIGN_IN' ? (
-                <p className="text-center text-sm text-muted-foreground mt-4">
+                <p className="mt-4 text-center text-sm text-muted-foreground">
                   Don&apos;t have an account?{' '}
                   <Link
                     href={ROUTES.SIGN_UP}
@@ -150,7 +150,7 @@ const AuthForm = <T extends FieldValues>({
                   </Link>
                 </p>
               ) : (
-                <p className="text-center text-sm text-muted-foreground mt-4">
+                <p className="mt-4 text-center text-sm text-muted-foreground">
                   Already have an account?{' '}
                   <Link
                     href={ROUTES.SIGN_IN}

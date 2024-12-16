@@ -7,6 +7,7 @@ import {
   CalendarDays,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { StarRating } from '@/components/star-rating';
 import { Badge } from '@/components/ui/badge';
@@ -15,13 +16,13 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { Product, UserPerfume } from '@/types/fragrance';
-import { toast } from 'sonner';
+
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from '../ui/hover-card';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 interface ProductCardProps {
   product: Product;
@@ -70,7 +71,7 @@ export function ProductCard({
   return (
     <Card
       className={cn(
-        'overflow-hidden hover-lift gradient-border group cursor-pointer',
+        'hover-lift gradient-border group cursor-pointer overflow-hidden',
         isSelectedForComparison && 'ring-2 ring-primary'
       )}
       onClick={handleCardClick}
@@ -104,14 +105,14 @@ export function ProductCard({
               variant="ghost"
               size="icon"
               className={cn(
-                'h-8 w-8',
+                'size-8',
                 userPerfume?.isFavorite && 'text-red-500'
               )}
               onClick={handleFavoriteClick}
             >
               <Heart
                 className={cn(
-                  'h-4 w-4',
+                  'size-4',
                   userPerfume?.isFavorite && 'fill-current'
                 )}
               />
@@ -121,7 +122,7 @@ export function ProductCard({
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  'h-8 w-8',
+                  'size-8',
                   isSelectedForComparison && 'text-primary'
                 )}
                 onClick={handleCompareClick}

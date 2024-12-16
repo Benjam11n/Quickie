@@ -2,9 +2,10 @@
 
 import { AuthDialog } from '@/components/auth/auth-dialog';
 import { useAuthDialog } from '@/hooks/use-auth-dialog';
+
 import { Footer } from './Footer';
-import MobileSidebar from './navigation/MobileSidebar';
 import { NavBar } from './navigation';
+import MobileSidebar from './navigation/MobileSidebar';
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const { isOpen, close, onSuccess } = useAuthDialog();
