@@ -1,8 +1,6 @@
 'use client';
 
-// TODO: UNUSED
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
 
 import { cn } from '@/lib/utils';
 
@@ -55,7 +53,7 @@ export function ScentPyramid({
   ];
 
   return (
-    <div className="relative flex h-[500px] items-center justify-center">
+    <div className="relative flex min-h-[50vh] md:min-h-[70vh] lg:min-h-[60vh] xl:min-h-[50vh] items-center justify-center">
       <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
         {sections.map((section, index) => (
           <motion.div
@@ -89,7 +87,6 @@ export function ScentPyramid({
               }}
             >
               <div className="absolute inset-0 bg-black/10" />
-
               <div className="relative w-full p-6 text-white">
                 <div className="space-y-2 text-center">
                   <h3 className="text-lg font-bold tracking-wide">

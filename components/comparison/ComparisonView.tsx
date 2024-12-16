@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { CharacteristicsChart } from './CharacteristicsChart';
 import { MetricsComparison } from './MetricsComparison';
 import { ScentPyramid } from './ScentPyramid';
+import { ShareDialog } from './ShareDialog';
 
 interface ComparisonViewProps {
   products: Product[];
@@ -152,12 +153,7 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
       <MetricsComparison products={products} />
 
       {/* Share Button */}
-      <div className="fixed bottom-16 right-16 z-50">
-        <Button size="lg" className="glow-effect gap-2 shadow-lg">
-          <Share2 className="size-4" />
-          Share Comparison
-        </Button>
-      </div>
+      <ShareDialog />
     </div>
   );
 }

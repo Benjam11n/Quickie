@@ -4,7 +4,6 @@ import {
   RadarChart,
   PolarGrid,
   PolarAngleAxis,
-  PolarRadiusAxis,
   Radar,
   Legend,
   ResponsiveContainer,
@@ -19,12 +18,12 @@ interface CharacteristicsChartProps {
 
 export function CharacteristicsChart({ products }: CharacteristicsChartProps) {
   const characteristics = [
+    'intensity',
     'longevity',
     'sillage',
-    'value',
-    'uniqueness',
     'versatility',
-    'compliments',
+    'uniqueness',
+    'value',
   ];
 
   const data = characteristics.map((characteristic) => ({
@@ -45,7 +44,6 @@ export function CharacteristicsChart({ products }: CharacteristicsChartProps) {
   const colors = [
     { stroke: '#EC4899', fill: '#EC4899' },
     { stroke: '#8B5CF6', fill: '#8B5CF6' },
-    { stroke: '#06B6D4', fill: '#06B6D4' },
   ];
 
   return (
@@ -58,13 +56,13 @@ export function CharacteristicsChart({ products }: CharacteristicsChartProps) {
           stroke="hsl(var(--muted-foreground))"
           strokeOpacity={0.2}
         />
-        <PolarRadiusAxis
+        {/* <PolarRadiusAxis
           angle={30}
           domain={[0, 100]}
           stroke="hsl(var(--muted-foreground))"
           strokeOpacity={0.2}
           tick={{ fill: 'hsl(var(--muted-foreground))' }}
-        />
+        /> */}
 
         {products.map((product, index) => (
           <Radar

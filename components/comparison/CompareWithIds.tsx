@@ -43,6 +43,22 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
   return (
     <div className="container py-10">
       <div className="space-y-8">
+        <div>
+          <h1 className="text-4xl font-bold">
+            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
+              {initialProducts?.length === 1
+                ? `${initialProducts[0].name}`
+                : initialProducts?.length === 2
+                  ? `${initialProducts[0].name} vs ${initialProducts[1].name}`
+                  : 'Compare Fragrances'}
+            </span>
+          </h1>
+          <p className="mt-2 text-muted-foreground">
+            {initialProducts &&
+              'Compare perfumes and analyze their notes, characteristics, and similarities.'}
+          </p>
+        </div>
+
         <div className="flex justify-end">
           {initialProducts.length < NUMBER_OF_PERFUMES && (
             <Button
