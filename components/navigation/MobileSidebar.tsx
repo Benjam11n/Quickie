@@ -82,7 +82,7 @@ const MobileSidebar = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 z-[1000] bg-background/80 backdrop-blur-sm lg:hidden"
               onClick={() => closeNav()}
             />
 
@@ -92,9 +92,9 @@ const MobileSidebar = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 20 }}
-              className="fixed inset-y-0 right-0 z-50 w-full max-w-xs border-l 
+              className="fixed inset-y-0 right-0 z-[1000] w-full max-w-xs border-l 
               bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 
-              md:hidden"
+              lg:hidden"
             >
               <div className="flex h-full flex-col">
                 {/* Header */}

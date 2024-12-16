@@ -7,7 +7,7 @@ export function MobileNavTrigger() {
   const { openNav } = useNavStore();
 
   return (
-    <Button variant="ghost" size="icon" className="md:hidden" onClick={openNav}>
+    <Button variant="ghost" size="icon" className="lg:hidden" onClick={openNav}>
       <Menu className="size-5" />
     </Button>
   );

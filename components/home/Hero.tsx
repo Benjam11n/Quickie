@@ -25,7 +25,7 @@ export function Hero() {
           }}
         />
         <motion.div
-          className="animate-blob animation-delay-2000 absolute -right-4 top-0 size-72 rounded-full bg-purple-500 opacity-70 mix-blend-multiply blur-xl"
+          className="animate-blob animation-delay-2000 absolute -right-4 top-0 size-96 rounded-full bg-purple-500 opacity-80 mix-blend-multiply blur-xl"
           animate={{
             x: [0, -100, 0],
             y: [0, 100, 0],
@@ -36,7 +36,7 @@ export function Hero() {
           }}
         />
         <motion.div
-          className="animate-blob animation-delay-4000 absolute bottom-32 left-20 size-72 rounded-full bg-indigo-500 opacity-70 mix-blend-multiply blur-xl"
+          className="animate-blob animation-delay-4000 absolute bottom-32 left-20 size-96 rounded-full bg-indigo-500 opacity-80 mix-blend-multiply blur-xl"
           animate={{
             x: [0, 50, 0],
             y: [0, -50, 0],
@@ -48,7 +48,7 @@ export function Hero() {
         />
       </div>
 
-      <div className="container">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           {/* Left Column - Text Content */}
           <div className="space-y-8">
@@ -103,13 +103,13 @@ export function Hero() {
 
           {/* Right Column - Interactive Vending Machine Preview */}
           <motion.div
-            className="relative"
+            className="relative sm:max-w-md max-w-xl lg:ml-24"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            <div className="relative aspect-[3/4] overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 p-8 shadow-2xl">
-              <div className="absolute inset-1 rounded-2xl bg-gradient-to-br from-pink-500/20 to-purple-500/20 backdrop-blur-sm"></div>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 p-8 shadow-2xl">
+              <div className="absolute inset-1 rounded-3xl bg-gradient-to-br from-pink-500/30 to-purple-500/30 backdrop-blur-sm"></div>
               <div className="relative grid h-full grid-cols-2 gap-4">
                 {[...Array(6)].map((_, i) => (
                   <motion.div
@@ -130,7 +130,7 @@ export function Hero() {
 
             {/* Feature Highlights */}
             <motion.div
-              className="absolute -right-12 top-12 rounded-lg bg-white p-4 shadow-lg dark:bg-gray-800"
+              className="absolute -right-8 top-12 rounded-lg bg-white p-4 shadow-lg dark:bg-gray-800 lg:-right-12"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
@@ -143,7 +143,7 @@ export function Hero() {
             </motion.div>
 
             <motion.div
-              className="absolute -left-12 bottom-12 rounded-lg bg-white p-4 shadow-lg dark:bg-gray-800"
+              className="absolute -left-8 bottom-12 rounded-lg bg-white p-4 shadow-lg dark:bg-gray-800 lg:-left-12"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >

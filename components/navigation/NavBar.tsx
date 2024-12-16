@@ -17,12 +17,12 @@ export function NavBar() {
   return (
     <header className="sticky top-0 z-[1000] mb-8 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <nav className="container flex h-16 items-center px-4">
-        <div className="flex gap-6 md:gap-10">
+        <div className="flex gap-6 lg:gap-10">
           <Link href="/" className="flex items-center space-x-2">
             <Sparkles className="size-6" />
             <span className="inline-block font-bold">Quickie</span>
           </Link>
-          <div className="hidden gap-6 md:flex">
+          <div className="hidden gap-6 lg:flex">
             {navLinks.map((navLink) => (
               <NavLink
                 key={navLink.href}
@@ -34,7 +34,7 @@ export function NavBar() {
           </div>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             <ThemeToggle />
             <AuthButtons />
           </div>

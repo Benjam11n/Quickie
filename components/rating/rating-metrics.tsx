@@ -64,7 +64,11 @@ export function RatingMetrics({ rating, onChange }: RatingMetricsProps) {
                 <span className="font-medium">{metric.label}</span>
 
                 {/* Tooltip */}
-                <div className="invisible absolute -top-8 left-0 w-48 rounded-lg bg-popover p-2 text-xs opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                <div
+                  className="invisible absolute border-2 -top-12 left-0 w-52 
+                rounded-lg bg-popover p-2 text-xs opacity-0 transition-all 
+                duration-200 group-hover:visible group-hover:opacity-100"
+                >
                   {metric.description}
                 </div>
               </div>

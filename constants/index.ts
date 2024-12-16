@@ -23,13 +23,13 @@ export const navLinks: Navlinks = [
     active: (pathname: string) => pathname === '/compare',
   },
   {
-    href: '/locations',
-    label: 'Find Me',
-    active: (pathname: string) => pathname === '/locations',
-  },
-  {
     href: '/news',
     label: 'Newsletter',
     active: (pathname: string) => pathname === '/news',
+  },
+  {
+    href: '/locations',
+    label: 'Find Me',
+    active: (pathname: string) => pathname === '/locations',
   },
 ];
