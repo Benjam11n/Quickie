@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Clock, Share2 } from 'lucide-react';
+import { format, parseISO } from 'date-fns';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +13,8 @@ interface NewsHeroProps {
 }
 
 export function NewsHero({ article }: NewsHeroProps) {
+  const formattedDate = format(article.publishDate, 'MM/dd/yyyy');
+
   return (
     <motion.div
       className="relative h-[70vh] min-h-[600px] w-full overflow-hidden"
@@ -79,7 +82,7 @@ export function NewsHero({ article }: NewsHeroProps) {
                   </p>
                   <div className="flex items-center gap-2 text-sm text-purple-200/80">
                     <time dateTime={article.publishDate.toISOString()}>
-                      {article.publishDate.toLocaleDateString()}
+                      {formattedDate}
                     </time>
                     <span>•</span>
                     <div className="flex items-center gap-1">
