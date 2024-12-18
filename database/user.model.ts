@@ -4,6 +4,10 @@ export interface IUser {
   name: string;
   username: string;
   bio?: string;
+  email: string;
+  image?: string;
+  location?: string;
+  reputation?: number;
   preferences: {
     favoriteNotes: string[];
     dislikedNotes: string[];
@@ -24,6 +28,10 @@ const UserSchema = new Schema<IUserDoc>(
     name: { type: String, required: true },
     username: { type: String, required: true, unique: true },
     bio: { type: String },
+    email: { type: String, required: true, unique: true },
+    image: { type: String },
+    location: { type: String },
+    reputation: { type: Number, default: 0 },
     preferences: {
       favoriteNotes: [String],
       dislikedNotes: [String],

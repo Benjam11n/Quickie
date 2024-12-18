@@ -28,6 +28,7 @@ import { useNavStore } from '@/hooks/use-nav-store';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/utils/auth';
+import { ROUTES } from '@/constants/routes';
 
 const mainNavItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -126,8 +127,9 @@ const MobileSidebar = () => {
                       </div>
                       <div>
                         <div className="font-semibold">{user.name}</div>
+                        {/* TODO: Change to username */}
                         <Link
-                          href="/profile"
+                          href={ROUTES.PROFILE(user.id)}
                           className="text-sm text-muted-foreground transition-colors hover:text-primary"
                           onClick={() => closeNav()}
                         >

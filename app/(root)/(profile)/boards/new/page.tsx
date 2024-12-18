@@ -1,27 +1,28 @@
-"use client";
+'use client';
 
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useMoodBoards } from "@/hooks/use-mood-boards";
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { useMoodBoards } from '@/hooks/use-mood-boards';
+import { ROUTES } from '@/constants/routes';
 
 export default function CreateBoardPage() {
   const router = useRouter();
   const { createBoard } = useMoodBoards();
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim()) {
       const board = createBoard(name.trim(), description.trim());
-      router.push(`/profile/boards/${board.id}`);
+      router.push(ROUTES.BOARDS_EDIT(board.id));
     }
   };
 
@@ -30,9 +31,8 @@ export default function CreateBoardPage() {
       <div className="mx-auto max-w-2xl">
         <div className="mb-8 flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
-            <Link href="/profile?tab=boards">
-              <ArrowLeft className="size-4" />
-            </Link>
+            {/* TODO: Change to use userId instead */}
+            <ArrowLeft className="size-4" onClick={() => router.back()} />
           </Button>
           <h1 className="text-3xl font-bold">
             <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">

@@ -17,7 +17,6 @@ import {
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 
-
 const openShareWindow = (url: string) => {
   const newWindow = window.open(url, '_blank');
   if (!newWindow) {
@@ -50,7 +49,11 @@ const shareToSocial = {
   },
 };
 
-export function ShareDialog() {
+interface ShareDialogProps {
+  text: string;
+}
+
+export function ShareDialog({ text }: ShareDialogProps) {
   const pathname = usePathname();
   const url = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}${pathname}`;
   const shareText = 'Check out this perfume comparison!';
@@ -76,7 +79,7 @@ export function ShareDialog() {
             className="glow-effect gap-2 shadow-lg"
           >
             <Share2 className="size-4" />
-            Share Comparison
+            {text}
           </Button>
         </div>
       </DialogTrigger>

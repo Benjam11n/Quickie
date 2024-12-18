@@ -19,6 +19,7 @@ export default function ProfilePage() {
   const params = useParams();
   const { collections } = useUserPerfumes();
   const { boards } = useMoodBoards();
+  // TODO: isPrivate
   const [isPrivate] = useState(true);
 
   // Calculate collection stats
@@ -78,7 +79,8 @@ export default function ProfilePage() {
                 <Avatar className="size-full">
                   <AvatarImage src="/placeholder-avatar.jpg" />
                   <AvatarFallback>
-                    {params.username?.slice(0, 2).toUpperCase()}
+                    {(params.username as string)?.slice(0, 2).toUpperCase() ??
+                      ''}
                   </AvatarFallback>
                 </Avatar>
               </div>

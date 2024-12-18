@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { MoodBoard } from '@/types';
+import { ROUTES } from '@/constants/routes';
 
 interface BoardPreviewProps {
   board: MoodBoard;
@@ -21,7 +22,7 @@ export function BoardPreview({ board, onDelete }: BoardPreviewProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
     >
-      <Link href={`/profile/boards/${board.id}`}>
+      <Link href={ROUTES.BOARDS_VIEW(board.id)}>
         <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg">
           <div className="relative aspect-video bg-accent/50">
             {/* Preview would go here */}

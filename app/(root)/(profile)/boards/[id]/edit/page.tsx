@@ -1,4 +1,3 @@
-// BoardPage.tsx
 'use client';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
@@ -13,7 +12,7 @@ import { useMoodBoards } from '@/hooks/use-mood-boards';
 import { products } from '@/types/data';
 import { Product } from '@/types/fragrance';
 
-export default function BoardPage() {
+export default function EditBoardPage() {
   const params = useParams();
   const { boards, updateBoard, addPerfumeToBoard } = useMoodBoards();
   const [name, setName] = useState('');

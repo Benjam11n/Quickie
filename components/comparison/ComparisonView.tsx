@@ -153,7 +153,7 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
       <MetricsComparison products={products} />
 
       {/* Share Button */}
-      <ShareDialog />
+      <ShareDialog text="Share Comparison" />
     </div>
   );
 }

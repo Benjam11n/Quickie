@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
 
 import { BoardPreview } from './BoardPreview';
+import { ROUTES } from '@/constants/routes';
 
 export function BoardList() {
   const { boards, deleteBoard } = useMoodBoards();
@@ -21,8 +22,8 @@ export function BoardList() {
         </h2>
 
         <Button asChild>
-          <Link href="/profile/boards/create">
-            <Plus className="mr-2 size-4" />
+          <Link href={ROUTES.BOARDS_NEW}>
+            <Plus className="mr-1 size-4" />
             Create Board
           </Link>
         </Button>

@@ -8,11 +8,10 @@ import { IAccountDoc } from './database/account.model';
 import { IUserDoc } from './database/user.model';
 import { api } from './lib/api';
 import { SignInSchema } from './lib/validations';
-import Github from 'next-auth/providers/github';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
-    Github,
+    GitHub,
     Google,
     Credentials({
       async authorize(credentials) {

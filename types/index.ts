@@ -9,7 +9,7 @@ export interface MoodBoard {
   description?: string;
   createdAt: string;
   updatedAt: string;
-  userId: string;
+  userName: string;
   tags: string[];
   perfumes: {
     id: string;
@@ -17,6 +17,8 @@ export interface MoodBoard {
   }[];
   isPublic: boolean;
   shareUrl?: string;
+  likes: number;
+  likedBy: string[];
 }
 
 export interface VendingLocation {

@@ -9,6 +9,8 @@ interface MoodBoardsState {
   boards: MoodBoard[];
   createBoard: (name: string, description?: string) => MoodBoard;
   updateBoard: (id: string, updates: Partial<MoodBoard>) => void;
+  likeBoard: (boardId: string, userName: string) => void;
+  unlikeBoard: (boardId: string, userName: string) => void;
   deleteBoard: (id: string) => void;
   addPerfumeToBoard: (
     boardId: string,
@@ -37,10 +39,12 @@ export const useMoodBoards = create<MoodBoardsState>()(
           description,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
-          userId: 'user-1', // Replace with actual user ID
+          userName: 'user-1', // Replace with actual user ID
           tags: [],
           perfumes: [],
           isPublic: false,
+          likes: 0,
+          likedBy: [],
         };
 
         set((state) => ({
@@ -49,6 +53,36 @@ export const useMoodBoards = create<MoodBoardsState>()(
 
         return newBoard;
       },
+      likeBoard: (boardId: string, userName: string) =>
+        set((state) => ({
+          boards: state.boards.map((board) =>
+            board.id === boardId && !board.likedBy.includes(userName)
+              ? {
+                  ...board,
+                  likes: board.likes + 1,
+                  likedBy: [...board.likedBy, userName],
+                  updatedAt: new Date().toISOString(),
+                }
+              : board
+          ),
+        })),
+      unlikeBoard: (boardId: string, userName: string) =>
+        set((state) => ({
+          boards: state.boards.map((board) =>
+            board.id === boardId && board.likedBy.includes(userName)
+              ? {
+                  ...board,
+                  likes: Math.max(0, board.likes - 1), // Prevent negative likes
+                  likedBy: board.likedBy.filter((id) => id !== userName),
+                  updatedAt: new Date().toISOString(),
+                }
+              : board
+          ),
+        })),
+      // isLikedByUser: (boardId: string, userId: string) => {
+      //   const board = get().boards.find((b) => b.id === boardId);
+      //   return board ? board.likedBy.includes(userId) : false;
+      // },
       updateBoard: (id, updates) =>
         set((state) => ({
           boards: state.boards.map((board) =>
