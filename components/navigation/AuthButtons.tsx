@@ -6,19 +6,28 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useAuthDialog } from '@/hooks/use-auth-dialog';
 import { useAuth } from '@/lib/utils/auth';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { ROUTES } from '@/constants/routes';
 
 export function AuthButtons() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const { open } = useAuthDialog();
 
-  if (isAuthenticated) {
+  if (isAuthenticated && user) {
     return (
-      <Button asChild variant="ghost" size="sm">
-        <Link href="/profile">
-          <User className="mr-2 size-4" />
-          Profile
-        </Link>
-      </Button>
+      <>
+        <Button asChild variant="ghost" size="sm">
+          <Link href={ROUTES.PROFILE(user.name)}>
+            <User className="mr-2 size-4" />
+            Profile
+          </Link>
+        </Button>
+
+        <Avatar className="size-8 my-3">
+          <AvatarImage src="/images/default-avatar.png" />
+          <AvatarFallback>{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+        </Avatar>
+      </>
     );
   }
 

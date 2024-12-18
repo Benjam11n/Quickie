@@ -70,20 +70,21 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-950 via-purple-950/20 to-gray-950">
       {/* Profile Header */}
-      <div className="border-b border-purple-800/30 bg-gradient-to-r from-purple-900/10 to-pink-900/10">
+      <div className="border border-purple-800/50 bg-gradient-to-r from-purple-900/10 to-pink-900/10 px-8 rounded-md">
         <div className="container py-8">
           <div className="flex flex-col items-center md:flex-row md:items-start md:gap-8">
             {/* Profile Image */}
             <div className="group relative">
               <div className="size-32 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 p-1">
                 <Avatar className="size-full">
-                  <AvatarImage src="/placeholder-avatar.jpg" />
+                  <AvatarImage src="/images/default-avatar.png" />
                   <AvatarFallback>
                     {(params.username as string)?.slice(0, 2).toUpperCase() ??
                       ''}
                   </AvatarFallback>
                 </Avatar>
               </div>
+              {/* Level */}
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-purple-600 px-3 py-1 text-xs font-medium text-white">
                 {Math.floor(collections.length / 5)}
               </div>

@@ -29,6 +29,7 @@ import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/utils/auth';
 import { ROUTES } from '@/constants/routes';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 const mainNavItems = [
   { href: '/', label: 'Home', icon: Home },
@@ -122,14 +123,17 @@ const MobileSidebar = () => {
                 {user ? (
                   <div className="border-b p-4">
                     <div className="mb-3 flex items-center gap-3">
-                      <div className="flex size-12 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-purple-500 font-bold text-white">
-                        {user.name.slice(0, 2).toUpperCase()}
-                      </div>
+                      <Avatar className="size-12 m-2">
+                        <AvatarImage src="/images/default-avatar.png" />
+                        <AvatarFallback>
+                          {user.name.slice(0, 2).toUpperCase()}
+                        </AvatarFallback>
+                      </Avatar>
+
                       <div>
                         <div className="font-semibold">{user.name}</div>
-                        {/* TODO: Change to username */}
                         <Link
-                          href={ROUTES.PROFILE(user.id)}
+                          href={ROUTES.PROFILE(user.name)}
                           className="text-sm text-muted-foreground transition-colors hover:text-primary"
                           onClick={() => closeNav()}
                         >
