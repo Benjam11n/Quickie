@@ -35,9 +35,7 @@ export default function CreateBoardPage() {
             <ArrowLeft className="size-4" onClick={() => router.back()} />
           </Button>
           <h1 className="text-3xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
-              Create New Board
-            </span>
+            <span className="holographic-text">Create New Board</span>
           </h1>
         </div>
 

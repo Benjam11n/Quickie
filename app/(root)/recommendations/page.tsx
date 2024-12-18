@@ -95,9 +95,7 @@ export default function RecommendationsPage() {
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
           <h1 className="text-4xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
-              Perfect Matches
-            </span>
+            <span className="holographic-text">Perfect Matches</span>
           </h1>
           <p className="text-muted-foreground">
             Discover fragrances tailored to your taste.

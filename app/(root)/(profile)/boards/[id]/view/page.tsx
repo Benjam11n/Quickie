@@ -36,19 +36,14 @@ export default function ViewBoardPage() {
   return (
     <div className="container py-10">
       <div className="mb-8 flex items-center gap-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => router.back()}
-          asChild
-        >
-          <ArrowLeft className="size-4" />
+        <Button variant="ghost" size="icon" asChild>
+          <Link href="/profile/boards">
+            <ArrowLeft className="size-4" />
+          </Link>
         </Button>
         <div className="flex-1">
           <h1 className="text-3xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
-              {board.name}
-            </span>
+            <span className="holographic-text">{board.name}</span>
           </h1>
           <p className="text-sm text-muted-foreground">
             Created by {board.userName || 'Anonymous'}
@@ -63,10 +58,6 @@ export default function ViewBoardPage() {
             className={isLiked ? 'text-red-500' : ''}
           >
             <Heart className="size-4" />
-          </Button>
-
-          <Button variant="ghost" size="icon">
-            <Share2 className="size-4" />
           </Button>
 
           {isOwner && (

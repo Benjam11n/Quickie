@@ -23,9 +23,7 @@ export default function LocationsPage() {
       <div className="flex flex-col gap-8">
         <div className="flex flex-col gap-4">
           <h1 className="text-4xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
-              Find Your Fix
-            </span>
+            <span className="holographic-text">Find Your Fix</span>
           </h1>
           <p className="text-muted-foreground">
             Locate our vending machines for instant gratification.

@@ -51,9 +51,7 @@ export default function ComparePage() {
       <div className="space-y-8">
         <div>
           <h1 className="text-4xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
-              Compare Fragrances
-            </span>
+            <span className="holographic-text">Compare Fragrances</span>
           </h1>
           <p className="mt-2 text-muted-foreground">
             Compare perfumes and analyze their notes, characteristics, and

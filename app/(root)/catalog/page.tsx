@@ -120,9 +120,7 @@ export default function CatalogPage() {
       <div className="space-y-8">
         <div>
           <h1 className="text-4xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
-              Discover Fragrances
-            </span>
+            <span className="holographic-text">Discover Fragrances</span>
           </h1>
           <p className="mt-2 text-muted-foreground">
             Explore our curated collection of premium perfumes.

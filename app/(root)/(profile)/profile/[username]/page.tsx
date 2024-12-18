@@ -85,16 +85,17 @@ export default function ProfilePage() {
                 </Avatar>
               </div>
               <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-purple-600 px-3 py-1 text-xs font-medium text-white">
-                Level {Math.floor(collections.length / 5)}
+                {Math.floor(collections.length / 5)}
               </div>
             </div>
 
             {/* Profile Info */}
             <div className="mt-4 flex-1 text-center md:mt-0 md:text-left">
-              <h1 className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-3xl font-bold text-transparent">
+              <h1 className="holographic-text text-3xl font-semibold">
                 {params.username}
               </h1>
-              <p className="mt-1 text-purple-300">
+              <p className="mt-1">
+                {/* TODO: Custmise this */}
                 Fragrance Enthusiast | Collection Curator
               </p>
 

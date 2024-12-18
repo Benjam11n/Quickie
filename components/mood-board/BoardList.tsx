@@ -16,9 +16,7 @@ export function BoardList() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold">
-          <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
-            Your Mood Boards
-          </span>
+          <span className="holographic-text">Your Mood Boards</span>
         </h2>
 
         <Button asChild>

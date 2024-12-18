@@ -60,7 +60,7 @@ export function Hero() {
                 transition={{ duration: 0.5 }}
               >
                 Your Perfume Journey
-                <span className="block bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">
+                <span className="block holographic-text">
                   One Spritz at a Time
                 </span>
               </motion.h1>

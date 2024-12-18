@@ -45,7 +45,7 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
       <div className="space-y-8">
         <div>
           <h1 className="text-4xl font-bold">
-            <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-transparent">
+            <span className="holographic-text">
               {initialProducts?.length === 1
                 ? `${initialProducts[0].name}`
                 : initialProducts?.length === 2
