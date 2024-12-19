@@ -1,4 +1,4 @@
-import { CompareWithIds } from '@/components/comparison';
+import { NoteComparisonView } from '@/components/comparison';
 import { products } from '@/types/data';
 import { Product } from '@/types/fragrance';
 
@@ -12,7 +12,7 @@ export function generateStaticParams() {
   return params;
 }
 
-export default function CompareWithIdsPage({
+export default function NoteComparisonPage({
   params,
 }: {
   params: { ids: string[] };
@@ -25,5 +25,5 @@ export default function CompareWithIdsPage({
     return <div>Products not found</div>;
   }
 
-  return <CompareWithIds initialProducts={selectedProducts as Product[]} />;
+  return <NoteComparisonView initialProducts={selectedProducts as Product[]} />;
 }

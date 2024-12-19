@@ -7,12 +7,12 @@ import { ComparisonView } from '@/components/comparison/ComparisonView';
 import { ProductSelector } from '@/components/fragrance/ProductSelector';
 import { Button } from '@/components/ui/button';
 import { Product } from '@/types/fragrance';
+import { ROUTES } from '@/constants/routes';
 
+const NUMBER_OF_PERFUMES = 2;
 interface CompareWithIdsProps {
   initialProducts: Product[];
 }
-
-const NUMBER_OF_PERFUMES = 2;
 
 export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
   const router = useRouter();
@@ -25,7 +25,7 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
         : [...initialProducts, product];
 
     const productIds = newProducts.map((p) => p.id).join('/');
-    router.push(`/compare/${productIds}`);
+    router.push(ROUTES.FULL_COMPARE(productIds));
     setShowSelector(false);
   };
 
@@ -33,10 +33,10 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
     const newProducts = initialProducts.filter((p) => p.id !== productId);
 
     if (newProducts.length === 0) {
-      router.push('/compare');
+      router.push(ROUTES.FULL_COMPARE(''));
     } else {
       const productIds = newProducts.map((p) => p.id).join('/');
-      router.push(`/compare/${productIds}`);
+      router.push(ROUTES.FULL_COMPARE(productIds));
     }
   };
 

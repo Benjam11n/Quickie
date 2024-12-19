@@ -2,22 +2,28 @@
 
 import { motion } from 'framer-motion';
 import { X, Plus, Sparkles } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { ProductSelector } from '@/components/fragrance/ProductSelector';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Product } from '@/types/fragrance';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/constants/routes';
+import { ShareDialog } from './ShareDialog';
+import { StarRating } from '../star-rating';
+
 const MAX_COMPARISONS = 3;
 
-interface NoteComparisonToolProps {
+interface NoteComparisonViewProps {
   initialProducts?: Product[];
 }
 
-export function NoteComparisonTool({
+export function NoteComparisonView({
   initialProducts = [],
-}: NoteComparisonToolProps) {
+}: NoteComparisonViewProps) {
+  const router = useRouter();
   const [selectedProducts, setSelectedProducts] =
     useState<Product[]>(initialProducts);
   const [showSelector, setShowSelector] = useState(false);
@@ -76,6 +82,19 @@ export function NoteComparisonTool({
     return total > 0 ? (similarity / total) * 100 : 0;
   };
 
+  // Use effect to handle URL updates whenever selectedProducts changes
+  useEffect(() => {
+    const productIds =
+      selectedProducts.length > 0
+        ? selectedProducts.map((p) => p.id).join('/')
+        : '';
+    router.push(
+      productIds.length > 0
+        ? ROUTES.NOTES_COMPARE(productIds)
+        : ROUTES.FULL_COMPARE(productIds)
+    );
+  }, [selectedProducts, router]);
+
   const handleAddProduct = (product: Product) => {
     setSelectedProducts((prev) => [...prev, product]);
     setShowSelector(false);
@@ -84,52 +103,81 @@ export function NoteComparisonTool({
   const handleRemoveProduct = (index: number) => {
     setSelectedProducts((prev) => prev.filter((_, i) => i !== index));
   };
-
   const overlappingNotes = getOverlappingNotes();
 
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Note Comparison</h2>
-        {selectedProducts.length < MAX_COMPARISONS && (
-          <Button onClick={() => setShowSelector(true)} className="glow-effect">
-            <Plus className="mr-2 size-4" />
-            Add Perfume
-          </Button>
-        )}
+        <h2 className="text-2xl font-bold">
+          {initialProducts?.length === 1
+            ? `${initialProducts[0].name}`
+            : initialProducts?.length === 2
+              ? `${initialProducts[0].name} vs ${initialProducts[1].name}`
+              : 'Note Comparison'}
+        </h2>
+        <div className="flex items-center gap-2">
+          {selectedProducts.length < MAX_COMPARISONS && (
+            <Button
+              onClick={() => setShowSelector(true)}
+              className="glow-effect"
+            >
+              <Plus className="mr-2 size-4" />
+              Add Perfume
+            </Button>
+          )}
+          <ShareDialog text="Share Comparison" />
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {selectedProducts.map((product, index) => (
           <motion.div
             key={product.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
+            transition={{ delay: index * 0.2 }}
           >
-            <Card className="relative overflow-hidden p-6">
+            <Card className="group relative overflow-hidden">
+              {/* Glass Effect Background */}
+              <div className="absolute inset-0 z-0 bg-gradient-to-br from-background/10 to-background/30 backdrop-blur-sm" />
+
+              {/* Remove Button */}
               <Button
-                variant="ghost"
+                variant="outline"
                 size="icon"
-                className="absolute right-2 top-2"
+                className="absolute right-2 top-2 z-10 opacity-0 transition-opacity group-hover:opacity-100"
                 onClick={() => handleRemoveProduct(index)}
               >
                 <X className="size-4" />
               </Button>
 
-              <div className="space-y-4">
-                <div className="relative aspect-square overflow-hidden rounded-lg">
-                  <img
-                    src={product.images[0]}
-                    alt={product.name}
-                    className="size-full object-cover"
-                  />
+              {/* Product Image */}
+              <div className="relative aspect-square">
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
+              </div>
+
+              {/* Product Info */}
+              <div className="relative space-y-4 p-6">
+                <div>
+                  <h3 className="text-2xl font-bold">{product.name}</h3>
+                  <p className="text-muted-foreground">{product.brand}</p>
                 </div>
 
-                <div>
-                  <h3 className="text-lg font-semibold">{product.name}</h3>
-                  <p className="text-muted-foreground">{product.brand}</p>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <div className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-xl font-bold text-transparent">
+                      ${product.price}
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      ${(product.price / product.size).toFixed(2)}/ml
+                    </div>
+                  </div>
+                  <StarRating rating={4.5} />
                 </div>
 
                 <div className="space-y-2">
@@ -171,14 +219,17 @@ export function NoteComparisonTool({
       </div>
 
       {selectedProducts.length >= 2 && (
-        <Card className="bg-gradient-to-br from-pink-500/10 to-violet-500/10 p-6">
-          <h3 className="mb-4 font-semibold">Common Notes</h3>
-          <div className="flex flex-wrap gap-2">
-            {Array.from(overlappingNotes).map((note) => (
-              <Badge key={note} className="gradient-border">
-                {note}
-              </Badge>
-            ))}
+        <Card className="relative overflow-hidden p-6">
+          <div className="absolute inset-0 z-0 bg-gradient-to-br from-background/10 to-background/30 backdrop-blur-sm" />
+          <div className="relative">
+            <h3 className="mb-4 text-xl font-bold">Common Notes</h3>
+            <div className="flex flex-wrap gap-2">
+              {Array.from(overlappingNotes).map((note) => (
+                <Badge key={note} variant="secondary">
+                  {note}
+                </Badge>
+              ))}
+            </div>
           </div>
         </Card>
       )}

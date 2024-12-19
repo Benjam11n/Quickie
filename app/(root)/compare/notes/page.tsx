@@ -1,4 +1,4 @@
-import { NoteComparisonTool } from '@/components/comparison';
+import { NoteComparisonView } from '@/components/comparison';
 
 export default function NoteComparisonPage() {
   return (
@@ -14,7 +14,7 @@ export default function NoteComparisonPage() {
           </p>
         </div>
 
-        <NoteComparisonTool />
+        <NoteComparisonView />
       </div>
     </div>
   );
