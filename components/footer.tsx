@@ -1,5 +1,3 @@
-'use client';
-
 import {
   MapPin,
   Mail,
@@ -10,17 +8,15 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
+import { auth } from '@/auth';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { ROUTES } from '@/constants/routes';
-import { useAuth } from '@/lib/utils/auth';
 
-export function Footer() {
-  const { user } = useAuth();
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle newsletter subscription
-  };
+import NewsletterForm from './NewsletterForm';
+
+export async function Footer() {
+  const session = await auth();
+  const user = session?.user;
 
   return (
     <footer className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -66,7 +62,7 @@ export function Footer() {
                   Compare Scents
                 </Link>
               </li>
-              {user && (
+              {user?.name && (
                 <li>
                   <Link
                     href={ROUTES.PROFILE(user.name)}
@@ -124,16 +120,7 @@ export function Footer() {
               Subscribe to our newsletter for the latest fragrances and
               locations.
             </p>
-            <form onSubmit={handleSubscribe} className="flex gap-2">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                className="max-w-[220px]"
-              />
-              <Button type="submit" variant="premium">
-                Subscribe
-              </Button>
-            </form>
+            <NewsletterForm />
           </div>
         </div>
 

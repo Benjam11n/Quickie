@@ -4,6 +4,7 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { signIn } from '@/auth';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -14,7 +15,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAuth } from '@/lib/utils/auth';
 
 interface AuthDialogProps {
   open?: boolean;
@@ -27,7 +27,6 @@ export function AuthDialog({ open, onOpenChange, onSuccess }: AuthDialogProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { login } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,7 +35,11 @@ export function AuthDialog({ open, onOpenChange, onSuccess }: AuthDialogProps) {
     setError('');
 
     try {
-      const success = await login(email, password);
+      const success = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
       if (success) {
         onSuccess?.();
         onOpenChange?.(false);

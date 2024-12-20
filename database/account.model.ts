@@ -19,26 +19,16 @@ const AccountSchema = new Schema<IAccountDoc>(
       required: true,
     },
     image: { type: String },
-    password: {
-      type: String,
-      select: false,
-    },
+    password: { type: String, select: false },
     provider: {
       type: String,
       required: true,
       default: 'credentials',
     },
-    providerAccountId: String,
+    providerAccountId: { type: String, required: true },
   },
   { timestamps: true }
 );
-
-AccountSchema.pre('save', async function (next) {
-  if (this.isModified('password')) {
-    this.password = await hash(this.password!, 12);
-  }
-  next();
-});
 
 const Account = models?.Account || model<IAccountDoc>('Account', AccountSchema);
 

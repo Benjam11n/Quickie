@@ -73,11 +73,7 @@ export function ShareDialog({ text }: ShareDialogProps) {
     <Dialog>
       <DialogTrigger asChild>
         <div className="fixed bottom-16 right-16 z-50">
-          <Button
-            size="lg"
-            variant="premium"
-            className="glow-effect gap-2 shadow-lg"
-          >
+          <Button size="lg" variant="premium" className=" gap-2 shadow-lg">
             <Share2 className="size-4" />
             {text}
           </Button>

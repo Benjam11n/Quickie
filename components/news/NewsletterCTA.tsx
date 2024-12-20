@@ -52,7 +52,7 @@ export function NewsletterCTA() {
 
           <Button
             type="submit"
-            className="glow-effect w-full"
+            className="w-full"
             disabled={status === 'loading' || status === 'success'}
           >
             {status === 'loading' ? (

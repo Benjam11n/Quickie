@@ -9,14 +9,14 @@ import { navLinks } from '@/constants';
 import { ROUTES } from '@/constants/routes';
 
 import { AuthButtons } from './AuthButtons';
-import { MobileNavTrigger } from './MobileNavTrigger';
+import MobileSidebar from './MobileSidebar';
 import { NavLink } from './NavLink';
 
 export function NavBar() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-[1000] mb-8 w-full border-b bg-background/80 backdrop-blur">
+    <header className="sticky top-0 mb-8 w-full border-b bg-background/80 backdrop-blur">
       <nav className="container flex h-16 items-center px-4">
         <div className="flex gap-6 lg:gap-10">
           <Link href={ROUTES.HOME} className="flex items-center space-x-2">
@@ -39,7 +39,7 @@ export function NavBar() {
             <ThemeToggle />
             <AuthButtons />
           </div>
-          <MobileNavTrigger />
+          <MobileSidebar />
         </div>
       </nav>
     </header>

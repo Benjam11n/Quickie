@@ -57,7 +57,7 @@ export function FeaturedPerfumes() {
                 className="size-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/60 to-transparent pb-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <Button className="glow-effect" size="sm">
+                <Button size="sm">
                   <ShoppingCart className="mr-2 size-4" />
                   Take Me Home
                 </Button>

@@ -1,9 +1,9 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
 import { ReactNode } from 'react';
 
 import { useAuthDialog } from '@/hooks/use-auth-dialog';
-import { useAuth } from '@/lib/utils/auth';
 
 interface AuthCheckProps {
   children: ReactNode;
@@ -11,11 +11,11 @@ interface AuthCheckProps {
 }
 
 export function AuthCheck({ children, onAuthSuccess }: AuthCheckProps) {
-  const { isAuthenticated } = useAuth();
+  const { data: session } = useSession();
   const { open } = useAuthDialog();
 
   const handleClick = (e: React.MouseEvent) => {
-    if (!isAuthenticated) {
+    if (!session) {
       e.preventDefault();
       e.stopPropagation();
       open(onAuthSuccess);

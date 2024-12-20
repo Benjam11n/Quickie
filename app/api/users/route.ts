@@ -21,7 +21,6 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     await dbConnect();
-
     const body = await request.json();
 
     const validatedData = UserSchema.safeParse(body);
@@ -33,10 +32,14 @@ export async function POST(request: Request) {
     const { email, username } = validatedData.data;
 
     const existingUser = await User.findOne({ email });
-    if (existingUser) throw new Error('User already exists');
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
 
     const existingUsername = await User.findOne({ username });
-    if (existingUsername) throw new Error('Username already exists');
+    if (existingUsername) {
+      throw new Error('Username already exists');
+    }
 
     const newUser = await User.create(validatedData.data);
 

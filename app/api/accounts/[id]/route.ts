@@ -55,7 +55,6 @@ export async function PUT(
     await dbConnect();
 
     const body = await request.json();
-
     const validatedData = AccountSchema.partial().safeParse(body);
 
     if (!validatedData.success) {
@@ -65,7 +64,10 @@ export async function PUT(
     const updatedAccount = await Account.findByIdAndUpdate(id, validatedData, {
       new: true,
     });
-    if (!updatedAccount) throw new NotFoundError('Account');
+
+    if (!updatedAccount) {
+      throw new NotFoundError('Account');
+    }
 
     return NextResponse.json(
       { success: true, data: updatedAccount },

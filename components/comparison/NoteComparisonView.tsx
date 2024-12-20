@@ -118,10 +118,7 @@ export function NoteComparisonView({
         </h2>
         <div className="flex items-center gap-2">
           {selectedProducts.length < MAX_COMPARISONS && (
-            <Button
-              onClick={() => setShowSelector(true)}
-              className="glow-effect"
-            >
+            <Button onClick={() => setShowSelector(true)}>
               <Plus className="mr-2 size-4" />
               Add Perfume
             </Button>

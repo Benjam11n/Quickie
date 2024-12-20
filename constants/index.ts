@@ -1,4 +1,3 @@
-import { ROUTES } from './routes';
 import {
   Home,
   Search,
@@ -12,6 +11,9 @@ import {
   TrendingUp,
   Newspaper,
 } from 'lucide-react';
+import { User } from 'next-auth';
+
+import { ROUTES } from './routes';
 
 interface Navlink {
   href: string;
@@ -49,14 +51,23 @@ export const navLinks: Navlinks = [
   },
 ];
 
-// TODO: Add the new routes
-export const mainNavItems = [
+export const getMainNavItems = (user?: User) => [
   { href: ROUTES.HOME, label: 'Home', icon: Home },
   { href: ROUTES.CATALOG, label: 'Explore Perfumes', icon: Search },
   { href: ROUTES.COMPARE, label: 'Compare', icon: Scale },
   { href: ROUTES.LOCATIONS, label: 'Vending Machines', icon: MapPin },
-  { href: '/profile', label: 'My Collection', icon: Grid },
-  { href: '/profile?tab=favorites', label: 'Wishlist', icon: Heart },
+  {
+    href: user?.name ? ROUTES.PROFILE(user.name) : '/sign-in',
+    label: 'My Collection',
+    icon: Grid,
+  },
+  {
+    href: user?.name
+      ? `${ROUTES.PROFILE(user.name)}?tab=favorites`
+      : '/sign-in',
+    label: 'Wishlist',
+    icon: Heart,
+  },
 ];
 
 export const communityNavItems = [

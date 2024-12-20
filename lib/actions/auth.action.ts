@@ -81,13 +81,13 @@ export async function signInWithCredentials(
   const { email, password } = validationResult.params!;
 
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (!existingUser) throw new NotFoundError('User');
 
     const existingAccount = await Account.findOne({
       provider: 'credentials',
-      providerAccountId: email,
-    });
+      providerAccountId: email.toLowerCase(),
+    }).select('+password');
     if (!existingAccount) throw new NotFoundError('Account');
 
     const passwordMatch = await bcrypt.compare(

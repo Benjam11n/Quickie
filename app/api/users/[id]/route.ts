@@ -30,7 +30,6 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-
   if (!id) throw new NotFoundError('User');
 
   try {
@@ -56,13 +55,15 @@ export async function PUT(
     await dbConnect();
 
     const body = await request.json();
-
     const validatedData = UserSchema.partial().parse(body);
 
     const updatedUser = await User.findByIdAndUpdate(id, validatedData, {
       new: true,
     });
-    if (!updatedUser) throw new NotFoundError('User');
+
+    if (!updatedUser) {
+      throw new NotFoundError('User');
+    }
 
     return NextResponse.json(
       { success: true, data: updatedUser },

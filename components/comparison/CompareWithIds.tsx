@@ -61,10 +61,7 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
 
         <div className="flex justify-end">
           {initialProducts.length < NUMBER_OF_PERFUMES && (
-            <Button
-              onClick={() => setShowSelector(true)}
-              className="glow-effect"
-            >
+            <Button onClick={() => setShowSelector(true)}>
               <Plus className="mr-2 size-4" />
               Add Perfume ({initialProducts.length}/2)
             </Button>

@@ -68,9 +68,7 @@ export default function CreateBoardPage() {
               >
                 Cancel
               </Button>
-              <Button type="submit" className="glow-effect">
-                Create Board
-              </Button>
+              <Button type="submit">Create Board</Button>
             </div>
           </form>
         </Card>

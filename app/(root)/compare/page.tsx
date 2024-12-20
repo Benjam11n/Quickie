@@ -74,7 +74,6 @@ export default function ComparePage() {
                     setIsFullComparison(true);
                     setShowSelector(true);
                   }}
-                  className="glow-effect"
                 >
                   <Plus className="mr-1 size-4" />
                   Add Perfume
@@ -97,7 +96,6 @@ export default function ComparePage() {
                     setIsFullComparison(false);
                     setShowSelector(true);
                   }}
-                  className="glow-effect"
                 >
                   <Plus className="mr-1 size-4" />
                   Add Perfume

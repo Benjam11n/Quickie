@@ -1,7 +1,9 @@
 'use client';
+
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
-import { useParams, notFound } from 'next/navigation';
+import { useParams, notFound, redirect } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -11,7 +13,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ROUTES } from '@/constants/routes';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { useAuth } from '@/lib/utils/auth';
 import { products } from '@/types/data';
 import { Product } from '@/types/fragrance';
 
@@ -20,7 +21,6 @@ export default function EditBoardPage() {
   const { boards, updateBoard, addPerfumeToBoard } = useMoodBoards();
   const [name, setName] = useState('');
   const [selectedSquare, setSelectedSquare] = useState<number | null>(null);
-  const { user } = useAuth();
 
   const board = boards.find((b) => b.id === params.id);
 
@@ -31,6 +31,12 @@ export default function EditBoardPage() {
       notFound();
     }
   }, [board]);
+
+  const { data: session } = useSession();
+
+  if (!session || !session.user || !session.user.id) {
+    return redirect('/sign-in');
+  }
 
   if (!board) return null;
 
@@ -60,7 +66,7 @@ export default function EditBoardPage() {
       <div className="mb-8 flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
           {/* TODO: Fix This Error */}
-          <Link href={ROUTES.PROFILE(user?.id!)}>
+          <Link href={ROUTES.PROFILE(session.user.id)}>
             <ArrowLeft className="size-4" />
           </Link>
         </Button>

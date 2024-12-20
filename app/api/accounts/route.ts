@@ -24,7 +24,6 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     await dbConnect();
-
     const body = await request.json();
 
     const validatedData = AccountSchema.parse(body);
@@ -34,10 +33,11 @@ export async function POST(request: Request) {
       providerAccountId: validatedData.providerAccountId,
     });
 
-    if (existingAccount)
+    if (existingAccount) {
       throw new ForbiddenError(
         'An account with the same provider already exists'
       );
+    }
 
     const newAccount = await Account.create(validatedData);
 

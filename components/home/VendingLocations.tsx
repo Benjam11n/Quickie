@@ -69,7 +69,7 @@ export function VendingLocations() {
       </div>
 
       <div className="text-center">
-        <Button asChild size="lg" className="glow-effect">
+        <Button asChild size="lg">
           <Link href={ROUTES.LOCATIONS}>
             <MapPin className="mr-2 size-5" />
             View All Locations

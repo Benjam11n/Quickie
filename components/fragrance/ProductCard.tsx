@@ -168,7 +168,6 @@ export function ProductCard({
             <Button
               size="sm"
               className={cn(
-                'glow-effect',
                 userPerfume?.inCollection && 'bg-green-500 hover:bg-green-600'
               )}
               onClick={handleCollectionClick}

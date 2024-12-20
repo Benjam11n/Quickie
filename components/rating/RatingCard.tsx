@@ -122,11 +122,7 @@ export function RatingCard({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          <Button
-            onClick={handleSubmit}
-            disabled={!isComplete}
-            className="glow-effect"
-          >
+          <Button onClick={handleSubmit} disabled={!isComplete}>
             Submit Rating
           </Button>
         </motion.div>

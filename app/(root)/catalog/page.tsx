@@ -182,7 +182,6 @@ export default function CatalogPage() {
                   <Button
                     onClick={handleCompare}
                     disabled={selectedForComparison.length < 2}
-                    className="glow-effect"
                   >
                     Compare Selected
                   </Button>

@@ -82,7 +82,7 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <Button asChild size="lg" className="glow-effect">
+              <Button asChild size="lg">
                 <Link href={ROUTES.LOCATIONS}>
                   <MapPin className="mr-2 size-5" />
                   Find Nearest Machine
