@@ -9,7 +9,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-// TODO: NOT USED
 const featuredPerfumes = [
   {
     name: 'Midnight Rendezvous',

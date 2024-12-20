@@ -1,15 +1,8 @@
-import {
-  Heart,
-  ShoppingCart,
-  Check,
-  ExternalLink,
-  Scale,
-  CalendarDays,
-} from 'lucide-react';
+import { Heart, ShoppingCart, Check, ExternalLink, Scale } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-import { StarRating } from '@/components/star-rating';
+import { StarRating } from '@/components/StarRating';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -17,7 +10,6 @@ import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { Product, UserPerfume } from '@/types/fragrance';
 
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import {
   HoverCard,
   HoverCardContent,

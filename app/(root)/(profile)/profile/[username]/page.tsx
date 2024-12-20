@@ -4,10 +4,10 @@ import { Plus, Layout, Grid, Star, BookMarked, Settings } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
-import { CollectionGrid } from '@/components/collection-grid';
-import { CollectionInsights } from '@/components/collection-insights';
 import { MoodBoardGrid } from '@/components/mood-board/MoodBoardGrid';
-import { RatingsList } from '@/components/ratings-list';
+import { CollectionGrid } from '@/components/profile/CollectionGrid';
+import { CollectionInsights } from '@/components/profile/CollectionInsights';
+import { RatingsList } from '@/components/profile/RatingsList';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

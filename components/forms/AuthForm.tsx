@@ -27,7 +27,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { ROUTES } from '@/constants/routes';
 
-
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
   defaultValues: T;
@@ -107,7 +106,7 @@ const AuthForm = <T extends FieldValues>({
                           required
                           type={field.name === 'password' ? 'password' : 'text'}
                           {...field}
-                          className="rounded-1.5 min-h-12 border"
+                          className="min-h-12 rounded-md border"
                         />
                       </FormControl>
                       <FormMessage />

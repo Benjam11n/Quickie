@@ -61,7 +61,7 @@ export function ScentProfile({ scentProfile }: ScentProfileProps) {
                   <div className="rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur-sm">
                     <p className="font-medium">{label}</p>
                     <div className="mt-2 space-y-1">
-                      {payload.map((entry: any) => (
+                      {payload.map((entry) => (
                         <div
                           key={entry.name}
                           className="flex items-center gap-2 text-sm"

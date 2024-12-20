@@ -13,7 +13,7 @@ import { ROUTES } from '@/constants/routes';
 import { Product } from '@/types/fragrance';
 
 import { ShareDialog } from './ShareDialog';
-import { StarRating } from '../star-rating';
+import { StarRating } from '../StarRating';
 
 const MAX_COMPARISONS = 3;
 

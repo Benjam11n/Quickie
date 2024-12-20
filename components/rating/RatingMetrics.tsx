@@ -5,7 +5,7 @@ import { Wind, Clock, DollarSign, Sparkles, Activity } from 'lucide-react';
 
 import { Rating } from '@/types/fragrance';
 
-import { RatingBar } from './rating-bar';
+import { RatingBar } from './RatingBar';
 
 interface RatingMetricsProps {
   rating: Rating;

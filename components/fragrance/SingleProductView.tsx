@@ -3,9 +3,9 @@
 import { ArrowLeft, ExternalLink, Heart, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
 
-import { AuthCheck } from '@/components/auth/auth-check';
+import { AuthCheck } from '@/components/auth/AuthCheck';
 import { EnhancedVisualizer } from '@/components/fragrance';
-import { RatingCard } from '@/components/rating/rating-card';
+import { RatingCard } from '@/components/rating/RatingCard';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';

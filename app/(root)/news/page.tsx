@@ -2,11 +2,11 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-import { ArticleGrid } from '@/components/news/article-grid';
-import { CategoryNav } from '@/components/news/category-nav';
-import { NewsHero } from '@/components/news/news-hero';
-import { NewsletterCTA } from '@/components/news/newsletter-cta';
-import { TrendingArticles } from '@/components/news/trending-articles';
+import { ArticleGrid } from '@/components/news/ArticleGrid';
+import { CategoryNav } from '@/components/news/CategoryNav';
+import { NewsHero } from '@/components/news/NewsHero';
+import { NewsletterCTA } from '@/components/news/NewsletterCTA';
+import { TrendingArticles } from '@/components/news/TrendingArticles';
 import {
   AlertDialog,
   AlertDialogAction,

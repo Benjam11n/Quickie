@@ -1,7 +1,6 @@
 'use client';
 
 import { Users, Sprout, MapPin, Star, Database, Activity } from 'lucide-react';
-import { useState, useEffect } from 'react';
 
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -31,17 +30,6 @@ const mockData = {
 };
 
 export default function AdminPage() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   const stats = [
     {
       title: 'Users',

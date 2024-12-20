@@ -10,8 +10,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { RatingWithReview } from '@/types/fragrance';
 
-import { RatingDistribution } from './rating-distribution';
-import { RatingMetrics } from './rating-metrics';
+import { RatingDistribution } from './RatingDistribution';
+import { RatingMetrics } from './RatingMetrics';
 
 interface RatingCardProps {
   productId: string;

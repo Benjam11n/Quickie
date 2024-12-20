@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { StarRating } from '@/components/star-rating';
+import { StarRating } from '@/components/StarRating';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
 import { Product, UserPerfume } from '@/types/fragrance';

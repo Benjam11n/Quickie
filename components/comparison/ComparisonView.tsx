@@ -1,10 +1,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { X, Share2 } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useState } from 'react';
 
-import { StarRating } from '@/components/star-rating';
+import { StarRating } from '@/components/StarRating';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';

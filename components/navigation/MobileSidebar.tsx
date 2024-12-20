@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { communityNavItems, mainNavItems, userNavItems } from '@/constants';
@@ -16,8 +15,8 @@ import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/utils/auth';
 
+import { ThemeToggle } from '../theme';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-
 
 const MobileSidebar = () => {
   const { isOpen, closeNav } = useNavStore();
