@@ -3,17 +3,17 @@ import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 import { BoardCanvas } from '@/components/mood-board/BoardCanvas';
 import { BoardSidebar } from '@/components/mood-board/BoardSidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ROUTES } from '@/constants/routes';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
+import { useAuth } from '@/lib/utils/auth';
 import { products } from '@/types/data';
 import { Product } from '@/types/fragrance';
-import { toast } from 'sonner';
-import { ROUTES } from '@/constants/routes';
-import { useAuth } from '@/lib/utils/auth';
 
 export default function EditBoardPage() {
   const params = useParams();

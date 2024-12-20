@@ -6,8 +6,8 @@ import { useState } from 'react';
 import { ComparisonView } from '@/components/comparison/ComparisonView';
 import { ProductSelector } from '@/components/fragrance/ProductSelector';
 import { Button } from '@/components/ui/button';
-import { Product } from '@/types/fragrance';
 import { ROUTES } from '@/constants/routes';
+import { Product } from '@/types/fragrance';
 
 const NUMBER_OF_PERFUMES = 2;
 interface CompareWithIdsProps {

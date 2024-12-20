@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { vendingLocations } from '@/types/data';
 import { ROUTES } from '@/constants/routes';
+import { vendingLocations } from '@/types/data';
 
 export function VendingLocations() {
   const featuredLocations = vendingLocations.slice(0, 3);

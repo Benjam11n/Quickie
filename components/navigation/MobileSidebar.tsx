@@ -9,13 +9,15 @@ import { useEffect } from 'react';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { communityNavItems, mainNavItems, userNavItems } from '@/constants';
+import { ROUTES } from '@/constants/routes';
 import { useNavStore } from '@/hooks/use-nav-store';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/utils/auth';
-import { ROUTES } from '@/constants/routes';
+
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { communityNavItems, mainNavItems, userNavItems } from '@/constants';
+
 
 const MobileSidebar = () => {
   const { isOpen, closeNav } = useNavStore();
@@ -89,7 +91,7 @@ const MobileSidebar = () => {
                 {user ? (
                   <div className="border-b p-4">
                     <div className="mb-3 flex items-center gap-3">
-                      <Avatar className="size-12 m-2">
+                      <Avatar className="m-2 size-12">
                         <AvatarImage src="/images/default-avatar.png" />
                         <AvatarFallback>
                           {user.name.slice(0, 2).toUpperCase()}

@@ -1,11 +1,12 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
 import { ArticleGrid } from '@/components/news/article-grid';
 import { CategoryNav } from '@/components/news/category-nav';
 import { NewsHero } from '@/components/news/news-hero';
 import { NewsletterCTA } from '@/components/news/newsletter-cta';
 import { TrendingArticles } from '@/components/news/trending-articles';
-import { mockArticles, mockCategories } from '@/lib/data/news-data';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,7 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { useRouter } from 'next/navigation';
+import { mockArticles, mockCategories } from '@/lib/data/news-data';
 
 export default function NewsPage() {
   const [activeCategory, setActiveCategory] = useState<string>('all');

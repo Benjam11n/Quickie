@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 import { StarRating } from '@/components/star-rating';
 import { Card } from '@/components/ui/card';
-import { Product, UserPerfume } from '@/types/fragrance';
 import { ROUTES } from '@/constants/routes';
+import { Product, UserPerfume } from '@/types/fragrance';
 
 interface RatingsListProps {
   items: UserPerfume[];

@@ -1,7 +1,8 @@
 'use client';
 
-import { SprayLoader } from '@/components/SprayLoader';
 import { motion } from 'framer-motion';
+
+import { SprayLoader } from '@/components/SprayLoader';
 
 export default function Loading() {
   return (

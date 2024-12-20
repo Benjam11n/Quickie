@@ -4,10 +4,11 @@ import { User } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { ROUTES } from '@/constants/routes';
 import { useAuthDialog } from '@/hooks/use-auth-dialog';
 import { useAuth } from '@/lib/utils/auth';
+
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { ROUTES } from '@/constants/routes';
 
 export function AuthButtons() {
   const { isAuthenticated, user } = useAuth();
@@ -24,7 +25,7 @@ export function AuthButtons() {
         </Button>
 
         <Link href={ROUTES.PROFILE(user.name)}>
-          <Avatar className="size-8 my-3">
+          <Avatar className="my-3 size-8">
             <AvatarImage src="/images/default-avatar.png" />
             <AvatarFallback>
               {user.name.slice(0, 2).toUpperCase()}

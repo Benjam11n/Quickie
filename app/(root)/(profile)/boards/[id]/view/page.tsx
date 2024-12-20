@@ -2,15 +2,16 @@
 import { ArrowLeft, Edit, Heart } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, notFound } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+
+import { ShareDialog } from '@/components/comparison/ShareDialog';
 import { BoardCanvas } from '@/components/mood-board/BoardCanvas';
 import { Button } from '@/components/ui/button';
-import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { products } from '@/types/data';
-import { useSession } from 'next-auth/react';
-import { ShareDialog } from '@/components/comparison/ShareDialog';
-import { useAuth } from '@/lib/utils/auth';
 import { ROUTES } from '@/constants/routes';
+import { useMoodBoards } from '@/hooks/use-mood-boards';
+import { useAuth } from '@/lib/utils/auth';
+import { products } from '@/types/data';
 
 export default function ViewBoardPage() {
   const params = useParams();
@@ -38,7 +39,7 @@ export default function ViewBoardPage() {
   return (
     <div className="container py-10">
       <div className="mb-8">
-        <div className="flex items-center gap-4 mb-4">
+        <div className="mb-4 flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
             <Link href={ROUTES.PROFILE(user?.id!)}>
               <ArrowLeft className="size-4" />
@@ -73,7 +74,7 @@ export default function ViewBoardPage() {
         </div>
 
         {board.description && (
-          <p className="text-muted-foreground text-md ml-14">
+          <p className="text-md ml-14 text-muted-foreground">
             {board.description}
           </p>
         )}

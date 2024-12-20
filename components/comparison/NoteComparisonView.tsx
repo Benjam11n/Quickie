@@ -2,15 +2,16 @@
 
 import { motion } from 'framer-motion';
 import { X, Plus, Sparkles } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { ProductSelector } from '@/components/fragrance/ProductSelector';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Product } from '@/types/fragrance';
-import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/routes';
+import { Product } from '@/types/fragrance';
+
 import { ShareDialog } from './ShareDialog';
 import { StarRating } from '../star-rating';
 

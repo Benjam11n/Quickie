@@ -9,11 +9,11 @@ import { RatingCard } from '@/components/rating/rating-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { ROUTES } from '@/constants/routes';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
 import { Product } from '@/types/fragrance';
-import { ROUTES } from '@/constants/routes';
 
 interface SingleProductViewProps {
   product: Product;

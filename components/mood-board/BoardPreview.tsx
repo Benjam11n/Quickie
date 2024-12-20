@@ -3,13 +3,13 @@
 import { motion } from 'framer-motion';
 import { Share2, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { MoodBoard } from '@/types';
 import { ROUTES } from '@/constants/routes';
-import { toast } from 'sonner';
+import { MoodBoard } from '@/types';
 
 interface BoardPreviewProps {
   board: MoodBoard;

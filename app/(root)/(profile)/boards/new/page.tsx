@@ -9,8 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useMoodBoards } from '@/hooks/use-mood-boards';
 import { ROUTES } from '@/constants/routes';
+import { useMoodBoards } from '@/hooks/use-mood-boards';
 
 export default function CreateBoardPage() {
   const router = useRouter();

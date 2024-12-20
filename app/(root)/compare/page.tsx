@@ -7,9 +7,9 @@ import { useState } from 'react';
 import { ProductSelector } from '@/components/fragrance/ProductSelector';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Product } from '@/types/fragrance';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ROUTES } from '@/constants/routes';
+import { Product } from '@/types/fragrance';
 
 export default function ComparePage() {
   const router = useRouter();
@@ -45,16 +45,16 @@ export default function ComparePage() {
         </div>
 
         <Tabs defaultValue="full-compare">
-          <TabsList className="grid w-full max-w-md grid-cols-2 mb-8">
+          <TabsList className="mb-8 grid w-full max-w-md grid-cols-2">
             <TabsTrigger
               value="full-compare"
               className="flex items-center gap-2"
             >
-              <Scale className="w-4 h-4" />
+              <Scale className="size-4" />
               Full Comparison
             </TabsTrigger>
             <TabsTrigger value="notes-only" className="flex items-center gap-2">
-              <Droplets className="w-4 h-4" />
+              <Droplets className="size-4" />
               Notes Only
             </TabsTrigger>
           </TabsList>

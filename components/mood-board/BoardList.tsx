@@ -4,10 +4,10 @@ import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { ROUTES } from '@/constants/routes';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
 
 import { BoardPreview } from './BoardPreview';
-import { ROUTES } from '@/constants/routes';
 
 export function BoardList() {
   const { boards, deleteBoard } = useMoodBoards();

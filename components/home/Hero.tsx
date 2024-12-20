@@ -61,7 +61,7 @@ export function Hero() {
                 transition={{ duration: 0.5 }}
               >
                 Your Perfume Journey
-                <span className="block holographic-text">
+                <span className="holographic-text block">
                   One Spritz at a Time
                 </span>
               </motion.h1>
