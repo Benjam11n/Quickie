@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { MoodBoard } from '@/types';
 import { ROUTES } from '@/constants/routes';
+import { toast } from 'sonner';
 
 interface BoardPreviewProps {
   board: MoodBoard;
@@ -55,6 +56,7 @@ export function BoardPreview({ board, onDelete }: BoardPreviewProps) {
                   onClick={(e) => {
                     e.preventDefault();
                     onDelete();
+                    toast.success('Successfully Deleted');
                   }}
                 >
                   <Trash2 className="size-4" />

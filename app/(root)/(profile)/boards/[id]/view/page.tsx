@@ -1,7 +1,7 @@
 'use client';
-import { ArrowLeft, Share2, Edit, Heart } from 'lucide-react';
+import { ArrowLeft, Edit, Heart } from 'lucide-react';
 import Link from 'next/link';
-import { useParams, notFound, useRouter } from 'next/navigation';
+import { useParams, notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BoardCanvas } from '@/components/mood-board/BoardCanvas';
 import { Button } from '@/components/ui/button';
@@ -9,14 +9,16 @@ import { useMoodBoards } from '@/hooks/use-mood-boards';
 import { products } from '@/types/data';
 import { useSession } from 'next-auth/react';
 import { ShareDialog } from '@/components/comparison/ShareDialog';
+import { useAuth } from '@/lib/utils/auth';
+import { ROUTES } from '@/constants/routes';
 
 export default function ViewBoardPage() {
   const params = useParams();
-  const router = useRouter();
   const { data: session } = useSession();
   const { boards, likeBoard } = useMoodBoards();
   const board = boards.find((b) => b.id === params.id);
   const [isLiked, setIsLiked] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (!board) {
@@ -35,47 +37,49 @@ export default function ViewBoardPage() {
 
   return (
     <div className="container py-10">
-      <div className="mb-8 flex items-center gap-4">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href="/profile/boards">
-            <ArrowLeft className="size-4" />
-          </Link>
-        </Button>
-        <div className="flex-1">
-          <h1 className="text-3xl font-bold">
-            <span className="holographic-text">{board.name}</span>
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Created by {board.userName || 'Anonymous'}
-          </p>
-        </div>
-
-        <div className="flex gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleLike}
-            className={isLiked ? 'text-red-500' : ''}
-          >
-            <Heart className="size-4" />
+      <div className="mb-8">
+        <div className="flex items-center gap-4 mb-4">
+          <Button variant="ghost" size="icon" asChild>
+            <Link href={ROUTES.PROFILE(user?.id!)}>
+              <ArrowLeft className="size-4" />
+            </Link>
           </Button>
-
-          {isOwner && (
-            <Button asChild variant="outline">
-              <Link href={`/boards/${board.id}/edit`}>
-                <Edit className="mr-2 size-4" />
-                Edit Board
-              </Link>
+          <div className="flex-1 gap-2">
+            <h1 className="text-3xl font-bold">
+              <span className="holographic-text">{board.name}</span>
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Created by {board.userName || 'Anonymous'}
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleLike}
+              className={isLiked ? 'text-red-500' : ''}
+            >
+              <Heart className="size-4" />
             </Button>
-          )}
+            {isOwner && (
+              <Button asChild variant="outline">
+                <Link href={`/boards/${board.id}/edit`}>
+                  <Edit className="mr-2 size-4" />
+                  Edit Board
+                </Link>
+              </Button>
+            )}
+          </div>
         </div>
+
+        {board.description && (
+          <p className="text-muted-foreground text-md ml-14">
+            {board.description}
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col gap-6">
-        {board.description && (
-          <p className="text-muted-foreground">{board.description}</p>
-        )}
-
         <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-accent/10">
           {/* // TODO: Improve UI */}
           <BoardCanvas board={board} products={products} />

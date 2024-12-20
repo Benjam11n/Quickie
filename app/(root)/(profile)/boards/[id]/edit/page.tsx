@@ -11,12 +11,16 @@ import { Input } from '@/components/ui/input';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
 import { products } from '@/types/data';
 import { Product } from '@/types/fragrance';
+import { toast } from 'sonner';
+import { ROUTES } from '@/constants/routes';
+import { useAuth } from '@/lib/utils/auth';
 
 export default function EditBoardPage() {
   const params = useParams();
   const { boards, updateBoard, addPerfumeToBoard } = useMoodBoards();
   const [name, setName] = useState('');
   const [selectedSquare, setSelectedSquare] = useState<number | null>(null);
+  const { user } = useAuth();
 
   const board = boards.find((b) => b.id === params.id);
 
@@ -55,7 +59,7 @@ export default function EditBoardPage() {
     <div className="container py-10">
       <div className="mb-8 flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
-          <Link href="/profile/boards">
+          <Link href={ROUTES.PROFILE(user?.id!)}>
             <ArrowLeft className="size-4" />
           </Link>
         </Button>
@@ -67,7 +71,11 @@ export default function EditBoardPage() {
             className="rounded-md border-none bg-transparent px-2 text-xl font-bold hover:bg-accent"
           />
         </div>
-        <Button className="gap-2">
+        {/* TODO: Implement onClick */}
+        <Button
+          className="gap-2"
+          onClick={() => toast.success('Changes Saved Successfully')}
+        >
           <Save className="size-4" />
           Save Changes
         </Button>

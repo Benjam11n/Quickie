@@ -23,10 +23,14 @@ export function AuthButtons() {
           </Link>
         </Button>
 
-        <Avatar className="size-8 my-3">
-          <AvatarImage src="/images/default-avatar.png" />
-          <AvatarFallback>{user.name.slice(0, 2).toUpperCase()}</AvatarFallback>
-        </Avatar>
+        <Link href={ROUTES.PROFILE(user.name)}>
+          <Avatar className="size-8 my-3">
+            <AvatarImage src="/images/default-avatar.png" />
+            <AvatarFallback>
+              {user.name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        </Link>
       </>
     );
   }

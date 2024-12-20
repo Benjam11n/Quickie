@@ -1,5 +1,4 @@
 export { BoardCanvas } from './BoardCanvas';
-export { BoardEditor } from './BoardEditor';
 export { BoardList } from './BoardList';
 export { BoardPreview } from './BoardPreview';
 export { BoardSidebar } from './BoardSidebar';

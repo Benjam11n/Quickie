@@ -17,7 +17,6 @@ import { Product } from '@/types/fragrance';
 import { DraggablePerfume } from './DraggablePerfume';
 import { DroppableArea } from './DroppableArea';
 
-
 interface BoardCanvasProps {
   board: MoodBoard;
   products: Product[];
