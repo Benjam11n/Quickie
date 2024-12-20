@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { X, Plus, Sparkles } from 'lucide-react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -151,9 +152,10 @@ export function NoteComparisonView({
 
               {/* Product Image */}
               <div className="relative aspect-square">
-                <img
+                <Image
                   src={product.images[0]}
                   alt={product.name}
+                  fill
                   className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />

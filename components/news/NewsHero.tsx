@@ -3,6 +3,7 @@
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { Clock, Share2 } from 'lucide-react';
+import Image from 'next/image';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -28,9 +29,11 @@ export function NewsHero({ article }: NewsHeroProps) {
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.5 }}
       >
-        <img
+        <Image
           src={article.image}
           alt={article.title}
+          width={1920}
+          height={1080}
           className="size-full object-cover"
         />
         <div

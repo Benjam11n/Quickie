@@ -1,6 +1,7 @@
 'use client';
 
 import { ArrowLeft, ExternalLink, Heart, ShoppingCart } from 'lucide-react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { AuthCheck } from '@/components/auth/AuthCheck';
@@ -53,9 +54,10 @@ export function SingleProductView({ product }: SingleProductViewProps) {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <Card className="p-6">
           <div className="relative aspect-square overflow-hidden rounded-lg">
-            <img
+            <Image
               src={product.images[0]}
               alt={product.name}
+              fill
               className="size-full object-cover"
             />
           </div>

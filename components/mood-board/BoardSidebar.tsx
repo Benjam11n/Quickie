@@ -1,6 +1,7 @@
 'use client';
 
 import { Plus, Share2, Tags, X } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -127,9 +128,11 @@ export function BoardSidebar({
                     onClick={() => onAddPerfume(product)}
                   >
                     <div className="size-12 overflow-hidden rounded-md">
-                      <img
+                      <Image
                         src={product.images[0]}
                         alt={product.name}
+                        width={48}
+                        height={48}
                         className="size-full object-cover"
                       />
                     </div>

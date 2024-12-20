@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 
 import {
@@ -68,10 +69,12 @@ export function ProductSelector({
                   onClick={() => onSelect(product)}
                 >
                   <div className="size-12 overflow-hidden rounded-md">
-                    <img
+                    <Image
                       src={product.images[0]}
                       alt={product.name}
                       className="size-full object-cover"
+                      width={48}
+                      height={48}
                     />
                   </div>
                   <div className="text-left">

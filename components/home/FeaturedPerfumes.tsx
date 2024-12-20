@@ -1,4 +1,5 @@
 import { ShoppingCart } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -56,9 +57,10 @@ export function FeaturedPerfumes() {
             className="hover-lift hover:gradient-border overflow-hidden duration-300"
           >
             <div className="group relative aspect-square overflow-hidden">
-              <img
+              <Image
                 src={perfume.image}
                 alt={perfume.name}
+                fill
                 className="size-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/60 to-transparent pb-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">

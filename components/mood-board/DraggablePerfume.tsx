@@ -1,5 +1,6 @@
 import { useDraggable } from '@dnd-kit/core';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 import { Product } from '@/types/fragrance';
 
@@ -36,9 +37,10 @@ export function DraggablePerfume({
       }
     >
       <div className="size-full p-2">
-        <img
+        <Image
           src={product.images[0]}
           alt={product.name}
+          fill
           className="size-full rounded-md object-cover"
         />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent p-2">

@@ -1,4 +1,5 @@
 import { Heart, ShoppingCart, Check, ExternalLink, Scale } from 'lucide-react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -69,9 +70,10 @@ export function ProductCard({
       onClick={handleCardClick}
     >
       <div className="relative aspect-square overflow-hidden">
-        <img
+        <Image
           src={product.images[0]}
           alt={product.name}
+          fill
           className="size-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
