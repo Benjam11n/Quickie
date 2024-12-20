@@ -59,6 +59,7 @@ export default function EditBoardPage() {
     <div className="container py-10">
       <div className="mb-8 flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
+          {/* TODO: Fix This Error */}
           <Link href={ROUTES.PROFILE(user?.id!)}>
             <ArrowLeft className="size-4" />
           </Link>

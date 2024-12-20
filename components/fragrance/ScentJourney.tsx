@@ -25,7 +25,6 @@ interface ScentJourneyProps {
 }
 
 export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
-  const [hoveredPoint, setHoveredPoint] = useState<TimelinePoint | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [playbackSpeed, setPlaybackSpeed] = useState(1); // Speed multiplier
@@ -75,7 +74,15 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
   }, [currentTime, timeline]);
 
   // Progress indicator for the chart
-  const CustomDot = ({ cx, cy, payload }: any) => {
+  const CustomDot = ({
+    cx,
+    cy,
+    payload,
+  }: {
+    cx: number;
+    cy: number;
+    payload: any;
+  }) => {
     if (payload.time === Math.floor(currentTime)) {
       return (
         <circle

@@ -13,7 +13,7 @@ import { Product } from '@/types/fragrance';
 
 export default function ComparePage() {
   const router = useRouter();
-  const [_selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+  const [, setSelectedProducts] = useState<Product[]>([]);
   const [isFullComparison, setIsFullComparison] = useState(true);
   const [showSelector, setShowSelector] = useState(false);
 

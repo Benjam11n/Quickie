@@ -1,4 +1,4 @@
-import { Droplets, Flower, Sun, Moon, Wind, Heart } from "lucide-react";
+import { Droplets, Flower, Sun, Moon, Wind, Heart } from 'lucide-react';
 
 import {
   Card,
@@ -6,44 +6,44 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 
 const categories = [
   {
-    title: "First Date",
-    description: "Fresh, Flirty, Unforgettable",
+    title: 'First Date',
+    description: 'Fresh, Flirty, Unforgettable',
     icon: Droplets,
-    gradient: "from-cyan-400 to-blue-500",
+    gradient: 'from-cyan-400 to-blue-500',
   },
   {
-    title: "Sweet Talk",
-    description: "Seductive Florals & Sweet Nothings",
+    title: 'Sweet Talk',
+    description: 'Seductive Florals & Sweet Nothings',
     icon: Flower,
-    gradient: "from-pink-400 to-rose-500",
+    gradient: 'from-pink-400 to-rose-500',
   },
   {
-    title: "Day Play",
-    description: "Light & Playful Adventures",
+    title: 'Day Play',
+    description: 'Light & Playful Adventures',
     icon: Sun,
-    gradient: "from-yellow-400 to-orange-500",
+    gradient: 'from-yellow-400 to-orange-500',
   },
   {
-    title: "After Dark",
-    description: "Mysterious & Irresistible",
+    title: 'After Dark',
+    description: 'Mysterious & Irresistible',
     icon: Moon,
-    gradient: "from-indigo-400 to-purple-500",
+    gradient: 'from-indigo-400 to-purple-500',
   },
   {
-    title: "Exotic Affair",
-    description: "Spicy, Wild, Untamed",
+    title: 'Exotic Affair',
+    description: 'Spicy, Wild, Untamed',
     icon: Wind,
-    gradient: "from-red-400 to-pink-500",
+    gradient: 'from-red-400 to-pink-500',
   },
   {
-    title: "True Love",
+    title: 'True Love',
     description: "When You're Ready to Commit",
     icon: Heart,
-    gradient: "from-rose-400 to-red-500",
+    gradient: 'from-rose-400 to-red-500',
   },
 ];
 

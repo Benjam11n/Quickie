@@ -69,7 +69,7 @@ const AuthForm = <T extends FieldValues>({
   const buttonText = formType === 'SIGN_IN' ? 'Sign In' : 'Sign Up';
 
   return (
-    <div className="container py-10">
+    <div className="container pb-4">
       <div className="mx-auto max-w-md space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">
@@ -125,17 +125,6 @@ const AuthForm = <T extends FieldValues>({
                   )}
                   {buttonText}
                 </Button>
-                {formType === 'SIGN_UP' && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="w-full"
-                    disabled={form.formState.isSubmitting}
-                    onClick={() => router.push('/register')}
-                  >
-                    Create Account
-                  </Button>
-                )}
               </div>
 
               {formType === 'SIGN_IN' ? (

@@ -46,7 +46,7 @@ const questions = [
 
 export function QuizCard({ onComplete }: QuizCardProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [_answers, setAnswers] = useState<Record<number, string>>({});
+  const [, setAnswers] = useState<Record<number, string>>({});
 
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 

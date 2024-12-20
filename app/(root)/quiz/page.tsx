@@ -33,7 +33,7 @@ const questions = [
 
 export default function QuizPage() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [, setAnswers] = useState<Record<number, string>>({});
 
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 
@@ -50,7 +50,7 @@ export default function QuizPage() {
         <div className="space-y-4 text-center">
           <h1 className="text-4xl font-bold">Find Your Perfect Match</h1>
           <p className="text-muted-foreground">
-            Let's get to know your desires...
+            Let&apos;s get to know your desires...
           </p>
         </div>
 

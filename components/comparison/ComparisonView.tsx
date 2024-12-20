@@ -122,7 +122,7 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
 
       {/* Note Pyramids */}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {products.map((product, index) => (
+        {products.map((product) => (
           <Card key={product.id} className="relative overflow-hidden p-6">
             <div className="absolute inset-0 z-0 bg-gradient-to-br from-background/10 to-background/30 backdrop-blur-sm" />
             <div className="relative">

@@ -142,9 +142,7 @@ const MobileSidebar = () => {
                           <span
                             className={cn(
                               'group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
-                              pathname === item.href
-                                ? 'bg-accent'
-                                : 'transparent'
+                              pathname === item.href ? 'bg-accent' : ''
                             )}
                           >
                             <item.icon className="mr-2 size-4" />
@@ -169,9 +167,7 @@ const MobileSidebar = () => {
                           <span
                             className={cn(
                               'group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
-                              pathname === item.href
-                                ? 'bg-accent'
-                                : 'transparent'
+                              pathname === item.href ? 'bg-accent' : ''
                             )}
                           >
                             <item.icon className="mr-2 size-4" />
@@ -197,9 +193,7 @@ const MobileSidebar = () => {
                             <span
                               className={cn(
                                 'group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
-                                pathname === item.href
-                                  ? 'bg-accent'
-                                  : 'transparent'
+                                pathname === item.href ? 'bg-accent' : ''
                               )}
                             >
                               <item.icon className="mr-2 size-4" />

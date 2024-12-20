@@ -3,7 +3,7 @@ import mongoose, { Schema, Document, models, model } from 'mongoose';
 
 export interface IAccount {
   userId: mongoose.Types.ObjectId;
-  email: string;
+  image?: string;
   password?: string;
   provider: string;
   providerAccountId?: string;
@@ -18,14 +18,7 @@ const AccountSchema = new Schema<IAccountDoc>(
       ref: 'User',
       required: true,
     },
-    email: {
-      type: String,
-      required: [true, 'Email is required'],
-      unique: true,
-      trim: true,
-      lowercase: true,
-      match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email'],
-    },
+    image: { type: String },
     password: {
       type: String,
       select: false,

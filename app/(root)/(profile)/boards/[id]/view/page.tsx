@@ -1,4 +1,5 @@
 'use client';
+
 import { ArrowLeft, Edit, Heart } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, notFound } from 'next/navigation';
@@ -41,6 +42,7 @@ export default function ViewBoardPage() {
       <div className="mb-8">
         <div className="mb-4 flex items-center gap-4">
           <Button variant="ghost" size="icon" asChild>
+            {/* TODO: Fix This Error */}
             <Link href={ROUTES.PROFILE(user?.id!)}>
               <ArrowLeft className="size-4" />
             </Link>
@@ -74,7 +76,7 @@ export default function ViewBoardPage() {
         </div>
 
         {board.description && (
-          <p className="text-md ml-14 text-muted-foreground">
+          <p className="ml-14 text-sm text-muted-foreground">
             {board.description}
           </p>
         )}

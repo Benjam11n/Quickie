@@ -49,7 +49,6 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
     radius: number
   ) => {
     const position = calculatePosition(index, total, radius);
-    const isSelected = selectedHarmony?.primary.name === note.name;
 
     return (
       <motion.div

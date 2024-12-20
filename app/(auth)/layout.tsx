@@ -10,7 +10,7 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
         bg-cover bg-center bg-no-repeat px-4 py-24"
     >
       <section
-        className="min-w-full rounded-[10px] border bg-white px-4 py-10 text-black shadow-md 
+        className="min-w-full rounded-[10px] border bg-white px-4 py-16 text-black shadow-md 
           dark:bg-black dark:text-white sm:min-w-[520px] sm:px-8"
       >
         {children}

@@ -63,7 +63,7 @@ export function ProductCard({
   return (
     <Card
       className={cn(
-        'hover-lift gradient-border group cursor-pointer overflow-hidden',
+        'hover-lift group cursor-pointer overflow-hidden',
         isSelectedForComparison && 'ring-2 ring-primary'
       )}
       onClick={handleCardClick}
@@ -127,7 +127,7 @@ export function ProductCard({
 
         {userPerfume?.review && (
           <p className="line-clamp-2 text-sm text-muted-foreground">
-            "{userPerfume.review}"
+            &quot;{userPerfume.review}&quot;
           </p>
         )}
       </CardHeader>
@@ -152,9 +152,9 @@ export function ProductCard({
                       External Purchase
                     </h4>
                     <p className="text-sm text-muted-foreground">
-                      We currently don't sell perfumes directly. You'll be
-                      redirected to a trusted external retailer to complete your
-                      purchase.
+                      We currently don&apos;t sell perfumes directly.
+                      You&apos;ll be redirected to a trusted external retailer
+                      to complete your purchase.
                     </p>
                   </div>
                   <div className="space-y-1 border-t pt-2">

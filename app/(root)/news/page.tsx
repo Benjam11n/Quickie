@@ -61,8 +61,9 @@ export default function NewsPage() {
               🎉 Coming Soon!
             </AlertDialogTitle>
             <AlertDialogDescription className="pt-4 text-base ">
-              Get ready for an exciting new feature launch! We're working on
-              something special that will transform your fragrance exploration.{' '}
+              Get ready for an exciting new feature launch! We&apos;re working
+              on something special that will transform your fragrance
+              exploration.{' '}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

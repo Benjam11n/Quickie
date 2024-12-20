@@ -1,7 +1,7 @@
 'use client';
 
 import { ArrowLeft, ExternalLink, Heart, ShoppingCart } from 'lucide-react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { AuthCheck } from '@/components/auth/AuthCheck';
 import { EnhancedVisualizer } from '@/components/fragrance';
@@ -9,7 +9,6 @@ import { RatingCard } from '@/components/rating/RatingCard';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ROUTES } from '@/constants/routes';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
@@ -20,6 +19,7 @@ interface SingleProductViewProps {
 }
 
 export function SingleProductView({ product }: SingleProductViewProps) {
+  const router = useRouter();
   const { collections, toggleFavorite, addToCollection, addRating } =
     useUserPerfumes();
   const userPerfume = collections.find((p) => p.productId === product.id);
@@ -40,10 +40,13 @@ export function SingleProductView({ product }: SingleProductViewProps) {
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.CATALOG}>
-            <ArrowLeft className="size-4" />
-          </Link>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => router.back()}
+          asChild
+        >
+          <ArrowLeft />
         </Button>
         <h1 className="text-3xl font-bold">{product.name}</h1>
       </div>

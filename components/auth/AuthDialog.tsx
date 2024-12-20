@@ -43,7 +43,7 @@ export function AuthDialog({ open, onOpenChange, onSuccess }: AuthDialogProps) {
       } else {
         setError('Invalid credentials');
       }
-    } catch (err) {
+    } catch {
       setError('An error occurred');
     } finally {
       setIsLoading(false);
