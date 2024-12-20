@@ -36,12 +36,12 @@ export function SprayLoader({ className, size = 'default' }: SprayLoaderProps) {
 
         {/* Spray Animation */}
         <g className="animate-[spray_2s_ease-in-out_infinite]">
-          <circle cx="50" cy="30" r="2" className="fill-primary/40" />
-          <circle cx="45" cy="25" r="2" className="fill-primary/40" />
-          <circle cx="55" cy="25" r="2" className="fill-primary/40" />
-          <circle cx="40" cy="20" r="2" className="fill-primary/40" />
-          <circle cx="50" cy="20" r="2" className="fill-primary/40" />
-          <circle cx="60" cy="20" r="2" className="fill-primary/40" />
+          <circle cx="50" cy="30" r="2" className="fill-primary/90" />
+          <circle cx="45" cy="25" r="2" className="fill-primary/90" />
+          <circle cx="55" cy="25" r="2" className="fill-primary/90" />
+          <circle cx="40" cy="20" r="2" className="fill-primary/90" />
+          <circle cx="50" cy="20" r="2" className="fill-primary/90" />
+          <circle cx="60" cy="20" r="2" className="fill-primary/90" />
         </g>
       </svg>
     </div>
