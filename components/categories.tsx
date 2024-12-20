@@ -51,9 +51,7 @@ export function Categories() {
   return (
     <section className="container">
       <h2 className="mb-8 text-3xl font-bold tracking-tight">
-        <span className="bg-gradient-to-r from-violet-500 to-indigo-500 bg-clip-text text-transparent">
-          Pick Your Pleasure
-        </span>
+        <span className="holographic-text">Pick Your Pleasure</span>
       </h2>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((category) => {
@@ -61,22 +59,22 @@ export function Categories() {
           return (
             <Card
               key={category.title}
-              className="hover-lift gradient-border group cursor-pointer overflow-hidden"
+              className="hover-lift hover:gradient-border group cursor-pointer overflow-hidden duration-300"
             >
               <CardHeader>
                 <div
-                  className={`flex size-12 items-center justify-center rounded-full bg-gradient-to-br p-2 ${category.gradient} transition-transform group-hover:scale-110`}
+                  className={`flex size-12 items-center justify-center rounded-full bg-gradient-to-br p-2 ${category.gradient} my-2 transition-transform lg:group-hover:scale-110`}
                 >
                   <Icon className="size-6 text-white" />
                 </div>
-                <CardTitle className="transition-all duration-300 group-hover:bg-gradient-to-r group-hover:from-pink-500 group-hover:to-violet-500 group-hover:bg-clip-text group-hover:text-transparent">
+                <CardTitle className="transition-all duration-300 group-hover:bg-gradient-to-r">
                   {category.title}
                 </CardTitle>
                 <CardDescription>{category.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div
-                  className={`h-2 w-full bg-gradient-to-r ${category.gradient} origin-left rounded-full transition-transform group-hover:scale-x-110`}
+                  className={`h-2 w-full bg-gradient-to-r ${category.gradient} origin-left rounded-full transition-transform`}
                 />
               </CardContent>
             </Card>

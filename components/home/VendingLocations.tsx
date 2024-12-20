@@ -33,7 +33,7 @@ export function VendingLocations() {
         {featuredLocations.map((location) => (
           <Card
             key={location.id}
-            className="hover-lift gradient-border group relative overflow-hidden p-6"
+            className="hover-lift group relative overflow-hidden p-6"
           >
             <div className="space-y-4">
               <div className="flex items-start justify-between">

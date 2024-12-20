@@ -1,34 +1,34 @@
-import { MapPin, Sparkles, Star, User } from "lucide-react";
+import { MapPin, Sparkles, Star, User } from 'lucide-react';
 
-import { Card } from "@/components/ui/card";
+import { Card } from '@/components/ui/card';
 
 const steps = [
   {
     icon: MapPin,
-    title: "Find a Machine",
+    title: 'Find a Machine',
     description:
-      "Locate our smart vending machines across the city using our interactive map.",
-    gradient: "from-pink-500 to-rose-500",
+      'Locate our smart vending machines across the city using our interactive map.',
+    gradient: 'from-pink-500 to-rose-500',
   },
   {
     icon: Sparkles,
-    title: "Try New Scents",
+    title: 'Try New Scents',
     description:
-      "Sample premium fragrances in convenient travel-sized portions.",
-    gradient: "from-purple-500 to-indigo-500",
+      'Sample premium fragrances in convenient travel-sized portions.',
+    gradient: 'from-purple-500 to-indigo-500',
   },
   {
     icon: Star,
-    title: "Rate & Review",
-    description: "Share your thoughts and keep track of your favorites.",
-    gradient: "from-blue-500 to-cyan-500",
+    title: 'Rate & Review',
+    description: 'Share your thoughts and keep track of your favorites.',
+    gradient: 'from-blue-500 to-cyan-500',
   },
   {
     icon: User,
-    title: "Build Collection",
+    title: 'Build Collection',
     description:
-      "Create your personal fragrance journey and discover new favorites.",
-    gradient: "from-emerald-500 to-teal-500",
+      'Create your personal fragrance journey and discover new favorites.',
+    gradient: 'from-emerald-500 to-teal-500',
   },
 ];
 
@@ -51,7 +51,7 @@ export function HowItWorks() {
           return (
             <Card
               key={step.title}
-              className="hover-lift gradient-border group relative overflow-hidden p-6"
+              className="hover-lift group relative overflow-hidden p-6"
             >
               <div
                 className={`absolute inset-0 bg-gradient-to-br ${step.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5`}

@@ -82,7 +82,7 @@ export function Features() {
           return (
             <Card
               key={feature.title}
-              className="hover-lift gradient-border group relative overflow-hidden p-6"
+              className="hover-lift group relative overflow-hidden p-6"
             >
               <div
                 className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 transition-opacity duration-300 group-hover:opacity-5`}

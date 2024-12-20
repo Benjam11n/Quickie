@@ -1,4 +1,5 @@
 import { ShoppingCart } from 'lucide-react';
+import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -8,10 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { ROUTES } from '@/constants/routes';
 
 const featuredPerfumes = [
   {
     name: 'Midnight Rendezvous',
+    link: 'midnight-rendezvous',
     brand: 'Quickie Signature',
     description: 'A seductive affair of dark rose and vanilla bourbon',
     price: '$129.99',
@@ -20,6 +23,7 @@ const featuredPerfumes = [
   },
   {
     name: 'Morning After',
+    link: 'morning-after',
     brand: 'Quickie Essentials',
     description: 'Fresh and invigorating, like new beginnings',
     price: '$89.99',
@@ -28,6 +32,7 @@ const featuredPerfumes = [
   },
   {
     name: 'Secret Affair',
+    link: 'secret-affair',
     brand: 'Quickie Reserve',
     description: 'Mysterious amber wrapped in forbidden spices',
     price: '$149.99',
@@ -48,7 +53,7 @@ export function FeaturedPerfumes() {
         {featuredPerfumes.map((perfume) => (
           <Card
             key={perfume.name}
-            className="hover-lift gradient-border overflow-hidden"
+            className="hover-lift hover:gradient-border overflow-hidden duration-300"
           >
             <div className="group relative aspect-square overflow-hidden">
               <img
@@ -57,9 +62,11 @@ export function FeaturedPerfumes() {
                 className="size-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/60 to-transparent pb-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <Button size="sm">
-                  <ShoppingCart className="mr-2 size-4" />
-                  Take Me Home
+                <Button size="sm" asChild>
+                  <Link href={ROUTES.PRODUCT(perfume.link)}>
+                    <ShoppingCart className="mr-2 size-4" />
+                    Take Me Home
+                  </Link>
                 </Button>
               </div>
             </div>

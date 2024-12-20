@@ -52,7 +52,7 @@ export default function LocationsPage() {
             ))}
           </div>
 
-          <div className="order-1 lg:order-2 lg:col-span-8">
+          <div className="z-0 order-1 lg:order-2 lg:col-span-8">
             <div className="aspect-[4/3] overflow-hidden rounded-lg border">
               <LocationMap
                 locations={filteredLocations}

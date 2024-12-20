@@ -10,7 +10,7 @@ export const ROUTES = {
   SIGN_IN_WITH_OAUTH: `signin-with-oauth`,
 
   // Products
-  PRODUCT: (id: string) => `/products/${id}`,
+  PRODUCT: (id: string) => `/product/${id}`,
 
   // Comparisons
   FULL_COMPARE: (ids: string) => `/compare/${ids}`,
