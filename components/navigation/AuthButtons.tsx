@@ -37,7 +37,7 @@ export function AuthButtons() {
         Sign In
       </Button>
       <Button asChild size="sm">
-        <Link href="/register">Get Started</Link>
+        <Link href={ROUTES.SIGN_UP}>Get Started</Link>
       </Button>
     </>
   );

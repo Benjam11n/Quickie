@@ -9,6 +9,9 @@ export const ROUTES = {
   NEWS: '/news',
   SIGN_IN_WITH_OAUTH: `signin-with-oauth`,
 
+  // Products
+  PRODUCT: (id: string) => `/products/${id}`,
+
   // Comparisons
   FULL_COMPARE: (ids: string) => `/compare/${ids}`,
   NOTES_COMPARE: (ids: string) => `/compare/notes/${ids}`,
@@ -18,4 +21,8 @@ export const ROUTES = {
   BOARDS_NEW: '/boards/new',
   BOARDS_EDIT: (id: string) => `/boards/${id}/edit`,
   BOARDS_VIEW: (id: string) => `/boards/${id}/view`,
+
+  // Miscellaneous
+  PRIVACY: '/privacy',
+  TERMS: '/terms',
 };

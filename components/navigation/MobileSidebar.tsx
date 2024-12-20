@@ -1,22 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  X,
-  Home,
-  Search,
-  Scale,
-  MapPin,
-  Heart,
-  Settings,
-  HelpCircle,
-  LogOut,
-  Star,
-  Grid,
-  TrendingUp,
-  Newspaper,
-  Sparkles,
-} from 'lucide-react';
+import { X, LogOut, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
@@ -30,26 +15,7 @@ import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/utils/auth';
 import { ROUTES } from '@/constants/routes';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-
-const mainNavItems = [
-  { href: '/', label: 'Home', icon: Home },
-  { href: '/catalog', label: 'Explore Perfumes', icon: Search },
-  { href: '/compare', label: 'Compare', icon: Scale },
-  { href: '/locations', label: 'Vending Machines', icon: MapPin },
-  { href: '/profile', label: 'My Collection', icon: Grid },
-  { href: '/profile?tab=favorites', label: 'Wishlist', icon: Heart },
-];
-
-const communityNavItems = [
-  { href: '/reviews', label: 'Latest Reviews', icon: Star },
-  { href: '/trending', label: 'Trending', icon: TrendingUp },
-  { href: '/news', label: 'News & Articles', icon: Newspaper },
-];
-
-const userNavItems = [
-  { href: '/settings', label: 'Settings', icon: Settings },
-  { href: '/help', label: 'Help & Support', icon: HelpCircle },
-];
+import { communityNavItems, mainNavItems, userNavItems } from '@/constants';
 
 const MobileSidebar = () => {
   const { isOpen, closeNav } = useNavStore();

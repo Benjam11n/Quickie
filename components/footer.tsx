@@ -12,8 +12,11 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ROUTES } from '@/constants/routes';
+import { useAuth } from '@/lib/utils/auth';
 
 export function Footer() {
+  const { user } = useAuth();
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle newsletter subscription
@@ -41,7 +44,7 @@ export function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
-                  href="/catalog"
+                  href={ROUTES.CATALOG}
                   className="transition-colors hover:text-primary"
                 >
                   Browse Fragrances
@@ -49,7 +52,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/locations"
+                  href={ROUTES.LOCATIONS}
                   className="transition-colors hover:text-primary"
                 >
                   Find Machines
@@ -57,20 +60,22 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/compare"
+                  href={ROUTES.COMPARE}
                   className="transition-colors hover:text-primary"
                 >
                   Compare Scents
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/profile"
-                  className="transition-colors hover:text-primary"
-                >
-                  My Collection
-                </Link>
-              </li>
+              {user && (
+                <li>
+                  <Link
+                    href={ROUTES.PROFILE(user.name)}
+                    className="transition-colors hover:text-primary"
+                  >
+                    My Collection
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
 
@@ -137,13 +142,13 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Quickie. All rights reserved.</p>
           <div className="flex justify-center gap-4">
             <Link
-              href="/privacy"
+              href={ROUTES.PRIVACY}
               className="transition-colors hover:text-primary"
             >
               Privacy Policy
             </Link>
             <Link
-              href="/terms"
+              href={ROUTES.TERMS}
               className="transition-colors hover:text-primary"
             >
               Terms of Service

@@ -13,6 +13,7 @@ import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
 import { Product } from '@/types/fragrance';
+import { ROUTES } from '@/constants/routes';
 
 interface SingleProductViewProps {
   product: Product;
@@ -40,7 +41,7 @@ export function SingleProductView({ product }: SingleProductViewProps) {
     <div className="space-y-8">
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
-          <Link href="/catalog">
+          <Link href={ROUTES.CATALOG}>
             <ArrowLeft className="size-4" />
           </Link>
         </Button>

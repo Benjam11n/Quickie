@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { StarRating } from '@/components/star-rating';
 import { Card } from '@/components/ui/card';
 import { Product, UserPerfume } from '@/types/fragrance';
+import { ROUTES } from '@/constants/routes';
 
 interface RatingsListProps {
   items: UserPerfume[];
@@ -43,7 +44,7 @@ export function RatingsList({
               <div className="flex-1 space-y-2">
                 <div>
                   <Link
-                    href={`/product/${product.id}`}
+                    href={ROUTES.PRODUCT(String(item.productId))}
                     className="text-lg font-semibold transition-colors hover:text-primary"
                   >
                     {product.name}

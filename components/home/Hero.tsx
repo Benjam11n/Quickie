@@ -5,6 +5,7 @@ import { MapPin, Sparkles, Star } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { ROUTES } from '@/constants/routes';
 
 export function Hero() {
   return (
@@ -82,7 +83,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <Button asChild size="lg" className="glow-effect">
-                <Link href="/locations">
+                <Link href={ROUTES.LOCATIONS}>
                   <MapPin className="mr-2 size-5" />
                   Find Nearest Machine
                 </Link>

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { vendingLocations } from '@/types/data';
+import { ROUTES } from '@/constants/routes';
 
 export function VendingLocations() {
   const featuredLocations = vendingLocations.slice(0, 3);
@@ -69,7 +70,7 @@ export function VendingLocations() {
 
       <div className="text-center">
         <Button asChild size="lg" className="glow-effect">
-          <Link href="/locations">
+          <Link href={ROUTES.LOCATIONS}>
             <MapPin className="mr-2 size-5" />
             View All Locations
           </Link>

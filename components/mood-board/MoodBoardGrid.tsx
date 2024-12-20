@@ -9,6 +9,7 @@ import { Card } from '@/components/ui/card';
 import { MoodBoard } from '@/types';
 
 import { BoardList } from './BoardList';
+import { ROUTES } from '@/constants/routes';
 
 interface MoodBoardGridProps {
   boards: MoodBoard[];
@@ -25,7 +26,7 @@ export function MoodBoardGrid({ boards }: MoodBoardGridProps) {
             discoveries.
           </p>
           <Button asChild>
-            <Link href="/profile/boards/create">
+            <Link href={ROUTES.BOARDS_NEW}>
               <Plus className="mr-2 size-4" />
               Create Mood Board
             </Link>
