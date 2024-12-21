@@ -1,18 +1,15 @@
 'use client';
 
-import { Plus, Layout, Grid, Star, BookMarked, Settings } from 'lucide-react';
-import Link from 'next/link';
+import { Layout, Grid, Star, BookMarked } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { MoodBoardGrid } from '@/components/mood-board/MoodBoardGrid';
 import { CollectionGrid } from '@/components/profile/CollectionGrid';
 import { CollectionInsights } from '@/components/profile/CollectionInsights';
+import ProfileCard from '@/components/profile/ProfileCard';
 import { RatingsList } from '@/components/profile/RatingsList';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ROUTES } from '@/constants/routes';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { products } from '@/types/data';
@@ -70,68 +67,13 @@ export default function ProfilePage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-purple-950/20 to-gray-950">
+    <div className="min-h-screen from-gray-950 via-purple-950/20 to-gray-950 dark:bg-gradient-to-b">
       {/* Profile Header */}
-      <div className="rounded-md border border-purple-800/50 bg-gradient-to-r from-purple-900/10 to-pink-900/10 px-8">
-        <div className="container py-8">
-          <div className="flex flex-col items-center md:flex-row md:items-start md:gap-8">
-            {/* Profile Image */}
-            <div className="group relative">
-              <div className="size-32 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 p-1">
-                <Avatar className="size-full">
-                  <AvatarImage src="/images/default-avatar.png" />
-                  <AvatarFallback>
-                    {(params.username as string)?.slice(0, 2).toUpperCase() ??
-                      ''}
-                  </AvatarFallback>
-                </Avatar>
-              </div>
-              {/* Level */}
-              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-purple-600 px-3 py-1 text-xs font-medium text-white">
-                {Math.floor(collections.length / 5)}
-              </div>
-            </div>
-
-            {/* Profile Info */}
-            <div className="mt-4 flex-1 text-center md:mt-0 md:text-left">
-              <h1 className="holographic-text text-3xl font-semibold">
-                {params.username}
-              </h1>
-              <p className="mt-1">
-                {/* TODO: Custmise this */}
-                Fragrance Enthusiast | Collection Curator
-              </p>
-
-              {/* Stats */}
-              <div className="mt-4 flex justify-center gap-6 md:justify-start">
-                {Object.entries(stats).map(([key, value]) => (
-                  <div key={key} className="text-center">
-                    <div className="text-2xl font-bold text-purple-300">
-                      {value.toLocaleString()}
-                    </div>
-                    <div className="text-sm capitalize text-purple-400">
-                      {key}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="mt-4 flex gap-4 md:mt-0">
-              <Button className="gap-2">
-                <Plus className="size-4" />
-                Follow
-              </Button>
-              <Button variant="outline" size="icon">
-                <Link href={ROUTES.PROFILE_SETTINGS(params.username as string)}>
-                  <Settings className="size-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <ProfileCard
+        username={params.username as string}
+        collectionNum={collections.length}
+        stats={stats}
+      />
 
       {/* Main Content */}
       <div className="container py-8">
