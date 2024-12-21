@@ -6,13 +6,11 @@ import { useSession } from 'next-auth/react';
 
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
-import { useAuthDialog } from '@/hooks/use-auth-dialog';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 export function AuthButtons() {
   const { data: session } = useSession();
-  const { open } = useAuthDialog();
 
   if (session && session.user && session.user.name) {
     return (
@@ -38,8 +36,8 @@ export function AuthButtons() {
 
   return (
     <>
-      <Button variant="ghost" size="sm" onClick={() => open()}>
-        Sign In
+      <Button variant="ghost" size="sm">
+        <Link href={ROUTES.SIGN_IN}>Sign In</Link>
       </Button>
       <Button asChild size="sm">
         <Link href={ROUTES.SIGN_UP}>Get Started</Link>

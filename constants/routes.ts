@@ -18,6 +18,7 @@ export const ROUTES = {
 
   // Mood boards
   PROFILE: (username: string) => `/profile/${username}`,
+  PROFILE_SETTINGS: (username: string) => `/profile/${username}/settings`,
   BOARDS_NEW: '/boards/new',
   BOARDS_EDIT: (id: string) => `/boards/${id}/edit`,
   BOARDS_VIEW: (id: string) => `/boards/${id}/view`,

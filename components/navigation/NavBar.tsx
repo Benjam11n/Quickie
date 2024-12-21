@@ -35,8 +35,8 @@ export function NavBar() {
           </div>
         </div>
         <div className="ml-auto flex items-center gap-2">
-          <div className="hidden items-center gap-2 lg:flex">
-            <ThemeToggle />
+          <ThemeToggle />
+          <div className="hidden items-center lg:flex">
             <AuthButtons />
           </div>
           <MobileSidebar />

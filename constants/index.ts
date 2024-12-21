@@ -4,8 +4,6 @@ import {
   Scale,
   MapPin,
   Heart,
-  Settings,
-  HelpCircle,
   Star,
   Grid,
   TrendingUp,
@@ -74,9 +72,4 @@ export const communityNavItems = [
   { href: '/reviews', label: 'Latest Reviews', icon: Star },
   { href: '/trending', label: 'Trending', icon: TrendingUp },
   { href: '/news', label: 'News & Articles', icon: Newspaper },
-];
-
-export const userNavItems = [
-  { href: '/settings', label: 'Settings', icon: Settings },
-  { href: '/help', label: 'Help & Support', icon: HelpCircle },
 ];

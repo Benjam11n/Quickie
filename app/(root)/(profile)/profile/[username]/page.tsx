@@ -1,6 +1,7 @@
 'use client';
 
 import { Plus, Layout, Grid, Star, BookMarked, Settings } from 'lucide-react';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
@@ -11,6 +12,7 @@ import { RatingsList } from '@/components/profile/RatingsList';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ROUTES } from '@/constants/routes';
 import { useMoodBoards } from '@/hooks/use-mood-boards';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { products } from '@/types/data';
@@ -19,7 +21,7 @@ export default function ProfilePage() {
   const params = useParams();
   const { collections } = useUserPerfumes();
   const { boards } = useMoodBoards();
-  // TODO: isPrivate
+  // TODO: Implement isPrivate
   const [isPrivate] = useState(true);
 
   // Calculate collection stats
@@ -122,7 +124,9 @@ export default function ProfilePage() {
                 Follow
               </Button>
               <Button variant="outline" size="icon">
-                <Settings className="size-4" />
+                <Link href={ROUTES.PROFILE_SETTINGS(params.username as string)}>
+                  <Settings className="size-4" />
+                </Link>
               </Button>
             </div>
           </div>
