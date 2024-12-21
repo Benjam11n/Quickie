@@ -32,6 +32,7 @@ interface AuthFormProps<T extends FieldValues> {
   defaultValues: T;
   onSubmit: (data: T) => Promise<ActionResponse>;
   formType: 'SIGN_IN' | 'SIGN_UP';
+  onSuccess?: () => void;
 }
 
 const AuthForm = <T extends FieldValues>({
@@ -39,6 +40,7 @@ const AuthForm = <T extends FieldValues>({
   defaultValues,
   formType,
   onSubmit,
+  onSuccess,
 }: AuthFormProps<T>) => {
   const router = useRouter();
 
@@ -57,6 +59,7 @@ const AuthForm = <T extends FieldValues>({
             ? 'Signed in successfully'
             : 'Signed up successfully',
       });
+      onSuccess?.();
 
       router.push(ROUTES.HOME);
     } else {

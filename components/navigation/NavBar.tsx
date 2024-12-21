@@ -1,8 +1,5 @@
-'use client';
-
 import { Sparkles } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { navLinks } from '@/constants';
@@ -13,8 +10,6 @@ import MobileSidebar from './MobileSidebar';
 import { NavLink } from './NavLink';
 
 export function NavBar() {
-  const pathname = usePathname();
-
   return (
     <header className="sticky top-0 z-50 mb-8 w-full border-b bg-background/80 backdrop-blur">
       <nav className="container flex h-16 items-center px-4">
@@ -29,7 +24,6 @@ export function NavBar() {
                 key={navLink.href}
                 href={navLink.href}
                 label={navLink.label}
-                active={navLink.active(pathname)}
               />
             ))}
           </div>

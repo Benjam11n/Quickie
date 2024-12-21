@@ -14,7 +14,7 @@ import { ROUTES } from '@/constants/routes';
 
 import NewsletterForm from './NewsletterForm';
 
-export async function Footer() {
+export default async function Footer() {
   const session = await auth();
   const user = session?.user;
 

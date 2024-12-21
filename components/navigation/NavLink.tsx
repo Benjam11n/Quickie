@@ -1,18 +1,19 @@
-'use client';
-
 import { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
 interface NavLinkProps {
   href: string;
   label: string;
-  active: boolean;
   icon?: LucideIcon;
 }
 
-export function NavLink({ href, label, active, icon: Icon }: NavLinkProps) {
+export function NavLink({ href, label, icon: Icon }: NavLinkProps) {
+  const pathname = usePathname();
+  const active = pathname === href;
+
   return (
     <Link
       href={href}

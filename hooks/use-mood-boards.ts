@@ -1,9 +1,10 @@
 'use client';
 
+import { nanoid } from 'nanoid';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
 import { MoodBoard } from '@/types';
-import { nanoid } from 'nanoid';
 
 interface MoodBoardsState {
   boards: MoodBoard[];

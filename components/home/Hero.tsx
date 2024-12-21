@@ -3,11 +3,14 @@
 import { motion } from 'framer-motion';
 import { MapPin, Sparkles, Star } from 'lucide-react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 
 export function Hero() {
+  const { data: session } = useSession();
+
   return (
     <div className="relative flex min-h-[80vh] items-center">
       {/* Background with animated gradient and pattern */}
@@ -94,7 +97,13 @@ export function Hero() {
                 size="lg"
                 className="gradient-border"
               >
-                <Link href="/profile">
+                <Link
+                  href={
+                    session?.user?.id
+                      ? ROUTES.PROFILE(session?.user?.id)
+                      : ROUTES.SIGN_IN
+                  }
+                >
                   <Star className="mr-2 size-5" />
                   Start Your Collection
                 </Link>

@@ -1,8 +1,7 @@
 'use client';
 
-import { Sparkles, Menu } from 'lucide-react';
+import { Sparkles, Menu, LogIn } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -15,12 +14,12 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { communityNavItems, getMainNavItems } from '@/constants';
-import { cn } from '@/lib/utils';
+import { ROUTES } from '@/constants/routes';
 
+import { MobileNavLink } from './MobileNavLink';
 import { NavUser } from './NavUser';
 
 const MobileSidebar = () => {
-  const pathname = usePathname();
   const { data: session } = useSession();
 
   const user = session?.user;
@@ -49,19 +48,11 @@ const MobileSidebar = () => {
               {/* Main Navigation */}
               <div className="mt-2 space-y-1">
                 {mainNavItems.map((item) => (
-                  <SheetClose key={item.label} asChild>
-                    <Link href={item.href} className="block">
-                      <span
-                        className={cn(
-                          'group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
-                          pathname === item.href ? 'bg-accent' : ''
-                        )}
-                      >
-                        <item.icon className="mr-2 size-4" />
-                        <span>{item.label}</span>
-                      </span>
-                    </Link>
-                  </SheetClose>
+                  <MobileNavLink
+                    key={item.href}
+                    label={item.label}
+                    href={item.href}
+                  />
                 ))}
               </div>
               {/* Community Section */}
@@ -70,24 +61,29 @@ const MobileSidebar = () => {
                   Community
                 </h4>
                 {communityNavItems.map((item) => (
-                  <SheetClose key={item.label} asChild>
-                    <Link href={item.href} className="block">
-                      <span
-                        className={cn(
-                          'group flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
-                          pathname === item.href ? 'bg-accent' : ''
-                        )}
-                      >
-                        <item.icon className="mr-2 size-4" />
-                        <span>{item.label}</span>
-                      </span>
-                    </Link>
-                  </SheetClose>
+                  <MobileNavLink
+                    key={item.href}
+                    label={item.label}
+                    href={item.href}
+                  />
                 ))}
               </div>
             </ScrollArea>
 
-            {user && <NavUser user={user} />}
+            {user ? (
+              <NavUser user={user} />
+            ) : (
+              <div className="m-3 rounded-md bg-primary p-0.5 hover:bg-primary/90">
+                <SheetClose asChild>
+                  <Link href={ROUTES.SIGN_IN} className="block">
+                    <span className="group flex items-center justify-center rounded-md px-3 py-2 font-medium transition-colors hover:text-accent-foreground">
+                      <LogIn className="mr-2 size-5" />
+                      <span>Sign In</span>
+                    </span>
+                  </Link>
+                </SheetClose>
+              </div>
+            )}
           </div>
         </div>
       </SheetContent>

@@ -1,3 +1,5 @@
+'use client';
+
 import {
   BadgeCheck,
   Bell,
@@ -128,7 +130,7 @@ export function NavUser({
           <DropdownMenuItem className="w-full">
             <LogOut />
 
-            <span className="ml-2">Log out</span>
+            <span className="ml-2">Sign out</span>
           </DropdownMenuItem>
         </form>
       </DropdownMenuContent>

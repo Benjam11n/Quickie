@@ -16,37 +16,16 @@ import { ROUTES } from './routes';
 interface Navlink {
   href: string;
   label: string;
-  active: (pathname: string) => boolean;
 }
 
 type Navlinks = Navlink[];
 
 export const navLinks: Navlinks = [
-  {
-    href: ROUTES.HOME,
-    label: 'Home',
-    active: (pathname: string) => pathname === '/',
-  },
-  {
-    href: ROUTES.CATALOG,
-    label: 'Temptations',
-    active: (pathname: string) => pathname === '/catalog',
-  },
-  {
-    href: ROUTES.COMPARE,
-    label: 'Compare',
-    active: (pathname: string) => pathname === '/compare',
-  },
-  {
-    href: ROUTES.NEWS,
-    label: 'Newsletter',
-    active: (pathname: string) => pathname === '/news',
-  },
-  {
-    href: ROUTES.LOCATIONS,
-    label: 'Find Me',
-    active: (pathname: string) => pathname === '/locations',
-  },
+  { href: ROUTES.HOME, label: 'Home' },
+  { href: ROUTES.CATALOG, label: 'Temptations' },
+  { href: ROUTES.COMPARE, label: 'Compare' },
+  { href: ROUTES.NEWS, label: 'Newsletter' },
+  { href: ROUTES.LOCATIONS, label: 'Find Me' },
 ];
 
 export const getMainNavItems = (user?: User) => [
