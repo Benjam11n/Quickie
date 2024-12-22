@@ -2,7 +2,7 @@
 
 import mongoose, { FilterQuery } from 'mongoose';
 
-import Perfume, { IPerfume, IPerfumeDoc } from '@/database/perfume.model';
+import Perfume, { IPerfumeDoc } from '@/database/perfume.model';
 import TagPerfume from '@/database/tag-perfume.model';
 import Tag, { ITagDoc } from '@/database/tag.model';
 import {
@@ -10,6 +10,7 @@ import {
   GetPerfumeParams,
   UpdatePerfumeParams,
 } from '@/types/action';
+import { Product } from '@/types/fragrance';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -231,7 +232,7 @@ export async function getPerfume(
 
 export async function getPerfumes(
   params: PaginatedSearchParams
-): Promise<ActionResponse<{ perfumes: IPerfume[]; isNext: boolean }>> {
+): Promise<ActionResponse<{ perfumes: Product[]; isNext: boolean }>> {
   const validationResult = await action({
     params,
     schema: PaginatedSearchParamsSchema,
@@ -281,11 +282,19 @@ export async function getPerfumes(
 
     const perfumes = await Perfume.find(filterQuery)
       .populate('tags', 'name')
-      .populate('author', 'name image')
+      // TODO: Implement this
+      // .populate('author', 'name image')
       .lean()
       .sort(sortCriteria)
       .skip(skip)
-      .limit(limit);
+      .limit(limit)
+      .then((products) =>
+        products.map((product) => ({
+          ...product,
+          id: (product._id as mongoose.Types.ObjectId).toString(),
+          _id: undefined, // Remove _id from the response
+        }))
+      );
 
     const isNext = totalPerfumes > skip + perfumes.length;
 

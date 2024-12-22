@@ -1,26 +1,22 @@
-import { SingleProductView } from '@/components/fragrance/SingleProductView';
-import { products } from '@/types/data';
+import { notFound } from 'next/navigation';
 
-export async function generateStaticParams() {
-  return products.map((product) => ({
-    id: product.id,
-  }));
-}
+import { SingleProductView } from '@/components/fragrance/SingleProductView';
+import { getPerfume } from '@/lib/actions/perfume.action';
 
 export default async function ProductPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const product = products.find((p) => p.id === params.id);
+  const { id } = await params;
+  if (!id) return notFound();
 
-  if (!product) {
-    return <div>Product not found</div>;
-  }
+  const { data: perfume, success } = await getPerfume({ perfumeId: id });
+  if (!success || !perfume) return notFound();
 
   return (
     <div className="container py-10">
-      <SingleProductView product={product} />
+      <SingleProductView product={perfume} />
     </div>
   );
 }

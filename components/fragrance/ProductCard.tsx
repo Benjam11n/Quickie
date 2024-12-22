@@ -10,6 +10,7 @@ import { StarRating } from '@/components/StarRating';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { ROUTES } from '@/constants/routes';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { Product, UserPerfume } from '@/types/fragrance';
@@ -35,7 +36,7 @@ export function ProductCard({
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Don't navigate if clicking on buttons
     if (!(e.target as HTMLElement).closest('button')) {
-      router.push(`/product/${product.id}`);
+      router.push(ROUTES.PRODUCT(product.id));
     }
   };
 
