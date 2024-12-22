@@ -1,24 +1,25 @@
-export interface Position {
-  x: number;
-  y: number;
+import { IMoodBoardDoc } from '@/database';
+
+export interface PerfumePosition {
+  perfumeId: string; // ObjectId as string
+  position: {
+    x: number;
+    y: number;
+  };
 }
 
 export interface MoodBoard {
-  id: string;
+  _id: string; // MongoDB _id as string
+  userId: string; // ObjectId as string
   name: string;
   description?: string;
-  createdAt: string;
-  updatedAt: string;
-  userName: string;
+  perfumes: PerfumePosition[];
   tags: string[];
-  perfumes: {
-    id: string;
-    position: Position;
-  }[];
   isPublic: boolean;
-  shareUrl?: string;
-  likes: number;
-  likedBy: string[];
+  views?: number;
+  likes?: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface VendingLocation {
@@ -35,4 +36,22 @@ export interface VendingLocation {
     productId: string;
     quantity: number;
   }[];
+}
+
+// Helper function to transform MongoDB doc to client MoodBoard
+export function transformToClientBoard(doc: IMoodBoardDoc): MoodBoard {
+  return {
+    _id: doc._id.toString(),
+    userId: doc.userId.toString(),
+    name: doc.name,
+    description: doc.description,
+    perfumes: doc.perfumes.map((p) => ({
+      perfumeId: p.perfumeId.toString(),
+      position: p.position,
+    })),
+    tags: doc.tags,
+    isPublic: doc.isPublic,
+    views: doc.views,
+    likes: doc.likes,
+  };
 }

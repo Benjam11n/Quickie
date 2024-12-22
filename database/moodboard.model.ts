@@ -19,7 +19,9 @@ export interface IMoodBoard {
   likes?: number;
 }
 
-export interface IMoodBoardDoc extends IMoodBoard, Document {}
+export interface IMoodBoardDoc extends IMoodBoard, Document {
+  _id: Types.ObjectId;
+}
 
 const MoodBoardSchema = new Schema<IMoodBoard>(
   {

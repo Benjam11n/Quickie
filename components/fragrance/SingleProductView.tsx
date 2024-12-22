@@ -2,6 +2,7 @@
 
 import { ArrowLeft, ExternalLink, Heart, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { AuthCheck } from '@/components/auth/AuthCheck';
@@ -14,6 +15,8 @@ import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
 import { Product } from '@/types/fragrance';
+
+import AffiliateNotice from './AffiliateNotice';
 
 interface SingleProductViewProps {
   product: Product;
@@ -107,17 +110,14 @@ export function SingleProductView({ product }: SingleProductViewProps) {
                 />
               </Button>
             </AuthCheck>
-            <Button variant="outline" size="lg" asChild className="flex-1">
-              <a
-                href={product.affiliateLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full"
-              >
-                <ExternalLink className="mr-2 size-5" />
-                Buy from Partner
-              </a>
-            </Button>
+            <AffiliateNotice>
+              <Button variant="outline" size="lg" asChild className="flex-1">
+                <Link href={product.affiliateLink} passHref>
+                  <ExternalLink className="mr-2 size-4" />
+                  Buy from Partner
+                </Link>
+              </Button>
+            </AffiliateNotice>
           </div>
         </div>
       </div>

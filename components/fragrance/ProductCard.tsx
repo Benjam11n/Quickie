@@ -1,5 +1,8 @@
+'use client';
+
 import { Heart, ShoppingCart, Check, ExternalLink, Scale } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
@@ -11,11 +14,7 @@ import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { cn } from '@/lib/utils';
 import { Product, UserPerfume } from '@/types/fragrance';
 
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '../ui/hover-card';
+import AffiliateNotice from './AffiliateNotice';
 
 interface ProductCardProps {
   product: Product;
@@ -49,11 +48,6 @@ export function ProductCard({
     e.stopPropagation();
     addToCollection(product.id);
     toast.success('Successfully added to collection');
-  };
-
-  const handleBuyClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    window.open(product.affiliateLink, '_blank');
   };
 
   const handleCompareClick = (e: React.MouseEvent) => {
@@ -140,33 +134,14 @@ export function ProductCard({
             ${product.price}
           </span>
           <div className="flex gap-2">
-            <HoverCard openDelay={100} closeDelay={100}>
-              <HoverCardTrigger asChild>
-                <Button size="sm" variant="outline" onClick={handleBuyClick}>
+            <AffiliateNotice>
+              <Button size="sm" variant="outline">
+                <Link href={product.affiliateLink} passHref>
                   <ExternalLink className="mr-2 size-4" />
                   Buy
-                </Button>
-              </HoverCardTrigger>
-              <HoverCardContent side="top" className="w-80">
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <h4 className="text-sm font-semibold text-yellow-600 dark:text-yellow-500">
-                      External Purchase
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      We currently don&apos;t sell perfumes directly.
-                      You&apos;ll be redirected to a trusted external retailer
-                      to complete your purchase.
-                    </p>
-                  </div>
-                  <div className="space-y-1 border-t pt-2">
-                    <p className="text-xs text-muted-foreground">
-                      Note: Prices and availability may vary on external sites.
-                    </p>
-                  </div>
-                </div>
-              </HoverCardContent>
-            </HoverCard>
+                </Link>
+              </Button>
+            </AffiliateNotice>
             <Button
               size="sm"
               className={cn(

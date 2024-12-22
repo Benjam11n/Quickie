@@ -5,12 +5,12 @@ import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
-import { useMoodBoards } from '@/hooks/use-mood-boards';
+import { useEditBoardStore } from '@/hooks/use-mood-boards';
 
 import { BoardPreview } from './BoardPreview';
 
 export function BoardList() {
-  const { boards, deleteBoard } = useMoodBoards();
+  const { boards, deleteBoard } = useEditBoardStore();
 
   return (
     <div className="space-y-8">

@@ -1,5 +1,4 @@
 'use client';
-
 import { Plus, Share2, Tags, X } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -10,38 +9,37 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { MoodBoard } from '@/types';
+import { useEditBoardStore } from '@/hooks/use-mood-boards';
 import { Product } from '@/types/fragrance';
 
 interface BoardSidebarProps {
-  board: MoodBoard;
   products: Product[];
   onAddPerfume: (product: Product) => void;
   selectedSquare: number | null;
 }
 
 export function BoardSidebar({
-  board,
   products,
   onAddPerfume,
   selectedSquare,
 }: BoardSidebarProps) {
-  const { addTagToBoard, removeTagFromBoard, toggleBoardVisibility } =
-    useMoodBoards();
   const [newTag, setNewTag] = useState('');
+  const { currentBoard, addTag, removeTag, toggleVisibility } =
+    useEditBoardStore();
+
+  if (!currentBoard) return null;
 
   const handleAddTag = (e: React.FormEvent) => {
     e.preventDefault();
     if (newTag.trim()) {
-      addTagToBoard(board.id, newTag.trim());
+      addTag(newTag.trim());
       setNewTag('');
     }
   };
 
-  const noteDistribution = board.perfumes.reduce(
+  const noteDistribution = currentBoard.perfumes.reduce(
     (acc, perfume) => {
-      const product = products.find((p) => p.id === perfume.id);
+      const product = products.find((p) => p.id === perfume.perfumeId);
       if (!product) return acc;
 
       Object.values(product.notes)
@@ -59,6 +57,7 @@ export function BoardSidebar({
     (a, b) => a + b,
     0
   );
+
   const normalizedDistribution = Object.entries(noteDistribution)
     .map(([name, value]) => ({
       name,
@@ -89,12 +88,12 @@ export function BoardSidebar({
           </form>
 
           <div className="flex flex-wrap gap-2">
-            {board.tags.map((tag) => (
+            {currentBoard.tags.map((tag) => (
               <Badge
                 key={tag}
                 variant="secondary"
                 className="cursor-pointer hover:bg-destructive/10"
-                onClick={() => removeTagFromBoard(board.id, tag)}
+                onClick={() => removeTag(tag)}
               >
                 {tag}
                 <X className="ml-1 size-3" />
@@ -119,7 +118,10 @@ export function BoardSidebar({
             ) : (
               products
                 .filter(
-                  (product) => !board.perfumes.some((p) => p.id === product.id)
+                  (product) =>
+                    !currentBoard.perfumes.some(
+                      (p) => p.perfumeId === product.id
+                    )
                 )
                 .map((product) => (
                   <button
@@ -153,11 +155,7 @@ export function BoardSidebar({
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold">Note Distribution</h3>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => toggleBoardVisibility(board.id)}
-            >
+            <Button variant="ghost" size="icon" onClick={toggleVisibility}>
               <Share2 className="size-4" />
             </Button>
           </div>

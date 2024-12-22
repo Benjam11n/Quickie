@@ -72,29 +72,35 @@ export function NavUser({
       >
         {user && (
           <DropdownMenuLabel>
-            <div className="py-1">
-              <div className="mb-3 flex items-center gap-3">
-                <Avatar className="m-2 size-12 rounded-lg">
-                  <AvatarImage src="/images/default-avatar.png" />
-                  <AvatarFallback>
-                    {user.name?.slice(0, 2).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+            <SheetClose asChild>
+              <Link href={ROUTES.PROFILE(user.name)}>
+                <div className="py-1">
+                  <div className="mb-3 flex items-center gap-3">
+                    <Avatar className="m-2 size-12 rounded-lg">
+                      <AvatarImage src="/images/default-avatar.png" />
+                      <AvatarFallback>
+                        {user.name?.slice(0, 2).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
 
-                <div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">{user.name}</span>
-                    <span className="ml-auto truncate text-xs font-normal text-muted-foreground">
-                      {user.email}
-                    </span>
+                    <div>
+                      <div className="grid flex-1 text-left text-sm leading-tight">
+                        <span className="truncate font-semibold">
+                          {user.name}
+                        </span>
+                        <span className="ml-auto truncate text-xs font-normal text-muted-foreground">
+                          {user.email}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-between text-sm font-normal text-muted-foreground">
+                    <span>{stats.reviews} Reviews</span>
+                    <span>{stats.tried} Perfumes Tried</span>
                   </div>
                 </div>
-              </div>
-              <div className="flex justify-between text-sm font-normal text-muted-foreground">
-                <span>{stats.reviews} Reviews</span>
-                <span>{stats.tried} Perfumes Tried</span>
-              </div>
-            </div>
+              </Link>
+            </SheetClose>
           </DropdownMenuLabel>
         )}
         <DropdownMenuSeparator />

@@ -10,7 +10,7 @@ import {
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
-import { useMoodBoards } from '@/hooks/use-mood-boards';
+import { useEditBoardStore } from '@/hooks/use-mood-boards';
 import { MoodBoard } from '@/types';
 import { Product } from '@/types/fragrance';
 
@@ -32,7 +32,7 @@ export function BoardCanvas({
   selectedSquare,
   onSquareSelect,
 }: BoardCanvasProps) {
-  const { updatePerfumePosition } = useMoodBoards();
+  const { updatePerfumePosition } = useEditBoardStore();
   const [activeId, setActiveId] = useState<string | null>(null);
 
   // Configure sensors for drag and drop
@@ -49,7 +49,7 @@ export function BoardCanvas({
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+    const { over } = event;
 
     if (over) {
       const targetSquareId = Number(over.id);
@@ -60,7 +60,7 @@ export function BoardCanvas({
         const x = targetSquareId % 3;
         const y = Math.floor(targetSquareId / 3);
 
-        updatePerfumePosition(board.id, active.id as string, { x, y });
+        updatePerfumePosition(board._id, { x, y });
       }
     }
 
@@ -84,7 +84,7 @@ export function BoardCanvas({
           {Array.from({ length: GRID_SIZE }).map((_, index) => {
             const perfume = getPerfumeAtPosition(index);
             const product = perfume
-              ? products.find((p) => p.id === perfume.id)
+              ? products.find((p) => p.id === perfume.perfumeId)
               : null;
 
             return (

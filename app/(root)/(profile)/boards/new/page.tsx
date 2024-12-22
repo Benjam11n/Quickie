@@ -1,27 +1,76 @@
 'use client';
-
+import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ROUTES } from '@/constants/routes';
-import { useMoodBoards } from '@/hooks/use-mood-boards';
+import { createMoodBoard } from '@/lib/actions/moodboard.action';
+import { MoodBoard } from '@/types';
+
+const MoodboardNewSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }),
+  description: z.string().optional(),
+});
+
+type FormValues = z.infer<typeof MoodboardNewSchema>;
 
 export default function CreateBoardPage() {
   const router = useRouter();
-  const { createBoard } = useMoodBoards();
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (name.trim()) {
-      const board = createBoard(name.trim(), description.trim());
-      router.push(ROUTES.BOARDS_EDIT(board.id));
+  const form = useForm<FormValues>({
+    resolver: zodResolver(MoodboardNewSchema),
+    defaultValues: {
+      name: '',
+      description: '',
+    },
+  });
+
+  const handleSubmit = async (data: FormValues) => {
+    try {
+      const result = (await createMoodBoard({
+        name: data.name,
+        description: data.description,
+        tags: [],
+        isPublic: false,
+      })) as ActionResponse<MoodBoard>;
+
+      if (result.success && result.data) {
+        toast.success('Success', {
+          description: 'Moodboard created successfully',
+        });
+        router.push(ROUTES.BOARDS_EDIT(result.data._id));
+      } else {
+        if (result.error?.details) {
+          Object.entries(result.error.details).forEach(([field, errors]) => {
+            form.setError(field as keyof FormValues, {
+              message: errors[0],
+            });
+          });
+        }
+
+        toast.error('Error', {
+          description: result.error?.message || 'Failed to create board',
+        });
+      }
+    } catch (error) {
+      toast.error('Error', {
+        description: (error as Error)?.message || 'Something went wrong',
+      });
     }
   };
 
@@ -29,9 +78,8 @@ export default function CreateBoardPage() {
     <div className="container py-10">
       <div className="mx-auto max-w-2xl">
         <div className="mb-8 flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild>
-            {/* TODO: Change to use userId instead */}
-            <ArrowLeft className="size-4" onClick={() => router.back()} />
+          <Button variant="ghost" size="icon" onClick={() => router.back()}>
+            <ArrowLeft className="size-4" />
           </Button>
           <h1 className="text-3xl font-bold">
             <span className="holographic-text">Create New Board</span>
@@ -39,38 +87,55 @@ export default function CreateBoardPage() {
         </div>
 
         <Card className="p-6">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Board Name</label>
-              <Input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="My Summer Fragrances..."
-                required
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="space-y-6"
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Board Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="My Summer Fragrances..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Description</label>
-              <Textarea
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="A collection of fresh and vibrant scents..."
-                rows={4}
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="A collection of fresh and vibrant scents..."
+                        rows={4}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <div className="flex justify-end gap-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => router.back()}
-              >
-                Cancel
-              </Button>
-              <Button type="submit">Create Board</Button>
-            </div>
-          </form>
+              <div className="flex justify-end gap-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => router.back()}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit">Create Board</Button>
+              </div>
+            </form>
+          </Form>
         </Card>
       </div>
     </div>

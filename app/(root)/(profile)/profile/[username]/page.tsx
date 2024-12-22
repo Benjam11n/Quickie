@@ -1,8 +1,6 @@
-'use client';
+// 'use client';
 
 import { Layout, Grid, Star, BookMarked } from 'lucide-react';
-import { useParams } from 'next/navigation';
-import { useState } from 'react';
 
 import { MoodBoardGrid } from '@/components/mood-board/MoodBoardGrid';
 import { CollectionGrid } from '@/components/profile/CollectionGrid';
@@ -10,16 +8,30 @@ import { CollectionInsights } from '@/components/profile/CollectionInsights';
 import ProfileCard from '@/components/profile/ProfileCard';
 import { RatingsList } from '@/components/profile/RatingsList';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useMoodBoards } from '@/hooks/use-mood-boards';
-import { useUserPerfumes } from '@/hooks/use-user-perfumes';
+import { getMoodBoards } from '@/lib/actions/moodboard.action';
 import { products } from '@/types/data';
 
-export default function ProfilePage() {
-  const params = useParams();
-  const { collections } = useUserPerfumes();
-  const { boards } = useMoodBoards();
+interface SearchParams {
+  searchParams: Promise<{ [key: string]: string }>;
+}
+
+export default async function ProfilePage({ searchParams }: SearchParams) {
+  const { page, pageSize, query, filter } = await searchParams;
+  // const { collections } = useUserPerfumes();
+  const collections = [];
+  // const { boards } = useEditBoardStore();
+  const { success, data, error } = await getMoodBoards({
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
+    query: query || '',
+    filter: filter || '',
+  });
+
+  console.log(success, error);
+  const boards = data || [];
+
   // TODO: Implement isPrivate
-  const [isPrivate] = useState(true);
+  // const [isPrivate] = useState(true);
 
   // Calculate collection stats
   const stats = {
@@ -70,7 +82,7 @@ export default function ProfilePage() {
     <div className="min-h-screen from-gray-950 via-purple-950/20 to-gray-950 dark:bg-gradient-to-b">
       {/* Profile Header */}
       <ProfileCard
-        username={params.username as string}
+        username={searchParams.username as string}
         collectionNum={collections.length}
         stats={stats}
       />

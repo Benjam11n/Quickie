@@ -106,3 +106,92 @@ export const SignInWithOAuthSchema = z.object({
     image: z.string().url('Invalid image URL').optional(),
   }),
 });
+
+// Perfume positions
+export const PerfumePositionSchema = z.object({
+  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+  position: z.object({
+    x: z
+      .number()
+      .min(0, { message: 'X position cannot be negative.' })
+      .max(100, { message: 'X position cannot exceed 100.' }),
+    y: z
+      .number()
+      .min(0, { message: 'Y position cannot be negative.' })
+      .max(100, { message: 'Y position cannot exceed 100.' }),
+  }),
+});
+
+// Main MoodBoard schema
+export const MoodBoardSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: 'Board name is required.' })
+    .max(50, { message: 'Board name cannot exceed 50 characters.' }),
+
+  description: z
+    .string()
+    .max(500, { message: 'Description cannot exceed 500 characters.' })
+    .optional(),
+
+  perfumes: z.array(PerfumePositionSchema).default([]),
+
+  tags: z
+    .array(z.string().max(30, { message: 'Tag cannot exceed 30 characters.' }))
+    .max(10, { message: 'Cannot have more than 10 tags.' }),
+
+  isPublic: z.boolean(),
+
+  views: z
+    .number()
+    .nonnegative({ message: 'Views cannot be negative.' })
+    .default(0)
+    .optional(),
+
+  likes: z
+    .number()
+    .nonnegative({ message: 'Likes cannot be negative.' })
+    .default(0)
+    .optional(),
+});
+
+// Schema for creating a new moodboard (subset of fields)
+export const CreateMoodBoardSchema = MoodBoardSchema.pick({
+  name: true,
+  description: true,
+  tags: true,
+  isPublic: true,
+});
+
+// Schema for updating a moodboard
+export const UpdateMoodBoardSchema = MoodBoardSchema.extend({
+  boardId: z.string().min(1, { message: 'Board ID is required.' }),
+});
+
+// Schema for updating perfume position
+export const UpdatePerfumePositionSchema = z.object({
+  boardId: z.string().min(1, { message: 'Board ID is required.' }),
+  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+  position: z.object({
+    x: z
+      .number()
+      .min(0, { message: 'X position cannot be negative.' })
+      .max(100, { message: 'X position cannot exceed 100.' }),
+    y: z
+      .number()
+      .min(0, { message: 'Y position cannot be negative.' })
+      .max(100, { message: 'Y position cannot exceed 100.' }),
+  }),
+});
+
+export const GetMoodBoardSchema = z.object({
+  boardId: z.string().min(1, { message: 'Mood Board ID is required.' }),
+});
+
+export const PaginatedSearchParamsSchema = z.object({
+  page: z.number().int().positive().default(1),
+  pageSize: z.number().int().positive().default(10),
+  query: z.string().optional(),
+  filter: z.string().optional(),
+  sort: z.string().optional(),
+});
