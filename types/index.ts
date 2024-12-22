@@ -42,7 +42,7 @@ export interface VendingLocation {
 export function transformToClientBoard(doc: IMoodBoardDoc): MoodBoard {
   return {
     _id: doc._id.toString(),
-    userId: doc.userId.toString(),
+    userId: doc.author.toString(),
     name: doc.name,
     description: doc.description,
     perfumes: doc.perfumes.map((p) => ({
@@ -54,4 +54,29 @@ export function transformToClientBoard(doc: IMoodBoardDoc): MoodBoard {
     views: doc.views,
     likes: doc.likes,
   };
+}
+
+export interface UserView {
+  name: string;
+  username: string;
+  email: string;
+  bio?: string;
+  image?: string;
+  location?: string;
+}
+
+export interface Review {
+  author: string;
+  perfumeId: string;
+  vendingMachineId?: string;
+  rating: {
+    sillage: number;
+    longevity: number;
+    value: number;
+    projection: number;
+    complexity: number;
+  };
+  review: string;
+  likes: number;
+  likedBy?: UserView[];
 }

@@ -5,11 +5,6 @@ import mongoose, { FilterQuery } from 'mongoose';
 import Perfume, { IPerfumeDoc } from '@/database/perfume.model';
 import TagPerfume from '@/database/tag-perfume.model';
 import Tag, { ITagDoc } from '@/database/tag.model';
-import {
-  CreatePerfumeParams,
-  GetPerfumeParams,
-  UpdatePerfumeParams,
-} from '@/types/action';
 import { Product } from '@/types/fragrance';
 
 import action from '../handlers/action';
@@ -34,7 +29,17 @@ export async function createPerfume(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { name, description, tags } = validationResult.params!;
+  const {
+    name,
+    brand,
+    description,
+    affiliateLink,
+    images,
+    notes,
+    scentProfile,
+    fullPrice,
+    tags,
+  } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
   const session = await mongoose.startSession();
@@ -42,7 +47,20 @@ export async function createPerfume(
 
   try {
     const [perfume] = await Perfume.create(
-      [{ name, description, tags, userId }],
+      [
+        {
+          name,
+          brand,
+          description,
+          affiliateLink,
+          images,
+          notes,
+          scentProfile,
+          fullPrice,
+          tags,
+          author: userId,
+        },
+      ],
       { session }
     );
 
@@ -282,8 +300,7 @@ export async function getPerfumes(
 
     const perfumes = await Perfume.find(filterQuery)
       .populate('tags', 'name')
-      // TODO: Implement this
-      // .populate('author', 'name image')
+      .populate('author', 'name image')
       .lean()
       .sort(sortCriteria)
       .skip(skip)

@@ -17,8 +17,7 @@ export interface IVendingMachine {
     totalSamples: number;
     popularTimes: Record<string, number>;
   };
-  createdAt: Date;
-  updatedAt: Date;
+  author: Types.ObjectId;
 }
 
 export interface IVendingMachineDoc extends IVendingMachine, Document {}
@@ -26,25 +25,10 @@ export interface IVendingMachineDoc extends IVendingMachine, Document {}
 const VendingMachineSchema = new Schema<IVendingMachine>(
   {
     location: {
-      type: {
-        type: String,
-        enum: ['Point'],
-        required: true,
-      },
-      coordinates: {
-        type: [Number],
-        required: true,
-      },
-      address: {
-        type: String,
-        required: true,
-        trim: true,
-      },
-      area: {
-        type: String,
-        required: true,
-        trim: true,
-      },
+      type: { type: String, enum: ['Point'], required: true },
+      coordinates: { type: [Number], required: true },
+      address: { type: String, required: true, trim: true },
+      area: { type: String, required: true, trim: true },
     },
     inventory: [
       {
@@ -58,10 +42,7 @@ const VendingMachineSchema = new Schema<IVendingMachine>(
           required: true,
           min: 0,
         },
-        lastRefilled: {
-          type: Date,
-          default: Date.now,
-        },
+        lastRefilled: { type: Date, default: Date.now },
       },
     ],
     status: {
@@ -70,20 +51,12 @@ const VendingMachineSchema = new Schema<IVendingMachine>(
       default: 'active',
     },
     metrics: {
-      totalSamples: {
-        type: Number,
-        default: 0,
-      },
-      popularTimes: {
-        type: Map,
-        of: Number,
-        default: {},
-      },
+      totalSamples: { type: Number, default: 0 },
+      popularTimes: { type: Map, of: Number, default: {} },
     },
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 // Create geospatial index

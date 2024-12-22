@@ -25,6 +25,7 @@ export interface IPerfume {
     count: number;
   };
   tags: Types.ObjectId[];
+  author: Types.ObjectId;
 }
 
 export interface IPerfumeDoc extends IPerfume, Document {}
@@ -120,6 +121,7 @@ const PerfumeSchema = new Schema<IPerfume>(
       },
     },
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }
 );

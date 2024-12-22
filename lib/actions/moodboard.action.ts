@@ -8,12 +8,6 @@ import MoodBoard, { IMoodBoardDoc } from '@/database/moodboard.model';
 import TagMoodBoard from '@/database/tag-moodboard.model';
 import Tag, { ITagDoc } from '@/database/tag.model';
 import { MoodBoard as MoodBoardType } from '@/types';
-import {
-  CreateMoodBoardParams,
-  GetMoodBoardParams,
-  UpdateMoodBoardParams,
-  UpdatePerfumePositionParams,
-} from '@/types/action';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -37,7 +31,7 @@ export async function createMoodBoard(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { name, description, tags } = validationResult.params!;
+  const { name, description, tags, isPublic } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
   const session = await mongoose.startSession();
@@ -45,7 +39,7 @@ export async function createMoodBoard(
 
   try {
     const [moodboard] = await MoodBoard.create(
-      [{ name, description, tags, userId }],
+      [{ name, description, tags, isPublic, author: userId }],
       { session }
     );
 
@@ -104,15 +98,20 @@ export async function updateMoodBoard(
   if (validationResult instanceof Error) {
     return handleError(validationResult) as ErrorResponse;
   }
-
-  const { name, description, tags, boardId } = validationResult.params!;
+  const { name, description, tags, isPublic, perfumes, boardId } =
+    validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
-    const moodboard = await MoodBoard.findById(boardId).populate('tags');
+    const moodboard = await MoodBoard.findById(boardId)
+      .populate('tags')
+      .populate({
+        path: 'perfumes',
+        select: 'perfumeId position',
+      });
 
     if (!moodboard) {
       throw new Error('moodboard not found');
@@ -122,9 +121,16 @@ export async function updateMoodBoard(
       throw new Error('Unauthorized');
     }
 
-    if (moodboard.name !== name || moodboard.description !== description) {
+    if (
+      moodboard.name !== name ||
+      moodboard.description !== description ||
+      moodboard.isPublic !== isPublic ||
+      moodboard.perfumes !== perfumes
+    ) {
       moodboard.name = name;
       moodboard.description = description;
+      moodboard.isPublic = isPublic;
+      moodboard.perfumes = perfumes;
       await moodboard.save({ session });
     }
 

@@ -1,7 +1,7 @@
 import { Schema, Document, model, models, Types } from 'mongoose';
 
-export interface IReview extends Document {
-  userId: Types.ObjectId;
+export interface IReview {
+  author: Types.ObjectId;
   perfumeId: Types.ObjectId;
   vendingMachineId?: Types.ObjectId;
   rating: {
@@ -12,17 +12,15 @@ export interface IReview extends Document {
     complexity: number;
   };
   review: string;
-  // tags: string[];
   likes: number;
+  likedBy?: Types.ObjectId[];
 }
+
+export interface IReviewDoc extends IReview, Document {}
 
 const ReviewSchema = new Schema<IReview>(
   {
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     perfumeId: {
       type: Schema.Types.ObjectId,
       ref: 'Perfume',
@@ -31,7 +29,7 @@ const ReviewSchema = new Schema<IReview>(
     vendingMachineId: {
       type: Schema.Types.ObjectId,
       ref: 'VendingMachine',
-      required: false, // Changed to match interface
+      required: false,
     },
     rating: {
       sillage: {
@@ -71,18 +69,18 @@ const ReviewSchema = new Schema<IReview>(
       trim: true,
       minlength: [10, 'Review must be at least 10 characters long'],
     },
-    // tags: [String],
     likes: {
       type: Number,
       default: 0,
     },
+    likedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true }
 );
 
 // Create compound indexes
 ReviewSchema.index({ perfumeId: 1, createdAt: -1 });
-ReviewSchema.index({ userId: 1, perfumeId: 1 }, { unique: true });
+ReviewSchema.index({ author: 1, perfumeId: 1 }, { unique: true });
 
 const Review = models?.Review || model<IReview>('Review', ReviewSchema);
 

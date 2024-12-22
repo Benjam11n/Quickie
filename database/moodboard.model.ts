@@ -9,7 +9,7 @@ interface IPerfumePosition {
 }
 
 export interface IMoodBoard {
-  userId: Types.ObjectId;
+  author: Types.ObjectId;
   name: string;
   description?: string;
   perfumes: IPerfumePosition[];
@@ -25,11 +25,7 @@ export interface IMoodBoardDoc extends IMoodBoard, Document {
 
 const MoodBoardSchema = new Schema<IMoodBoard>(
   {
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     name: { type: String, required: true, trim: true },
     description: { type: String, trim: true },
     perfumes: [
@@ -64,7 +60,7 @@ const MoodBoardSchema = new Schema<IMoodBoard>(
 );
 
 // Indexes for efficient querying
-MoodBoardSchema.index({ userId: 1 });
+MoodBoardSchema.index({ author: 1 });
 MoodBoardSchema.index({ isPublic: 1 });
 MoodBoardSchema.index({ tags: 1 });
 

@@ -235,6 +235,48 @@ export const GetPerfumeSchema = z.object({
   perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
 });
 
+const LocationSchema = z.object({
+  type: z.literal('Point'),
+  coordinates: z.tuple([
+    z.number().min(-180).max(180), // longitude
+    z.number().min(-90).max(90), // latitude
+  ]),
+  address: z.string().min(1, { message: 'Address is required.' }),
+  area: z.string().min(1, { message: 'Area is required.' }),
+});
+
+const InventoryItemSchema = z.object({
+  perfumeId: z.string(),
+  stock: z.number().int().min(0),
+  lastRefilled: z.date(),
+});
+
+const MetricsSchema = z.object({
+  totalSamples: z.number().int().min(0),
+  popularTimes: z.record(z.string(), z.number()),
+});
+
+export const VendingMachineSchema = z.object({
+  location: LocationSchema,
+  inventory: z.array(InventoryItemSchema),
+  status: z.enum(['active', 'maintenance', 'inactive']),
+  metrics: MetricsSchema,
+});
+
+export const CreateVendingMachineSchema = VendingMachineSchema;
+
+export const UpdateVendingMachineSchema = CreateVendingMachineSchema.extend({
+  vendingMachineId: z
+    .string()
+    .min(1, { message: 'Vending Machine ID is required.' }),
+});
+
+export const GetVendingMachineSchema = z.object({
+  vendingMachineId: z
+    .string()
+    .min(1, { message: 'Vending Machine ID is required.' }),
+});
+
 // Main MoodBoard schema
 export const MoodBoardSchema = z.object({
   name: z
@@ -299,6 +341,41 @@ export const UpdatePerfumePositionSchema = z.object({
 
 export const GetMoodBoardSchema = z.object({
   boardId: z.string().min(1, { message: 'Mood Board ID is required.' }),
+});
+
+const ReviewRatingSchema = z.object({
+  sillage: z.number().min(1).max(5),
+  longevity: z.number().min(1).max(5),
+  value: z.number().min(1).max(5),
+  projection: z.number().min(1).max(5),
+  complexity: z.number().min(1).max(5),
+});
+
+// Create Review Schema
+export const CreateReviewSchema = z.object({
+  perfumeId: z.string(),
+  vendingMachineId: z.string().optional(),
+  rating: ReviewRatingSchema,
+  review: z
+    .string()
+    .min(10, 'Review must be at least 10 characters long')
+    .trim(),
+  // likes: z.number().default(0),
+  // likedBy: z.array(z.string()).optional().default([]),
+});
+
+// Update Review Schema
+export const UpdateReviewSchema = CreateReviewSchema.extend({
+  reviewId: z.string(),
+});
+
+// Get Review Schema
+export const GetReviewSchema = z.object({
+  reviewId: z.string(),
+});
+
+export const GetReviewsSchema = z.object({
+  perfumeId: z.string(),
 });
 
 export const PaginatedSearchParamsSchema = z.object({

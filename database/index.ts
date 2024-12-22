@@ -6,3 +6,6 @@ export * from './brand.model';
 export * from './note.model';
 export * from './moodboard-interaction.model';
 export * from './moodboard.model';
+export * from './tag-moodboard.model';
+export * from './tag-perfume.model';
+export * from './wishlist.model';
