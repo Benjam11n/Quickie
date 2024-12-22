@@ -122,6 +122,119 @@ export const PerfumePositionSchema = z.object({
   }),
 });
 
+// Sub-schemas
+const ScentProfileSchema = z.object({
+  intensity: z
+    .number()
+    .min(0, { message: 'Intensity cannot be below 0.' })
+    .max(10, { message: 'Intensity cannot exceed 10.' }),
+  longevity: z
+    .number()
+    .min(0, { message: 'Longevity cannot be below 0.' })
+    .max(10, { message: 'Longevity cannot exceed 10.' }),
+  sillage: z
+    .number()
+    .min(0, { message: 'Sillage cannot be below 0.' })
+    .max(10, { message: 'Sillage cannot exceed 10.' }),
+  versatility: z
+    .number()
+    .min(0, { message: 'Versatility cannot be below 0.' })
+    .max(10, { message: 'Versatility cannot exceed 10.' }),
+  uniqueness: z
+    .number()
+    .min(0, { message: 'Uniqueness cannot be below 0.' })
+    .max(10, { message: 'Uniqueness cannot exceed 10.' }),
+  value: z
+    .number()
+    .min(0, { message: 'Value cannot be below 0.' })
+    .max(10, { message: 'Value cannot exceed 10.' }),
+});
+
+const NotesSchema = z.object({
+  top: z
+    .array(z.string())
+    .max(10, { message: 'Cannot have more than 10 top notes.' }),
+  middle: z
+    .array(z.string())
+    .max(10, { message: 'Cannot have more than 10 middle notes.' }),
+  base: z
+    .array(z.string())
+    .max(10, { message: 'Cannot have more than 10 base notes.' }),
+});
+
+const RatingSchema = z.object({
+  average: z
+    .number()
+    .min(0, { message: 'Average rating cannot be below 0.' })
+    .max(5, { message: 'Average rating cannot exceed 5.' })
+    .default(0),
+  count: z
+    .number()
+    .nonnegative({ message: 'Rating count cannot be negative.' })
+    .default(0),
+});
+
+// Main Perfume Schema
+export const PerfumeSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: 'Name is required.' })
+    .max(100, { message: 'Name cannot exceed 100 characters.' }),
+
+  brand: z.string().min(1, { message: 'Brand is required.' }),
+
+  description: z
+    .string()
+    .min(1, { message: 'Description is required.' })
+    .max(2000, { message: 'Description cannot exceed 2000 characters.' }),
+
+  affiliateLink: z.string().url({ message: 'Please provide a valid URL.' }),
+
+  images: z
+    .array(z.string().url({ message: 'Please provide valid image URLs.' }))
+    .min(1, { message: 'At least one image is required.' })
+    .max(10, { message: 'Cannot have more than 10 images.' }),
+
+  notes: NotesSchema,
+
+  scentProfile: ScentProfileSchema,
+
+  fullPrice: z.number().positive({ message: 'Price must be greater than 0.' }),
+
+  rating: RatingSchema,
+
+  tags: z
+    .array(z.string())
+    .max(20, { message: 'Cannot have more than 20 tags.' }),
+});
+
+// Create Schema (subset of fields that are required when creating)
+export const CreatePerfumeSchema = PerfumeSchema.omit({
+  rating: true,
+});
+
+// Update Schema (all fields optional)
+export const UpdatePerfumeSchema = PerfumeSchema.extend({
+  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+});
+
+// Rating Schema for user ratings
+export const PerfumeRatingSchema = z.object({
+  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+  rating: z
+    .number()
+    .min(1, { message: 'Rating must be at least 1.' })
+    .max(5, { message: 'Rating cannot exceed 5.' }),
+  review: z
+    .string()
+    .max(1000, { message: 'Review cannot exceed 1000 characters.' })
+    .optional(),
+});
+
+export const GetPerfumeSchema = z.object({
+  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+});
+
 // Main MoodBoard schema
 export const MoodBoardSchema = z.object({
   name: z

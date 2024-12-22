@@ -60,7 +60,7 @@ export async function createMoodBoard(
       for (const tag of tags) {
         const existingTag = await Tag.findOneAndUpdate(
           { name: { $regex: new RegExp(tag, 'i') } },
-          { $setOnInsert: { name: tag }, $inc: { moodboards: 1 } },
+          { $setOnInsert: { name: tag }, $inc: { count: 1 } },
           { upsert: true, new: true, session }
         );
 
@@ -148,7 +148,7 @@ export async function updateMoodBoard(
       for (const tag of tagsToAdd) {
         const existingTag = await Tag.findOneAndUpdate(
           { name: { $regex: new RegExp(tag, 'i') } },
-          { $setOnInsert: { name: tag }, $inc: { moodboards: 1 } },
+          { $setOnInsert: { name: tag }, $inc: { count: 1 } },
           { upsert: true, new: true, session }
         );
 
@@ -173,7 +173,7 @@ export async function updateMoodBoard(
       );
 
       await TagMoodBoard.deleteMany(
-        { tag: { $in: tagIdsToRemove }, question: boardId },
+        { tag: { $in: tagIdsToRemove }, moodboard: boardId },
         { session }
       );
 

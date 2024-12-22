@@ -110,11 +110,13 @@ const PerfumeSchema = new Schema<IPerfume>(
         default: 0,
         min: 0,
         max: 5,
+        immutable: true,
       },
       count: {
         type: Number,
         default: 0,
         min: 0,
+        immutable: true,
       },
     },
     tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
