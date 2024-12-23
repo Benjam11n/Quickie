@@ -1,4 +1,4 @@
-import { IMoodBoardDoc } from '@/database';
+import { IMoodBoardDoc, WishlistPerfume } from '@/database';
 
 export interface PerfumePosition {
   perfumeId: string; // ObjectId as string
@@ -66,6 +66,7 @@ export interface UserView {
 }
 
 export interface Review {
+  id: string;
   author: string;
   perfumeId: string;
   vendingMachineId?: string;
@@ -79,4 +80,11 @@ export interface Review {
   review: string;
   likes: number;
   likedBy?: UserView[];
+}
+
+export interface Wishlist {
+  id: string;
+  name: string;
+  author: string;
+  perfumes: WishlistPerfume[];
 }

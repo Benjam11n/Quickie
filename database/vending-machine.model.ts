@@ -7,11 +7,11 @@ export interface IVendingMachine {
     address: string;
     area: string;
   };
-  inventory: Array<{
+  inventory: {
     perfumeId: Types.ObjectId;
     stock: number;
     lastRefilled: Date;
-  }>;
+  }[];
   status: 'active' | 'maintenance' | 'inactive';
   metrics: {
     totalSamples: number;

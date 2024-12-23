@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 
 import { auth } from '@/auth';
 import Review, { IReviewDoc } from '@/database/review.model';
-import { MoodBoard as MoodBoardType, Review as ReviewType } from '@/types';
+import { Review as ReviewType } from '@/types';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -16,9 +16,9 @@ import {
   UpdateReviewSchema,
 } from '../validations';
 
-export async function createMoodBoard(
+export async function createReview(
   params: CreateReviewParams
-): Promise<ActionResponse<MoodBoardType>> {
+): Promise<ActionResponse<ReviewType>> {
   const validationResult = await action({
     params,
     schema: CreateReviewSchema,
