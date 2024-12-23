@@ -1,12 +1,12 @@
 import { Schema, Document, model, models, Types } from 'mongoose';
 
-export interface IInteraction extends Document {
+export interface IReviewInteraction {
   user: Types.ObjectId;
   review: Types.ObjectId;
-  type: 'like' | 'share' | 'report';
-  metadata?: Record<string, unknown>;
-  createdAt: Date;
+  type: 'like' | 'dislike' | 'share' | 'report';
 }
+
+export interface IReviewInteractionDoc extends IReviewInteraction, Document {}
 
 const InteractionSchema = new Schema(
   {
@@ -22,7 +22,7 @@ const InteractionSchema = new Schema(
     },
     type: {
       type: String,
-      enum: ['like', 'share', 'report'],
+      enum: ['like', 'dislike', 'share', 'report'],
       required: true,
     },
     metadata: {
@@ -30,14 +30,13 @@ const InteractionSchema = new Schema(
       of: Schema.Types.Mixed,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 InteractionSchema.index({ user: 1, review: 1, type: 1 }, { unique: true });
 InteractionSchema.index({ review: 1, type: 1 });
 
-const Interaction =
-  models?.Interaction || model<IInteraction>('Interaction', InteractionSchema);
-export default Interaction;
+const ReviewInteraction =
+  models?.Interaction ||
+  model<IReviewInteraction>('ReviewInteraction', InteractionSchema);
+export default ReviewInteraction;

@@ -16,8 +16,17 @@ declare global {
     reviewId: string;
   }
 
-  interface GetReviewParams {
+  interface DeleteReviewParams {
     reviewId: string;
+  }
+
+  interface LikeReviewParams {
+    reviewId: string;
+  }
+
+  interface GetReviewParams {
+    perfumeId: string;
+    userId: string;
   }
 
   interface GetReviewsParams {

@@ -3,35 +3,33 @@ import { Schema, Document, model, models, Types } from 'mongoose';
 export interface IMoodBoardInteraction {
   userId: Types.ObjectId;
   boardId: Types.ObjectId;
-  type: 'like' | 'view';
-  date: Date;
+  type: 'like' | 'dislike' | 'share' | 'report';
 }
 
 export interface IMoodBoardInteractionDoc
   extends IMoodBoardInteraction,
     Document {}
 
-const MoodBoardInteractionSchema = new Schema<IMoodBoardInteraction>({
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+const MoodBoardInteractionSchema = new Schema<IMoodBoardInteraction>(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    boardId: {
+      type: Schema.Types.ObjectId,
+      ref: 'MoodBoard',
+      required: true,
+    },
+    type: {
+      type: String,
+      enum: ['like', 'dislike', 'share', 'report'],
+      required: true,
+    },
   },
-  boardId: {
-    type: Schema.Types.ObjectId,
-    ref: 'MoodBoard',
-    required: true,
-  },
-  type: {
-    type: String,
-    enum: ['like', 'view'],
-    required: true,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
 // Compound index to prevent duplicate interactions
 MoodBoardInteractionSchema.index(

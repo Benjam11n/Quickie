@@ -1,4 +1,4 @@
 export { RatingBar } from './RatingBar';
-export { RatingCard } from './RatingCard';
+export { ReviewCard } from './ReviewCard';
 export { RatingDistribution } from './RatingDistribution';
 export { RatingMetrics } from './RatingMetrics';

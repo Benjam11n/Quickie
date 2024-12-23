@@ -364,18 +364,26 @@ export const CreateReviewSchema = z.object({
   // likedBy: z.array(z.string()).optional().default([]),
 });
 
-// Update Review Schema
 export const UpdateReviewSchema = CreateReviewSchema.extend({
-  reviewId: z.string(),
+  reviewId: z.string().min(1, { message: 'Review ID is required.' }),
+});
+
+export const DeleteReviewSchema = z.object({
+  reviewId: z.string().min(1, { message: 'Review ID is required.' }),
+});
+
+export const LikeReviewSchema = z.object({
+  reviewId: z.string().min(1, { message: 'Review ID is required.' }),
 });
 
 // Get Review Schema
 export const GetReviewSchema = z.object({
-  reviewId: z.string(),
+  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+  userId: z.string().min(1, { message: 'User ID is required.' }),
 });
 
 export const GetReviewsSchema = z.object({
-  perfumeId: z.string(),
+  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
 });
 
 export const PaginatedSearchParamsSchema = z.object({

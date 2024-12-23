@@ -66,6 +66,7 @@ export interface UserView {
 }
 
 export interface Review {
+  _id: string;
   id: string;
   author: string;
   perfumeId: string;
@@ -79,7 +80,9 @@ export interface Review {
   };
   review: string;
   likes: number;
+  dislikes: number;
   likedBy?: UserView[];
+  dislikedBy?: UserView[];
 }
 
 export interface Wishlist {

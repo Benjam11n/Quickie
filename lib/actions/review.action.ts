@@ -3,7 +3,6 @@
 import mongoose from 'mongoose';
 import { revalidatePath } from 'next/cache';
 
-import { auth } from '@/auth';
 import Review, { IReviewDoc } from '@/database/review.model';
 import { Review as ReviewType } from '@/types';
 
@@ -11,8 +10,10 @@ import action from '../handlers/action';
 import handleError from '../handlers/error';
 import {
   CreateReviewSchema,
+  DeleteReviewSchema,
   GetReviewSchema,
   GetReviewsSchema,
+  LikeReviewSchema,
   UpdateReviewSchema,
 } from '../validations';
 
@@ -63,7 +64,7 @@ export async function createReview(
     return { success: true, data: JSON.parse(JSON.stringify(review)) };
   } catch (error) {
     // 11000 is MongoDB's duplicate key error code
-    if ((error as any).code === 11000) {
+    if ((error as { code?: number }).code === 11000) {
       return {
         success: false,
         error: {
@@ -89,7 +90,12 @@ export async function updateReview(
   if (validationResult instanceof Error) {
     return handleError(validationResult) as ErrorResponse;
   }
-  const { vendingMachineId, rating, reviewId } = validationResult.params!;
+  const {
+    vendingMachineId,
+    rating,
+    review: reviewText,
+    reviewId,
+  } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
   const session = await mongoose.startSession();
@@ -102,16 +108,18 @@ export async function updateReview(
       throw new Error('review not found');
     }
 
-    if (review.userId.toString() !== userId) {
+    if (review.author.toString() !== userId) {
       throw new Error('Unauthorized');
     }
 
     if (
       review.vendingMachineId !== vendingMachineId ||
-      review.rating !== rating
+      review.rating !== rating ||
+      review.review !== reviewText
     ) {
       review.vendingMachineId = vendingMachineId;
       review.rating = rating;
+      review.review = reviewText;
       await review.save({ session });
     }
 
@@ -131,57 +139,68 @@ export async function updateReview(
   }
 }
 
-export async function deleteReview(reviewId: string): Promise<ActionResponse> {
+export async function deleteReview(
+  params: DeleteReviewParams
+): Promise<ActionResponse> {
+  const validationResult = await action({
+    params,
+    schema: DeleteReviewSchema,
+    authorize: true,
+  });
+
+  if (validationResult instanceof Error) {
+    return handleError(validationResult) as ErrorResponse;
+  }
+  const { reviewId } = validationResult.params!;
+  const userId = validationResult?.session?.user?.id;
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
+    const deletedReview = await Review.findOneAndDelete({
+      _id: reviewId,
+      author: userId,
+    });
+
+    if (deletedReview.author.toString() !== userId) {
       throw new Error('Unauthorized');
     }
 
-    const deleteReview = await Review.findOneAndDelete({
-      _id: new mongoose.Types.ObjectId(reviewId),
-      author: new mongoose.Types.ObjectId(session.user.id),
-    });
-
-    if (!deleteReview) {
+    if (!deletedReview) {
       throw new Error('Review not found');
     }
 
+    session.commitTransaction();
     revalidatePath('/reviews');
     return { success: true };
   } catch (error) {
+    session.abortTransaction();
+
     return handleError(error) as ErrorResponse;
+  } finally {
+    session.endSession();
   }
 }
 
-// Additional actions for views and likes
-export async function incrementViews(
-  reviewId: string
+export async function likeReview(
+  params: LikeReviewParams
 ): Promise<ActionResponse> {
-  try {
-    const updatedReview = await Review.findByIdAndUpdate(
-      reviewId,
-      { $inc: { views: 1 } },
-      { new: true }
-    );
+  const validationResult = await action({
+    params,
+    schema: LikeReviewSchema,
+    authorize: true,
+  });
 
-    if (!updatedReview) {
-      throw new Error('Review not found');
-    }
-
-    return { success: true, data: updatedReview };
-  } catch (error) {
-    return handleError(error) as ErrorResponse;
+  if (validationResult instanceof Error) {
+    return handleError(validationResult) as ErrorResponse;
   }
-}
+  const { reviewId } = validationResult.params!;
 
-export async function toggleLike(reviewId: string): Promise<ActionResponse> {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
   try {
-    const session = await auth();
-    if (!session?.user?.id) {
-      throw new Error('Unauthorized');
-    }
-
     const review = await Review.findById(reviewId)
       .populate({
         path: 'author',
@@ -203,10 +222,68 @@ export async function toggleLike(reviewId: string): Promise<ActionResponse> {
       { new: true }
     );
 
+    session.commitTransaction();
+
     revalidatePath(`/reviews/${reviewId}`);
-    return { success: true, data: updatedReview };
+    return { success: true, data: JSON.parse(JSON.stringify(updatedReview)) };
   } catch (error) {
+    session.abortTransaction();
+
     return handleError(error) as ErrorResponse;
+  } finally {
+    session.endSession();
+  }
+}
+
+export async function dislikeReview(
+  params: LikeReviewParams
+): Promise<ActionResponse> {
+  const validationResult = await action({
+    params,
+    schema: LikeReviewSchema,
+    authorize: true,
+  });
+
+  if (validationResult instanceof Error) {
+    return handleError(validationResult) as ErrorResponse;
+  }
+  const { reviewId } = validationResult.params!;
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const review = await Review.findById(reviewId)
+      .populate({
+        path: 'author',
+        select: 'name image',
+      })
+      .populate({
+        path: 'vendingMachineId',
+        select: 'location',
+      });
+    if (!review) {
+      throw new Error('Review not found');
+    }
+
+    // Implementation depends on how you want to track likes
+    // This is a simple increment/decrement. You might want to track which users liked what
+    const updatedReview = await Review.findByIdAndUpdate(
+      reviewId,
+      { $inc: { dislikes: 1 } },
+      { new: true }
+    );
+
+    session.commitTransaction();
+
+    revalidatePath(`/reviews/${reviewId}`);
+    return { success: true, data: JSON.parse(JSON.stringify(updatedReview)) };
+  } catch (error) {
+    session.abortTransaction();
+
+    return handleError(error) as ErrorResponse;
+  } finally {
+    session.endSession();
   }
 }
 
@@ -223,10 +300,11 @@ export async function getReview(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { reviewId } = validationResult.params!;
+  const { perfumeId, userId: author } = validationResult.params!;
+  const userId = validationResult?.session?.user?.id;
 
   try {
-    const review = await Review.findById(reviewId)
+    const review = await Review.findOne({ perfumeId, author })
       .populate({
         path: 'author',
         select: 'name image',
@@ -236,7 +314,7 @@ export async function getReview(
         select: 'location',
       });
 
-    if (!review) {
+    if (!review || author !== userId) {
       throw new Error('Review not found');
     }
 
