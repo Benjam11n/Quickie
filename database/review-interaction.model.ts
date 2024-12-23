@@ -1,21 +1,24 @@
 import { Schema, Document, model, models, Types } from 'mongoose';
 
 export interface IReviewInteraction {
-  user: Types.ObjectId;
-  review: Types.ObjectId;
+  author: Types.ObjectId;
+  reviewId: Types.ObjectId;
   type: 'like' | 'dislike' | 'share' | 'report';
 }
 
 export interface IReviewInteractionDoc extends IReviewInteraction, Document {}
 
-const InteractionSchema = new Schema(
+export interface ReviewInteractionCounts {
+  like: number;
+  dislike: number;
+  share: number;
+  report: number;
+}
+
+const InteractionSchema = new Schema<IReviewInteraction>(
   {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
-    review: {
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    reviewId: {
       type: Schema.Types.ObjectId,
       ref: 'Review',
       required: true,
@@ -25,18 +28,24 @@ const InteractionSchema = new Schema(
       enum: ['like', 'dislike', 'share', 'report'],
       required: true,
     },
-    metadata: {
-      type: Map,
-      of: Schema.Types.Mixed,
-    },
   },
   { timestamps: true }
 );
 
-InteractionSchema.index({ user: 1, review: 1, type: 1 }, { unique: true });
-InteractionSchema.index({ review: 1, type: 1 });
+// Index for mutually exclusive interactions (like/dislike)
+InteractionSchema.index(
+  { author: 1, reviewId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { type: { $in: ['like', 'dislike'] } },
+  }
+);
+
+// Index for counting interactions by type
+InteractionSchema.index({ reviewId: 1, type: 1 });
 
 const ReviewInteraction =
-  models?.Interaction ||
+  models?.ReviewInteraction ||
   model<IReviewInteraction>('ReviewInteraction', InteractionSchema);
+
 export default ReviewInteraction;

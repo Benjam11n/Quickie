@@ -79,10 +79,6 @@ export interface Review {
     complexity: number;
   };
   review: string;
-  likes: number;
-  dislikes: number;
-  likedBy?: UserView[];
-  dislikedBy?: UserView[];
 }
 
 export interface Wishlist {

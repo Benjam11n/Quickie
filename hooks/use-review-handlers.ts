@@ -5,8 +5,7 @@ import {
   createReview,
   updateReview,
   deleteReview,
-  likeReview,
-  dislikeReview,
+  handleReviewInteraction,
 } from '@/lib/actions/review.action';
 import { Review } from '@/types';
 import { Product } from '@/types/fragrance';
@@ -76,40 +75,31 @@ export function useReviewHandlers({
     }
   };
 
-  const handleReviewLike = async () => {
+  const handleInteraction = async ({
+    type,
+  }: {
+    type: 'like' | 'dislike' | 'share' | 'report';
+  }) => {
     if (!review) {
       toast.error('No Review', { description: 'No review found to like' });
       return;
     }
 
     try {
-      const result = await likeReview({ reviewId: review._id });
+      const result = await handleReviewInteraction({
+        reviewId: review._id,
+        type,
+      });
       if (result.success) {
-        toast.success('Review Liked', {
-          description: 'You successfully liked the review',
-        });
+        toast.success(
+          `Review ${type === 'like' || type === 'dislike' ? type + 'd' : type + 'ed'}`,
+          {
+            description: `You successfully ${type === 'like' || type === 'dislike' ? type + 'd' : type + 'ed'} the review`,
+          }
+        );
         router.refresh();
-      } else {
-        handleError(result.error?.message);
-      }
-    } catch {
-      toast.error('Error', { description: 'Something went wrong' });
-    }
-  };
 
-  const handleReviewDislike = async () => {
-    if (!review) {
-      toast.error('No Review', { description: 'No review found to like' });
-      return;
-    }
-
-    try {
-      const result = await dislikeReview({ reviewId: review._id });
-      if (result.success) {
-        toast.success('Review Disliked', {
-          description: 'You successfully disliked the review',
-        });
-        router.refresh();
+        return result.data;
       } else {
         handleError(result.error?.message);
       }
@@ -133,7 +123,6 @@ export function useReviewHandlers({
   return {
     handleReviewSubmit,
     handleReviewDelete,
-    handleReviewLike,
-    handleReviewDislike,
+    handleInteraction,
   };
 }

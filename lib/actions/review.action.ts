@@ -1,8 +1,11 @@
 'use server';
 
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import { revalidatePath } from 'next/cache';
 
+import ReviewInteraction, {
+  ReviewInteractionCounts,
+} from '@/database/review-interaction.model';
 import Review, { IReviewDoc } from '@/database/review.model';
 import { Review as ReviewType } from '@/types';
 
@@ -11,9 +14,10 @@ import handleError from '../handlers/error';
 import {
   CreateReviewSchema,
   DeleteReviewSchema,
+  GetReviewInteractionsSchema,
   GetReviewSchema,
   GetReviewsSchema,
-  LikeReviewSchema,
+  ReviewInteractionSchema,
   UpdateReviewSchema,
 } from '../validations';
 
@@ -151,6 +155,7 @@ export async function deleteReview(
   if (validationResult instanceof Error) {
     return handleError(validationResult) as ErrorResponse;
   }
+
   const { reviewId } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
@@ -158,37 +163,119 @@ export async function deleteReview(
   session.startTransaction();
 
   try {
-    const deletedReview = await Review.findOneAndDelete({
-      _id: reviewId,
-      author: userId,
-    });
+    const review = await Review.findById(reviewId);
 
-    if (deletedReview.author.toString() !== userId) {
+    if (!review) {
+      throw new Error('Review not found');
+    }
+
+    if (review.author.toString() !== userId) {
       throw new Error('Unauthorized');
     }
 
-    if (!deletedReview) {
-      throw new Error('Review not found');
-    }
+    // Delete review and all associated interactions
+    await Promise.all([
+      Review.findByIdAndDelete(reviewId),
+      ReviewInteraction.deleteMany({ reviewId }),
+    ]);
 
-    session.commitTransaction();
+    await session.commitTransaction();
     revalidatePath('/reviews');
+
     return { success: true };
   } catch (error) {
-    session.abortTransaction();
+    await session.abortTransaction();
 
     return handleError(error) as ErrorResponse;
   } finally {
-    session.endSession();
+    await session.endSession();
   }
 }
 
-export async function likeReview(
-  params: LikeReviewParams
-): Promise<ActionResponse> {
+export async function handleReviewInteraction(
+  params: ReviewInteractionParams
+): Promise<ActionResponse<ReviewInteractionCounts>> {
   const validationResult = await action({
     params,
-    schema: LikeReviewSchema,
+    schema: ReviewInteractionSchema,
+    authorize: true,
+  });
+
+  if (validationResult instanceof Error) {
+    return handleError(validationResult) as ErrorResponse;
+  }
+  const { reviewId, type } = validationResult.params!;
+  const userId = validationResult?.session?.user?.id;
+
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    // For like/dislike, remove any existing opposite interaction
+    if (type === 'like' || type === 'dislike') {
+      await ReviewInteraction.deleteOne({
+        author: userId,
+        reviewId,
+        type: type === 'like' ? 'dislike' : 'like',
+      });
+    }
+
+    // Handle toggle for like/dislike
+    const existingInteraction = await ReviewInteraction.findOne({
+      author: userId,
+      reviewId,
+      type,
+    });
+
+    if (existingInteraction) {
+      if (type === 'like' || type === 'dislike') {
+        // Toggle like/dislike off
+        await ReviewInteraction.deleteOne({ _id: existingInteraction._id });
+      }
+    } else {
+      // Create new interaction
+      await ReviewInteraction.create({
+        author: userId,
+        reviewId,
+        type,
+      });
+    }
+
+    // Get updated counts
+    const [likesCount, dislikesCount, sharesCount, reportsCount] =
+      await Promise.all([
+        ReviewInteraction.countDocuments({ reviewId, type: 'like' }),
+        ReviewInteraction.countDocuments({ reviewId, type: 'dislike' }),
+        ReviewInteraction.countDocuments({ reviewId, type: 'share' }),
+        ReviewInteraction.countDocuments({ reviewId, type: 'report' }),
+      ]);
+
+    await session.commitTransaction();
+
+    return {
+      success: true,
+      data: {
+        like: likesCount,
+        dislike: dislikesCount,
+        share: sharesCount,
+        report: reportsCount,
+      },
+    };
+  } catch (error) {
+    await session.abortTransaction();
+
+    return handleError(error) as ErrorResponse;
+  } finally {
+    await session.endSession();
+  }
+}
+
+export async function getReviewInteractions(
+  params: getReviewInteractionsParams
+): Promise<ActionResponse<ReviewInteractionCounts>> {
+  const validationResult = await action({
+    params,
+    schema: GetReviewInteractionsSchema,
     authorize: true,
   });
 
@@ -197,93 +284,31 @@ export async function likeReview(
   }
   const { reviewId } = validationResult.params!;
 
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
   try {
-    const review = await Review.findById(reviewId)
-      .populate({
-        path: 'author',
-        select: 'name image',
-      })
-      .populate({
-        path: 'vendingMachineId',
-        select: 'location',
-      });
-    if (!review) {
-      throw new Error('Review not found');
-    }
+    const interactions = await ReviewInteraction.aggregate([
+      { $match: { reviewId: new Types.ObjectId(reviewId) } },
+      {
+        $group: {
+          _id: '$type',
+          count: { $sum: 1 },
+        },
+      },
+    ]);
 
-    // Implementation depends on how you want to track likes
-    // This is a simple increment/decrement. You might want to track which users liked what
-    const updatedReview = await Review.findByIdAndUpdate(
-      reviewId,
-      { $inc: { likes: 1 } },
-      { new: true }
+    const counts = interactions.reduce(
+      (acc, { _id, count }) => {
+        acc[_id] = count;
+        return acc;
+      },
+      { like: 0, dislike: 0, share: 0, report: 0 }
     );
 
-    session.commitTransaction();
-
-    revalidatePath(`/reviews/${reviewId}`);
-    return { success: true, data: JSON.parse(JSON.stringify(updatedReview)) };
+    return {
+      success: true,
+      data: counts,
+    };
   } catch (error) {
-    session.abortTransaction();
-
     return handleError(error) as ErrorResponse;
-  } finally {
-    session.endSession();
-  }
-}
-
-export async function dislikeReview(
-  params: LikeReviewParams
-): Promise<ActionResponse> {
-  const validationResult = await action({
-    params,
-    schema: LikeReviewSchema,
-    authorize: true,
-  });
-
-  if (validationResult instanceof Error) {
-    return handleError(validationResult) as ErrorResponse;
-  }
-  const { reviewId } = validationResult.params!;
-
-  const session = await mongoose.startSession();
-  session.startTransaction();
-
-  try {
-    const review = await Review.findById(reviewId)
-      .populate({
-        path: 'author',
-        select: 'name image',
-      })
-      .populate({
-        path: 'vendingMachineId',
-        select: 'location',
-      });
-    if (!review) {
-      throw new Error('Review not found');
-    }
-
-    // Implementation depends on how you want to track likes
-    // This is a simple increment/decrement. You might want to track which users liked what
-    const updatedReview = await Review.findByIdAndUpdate(
-      reviewId,
-      { $inc: { dislikes: 1 } },
-      { new: true }
-    );
-
-    session.commitTransaction();
-
-    revalidatePath(`/reviews/${reviewId}`);
-    return { success: true, data: JSON.parse(JSON.stringify(updatedReview)) };
-  } catch (error) {
-    session.abortTransaction();
-
-    return handleError(error) as ErrorResponse;
-  } finally {
-    session.endSession();
   }
 }
 

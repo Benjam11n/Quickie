@@ -372,6 +372,15 @@ export const DeleteReviewSchema = z.object({
   reviewId: z.string().min(1, { message: 'Review ID is required.' }),
 });
 
+export const ReviewInteractionSchema = z.object({
+  reviewId: z.string().min(1, { message: 'Review ID is required.' }),
+  type: z.enum(['like', 'dislike', 'share', 'report']),
+});
+
+export const GetReviewInteractionsSchema = z.object({
+  reviewId: z.string().min(1, { message: 'Review ID is required.' }),
+});
+
 export const LikeReviewSchema = z.object({
   reviewId: z.string().min(1, { message: 'Review ID is required.' }),
 });

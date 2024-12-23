@@ -26,12 +26,8 @@ export function SingleProductView({ product, review }: SingleProductViewProps) {
   const userPerfume = collections.find((p) => p.productId === product.id);
   const enhancedFragrance = mapProductToEnhancedFragrance(product);
 
-  const {
-    handleReviewSubmit,
-    handleReviewDelete,
-    handleReviewLike,
-    handleReviewDislike,
-  } = useReviewHandlers({ product, review, router });
+  const { handleReviewSubmit, handleReviewDelete, handleInteraction } =
+    useReviewHandlers({ product, review, router });
 
   return (
     <div className="space-y-8">
@@ -59,9 +55,8 @@ export function SingleProductView({ product, review }: SingleProductViewProps) {
           productId={product.id}
           initialRating={review}
           onSubmit={handleReviewSubmit}
+          onInteraction={handleInteraction}
           onDelete={handleReviewDelete}
-          onLike={handleReviewLike}
-          onDislike={handleReviewDislike}
         />
       </AuthCheck>
     </div>

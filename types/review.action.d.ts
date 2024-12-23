@@ -20,6 +20,15 @@ declare global {
     reviewId: string;
   }
 
+  interface ReviewInteractionParams {
+    reviewId: string;
+    type: 'like' | 'dislike' | 'share' | 'report';
+  }
+
+  interface getReviewInteractionsParams {
+    reviewId: string;
+  }
+
   interface LikeReviewParams {
     reviewId: string;
   }

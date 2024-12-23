@@ -12,10 +12,6 @@ export interface IReview {
     complexity: number;
   };
   review: string;
-  likes: number;
-  dislikes: number;
-  likedBy?: Types.ObjectId[];
-  dislikedBy?: Types.ObjectId[];
 }
 
 export interface IReviewDoc extends IReview, Document {}
@@ -71,10 +67,6 @@ const ReviewSchema = new Schema<IReview>(
       trim: true,
       minlength: [10, 'Review must be at least 10 characters long'],
     },
-    likes: { type: Number, default: 0 },
-    dislikes: { type: Number, default: 0 },
-    likedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
-    dislikedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true }
 );

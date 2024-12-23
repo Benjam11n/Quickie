@@ -8,6 +8,8 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
+import { ReviewInteractionCounts } from '@/database/review-interaction.model';
+import { getReviewInteractions } from '@/lib/actions/review.action';
 import { cn } from '@/lib/utils';
 import { Review } from '@/types';
 
@@ -18,9 +20,12 @@ interface ReviewCardProps {
   productId: string;
   initialRating?: Review;
   onSubmit: (rating: CreateReviewParams) => void;
+  onInteraction: ({
+    type,
+  }: {
+    type: 'like' | 'dislike' | 'share' | 'report';
+  }) => Promise<ReviewInteractionCounts | undefined>;
   onDelete: () => void;
-  onLike: () => void;
-  onDislike: () => void;
   className?: string;
 }
 
@@ -28,9 +33,8 @@ export function ReviewCard({
   productId,
   initialRating,
   onSubmit,
+  onInteraction,
   onDelete,
-  onLike,
-  onDislike,
   className,
 }: ReviewCardProps) {
   const [rating, setRating] = useState({
@@ -41,17 +45,30 @@ export function ReviewCard({
     complexity: initialRating?.rating?.complexity || 0,
   });
   const [review, setReview] = useState(initialRating?.review || '');
-  const [likes, setLikes] = useState(initialRating?.likes || 0);
-  const [dislikes, setDislikes] = useState(initialRating?.dislikes || 0);
+  const [interactions, setInteractions] = useState({
+    like: 0,
+    dislike: 0,
+    share: 0,
+    report: 0,
+  });
 
   useEffect(() => {
+    if (initialRating?._id) {
+      getReviewInteractions({ reviewId: initialRating._id }).then((result) => {
+        if (result.success) {
+          console.log(result.data);
+          if (result.data) {
+            setInteractions(result.data);
+          }
+        }
+      });
+    }
+
     if (initialRating) {
       setRating(initialRating.rating);
       setReview(initialRating.review || '');
-      setLikes(initialRating.likes);
-      setDislikes(initialRating.dislikes);
     }
-  }, [initialRating]);
+  }, [initialRating?._id, initialRating]);
 
   const hasChanges = () => {
     if (!initialRating) return true;
@@ -63,6 +80,8 @@ export function ReviewCard({
     );
     return ratingChanged || review !== initialRating.review;
   };
+
+  console.log(interactions.dislike);
 
   const calculateOverallScore = () => {
     const weights = {
@@ -81,23 +100,11 @@ export function ReviewCard({
   };
 
   const handleLike = async () => {
-    setLikes((prev) => prev + 1);
-    try {
-      await onLike();
-    } catch {
-      setLikes((prev) => prev - 1);
-      toast.error('Failed to like review');
-    }
+    await onInteraction({ type: 'like' });
   };
 
   const handleDislike = async () => {
-    setDislikes((prev) => prev + 1);
-    try {
-      await onDislike();
-    } catch {
-      setDislikes((prev) => prev - 1);
-      toast.error('Failed to dislike review');
-    }
+    await onInteraction({ type: 'dislike' });
   };
 
   const handleDelete = async () => {
@@ -110,9 +117,8 @@ export function ReviewCard({
         projection: 0,
         complexity: 0,
       });
+      setInteractions({ like: 0, dislike: 0, share: 0, report: 0 });
       setReview('');
-      setLikes(0);
-      setDislikes(0);
     } catch {
       toast.error('Failed to delete review');
     }
@@ -153,7 +159,7 @@ export function ReviewCard({
               onClick={handleLike}
             >
               <ThumbsUp className="size-4" />
-              <span>{likes}</span>
+              <span>{interactions.like}</span>
             </Button>
             <Button
               variant="outline"
@@ -162,7 +168,7 @@ export function ReviewCard({
               onClick={handleDislike}
             >
               <ThumbsDown className="size-4" />
-              <span>{dislikes}</span>
+              <span>{interactions.dislike}</span>
             </Button>
           </div>
         )}
