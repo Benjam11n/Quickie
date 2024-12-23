@@ -29,7 +29,12 @@ export async function createReview(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { perfumeId, vendingMachineId, rating } = validationResult.params!;
+  const {
+    perfumeId,
+    vendingMachineId,
+    review: writtenReview,
+    rating,
+  } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
   const session = await mongoose.startSession();
@@ -37,7 +42,15 @@ export async function createReview(
 
   try {
     const [review] = await Review.create(
-      [{ perfumeId, vendingMachineId, rating, author: userId }],
+      [
+        {
+          perfumeId,
+          vendingMachineId,
+          review: writtenReview,
+          rating,
+          author: userId,
+        },
+      ],
       { session }
     );
 
@@ -49,8 +62,15 @@ export async function createReview(
 
     return { success: true, data: JSON.parse(JSON.stringify(review)) };
   } catch (error) {
-    await session.abortTransaction();
-
+    // 11000 is MongoDB's duplicate key error code
+    if ((error as any).code === 11000) {
+      return {
+        success: false,
+        error: {
+          message: 'You have already reviewed this perfume',
+        },
+      };
+    }
     return handleError(error) as ErrorResponse;
   } finally {
     await session.endSession();

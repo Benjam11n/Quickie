@@ -8,15 +8,15 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import { RatingWithReview } from '@/types/fragrance';
 
 import { RatingDistribution } from './RatingDistribution';
 import { RatingMetrics } from './RatingMetrics';
+import { Review } from '@/types';
 
 interface RatingCardProps {
   productId: string;
-  initialRating?: RatingWithReview;
-  onSubmit: (rating: RatingWithReview) => void;
+  initialRating?: Review;
+  onSubmit: (rating: CreateReviewParams) => void;
   className?: string;
 }
 
@@ -27,11 +27,11 @@ export function RatingCard({
   className,
 }: RatingCardProps) {
   const [rating, setRating] = useState({
-    sillage: initialRating?.sillage || 0,
-    longevity: initialRating?.longevity || 0,
-    value: initialRating?.value || 0,
-    projection: initialRating?.projection || 0,
-    complexity: initialRating?.complexity || 0,
+    sillage: initialRating?.rating.sillage || 0,
+    longevity: initialRating?.rating.longevity || 0,
+    value: initialRating?.rating.value || 0,
+    projection: initialRating?.rating.projection || 0,
+    complexity: initialRating?.rating.complexity || 0,
   });
   const [review, setReview] = useState(initialRating?.review || '');
   const [helpful, setHelpful] = useState({ up: 423, down: 12 });
@@ -54,9 +54,9 @@ export function RatingCard({
 
   const handleSubmit = () => {
     onSubmit({
-      ...rating,
+      perfumeId: productId,
+      rating,
       review,
-      overall: parseFloat(calculateOverallScore()),
     });
   };
 

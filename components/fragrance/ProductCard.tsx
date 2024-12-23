@@ -36,7 +36,7 @@ export function ProductCard({
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     // Don't navigate if clicking on buttons
     if (!(e.target as HTMLElement).closest('button')) {
-      router.push(ROUTES.PRODUCT(product.id));
+      router.push(ROUTES.PRODUCT(product._id));
     }
   };
 

@@ -14,7 +14,7 @@ interface RatingMetricsProps {
 
 const metrics = [
   {
-    key: 'sillage',
+    key: 'sillage', // No more 'rating.' prefix
     label: 'Sillage',
     icon: Wind,
     description: 'How far the fragrance projects',
@@ -62,34 +62,24 @@ export function RatingMetrics({ rating, onChange }: RatingMetricsProps) {
               <div className="group relative flex items-center gap-2">
                 <Icon className="size-5 text-primary" />
                 <span className="font-medium">{metric.label}</span>
-
-                {/* Tooltip */}
-                <div
-                  className="invisible absolute -top-12 left-0 w-52 rounded-lg 
-                border-2 bg-popover p-2 text-xs opacity-0 transition-all 
-                duration-200 group-hover:visible group-hover:opacity-100"
-                >
+                <div className="invisible absolute -top-12 left-0 w-52 rounded-lg border-2 bg-popover p-2 text-xs opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
                   {metric.description}
                 </div>
               </div>
               <span className="font-medium text-primary">
-                {rating[metric.key as keyof typeof rating]}
+                {rating[metric.key as keyof Rating]}
               </span>
             </div>
-
             <RatingBar
-              value={rating[metric.key as keyof typeof rating]}
+              value={rating[metric.key as keyof Rating]}
               onChange={(value) => onChange({ ...rating, [metric.key]: value })}
             />
-
             <div className="h-2 overflow-hidden rounded-full bg-secondary">
               <motion.div
                 className="h-full bg-gradient-to-r from-pink-500 to-violet-500"
                 initial={{ width: 0 }}
                 animate={{
-                  width: `${
-                    (rating[metric.key as keyof typeof rating] / 5) * 100
-                  }%`,
+                  width: `${(rating[metric.key as keyof Rating] / 5) * 100}%`,
                 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               />

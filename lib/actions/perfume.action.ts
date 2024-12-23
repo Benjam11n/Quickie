@@ -304,15 +304,7 @@ export async function getPerfumes(
       .lean()
       .sort(sortCriteria)
       .skip(skip)
-      .limit(limit)
-      .then((products) =>
-        products.map((product) => ({
-          ...product,
-          id: (product._id as mongoose.Types.ObjectId).toString(),
-          _id: undefined, // Remove _id from the response
-        }))
-      );
-
+      .limit(limit);
     const isNext = totalPerfumes > skip + perfumes.length;
 
     return {

@@ -15,6 +15,7 @@ export interface ScentProfile {
 }
 
 export interface Product {
+  _id: string;
   id: string;
   name: string;
   brand: string;
@@ -104,11 +105,6 @@ export interface Rating {
   value: number;
   projection: number;
   complexity: number;
-}
-
-export interface RatingWithReview extends Rating {
-  review?: string;
-  overall?: number;
 }
 
 export interface FragranceFilters {

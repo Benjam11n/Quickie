@@ -17,6 +17,8 @@ import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
 import { Product } from '@/types/fragrance';
 
 import AffiliateNotice from './AffiliateNotice';
+import { createReview } from '@/lib/actions/review.action';
+import { toast } from 'sonner';
 
 interface SingleProductViewProps {
   product: Product;
@@ -24,8 +26,7 @@ interface SingleProductViewProps {
 
 export function SingleProductView({ product }: SingleProductViewProps) {
   const router = useRouter();
-  const { collections, toggleFavorite, addToCollection, addRating } =
-    useUserPerfumes();
+  const { collections, toggleFavorite, addToCollection } = useUserPerfumes();
   const userPerfume = collections.find((p) => p.productId === product.id);
   const enhancedFragrance = mapProductToEnhancedFragrance(product);
 
@@ -37,8 +38,38 @@ export function SingleProductView({ product }: SingleProductViewProps) {
     addToCollection(product.id);
   };
 
-  const handleRatingSubmit = (rating: any) => {
-    addRating(product.id, rating.overall, rating.review);
+  // TODO: Add abiity to add vending machineId
+  // No need for vending machine Id here
+  const handleRatingSubmit = async (formData: any) => {
+    try {
+      const result = await createReview({
+        perfumeId: product._id,
+        rating: formData.rating, // Changed this to use the nested rating object
+        review: formData.review,
+      });
+
+      if (result.success) {
+        toast.success('Success', {
+          description: 'Review created successfully',
+        });
+      } else {
+        if (
+          result.error?.message === 'You have already reviewed this perfume'
+        ) {
+          toast.error('Already Reviewed', {
+            description: 'You have already submitted a review for this perfume',
+          });
+        } else {
+          toast.error('Error', {
+            description: result.error?.message || 'Something went wrong',
+          });
+        }
+      }
+    } catch (error) {
+      toast.error('Error', {
+        description: 'Failed to submit review',
+      });
+    }
   };
 
   return (
@@ -121,21 +152,25 @@ export function SingleProductView({ product }: SingleProductViewProps) {
           </div>
         </div>
       </div>
-
       <EnhancedVisualizer fragrance={enhancedFragrance} />
-
       <AuthCheck>
         <RatingCard
           productId={product.id}
           initialRating={
             userPerfume?.rating
               ? {
-                  sillage: product.scentProfile.sillage,
-                  longevity: product.scentProfile.longevity,
-                  value: product.scentProfile.value,
-                  projection: product.scentProfile.sillage,
-                  complexity: product.scentProfile.uniqueness,
-                  review: userPerfume.review,
+                  id: userPerfume.review.id,
+                  author: userPerfume.review.author,
+                  perfumeId: product.id,
+                  likes: userPerfume.review.likes,
+                  rating: {
+                    sillage: product.scentProfile.sillage,
+                    longevity: product.scentProfile.longevity,
+                    value: product.scentProfile.value,
+                    projection: product.scentProfile.sillage,
+                    complexity: product.scentProfile.uniqueness,
+                  },
+                  review: userPerfume.review.review,
                 }
               : undefined
           }
