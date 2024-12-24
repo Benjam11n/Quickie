@@ -145,7 +145,7 @@ export async function getCollection(
       })
       .populate({
         path: 'perfumes.perfumeId',
-        select: 'name brand affiliateLink price images',
+        select: '_id id name brand affiliateLink price images',
       });
 
     if (!collection) {

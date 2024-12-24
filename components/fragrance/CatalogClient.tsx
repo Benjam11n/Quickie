@@ -4,40 +4,21 @@ import { SlidersHorizontal } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
-import { ProductCard } from '@/components/fragrance/ProductCard';
+import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
 import { ProductFilters } from '@/components/fragrance/ProductFilters';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 
 import PaginationControls from '../pagination/PaginationControls';
 import LocalSearch from '../search/LocalSearch';
 import SortingControls from '../sort/SortingControls';
-import DataRenderer from '../ui/DataRenderer';
 
 interface CatalogPageProps {
-  products: Product[];
-  success: boolean;
-  error?: {
-    message: string;
-    details?: Record<string, string[]>;
-  };
-  empty: {
-    title: string;
-    message: string;
-    button?: {
-      text: string;
-      href: string;
-    };
-  };
+  perfumes: Perfume[];
 }
 
-export default function CatalogClient({
-  products,
-  success,
-  error,
-  empty,
-}: CatalogPageProps) {
+export default function CatalogClient({ perfumes }: CatalogPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -47,7 +28,7 @@ export default function CatalogClient({
   const [selectedForComparison, setSelectedForComparison] = useState<string[]>(
     []
   );
-  const totalCount = products.length || 0;
+  const totalCount = perfumes.length || 0;
 
   const handleCompareToggle = (productId: string) => {
     setSelectedForComparison((prev) => {
@@ -124,27 +105,19 @@ export default function CatalogClient({
               </div>
             )}
 
-            <DataRenderer
-              success={success}
-              error={error}
-              data={products}
-              empty={empty}
-              render={(filteredProducts) => (
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {filteredProducts.map((product) => (
-                    <ProductCard
-                      key={product.id}
-                      product={product}
-                      onCompareToggle={() => handleCompareToggle(product.id)}
-                      isSelectedForComparison={selectedForComparison.includes(
-                        product.id
-                      )}
-                    />
-                  ))}
-                </div>
-              )}
-            />
-            {products.length === 0 && (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {perfumes.map((perfume) => (
+                <PerfumeCard
+                  key={perfume._id}
+                  perfume={perfume}
+                  onCompareToggle={() => handleCompareToggle(perfume.id)}
+                  isSelectedForComparison={selectedForComparison.includes(
+                    perfume.id
+                  )}
+                />
+              ))}
+            </div>
+            {perfumes.length === 0 && (
               <div className="py-12 text-center">
                 <p className="text-muted-foreground">
                   No fragrances found matching your criteria.

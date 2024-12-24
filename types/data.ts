@@ -1,8 +1,8 @@
-import { Product } from './fragrance';
+import { Perfume } from './fragrance';
 
 import { VendingLocation } from '.';
 
-export const products: Product[] = [
+export const products: Perfume[] = [
   {
     id: 'midnight-rendezvous',
     name: 'Midnight Rendezvous',

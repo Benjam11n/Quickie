@@ -14,39 +14,39 @@ import { ROUTES } from '@/constants/routes';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { addToCollection } from '@/lib/actions/collection.action';
 import { cn } from '@/lib/utils';
-import { Product, UserPerfume } from '@/types/fragrance';
+import { Perfume, UserPerfume } from '@/types/fragrance';
 
 import AffiliateNotice from './AffiliateNotice';
 
-interface ProductCardProps {
-  product: Product;
+interface PerfumeCardProps {
+  perfume: Perfume;
   userPerfume?: UserPerfume;
   onCompareToggle?: () => void;
   isSelectedForComparison?: boolean;
 }
 
-export function ProductCard({
-  product,
+export function PerfumeCard({
+  perfume,
   userPerfume,
   onCompareToggle,
   isSelectedForComparison,
-}: ProductCardProps) {
+}: PerfumeCardProps) {
   const router = useRouter();
   const { toggleFavorite } = useUserPerfumes();
 
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!(e.target as HTMLElement).closest('button')) {
-      router.push(ROUTES.PRODUCT(product._id));
+      router.push(ROUTES.PRODUCT(perfume._id));
     }
   };
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    toggleFavorite(product.id);
+    toggleFavorite(perfume.id);
   };
 
   const handleCollectionClick = async () => {
-    const result = await addToCollection({ perfumeId: product._id });
+    const result = await addToCollection({ perfumeId: perfume._id });
     if (result.success) {
       toast.success('Successfully added to collection');
     } else {
@@ -69,8 +69,8 @@ export function ProductCard({
     >
       <div className="relative aspect-square overflow-hidden">
         <Image
-          src={product.images[0]}
-          alt={product.name}
+          src={perfume.images[0]}
+          alt={perfume.name}
           fill
           className="size-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
@@ -88,9 +88,9 @@ export function ProductCard({
         <div className="flex items-start justify-between">
           <div>
             <h3 className="font-semibold transition-colors hover:text-primary">
-              {product.name}
+              {perfume.name}
             </h3>
-            <p className="text-sm text-muted-foreground">{product.brand}</p>
+            <p className="text-sm text-muted-foreground">{perfume.brand}</p>
           </div>
           <div className="flex gap-2">
             <Button
@@ -135,12 +135,12 @@ export function ProductCard({
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between">
           <span className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-lg font-bold text-transparent">
-            ${product.price}
+            ${perfume.price}
           </span>
           <div className="flex gap-2">
             <AffiliateNotice>
               <Button size="sm" variant="outline">
-                <Link href={product.affiliateLink} passHref>
+                <Link href={perfume.affiliateLink} passHref>
                   <ExternalLink className="mr-2 size-4" />
                   Buy
                 </Link>

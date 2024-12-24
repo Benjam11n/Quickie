@@ -6,7 +6,7 @@ import {
   SeasonalRating,
   NoteHarmony,
   FragranceCharacteristic,
-  Product,
+  Perfume,
 } from '@/types/fragrance';
 
 const NOTE_COLORS = {
@@ -72,7 +72,7 @@ function generateTimeline(notes: {
   return timeline;
 }
 
-function generateSeasonalRatings(product: Product): SeasonalRating[] {
+function generateSeasonalRatings(product: Perfume): SeasonalRating[] {
   const { scentProfile } = product;
 
   return [
@@ -131,7 +131,7 @@ function generateNoteHarmony(notes: {
   }));
 }
 
-function generateCharacteristics(product: Product): FragranceCharacteristic[] {
+function generateCharacteristics(product: Perfume): FragranceCharacteristic[] {
   const { scentProfile } = product;
 
   return [
@@ -163,7 +163,7 @@ function generateCharacteristics(product: Product): FragranceCharacteristic[] {
 }
 
 export function mapProductToEnhancedFragrance(
-  product: Product
+  product: Perfume
 ): EnhancedFragrance {
   // Map notes with colors and families
   const mappedNotes = {

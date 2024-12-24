@@ -9,15 +9,15 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ROUTES } from '@/constants/routes';
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 
 export default function ComparePage() {
   const router = useRouter();
-  const [, setSelectedProducts] = useState<Product[]>([]);
+  const [, setSelectedProducts] = useState<Perfume[]>([]);
   const [isFullComparison, setIsFullComparison] = useState(true);
   const [showSelector, setShowSelector] = useState(false);
 
-  const handleAddProduct = (product: Product) => {
+  const handleAddProduct = (product: Perfume) => {
     const newProducts = [product];
 
     setSelectedProducts(newProducts);

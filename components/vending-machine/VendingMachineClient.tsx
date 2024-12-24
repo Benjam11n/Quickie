@@ -8,13 +8,13 @@ import { VendingMachineView } from '@/types';
 
 import LocalSearch from '../search/LocalSearch';
 
-interface LocationClientProps {
+interface VendingMachineClientProps {
   vendingMachines: VendingMachineView[];
 }
 
-export default function LocationClient({
+export default function VendingMachineClient({
   vendingMachines,
-}: LocationClientProps) {
+}: VendingMachineClientProps) {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
   return (

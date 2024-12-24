@@ -1,16 +1,21 @@
-'use client';
-
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
-import { useEditBoardStore } from '@/hooks/use-mood-boards';
+import { deleteMoodBoard } from '@/lib/actions/moodboard.action';
+import { MoodBoard } from '@/types';
 
 import { BoardPreview } from './BoardPreview';
 
-export function BoardList() {
-  const { boards, deleteBoard } = useEditBoardStore();
+interface BoardListProps {
+  boards: MoodBoard[];
+}
+
+export function BoardList({ boards }: BoardListProps) {
+  const handleDelete = async (id: string) => {
+    await deleteMoodBoard(id);
+  };
 
   return (
     <div className="space-y-8">
@@ -30,9 +35,9 @@ export function BoardList() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {boards.map((board) => (
           <BoardPreview
-            key={board.id}
+            key={board._id}
             board={board}
-            onDelete={() => deleteBoard(board.id)}
+            onDelete={() => handleDelete(board._id)}
           />
         ))}
       </div>

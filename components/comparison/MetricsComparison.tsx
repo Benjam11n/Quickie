@@ -11,9 +11,9 @@ import {
 } from 'lucide-react';
 
 import { Card } from '@/components/ui/card';
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 interface MetricsComparisonProps {
-  products: Product[];
+  products: Perfume[];
 }
 
 export function MetricsComparison({ products }: MetricsComparisonProps) {
@@ -21,33 +21,33 @@ export function MetricsComparison({ products }: MetricsComparisonProps) {
     {
       label: 'Price per ml',
       icon: DollarSign,
-      getValue: (product: Product) =>
+      getValue: (product: Perfume) =>
         `$${(product.price / product.size).toFixed(2)}/ml`,
     },
     {
       label: 'Sillage',
       icon: Wind,
-      getValue: (product: Product) => `${product.scentProfile.sillage}%`,
+      getValue: (product: Perfume) => `${product.scentProfile.sillage}%`,
     },
     {
       label: 'Longevity',
       icon: Clock,
-      getValue: (product: Product) => `${product.scentProfile.longevity}%`,
+      getValue: (product: Perfume) => `${product.scentProfile.longevity}%`,
     },
     {
       label: 'Projection',
       icon: Activity,
-      getValue: (product: Product) => `${product.scentProfile.sillage}%`,
+      getValue: (product: Perfume) => `${product.scentProfile.sillage}%`,
     },
     {
       label: 'Uniqueness',
       icon: Sparkles,
-      getValue: (product: Product) => `${product.scentProfile.uniqueness}%`,
+      getValue: (product: Perfume) => `${product.scentProfile.uniqueness}%`,
     },
     {
       label: 'Rating',
       icon: Star,
-      getValue: (product: Product) =>
+      getValue: (product: Perfume) =>
         `${(product.scentProfile.value / 20).toFixed(1)}/5.0`,
     },
   ];

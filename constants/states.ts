@@ -64,13 +64,3 @@ export const EMPTY_COLLECTIONS = {
     href: ROUTES.CATALOG,
   },
 };
-
-export const EMPTY_INSIGHTS = {
-  title: 'No Insights Available Yet',
-  message:
-    'Start adding perfumes to your collection and wishlists to discover your fragrance preferences and trends.',
-  button: {
-    text: 'Build Your Collection',
-    href: ROUTES.CATALOG,
-  },
-};

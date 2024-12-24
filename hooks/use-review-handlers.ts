@@ -8,10 +8,10 @@ import {
   handleReviewInteraction,
 } from '@/lib/actions/review.action';
 import { Review } from '@/types';
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 
 interface UseReviewHandlersProps {
-  product: Product;
+  product: Perfume;
   review?: Review;
   router: AppRouterInstance;
 }

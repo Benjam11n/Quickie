@@ -5,7 +5,7 @@ import mongoose, { FilterQuery } from 'mongoose';
 import Perfume, { IPerfumeDoc } from '@/database/perfume.model';
 import TagPerfume from '@/database/tag-perfume.model';
 import Tag, { ITagDoc } from '@/database/tag.model';
-import { Product } from '@/types/fragrance';
+import { Perfume as PerfumeType } from '@/types/fragrance';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -250,7 +250,7 @@ export async function getPerfume(
 
 export async function getPerfumes(
   params: PaginatedSearchParams
-): Promise<ActionResponse<{ perfumes: Product[]; isNext: boolean }>> {
+): Promise<ActionResponse<{ perfumes: PerfumeType[]; isNext: boolean }>> {
   const validationResult = await action({
     params,
     schema: PaginatedSearchParamsSchema,

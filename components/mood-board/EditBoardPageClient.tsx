@@ -10,11 +10,11 @@ import { BoardSidebar } from '@/components/mood-board/BoardSidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ROUTES } from '@/constants/routes';
-import { useEditBoardStore } from '@/hooks/use-mood-boards';
+import { useBoardStore } from '@/hooks/use-mood-boards';
 import { updateMoodBoard } from '@/lib/actions/moodboard.action';
 import { MoodBoard, transformToClientBoard } from '@/types';
 import { products } from '@/types/data';
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 
 interface EditBoardPageProps {
   initialBoard: MoodBoard;
@@ -34,7 +34,7 @@ export default function EditBoardPageClient({
     addPerfume,
     getChanges,
     // resetChanges,
-  } = useEditBoardStore();
+  } = useBoardStore();
 
   // Initialize edit state
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function EditBoardPageClient({
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [hasChanges]);
 
-  const handleAddPerfume = (product: Product) => {
+  const handleAddPerfume = (product: Perfume) => {
     if (selectedSquare !== null) {
       const x = selectedSquare % 3;
       const y = Math.floor(selectedSquare / 3);

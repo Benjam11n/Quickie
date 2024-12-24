@@ -14,7 +14,7 @@ export interface ScentProfile {
   value: number;
 }
 
-export interface Product {
+export interface Perfume {
   _id: string;
   id: string;
   name: string;

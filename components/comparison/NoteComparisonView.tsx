@@ -11,14 +11,14 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 
 import { StarRating } from '../StarRating';
 
 const MAX_COMPARISONS = 2;
 
 interface NoteComparisonViewProps {
-  initialProducts?: Product[];
+  initialProducts?: Perfume[];
 }
 
 export function NoteComparisonView({
@@ -26,10 +26,10 @@ export function NoteComparisonView({
 }: NoteComparisonViewProps) {
   const router = useRouter();
   const [selectedProducts, setSelectedProducts] =
-    useState<Product[]>(initialProducts);
+    useState<Perfume[]>(initialProducts);
   const [showSelector, setShowSelector] = useState(false);
 
-  const getAllNotes = (product: Product) => {
+  const getAllNotes = (product: Perfume) => {
     const notes: { [key: string]: number } = {};
     Object.values(product.notes || {})
       .flat()
@@ -65,7 +65,7 @@ export function NoteComparisonView({
     return currentNotes.filter((note) => !otherNotes.has(note));
   };
 
-  const calculateSimilarity = (product1: Product, product2: Product) => {
+  const calculateSimilarity = (product1: Perfume, product2: Perfume) => {
     const notes1 = getAllNotes(product1);
     const notes2 = getAllNotes(product2);
     const allNotes = new Set([...Object.keys(notes1), ...Object.keys(notes2)]);
@@ -96,7 +96,7 @@ export function NoteComparisonView({
     );
   }, [selectedProducts, router]);
 
-  const handleAddProduct = (product: Product) => {
+  const handleAddProduct = (product: Perfume) => {
     setSelectedProducts((prev) => [...prev, product]);
     setShowSelector(false);
   };

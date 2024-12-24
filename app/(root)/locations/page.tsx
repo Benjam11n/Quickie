@@ -1,5 +1,5 @@
 import DataRenderer from '@/components/ui/DataRenderer';
-import LocationClient from '@/components/vending-machine/LocationClient';
+import VendingMachineClientProps from '@/components/vending-machine/VendingMachineClient';
 import { EMPTY_VENDING_MACHINES } from '@/constants/states';
 import { getVendingMachines } from '@/lib/actions/vending-machine.action';
 
@@ -26,7 +26,7 @@ const LocationsPage = async ({ searchParams }: SearchParams) => {
       data={vendingMachines}
       empty={EMPTY_VENDING_MACHINES}
       render={(vendingMachines) => (
-        <LocationClient vendingMachines={vendingMachines} />
+        <VendingMachineClientProps vendingMachines={vendingMachines} />
       )}
     />
   );

@@ -7,18 +7,18 @@ import { ComparisonView } from '@/components/comparison/ComparisonView';
 import { ProductSelector } from '@/components/fragrance/ProductSelector';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 
 const MAX_COMPARISONS = 2;
 interface CompareWithIdsProps {
-  initialProducts: Product[];
+  initialProducts: Perfume[];
 }
 
 export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
   const router = useRouter();
   const [showSelector, setShowSelector] = useState(false);
 
-  const handleAddProduct = (product: Product) => {
+  const handleAddProduct = (product: Perfume) => {
     const newProducts =
       initialProducts.length >= MAX_COMPARISONS
         ? [...initialProducts.slice(1), product]

@@ -166,6 +166,8 @@ export interface CollectionView {
   author: string;
   perfumes: {
     perfumeId: {
+      _id: string;
+      id: string;
       name: string;
       brand: string;
       price: number;

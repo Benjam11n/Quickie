@@ -9,12 +9,12 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useEditBoardStore } from '@/hooks/use-mood-boards';
-import { Product } from '@/types/fragrance';
+import { useBoardStore } from '@/hooks/use-mood-boards';
+import { Perfume } from '@/types/fragrance';
 
 interface BoardSidebarProps {
-  products: Product[];
-  onAddPerfume: (product: Product) => void;
+  products: Perfume[];
+  onAddPerfume: (product: Perfume) => void;
   selectedSquare: number | null;
 }
 
@@ -24,8 +24,7 @@ export function BoardSidebar({
   selectedSquare,
 }: BoardSidebarProps) {
   const [newTag, setNewTag] = useState('');
-  const { currentBoard, addTag, removeTag, toggleVisibility } =
-    useEditBoardStore();
+  const { currentBoard, addTag, removeTag, toggleVisibility } = useBoardStore();
 
   if (!currentBoard) return null;
 

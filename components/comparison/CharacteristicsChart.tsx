@@ -10,10 +10,10 @@ import {
   Tooltip,
 } from 'recharts';
 
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 
 interface CharacteristicsChartProps {
-  products: Product[];
+  products: Perfume[];
 }
 
 export function CharacteristicsChart({ products }: CharacteristicsChartProps) {
@@ -32,10 +32,9 @@ export function CharacteristicsChart({ products }: CharacteristicsChartProps) {
     ...products.reduce(
       (acc, product, index) => ({
         ...acc,
-        [`product${index + 1}`]:
-          product.scentProfile[
-            characteristic as keyof typeof product.scentProfile
-          ],
+        [`product${index + 1}`]: (product.scentProfile ?? {})[
+          characteristic as keyof typeof product.scentProfile
+        ],
       }),
       {}
     ),

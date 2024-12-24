@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 
 import { CharacteristicsChart } from './CharacteristicsChart';
 import { MetricsComparison } from './MetricsComparison';
@@ -18,7 +18,7 @@ import { ScentPyramid } from './ScentPyramid';
 import { ShareDialog } from './ShareDialog';
 
 interface ComparisonViewProps {
-  products: Product[];
+  products: Perfume[];
   onRemove: (productId: string) => void;
 }
 

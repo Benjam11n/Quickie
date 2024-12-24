@@ -1,6 +1,6 @@
 import { NoteComparisonView } from '@/components/comparison';
 import { products } from '@/types/data';
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 
 export function generateStaticParams() {
   const params: { ids: string[] }[] = [];
@@ -25,5 +25,5 @@ export default function NoteComparisonPage({
     return <div>Products not found</div>;
   }
 
-  return <NoteComparisonView initialProducts={selectedProducts as Product[]} />;
+  return <NoteComparisonView initialProducts={selectedProducts as Perfume[]} />;
 }

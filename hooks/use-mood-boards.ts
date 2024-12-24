@@ -31,7 +31,7 @@ interface EditBoardState {
   getChanges: () => Partial<MoodBoard>;
 }
 
-export const useEditBoardStore = create<EditBoardState>((set, get) => ({
+export const useBoardStore = create<EditBoardState>((set, get) => ({
   originalBoard: null,
   currentBoard: null,
   hasChanges: false,

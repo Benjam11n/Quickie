@@ -14,11 +14,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { products } from '@/types/data';
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 interface ProductSelectorProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSelect: (product: Product) => void;
+  onSelect: (product: Perfume) => void;
   excludeIds?: string[];
 }
 

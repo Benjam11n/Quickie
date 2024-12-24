@@ -7,7 +7,7 @@ import ReviewInteraction, {
   ReviewInteractionCounts,
 } from '@/database/review-interaction.model';
 import Review, { IReviewDoc } from '@/database/review.model';
-import { Review as ReviewType } from '@/types';
+import { Review as ReviewType, ReviewView } from '@/types';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -352,7 +352,7 @@ export async function getReview(
 
 export async function getUserReviews(
   params: GetUserReviewsParams & PaginatedSearchParams
-): Promise<ActionResponse<{ reviews: ReviewType[]; isNext: boolean }>> {
+): Promise<ActionResponse<{ reviews: ReviewView[]; isNext: boolean }>> {
   const validationResult = await action({
     params,
     schema: GetUserReviewsSchema,

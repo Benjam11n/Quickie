@@ -6,7 +6,7 @@ import { useReviewHandlers } from '@/hooks/use-review-handlers';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
 import { Review } from '@/types';
-import { Product } from '@/types/fragrance';
+import { Perfume } from '@/types/fragrance';
 
 import { EnhancedVisualizer } from './EnhancedVisualizer';
 import { ProductHeader } from './ProductHeader';
@@ -16,7 +16,7 @@ import { AuthCheck } from '../auth/AuthCheck';
 import { ReviewCard } from '../rating';
 
 interface SingleProductViewProps {
-  product: Product;
+  product: Perfume;
   review?: Review;
 }
 

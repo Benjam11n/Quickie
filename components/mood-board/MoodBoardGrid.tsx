@@ -43,7 +43,7 @@ export function MoodBoardGrid({ boards }: MoodBoardGridProps) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <BoardList />
+        <BoardList boards={boards} />
       </motion.div>
     </AnimatePresence>
   );
