@@ -13,10 +13,9 @@ import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
 import { Product } from '@/types/fragrance';
 
-import { ShareDialog } from './ShareDialog';
 import { StarRating } from '../StarRating';
 
-const MAX_COMPARISONS = 3;
+const MAX_COMPARISONS = 2;
 
 interface NoteComparisonViewProps {
   initialProducts?: Product[];
@@ -109,23 +108,29 @@ export function NoteComparisonView({
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">
-          {initialProducts?.length === 1
-            ? `${initialProducts[0].name}`
-            : initialProducts?.length === 2
-              ? `${initialProducts[0].name} vs ${initialProducts[1].name}`
-              : 'Note Comparison'}
-        </h2>
-        <div className="flex items-center gap-2">
-          {selectedProducts.length < MAX_COMPARISONS && (
-            <Button onClick={() => setShowSelector(true)}>
-              <Plus className="mr-2 size-4" />
-              Add Perfume
-            </Button>
-          )}
-          <ShareDialog text="Share Comparison" />
-        </div>
+      <div>
+        <h1 className="text-4xl font-bold">
+          <span className="holographic-text">
+            {initialProducts?.length === 1
+              ? `${initialProducts[0].name}`
+              : initialProducts?.length === 2
+                ? `${initialProducts[0].name} vs ${initialProducts[1].name}`
+                : 'Compare Fragrances'}
+          </span>
+        </h1>
+        <p className="mt-2 text-muted-foreground">
+          {initialProducts &&
+            'Compare perfumes and analyze their notes and similarities.'}
+        </p>
+      </div>
+
+      <div className="flex justify-end">
+        {initialProducts.length < MAX_COMPARISONS && (
+          <Button onClick={() => setShowSelector(true)}>
+            <Plus className="mr-2 size-4" />
+            Add Perfume ({initialProducts.length}/{MAX_COMPARISONS})
+          </Button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">

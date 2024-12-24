@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
+
+import { auth } from '@/auth';
 import { SingleProductView } from '@/components/fragrance/SingleProductView';
 import { getPerfume } from '@/lib/actions/perfume.action';
 import { getReview } from '@/lib/actions/review.action';
-import { auth } from '@/auth';
 
 export default async function ProductPage({
   params,

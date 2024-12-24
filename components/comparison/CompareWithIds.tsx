@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { Product } from '@/types/fragrance';
 
-const NUMBER_OF_PERFUMES = 2;
+const MAX_COMPARISONS = 2;
 interface CompareWithIdsProps {
   initialProducts: Product[];
 }
@@ -20,7 +20,7 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
 
   const handleAddProduct = (product: Product) => {
     const newProducts =
-      initialProducts.length >= NUMBER_OF_PERFUMES
+      initialProducts.length >= MAX_COMPARISONS
         ? [...initialProducts.slice(1), product]
         : [...initialProducts, product];
 
@@ -60,10 +60,10 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
         </div>
 
         <div className="flex justify-end">
-          {initialProducts.length < NUMBER_OF_PERFUMES && (
+          {initialProducts.length < MAX_COMPARISONS && (
             <Button onClick={() => setShowSelector(true)}>
               <Plus className="mr-2 size-4" />
-              Add Perfume ({initialProducts.length}/2)
+              Add Perfume ({initialProducts.length}/{MAX_COMPARISONS})
             </Button>
           )}
         </div>

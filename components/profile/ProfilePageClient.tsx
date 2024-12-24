@@ -14,8 +14,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DEFAULT_EMPTY } from '@/constants/states';
 import { CollectionView, MoodBoard, ReviewView, WishlistView } from '@/types';
 
-import { WishlistsView } from './WishlistView';
 import { CollectionGrid } from './CollectionGrid';
+import { WishlistsView } from './WishlistView';
 
 interface ProfilePageProps {
   wishlists: WishlistView[] | undefined;
@@ -80,7 +80,7 @@ export default function ProfilePageClient({
   const insights = calculateInsights(wishlists || []);
 
   return (
-    <div className="min-h-screen from-gray-950 via-purple-950/20 to-gray-950 dark:bg-gradient-to-b">
+    <div className="min-h-screen ">
       <ProfileCard
         username={username}
         collectionNum={stats.collections}

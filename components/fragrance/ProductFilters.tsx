@@ -1,14 +1,15 @@
 'use client';
 
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { formUrlQuery, removeKeysFromUrlQuery } from '@/lib/url';
-import { brands, categories, notes } from '@/types/data';
-import { FragranceFilters } from '@/types/fragrance';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import queryString from 'query-string';
 import { useEffect, useState } from 'react';
+
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
+import { removeKeysFromUrlQuery } from '@/lib/url';
+import { brands, categories, notes } from '@/types/data';
+import { FragranceFilters } from '@/types/fragrance';
 
 interface ProductFiltersProps {
   route: string;

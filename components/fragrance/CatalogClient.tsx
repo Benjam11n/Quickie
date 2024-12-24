@@ -10,10 +10,10 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Product } from '@/types/fragrance';
 
-import DataRenderer from '../ui/DataRenderer';
-import LocalSearch from '../search/LocalSearch';
 import PaginationControls from '../pagination/PaginationControls';
+import LocalSearch from '../search/LocalSearch';
 import SortingControls from '../sort/SortingControls';
+import DataRenderer from '../ui/DataRenderer';
 
 interface CatalogPageProps {
   products: Product[];

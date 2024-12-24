@@ -1,3 +1,6 @@
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
 import {
   Pagination,
   PaginationContent,
@@ -15,8 +18,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { formUrlQuery, removeKeysFromUrlQuery } from '@/lib/url';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
 
 interface PaginationProps {
   route: string;

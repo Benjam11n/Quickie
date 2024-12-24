@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { DEFAULT_EMPTY } from '@/constants/states';
 import { deleteWishlist } from '@/lib/actions/wishlist.action';
 import { WishlistView } from '@/types';
+
 import { WishlistCard } from './WishlistCard';
 import DataRenderer from '../ui/DataRenderer';
 

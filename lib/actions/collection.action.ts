@@ -3,7 +3,7 @@
 import mongoose, { Types } from 'mongoose';
 
 import Collection, { ICollectionDoc } from '@/database/collection.model';
-import { Collection as CollectionType, CollectionView } from '@/types';
+import { CollectionView } from '@/types';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { StarRating } from '@/components/StarRating';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
-import { Product } from '@/types/fragrance';
 import { ReviewView } from '@/types';
 
 interface RatingsListProps {
