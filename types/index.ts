@@ -42,6 +42,35 @@ export interface VendingLocation {
   }[];
 }
 
+export interface VendingMachineView {
+  _id: string;
+  id: string;
+  location: {
+    type: 'Point';
+    coordinates: [number, number];
+    address: string;
+    area: string;
+  };
+  inventory: {
+    perfumeId: {
+      _id: string;
+      id: string;
+      name: string;
+      brand: string;
+      price: number;
+      images: string[];
+    };
+    stock: number;
+    lastRefilled: Date;
+  }[];
+  status: 'active' | 'maintenance' | 'inactive';
+  metrics: {
+    totalSamples: number;
+    popularTimes: Record<string, number>;
+  };
+  author: string;
+}
+
 // Helper function to transform MongoDB doc to client MoodBoard
 export function transformToClientBoard(doc: IMoodBoardDoc): MoodBoard {
   return {

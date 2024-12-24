@@ -11,7 +11,13 @@ import ProfileCard from '@/components/profile/ProfileCard';
 import { RatingsList } from '@/components/profile/RatingsList';
 import DataRenderer from '@/components/ui/DataRenderer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { DEFAULT_EMPTY } from '@/constants/states';
+import {
+  DEFAULT_EMPTY,
+  EMPTY_COLLECTIONS,
+  EMPTY_INSIGHTS,
+  EMPTY_MOODBOARDS,
+  EMPTY_WISHLISTS,
+} from '@/constants/states';
 import { CollectionView, MoodBoard, ReviewView, WishlistView } from '@/types';
 
 import { CollectionGrid } from './CollectionGrid';
@@ -117,7 +123,7 @@ export default function ProfilePageClient({
               success={success}
               error={error}
               data={collection?.perfumes}
-              empty={DEFAULT_EMPTY}
+              empty={EMPTY_COLLECTIONS}
               render={(perfumes) => (
                 <CollectionGrid
                   items={perfumes}
@@ -132,7 +138,7 @@ export default function ProfilePageClient({
               success={success}
               error={error}
               data={wishlists}
-              empty={DEFAULT_EMPTY}
+              empty={EMPTY_WISHLISTS}
               render={(wishlists) => (
                 <WishlistsView
                   wishlists={wishlists}
@@ -148,7 +154,7 @@ export default function ProfilePageClient({
               success={success}
               error={error}
               data={boards}
-              empty={DEFAULT_EMPTY}
+              empty={EMPTY_MOODBOARDS}
               render={(filteredBoards) => (
                 <MoodBoardGrid boards={filteredBoards} />
               )}
@@ -170,7 +176,7 @@ export default function ProfilePageClient({
               success={success}
               error={error}
               data={Array(insights)}
-              empty={DEFAULT_EMPTY}
+              empty={EMPTY_INSIGHTS}
               render={(insights) => (
                 <CollectionInsights insights={insights[0]} />
               )}

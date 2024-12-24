@@ -31,7 +31,7 @@ export function NoteComparisonView({
 
   const getAllNotes = (product: Product) => {
     const notes: { [key: string]: number } = {};
-    Object.values(product.notes)
+    Object.values(product.notes || {})
       .flat()
       .forEach((note) => {
         notes[note.name] = note.percentage;
@@ -179,7 +179,7 @@ export function NoteComparisonView({
                       ${product.price}
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      ${(product.price / product.size).toFixed(2)}/ml
+                      ${(product.price / (product.size || 1)).toFixed(2)}/ml
                     </div>
                   </div>
                   <StarRating rating={4.5} />

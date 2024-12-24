@@ -19,31 +19,58 @@ export const DEFAULT_ERROR = {
   },
 };
 
-// export const EMPTY_QUESTION = {
-//   title: 'Ahh, No Questions Yet!',
-//   message:
-//     'The question board is empty. Maybe it’s waiting for your brilliant question to get things rolling',
-//   button: {
-//     text: 'Ask a Question',
-//     href: ROUTES.ASK_QUESTION,
-//   },
-// };
+export const EMPTY_VENDING_MACHINES = {
+  title: 'No Vending Machines Found Nearby',
+  message:
+    "We haven't placed any perfume vending machines in this area yet. Check back soon as we expand our locations!",
+  button: {
+    text: 'View All Locations',
+    href: ROUTES.LOCATIONS,
+  },
+};
 
-// export const EMPTY_TAGS = {
-//   title: 'No Tags Found',
-//   message: 'The tag cloud is empty. Add some keywords to make it rain.',
-//   button: {
-//     text: 'Create Tag',
-//     href: ROUTES.TAGS,
-//   },
-// };
+export const EMPTY_CATALOG = {
+  title: 'No Fragrances Found',
+  message:
+    "We couldn't find any perfumes matching your search. Try adjusting your filters or exploring our full collection.",
+  button: {
+    text: 'View All Perfumes',
+    href: ROUTES.CATALOG,
+  },
+};
 
-// export const EMPTY_COLLECTIONS = {
-//   title: 'Collections Are Empty',
-//   message:
-//     'Looks like you haven’t created any collections yet. Start curating something extraordinary today',
-//   button: {
-//     text: 'Save to Collection',
-//     href: ROUTES.COLLECTION,
-//   },
-// };
+export const EMPTY_MOODBOARDS = {
+  title: 'No Mood Boards Yet',
+  message:
+    'Create your first mood board to start curating your favorite fragrances and sharing your perfume journey.',
+};
+
+export const EMPTY_WISHLISTS = {
+  title: 'Your Wishlist is Empty',
+  message:
+    "Start adding perfumes to your wishlist to keep track of fragrances you'd love to try.",
+  button: {
+    text: 'Explore Perfumes',
+    href: ROUTES.CATALOG,
+  },
+};
+
+export const EMPTY_COLLECTIONS = {
+  title: 'Your Collection is Empty',
+  message:
+    'Start building your perfume collection by adding fragrances you own or have sampled.',
+  button: {
+    text: 'Build Your Collection',
+    href: ROUTES.CATALOG,
+  },
+};
+
+export const EMPTY_INSIGHTS = {
+  title: 'No Insights Available Yet',
+  message:
+    'Start adding perfumes to your collection and wishlists to discover your fragrance preferences and trends.',
+  button: {
+    text: 'Build Your Collection',
+    href: ROUTES.CATALOG,
+  },
+};

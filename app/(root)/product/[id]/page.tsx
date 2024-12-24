@@ -11,7 +11,7 @@ export default async function ProductPage({
   params: { id: string };
 }) {
   const session = await auth();
-  const { id } = params;
+  const { id } = await params;
   if (!id) return notFound();
 
   // First get the perfume

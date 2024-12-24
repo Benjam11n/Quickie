@@ -1,5 +1,5 @@
 import CatalogClient from '@/components/fragrance/CatalogClient';
-import { DEFAULT_EMPTY } from '@/constants/states';
+import { EMPTY_CATALOG } from '@/constants/states';
 import { getPerfumes } from '@/lib/actions/perfume.action';
 
 interface SearchParams {
@@ -25,8 +25,7 @@ export default async function CatalogPage({ searchParams }: SearchParams) {
       products={products?.perfumes || []}
       success={success}
       error={error}
-      // TODO:
-      empty={DEFAULT_EMPTY}
+      empty={EMPTY_CATALOG}
     />
   );
 }

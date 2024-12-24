@@ -10,7 +10,7 @@ interface PageProps {
 }
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const [moodboardResult, wishlistResult, collectionResult, reviewsResult] =
@@ -26,7 +26,6 @@ export default async function Page({ params, searchParams }: PageProps) {
         getUserReviews({ userId: id }),
       ]);
 
-    console.log(reviewsResult);
     return (
       <ProfilePageClient
         wishlists={wishlistResult.data?.wishlists}

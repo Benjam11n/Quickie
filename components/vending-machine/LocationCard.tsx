@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   MapPin,
   Navigation,
-  Clock,
   ChevronDown,
   ChevronUp,
+  Clock,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -14,22 +14,28 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { VendingLocation } from '@/types';
-import { products } from '@/types/data';
+import { VendingMachineView } from '@/types';
 
 interface LocationCardProps {
-  location: VendingLocation;
+  vendingMachine: VendingMachineView;
   isSelected: boolean;
   onSelect: () => void;
 }
 
+function getVendingMachineName(address: string): string {
+  // Get first part before comma
+  const name = address.split(',')[0];
+  return name;
+}
+
 export function LocationCard({
-  location,
+  vendingMachine,
   isSelected,
   onSelect,
 }: LocationCardProps) {
   const [showPerfumes, setShowPerfumes] = useState(false);
 
+  console.log(vendingMachine.inventory);
   return (
     <Card
       className={cn(
@@ -43,10 +49,12 @@ export function LocationCard({
       <div className="space-y-4">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
-            <h3 className="font-semibold">{location.name}</h3>
+            <h3 className="font-semibold">
+              {getVendingMachineName(vendingMachine.location.address)}
+            </h3>
             <div className="flex items-center text-sm text-muted-foreground">
               <MapPin className="mr-1 size-4" />
-              {location.address}
+              {vendingMachine.location.address}
             </div>
           </div>
           <Button
@@ -56,7 +64,7 @@ export function LocationCard({
             onClick={(e) => {
               e.stopPropagation();
               window.open(
-                `https://www.google.com/maps/dir/?api=1&destination=${location.coordinates.lat},${location.coordinates.lng}`,
+                `https://www.google.com/maps/dir/?api=1&destination=${vendingMachine.location.coordinates[1]},${vendingMachine.location.coordinates[0]}`,
                 '_blank'
               );
             }}
@@ -67,9 +75,11 @@ export function LocationCard({
 
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center text-muted-foreground">
-            <Clock className="mr-1 size-4" />
-            {location.hours}
+            Change to
+            <Clock className="mr-2 size-4" />
+            {'24/7'}
           </div>
+
           <Button
             variant="ghost"
             size="sm"
@@ -84,7 +94,7 @@ export function LocationCard({
             ) : (
               <ChevronDown className="mr-1 size-4" />
             )}
-            {location.stockLevel} fragrances
+            {vendingMachine.inventory.length} fragrances
           </Button>
         </div>
 
@@ -98,13 +108,12 @@ export function LocationCard({
               className="overflow-hidden"
             >
               <div className="space-y-2 border-t pt-2">
-                {location.availablePerfumes.map((item) => {
-                  const product = products.find((p) => p.id === item.productId);
-                  if (!product) return null;
+                {vendingMachine.inventory.map((item) => {
+                  const product = item.perfumeId;
 
                   return (
                     <div
-                      key={item.productId}
+                      key={item.perfumeId._id}
                       className="flex items-center justify-between text-sm"
                     >
                       <div>
@@ -113,10 +122,8 @@ export function LocationCard({
                           {product.brand}
                         </p>
                       </div>
-                      <Badge
-                        variant={item.quantity > 3 ? 'default' : 'secondary'}
-                      >
-                        {item.quantity} left
+                      <Badge variant={item.stock > 3 ? 'default' : 'secondary'}>
+                        {item.stock} left
                       </Badge>
                     </div>
                   );

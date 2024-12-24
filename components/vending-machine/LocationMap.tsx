@@ -6,7 +6,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
 import { Badge } from '@/components/ui/badge';
-import { VendingLocation } from '@/types';
+import { VendingMachineView } from '@/types';
 import { products } from '@/types/data';
 
 // Fix for default marker icon
@@ -22,7 +22,7 @@ const icon = L.icon({
 });
 
 interface LocationMapProps {
-  locations: VendingLocation[];
+  locations: VendingMachineView[];
   selectedLocation: string | null;
   onLocationSelect: (id: string) => void;
 }
@@ -31,7 +31,7 @@ function MapController({
   locations,
   selectedLocation,
 }: {
-  locations: VendingLocation[];
+  locations: VendingMachineView[];
   selectedLocation: string | null;
 }) {
   const map = useMap();
@@ -40,7 +40,10 @@ function MapController({
   useEffect(() => {
     if (!initialized.current && locations.length > 0) {
       const bounds = L.latLngBounds(
-        locations.map((loc) => [loc.coordinates.lat, loc.coordinates.lng])
+        locations.map((loc) => [
+          loc.location.coordinates[1],
+          loc.location.coordinates[0],
+        ])
       );
       map.fitBounds(bounds, { padding: [50, 50] });
       initialized.current = true;
@@ -49,10 +52,14 @@ function MapController({
     if (selectedLocation) {
       const location = locations.find((loc) => loc.id === selectedLocation);
       if (location) {
-        map.setView([location.coordinates.lat, location.coordinates.lng], 16, {
-          animate: true,
-          duration: 1,
-        });
+        map.setView(
+          [location.location.coordinates[1], location.location.coordinates[0]],
+          16,
+          {
+            animate: true,
+            duration: 1,
+          }
+        );
       }
     }
   }, [map, locations, selectedLocation]);
@@ -89,8 +96,11 @@ export function LocationMap({
       />
       {locations.map((location) => (
         <Marker
-          key={location.id}
-          position={[location.coordinates.lat, location.coordinates.lng]}
+          key={location._id}
+          position={[
+            location.location.coordinates[1],
+            location.location.coordinates[0],
+          ]}
           icon={icon}
           eventHandlers={{
             click: () => onLocationSelect(location.id),
@@ -99,22 +109,24 @@ export function LocationMap({
           <Popup>
             <div className="space-y-4 p-4">
               <div>
-                <h3 className="font-semibold">{location.name}</h3>
+                <h3 className="font-semibold">{location.location.address}</h3>
                 <p className="text-sm text-muted-foreground">
-                  {location.address}
+                  {location.location.address}
                 </p>
-                <p className="mt-1 text-sm">{location.hours}</p>
+                {/* <p className="mt-1 text-sm">{location.hours}</p> */}
               </div>
 
               <div className="space-y-2">
                 <h4 className="text-sm font-medium">Available Fragrances:</h4>
-                {location.availablePerfumes.map((item) => {
-                  const product = products.find((p) => p.id === item.productId);
+                {location.inventory.map((item) => {
+                  const product = products.find(
+                    (p) => p.id === item.perfumeId._id
+                  );
                   if (!product) return null;
 
                   return (
                     <div
-                      key={item.productId}
+                      key={item.perfumeId._id}
                       className="flex items-center justify-between text-sm"
                     >
                       <div>
@@ -123,10 +135,8 @@ export function LocationMap({
                           {product.brand}
                         </p>
                       </div>
-                      <Badge
-                        variant={item.quantity > 3 ? 'default' : 'secondary'}
-                      >
-                        {item.quantity} left
+                      <Badge variant={item.stock > 3 ? 'default' : 'secondary'}>
+                        {item.stock} left
                       </Badge>
                     </div>
                   );

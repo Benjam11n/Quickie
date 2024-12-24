@@ -42,7 +42,7 @@ const StateSkeleton = ({
   message,
   button,
 }: StateSkeletonProps) => (
-  <div className="mt-16 flex w-full flex-col items-center justify-center sm:mt-36">
+  <div className="my-16 flex w-full flex-col items-center justify-center sm:mt-36">
     <>
       <Image
         src={image.dark}
@@ -66,7 +66,7 @@ const StateSkeleton = ({
     </p>
     {button && (
       <Link href={button.href}>
-        <Button className="paragraph-medium mt-5 min-h-[46px] rounded-lg bg-primary-500 px-4 py-3 text-light-900 hover:bg-primary-500">
+        <Button variant="outline" className="mt-8">
           {button.text}
         </Button>
       </Link>

@@ -1,68 +1,35 @@
-'use client';
+import DataRenderer from '@/components/ui/DataRenderer';
+import LocationClient from '@/components/vending-machine/LocationClient';
+import { EMPTY_VENDING_MACHINES } from '@/constants/states';
+import { getVendingMachines } from '@/lib/actions/vending-machine.action';
 
-import { Search } from 'lucide-react';
-import { useState } from 'react';
+interface SearchParams {
+  searchParams: { [key: string]: string };
+}
 
-import { LocationCard } from '@/components/location/LocationCard';
-import { LocationMap } from '@/components/location/LocationMap';
-import { Input } from '@/components/ui/input';
-import { vendingLocations } from '@/types/data';
+const LocationsPage = async ({ searchParams }: SearchParams) => {
+  const { page, pageSize, query, filter } = await searchParams;
 
-export default function LocationsPage() {
-  const [search, setSearch] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  const { success, data, error } = await getVendingMachines({
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
+    query: query || '',
+    filter: filter || '',
+  });
 
-  const filteredLocations = vendingLocations.filter(
-    (location) =>
-      location.name.toLowerCase().includes(search.toLowerCase()) ||
-      location.address.toLowerCase().includes(search.toLowerCase())
-  );
+  const { vendingMachines } = data || {};
 
   return (
-    <div className="container py-10">
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-col gap-4">
-          <h1 className="text-4xl font-bold">
-            <span className="holographic-text">Find Your Fix</span>
-          </h1>
-          <p className="text-muted-foreground">
-            Locate our vending machines for instant gratification.
-          </p>
-        </div>
-
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Search locations..."
-            className="pl-10"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-          <div className="order-2 space-y-4 lg:order-1 lg:col-span-4">
-            {filteredLocations.map((location) => (
-              <LocationCard
-                key={location.id}
-                location={location}
-                isSelected={selectedLocation === location.id}
-                onSelect={() => setSelectedLocation(location.id)}
-              />
-            ))}
-          </div>
-
-          <div className="z-0 order-1 lg:order-2 lg:col-span-8">
-            <div className="aspect-[4/3] overflow-hidden rounded-lg border">
-              <LocationMap
-                locations={filteredLocations}
-                selectedLocation={selectedLocation}
-                onLocationSelect={setSelectedLocation}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <DataRenderer
+      success={success}
+      error={error}
+      data={vendingMachines}
+      empty={EMPTY_VENDING_MACHINES}
+      render={(vendingMachines) => (
+        <LocationClient vendingMachines={vendingMachines} />
+      )}
+    />
   );
-}
+};
+
+export default LocationsPage;

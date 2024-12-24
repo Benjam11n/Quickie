@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import VendingMachine, {
   IVendingMachine,
 } from '@/database/vending-machine.model';
-import { Product } from '@/types/fragrance';
+import { VendingMachineView } from '@/types';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -173,7 +173,9 @@ export async function getVendingMachine(
 
 export async function getVendingMachines(
   params: PaginatedSearchParams
-): Promise<ActionResponse<{ vendingMachines: Product[]; isNext: boolean }>> {
+): Promise<
+  ActionResponse<{ vendingMachines: VendingMachineView[]; isNext: boolean }>
+> {
   const validationResult = await action({
     params,
     schema: PaginatedSearchParamsSchema,
@@ -193,19 +195,11 @@ export async function getVendingMachines(
     const vendingMachines = await VendingMachine.find()
       .populate({
         path: 'inventory.perfumeId',
-        select: 'name brand price images description',
+        select: '_id id name brand price images',
       })
-      .populate('author', 'name image')
       .lean()
       .skip(skip)
-      .limit(limit)
-      .then((vendingMachines) =>
-        vendingMachines.map((vendingMachine) => ({
-          ...vendingMachine,
-          id: (vendingMachine._id as mongoose.Types.ObjectId).toString(),
-          _id: undefined, // Remove _id from the response
-        }))
-      );
+      .limit(limit);
 
     const isNext = totalVendingMachines > skip + vendingMachines.length;
 

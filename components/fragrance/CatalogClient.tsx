@@ -54,7 +54,7 @@ export default function CatalogClient({
       if (prev.includes(productId)) {
         return prev.filter((id) => id !== productId);
       }
-      if (prev.length >= 3) {
+      if (prev.length >= 2) {
         return [...prev.slice(1), productId];
       }
       return [...prev, productId];
@@ -116,7 +116,7 @@ export default function CatalogClient({
                   </p>
                   <Button
                     onClick={handleCompare}
-                    disabled={selectedForComparison.length < 2}
+                    disabled={selectedForComparison.length < 1}
                   >
                     Compare Selected
                   </Button>

@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-import { DEFAULT_EMPTY } from '@/constants/states';
+import { EMPTY_WISHLISTS } from '@/constants/states';
 import { deleteWishlist } from '@/lib/actions/wishlist.action';
 import { WishlistView } from '@/types';
 
@@ -47,7 +47,7 @@ export function WishlistsView({
       success={success}
       error={error}
       data={wishlists}
-      empty={DEFAULT_EMPTY}
+      empty={EMPTY_WISHLISTS}
       render={(filteredWishlists) => (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredWishlists.map((wishlist) => (
