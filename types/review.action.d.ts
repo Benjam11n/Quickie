@@ -38,7 +38,11 @@ declare global {
     userId: string;
   }
 
-  interface GetReviewsParams {
+  interface GetUserReviewsParams {
+    userId: string;
+  }
+
+  interface GetPerfumeReviewsParams {
     perfumeId: string;
   }
 }

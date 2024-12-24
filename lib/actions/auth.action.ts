@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 
 import { signIn } from '@/auth';
 import Account from '@/database/account.model';
+import Collection from '@/database/collection.model';
 import User from '@/database/user.model';
 
 import action from '../handlers/action';
@@ -43,6 +44,7 @@ export async function signUpWithCredentials(
       session,
     });
 
+    // Create account for user
     await Account.create(
       [
         {
@@ -53,6 +55,15 @@ export async function signUpWithCredentials(
           password: hashedPassword,
         },
       ],
+      { session }
+    );
+
+    // Create collection for user
+    await Collection.create(
+      {
+        author: newUser._id,
+        perfumes: [],
+      },
       { session }
     );
 

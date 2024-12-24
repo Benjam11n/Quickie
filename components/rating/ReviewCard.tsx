@@ -56,7 +56,6 @@ export function ReviewCard({
     if (initialRating?._id) {
       getReviewInteractions({ reviewId: initialRating._id }).then((result) => {
         if (result.success) {
-          console.log(result.data);
           if (result.data) {
             setInteractions(result.data);
           }
@@ -80,8 +79,6 @@ export function ReviewCard({
     );
     return ratingChanged || review !== initialRating.review;
   };
-
-  console.log(interactions.dislike);
 
   const calculateOverallScore = () => {
     const weights = {

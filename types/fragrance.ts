@@ -20,17 +20,17 @@ export interface Product {
   name: string;
   brand: string;
   price: number;
-  size: number;
-  description: string;
+  size?: number;
+  description?: string;
   affiliateLink: string;
   images: string[];
-  categories: string[];
-  notes: {
+  categories?: string[];
+  notes?: {
     top: OldNote[];
     middle: OldNote[];
     base: OldNote[];
   };
-  scentProfile: ScentProfile;
+  scentProfile?: ScentProfile;
 }
 
 export interface UserPerfume {

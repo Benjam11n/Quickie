@@ -1,4 +1,3 @@
-import { hash } from 'bcryptjs';
 import mongoose, { Schema, Document, models, model } from 'mongoose';
 
 export interface IAccount {

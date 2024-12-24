@@ -62,10 +62,10 @@ export default async function Footer() {
                   Compare Scents
                 </Link>
               </li>
-              {user?.name && (
+              {user?.id && (
                 <li>
                   <Link
-                    href={ROUTES.PROFILE(user.name)}
+                    href={ROUTES.PROFILE(user.id)}
                     className="transition-colors hover:text-primary"
                   >
                     My Collection

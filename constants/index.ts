@@ -34,14 +34,12 @@ export const getMainNavItems = (user?: User) => [
   { href: ROUTES.COMPARE, label: 'Compare', icon: Scale },
   { href: ROUTES.LOCATIONS, label: 'Vending Machines', icon: MapPin },
   {
-    href: user?.name ? ROUTES.PROFILE(user.name) : '/sign-in',
+    href: user?.id ? ROUTES.PROFILE(user.id) : '/sign-in',
     label: 'My Collection',
     icon: Grid,
   },
   {
-    href: user?.name
-      ? `${ROUTES.PROFILE(user.name)}?tab=favorites`
-      : '/sign-in',
+    href: user?.id ? `${ROUTES.PROFILE(user.id)}?tab=favorites` : '/sign-in',
     label: 'Wishlist',
     icon: Heart,
   },

@@ -14,9 +14,10 @@ import handleError from '../handlers/error';
 import {
   CreateReviewSchema,
   DeleteReviewSchema,
+  GetPerfumeReviewsSchema,
   GetReviewInteractionsSchema,
   GetReviewSchema,
-  GetReviewsSchema,
+  GetUserReviewsSchema,
   ReviewInteractionSchema,
   UpdateReviewSchema,
 } from '../validations';
@@ -349,12 +350,66 @@ export async function getReview(
   }
 }
 
-export async function getPerfumeReviews(
-  params: GetReviewsParams & PaginatedSearchParams
+export async function getUserReviews(
+  params: GetUserReviewsParams & PaginatedSearchParams
 ): Promise<ActionResponse<{ reviews: ReviewType[]; isNext: boolean }>> {
   const validationResult = await action({
     params,
-    schema: GetReviewsSchema,
+    schema: GetUserReviewsSchema,
+  });
+
+  if (validationResult instanceof Error) {
+    return handleError(validationResult) as ErrorResponse;
+  }
+
+  const { userId } = validationResult.params!;
+  const { page = 1, pageSize = 10 } = params;
+  const skip = (Number(page) - 1) * pageSize;
+  const limit = Number(pageSize);
+
+  try {
+    // Get total count for pagination
+    const totalReviews = await Review.countDocuments({ author: userId });
+
+    // Get reviews with populated author and sorted by date
+    const reviews = await Review.find({ author: userId })
+      .populate({
+        path: 'author',
+        select: 'name image',
+      })
+      .populate({
+        path: 'perfumeId',
+        select: '_id id name images brand price',
+      })
+      .populate({
+        path: 'vendingMachineId',
+        select: 'location',
+      })
+      .sort({ createdAt: -1 }) // Most recent first
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    const isNext = totalReviews > skip + reviews.length;
+
+    return {
+      success: true,
+      data: {
+        reviews: JSON.parse(JSON.stringify(reviews)),
+        isNext,
+      },
+    };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
+}
+
+export async function getPerfumeReviews(
+  params: GetPerfumeReviewsParams & PaginatedSearchParams
+): Promise<ActionResponse<{ reviews: ReviewType[]; isNext: boolean }>> {
+  const validationResult = await action({
+    params,
+    schema: GetPerfumeReviewsSchema,
   });
 
   if (validationResult instanceof Error) {

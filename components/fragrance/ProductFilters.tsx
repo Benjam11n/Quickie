@@ -3,15 +3,70 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
+import { formUrlQuery, removeKeysFromUrlQuery } from '@/lib/url';
 import { brands, categories, notes } from '@/types/data';
 import { FragranceFilters } from '@/types/fragrance';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import queryString from 'query-string';
+import { useEffect, useState } from 'react';
 
 interface ProductFiltersProps {
-  filters: FragranceFilters;
-  setFilters: (filters: FragranceFilters) => void;
+  route: string;
 }
 
-export function ProductFilters({ filters, setFilters }: ProductFiltersProps) {
+export function ProductFilters({ route }: ProductFiltersProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialFilters = {
+    priceRange: [0, 500],
+    brands: [],
+    categories: [],
+    notes: [],
+  };
+
+  const [filters, setFilters] = useState<FragranceFilters>(initialFilters);
+
+  useEffect(() => {
+    if (Object.keys(filters).length > 0) {
+      const queryParams: Record<string, string> = {};
+
+      if (filters.priceRange) {
+        queryParams.priceRange = filters.priceRange.join(',');
+      }
+
+      if (filters.brands.length >= 0) {
+        queryParams.brands = filters.brands.join(',');
+      }
+
+      if (filters.categories.length >= 0) {
+        queryParams.categories = filters.categories.join(',');
+      }
+
+      if (filters.notes.length >= 0) {
+        queryParams.notes = filters.notes.join(',');
+      }
+
+      const currentParams = queryString.parse(searchParams.toString());
+      const newParams = { ...currentParams, ...queryParams };
+
+      const newUrl = queryString.stringifyUrl({
+        url: window.location.pathname,
+        query: newParams,
+      });
+
+      router.push(newUrl, { scroll: false });
+    } else {
+      if (pathname === route) {
+        const newUrl = removeKeysFromUrlQuery({
+          params: searchParams.toString(),
+          keysToRemove: ['priceRange', 'brands', 'categories', 'notes'],
+        });
+        router.push(newUrl, { scroll: false });
+      }
+    }
+  }, [filters, router, route, searchParams, pathname]);
+
   return (
     <div className="space-y-6">
       <div className="space-y-4">

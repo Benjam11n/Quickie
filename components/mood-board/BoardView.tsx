@@ -10,7 +10,6 @@ import { ShareDialog } from '@/components/comparison/ShareDialog';
 import { BoardCanvas } from '@/components/mood-board/BoardCanvas';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
-import { useMoodBoards } from '@/hooks/use-mood-boards';
 import { MoodBoard } from '@/types';
 import { products } from '@/types/data';
 
@@ -35,7 +34,7 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
     <div className="container py-10">
       <div className="mb-8">
         <div className="mb-4 flex items-center gap-4">
-          {isOwner && user.id ? (
+          {isOwner && user?.id ? (
             <Button variant="ghost" size="icon" asChild>
               <Link href={ROUTES.PROFILE(user.id)}>
                 <ArrowLeft className="size-4" />

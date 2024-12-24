@@ -9,3 +9,4 @@ export * from './moodboard.model';
 export * from './tag-moodboard.model';
 export * from './tag-perfume.model';
 export * from './wishlist.model';
+export * from './collection.model';

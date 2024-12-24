@@ -18,7 +18,7 @@ declare global {
       uniqueness: number;
       value: number;
     };
-    fullPrice: number;
+    price: number;
     tags: Types.ObjectId[];
   }
 

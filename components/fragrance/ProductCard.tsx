@@ -1,6 +1,6 @@
 'use client';
 
-import { Heart, ShoppingCart, Check, ExternalLink, Scale } from 'lucide-react';
+import { Heart, Check, ExternalLink, Scale, Bookmark } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
+import { addToCollection } from '@/lib/actions/collection.action';
 import { cn } from '@/lib/utils';
 import { Product, UserPerfume } from '@/types/fragrance';
 
@@ -31,10 +32,9 @@ export function ProductCard({
   isSelectedForComparison,
 }: ProductCardProps) {
   const router = useRouter();
-  const { toggleFavorite, addToCollection } = useUserPerfumes();
+  const { toggleFavorite } = useUserPerfumes();
 
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Don't navigate if clicking on buttons
     if (!(e.target as HTMLElement).closest('button')) {
       router.push(ROUTES.PRODUCT(product._id));
     }
@@ -45,10 +45,13 @@ export function ProductCard({
     toggleFavorite(product.id);
   };
 
-  const handleCollectionClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    addToCollection(product.id);
-    toast.success('Successfully added to collection');
+  const handleCollectionClick = async () => {
+    const result = await addToCollection({ perfumeId: product._id });
+    if (result.success) {
+      toast.success('Successfully added to collection');
+    } else {
+      toast.error('Something unexpected occured');
+    }
   };
 
   const handleCompareClick = (e: React.MouseEvent) => {
@@ -152,12 +155,12 @@ export function ProductCard({
             >
               {userPerfume?.inCollection ? (
                 <>
-                  <Check className="mr-2 size-4" />
+                  <Check className="mr-1 size-4" />
                   In Collection
                 </>
               ) : (
                 <>
-                  <ShoppingCart className="mr-2 size-4" />
+                  <Bookmark className="mr-1 size-4" />
                   Add
                 </>
               )}

@@ -1,32 +1,19 @@
-import { Star } from "lucide-react";
+import { Star } from 'lucide-react';
 
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Card } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 
+export interface Insights {
+  notes: Record<string, number>;
+  brands: Record<string, number>;
+  totalRating: number;
+  ratedCount: number;
+}
 interface InsightsProps {
-  insights: {
-    categories: Record<string, number>;
-    notes: Record<string, number>;
-    brands: Record<string, number>;
-    totalRating: number;
-    ratedCount: number;
-  };
+  insights: Insights;
 }
 
 export function CollectionInsights({ insights }: InsightsProps) {
-  // Calculate percentages for categories
-  const totalCategories = Object.values(insights.categories).reduce(
-    (a, b) => a + b,
-    0
-  );
-  const categoryPercentages = Object.entries(insights.categories)
-    .map(([name, count]) => ({
-      name,
-      percentage: (count / totalCategories) * 100,
-    }))
-    .sort((a, b) => b.percentage - a.percentage)
-    .slice(0, 5);
-
   // Calculate top notes
   const totalNotes = Object.values(insights.notes).reduce((a, b) => a + b, 0);
   const topNotes = Object.entries(insights.notes)
@@ -45,23 +32,6 @@ export function CollectionInsights({ insights }: InsightsProps) {
       <div>
         <h3 className="mb-6 text-xl font-bold">Collection Insights</h3>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-2">
-            <h4 className="text-sm font-medium text-muted-foreground">
-              Top Categories
-            </h4>
-            <div className="space-y-4">
-              {categoryPercentages.map(({ name, percentage }) => (
-                <div key={name} className="space-y-1">
-                  <div className="flex justify-between text-sm">
-                    <span>{name}</span>
-                    <span>{percentage.toFixed(0)}%</span>
-                  </div>
-                  <Progress value={percentage} className="h-1" />
-                </div>
-              ))}
-            </div>
-          </div>
-
           <div className="space-y-2">
             <h4 className="text-sm font-medium text-muted-foreground">
               Dominant Notes

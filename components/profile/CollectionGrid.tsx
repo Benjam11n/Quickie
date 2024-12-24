@@ -1,17 +1,14 @@
 import { ProductCard } from '@/components/fragrance/ProductCard';
-import { Product, UserPerfume } from '@/types/fragrance';
 
 interface CollectionGridProps {
-  items: UserPerfume[];
-  products: Product[];
+  items: {
+    perfumeId: { name: string; brand: string; price: number; images: string[] };
+    addedAt: Date;
+  }[];
   emptyMessage: string;
 }
 
-export function CollectionGrid({
-  items,
-  products,
-  emptyMessage,
-}: CollectionGridProps) {
+export function CollectionGrid({ items, emptyMessage }: CollectionGridProps) {
   if (items.length === 0) {
     return (
       <div className="py-12 text-center">
@@ -23,13 +20,11 @@ export function CollectionGrid({
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => {
-        const product = products.find((p) => p.id === item.productId);
-        if (!product) return null;
         return (
           <ProductCard
-            key={item.productId}
-            product={product}
-            userPerfume={item}
+            key={item.perfumeId.name}
+            product={item.perfumeId}
+            userPerfume={item.perfumeId}
           />
         );
       })}

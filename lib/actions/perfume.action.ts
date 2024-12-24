@@ -37,7 +37,7 @@ export async function createPerfume(
     images,
     notes,
     scentProfile,
-    fullPrice,
+    price,
     tags,
   } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
@@ -56,7 +56,7 @@ export async function createPerfume(
           images,
           notes,
           scentProfile,
-          fullPrice,
+          price,
           tags,
           author: userId,
         },

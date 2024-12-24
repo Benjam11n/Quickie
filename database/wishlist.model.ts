@@ -7,6 +7,30 @@ export interface WishlistPerfume {
   priceAlert?: number;
   addedAt: Date;
 }
+
+export interface WishlistPerfumeView {
+  perfumeId: {
+    _id: string;
+    name: string;
+    brand: string;
+    price: string;
+    images: string[];
+    rating: {
+      average: number;
+      count: number;
+    };
+    notes: {
+      top: { name: string };
+      middle: { name: string };
+      base: { name: string };
+    };
+  };
+  notes?: string;
+  priority: 'low' | 'medium' | 'high';
+  priceAlert?: number;
+  addedAt: Date;
+}
+
 export interface IWishlist {
   name: string;
   author: Types.ObjectId;

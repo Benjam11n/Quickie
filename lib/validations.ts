@@ -199,7 +199,7 @@ export const PerfumeSchema = z.object({
 
   scentProfile: ScentProfileSchema,
 
-  fullPrice: z.number().positive({ message: 'Price must be greater than 0.' }),
+  price: z.number().positive({ message: 'Price must be greater than 0.' }),
 
   rating: RatingSchema,
 
@@ -391,7 +391,11 @@ export const GetReviewSchema = z.object({
   userId: z.string().min(1, { message: 'User ID is required.' }),
 });
 
-export const GetReviewsSchema = z.object({
+export const GetUserReviewsSchema = z.object({
+  userId: z.string().min(1, { message: 'User ID is required.' }),
+});
+
+export const GetPerfumeReviewsSchema = z.object({
   perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
 });
 
@@ -421,9 +425,11 @@ export const UpdateWishlistSchema = CreateWishlistSchema.extend({
 
 export const DeleteWishlistSchema = UpdateWishlistSchema;
 
-export const GetWishlistSchema = UpdateWishlistSchema;
+export const GetWishlistSchema = z.object({
+  wishlistId: z.string().min(1, { message: 'Wishlist ID is required.' }),
+});
 
-export const GetWishlistsSchema = CreateWishlistSchema.extend({
+export const GetWishlistsSchema = z.object({
   userId: z.string().min(1, { message: 'User ID is required.' }),
 });
 
@@ -436,3 +442,13 @@ export const AddToWishlistSchema = z.object({
 });
 
 export const RemoveFromWishlistSchema = AddToWishlistSchema;
+
+export const AddToCollectionSchema = z.object({
+  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+});
+
+export const RemoveFromCollectionSchema = AddToCollectionSchema;
+
+export const GetCollectionSchema = z.object({
+  userId: z.string().min(1, { message: 'User ID is required.' }),
+});

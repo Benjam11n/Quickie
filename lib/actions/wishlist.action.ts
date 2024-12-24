@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 
 import { IWishlistDoc } from '@/database';
 import Wishlist from '@/database/wishlist.model';
-import { Wishlist as WishlistType } from '@/types';
+import { Wishlist as WishlistType, WishlistView } from '@/types';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -324,7 +324,7 @@ export async function getWishlist(
 
 export async function getUserWishlists(
   params: GetWishlistsParams & PaginatedSearchParams
-): Promise<ActionResponse<{ wishlists: WishlistType[]; isNext: boolean }>> {
+): Promise<ActionResponse<{ wishlists: WishlistView[]; isNext: boolean }>> {
   const validationResult = await action({
     params,
     schema: GetWishlistsSchema,
@@ -358,7 +358,29 @@ export async function getUserWishlists(
       })
       .populate({
         path: 'perfumes.perfumeId',
-        select: 'name brand price images',
+        select: 'name brand price images notes tags',
+        populate: [
+          {
+            path: 'notes.top',
+            select: 'name',
+          },
+          {
+            path: 'notes.middle',
+            select: 'name',
+          },
+          {
+            path: 'notes.base',
+            select: 'name',
+          },
+          {
+            path: 'rating',
+            select: 'average count',
+          },
+          {
+            path: 'tags',
+            select: 'name',
+          },
+        ],
       })
       .sort({ createdAt: -1 })
       .skip(skip)

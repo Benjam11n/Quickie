@@ -1,4 +1,8 @@
-import { IMoodBoardDoc, WishlistPerfume } from '@/database';
+import {
+  IMoodBoardDoc,
+  WishlistPerfume,
+  WishlistPerfumeView,
+} from '@/database';
 
 export interface PerfumePosition {
   perfumeId: string; // ObjectId as string
@@ -79,11 +83,66 @@ export interface Review {
     complexity: number;
   };
   review: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ReviewView {
+  _id: string;
+  id: string;
+  author: string;
+  perfumeId: {
+    _id: string;
+    id: string;
+    name: string;
+    brand: string;
+    images: string[];
+    price: number;
+  };
+  vendingMachineId?: string;
+  rating: {
+    sillage: number;
+    longevity: number;
+    value: number;
+    projection: number;
+    complexity: number;
+  };
+  review: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Wishlist {
+  _id: string;
   id: string;
   name: string;
   author: string;
   perfumes: WishlistPerfume[];
+}
+
+export interface WishlistView {
+  _id: string;
+  id: string;
+  name: string;
+  author: string;
+  perfumes: WishlistPerfumeView[];
+}
+
+export interface Collection {
+  author: string;
+  perfumes: { perfumeId: string; addedAt: Date };
+}
+
+export interface CollectionView {
+  author: string;
+  perfumes: {
+    perfumeId: {
+      name: string;
+      brand: string;
+      price: number;
+      affiliateLink: string;
+      images: string[];
+    };
+    addedAt: Date;
+  }[];
 }

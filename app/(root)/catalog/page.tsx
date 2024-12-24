@@ -7,7 +7,7 @@ interface SearchParams {
 }
 
 export default async function CatalogPage({ searchParams }: SearchParams) {
-  const { page, pageSize, query, filter } = searchParams;
+  const { page, pageSize, query, filter } = await searchParams;
 
   const {
     success,
@@ -22,9 +22,10 @@ export default async function CatalogPage({ searchParams }: SearchParams) {
 
   return (
     <CatalogClient
-      initialProducts={products?.perfumes || []}
+      products={products?.perfumes || []}
       success={success}
       error={error}
+      // TODO:
       empty={DEFAULT_EMPTY}
     />
   );
