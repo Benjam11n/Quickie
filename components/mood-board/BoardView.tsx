@@ -2,34 +2,51 @@
 
 import { ArrowLeft, Edit, Heart } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { User } from 'next-auth';
 import { useState } from 'react';
 
+import Loading from '@/app/(root)/loading';
 import { ShareDialog } from '@/components/comparison/ShareDialog';
 import { BoardCanvas } from '@/components/mood-board/BoardCanvas';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
-import { useEditMoodboardStore } from '@/hooks/stores/use-mood-boards';
-import { MoodBoard } from '@/types';
-import { products } from '@/types/data';
+import { usePerfumes } from '@/hooks/queries/use-perfumes';
+import { toggleLike } from '@/lib/actions/moodboard.action';
+import { MoodBoardView } from '@/types';
 
 interface ViewBoardProps {
-  board: MoodBoard;
+  board: MoodBoardView;
   user?: User | null;
 }
 
 export function ViewBoard({ board, user }: ViewBoardProps) {
-  const { likeBoard } = useEditMoodboardStore();
+  const { data: perfumesResponse, isLoading } = usePerfumes({
+    page: 1,
+    pageSize: 100,
+    query: '',
+    filter: '',
+  });
+
   const [isLiked, setIsLiked] = useState(false);
   const router = useRouter();
 
-  const isOwner = user?.name === board.userName;
+  const isOwner = user?.name === board.author.username;
 
-  const handleLike = () => {
+  const handleLike = async () => {
     setIsLiked(!isLiked);
-    likeBoard(board.id, user?.name || '');
+    toggleLike(board._id);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!perfumesResponse?.data) {
+    return notFound();
+  }
+
+  const { perfumes } = perfumesResponse.data || {};
 
   return (
     <div className="container py-10">
@@ -54,7 +71,7 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
               <span className="holographic-text">{board.name}</span>
             </h1>
             <p className="text-sm text-muted-foreground">
-              Created by {board.userName || 'Anonymous'}
+              Created by {board.author.username || 'Anonymous'}
             </p>
           </div>
           <div className="flex gap-2">
@@ -68,7 +85,7 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
             </Button>
             {isOwner && (
               <Button asChild variant="outline">
-                <Link href={`/boards/${board.id}/edit`}>
+                <Link href={`/boards/${board._id}/edit`}>
                   <Edit className="mr-2 size-4" />
                   Edit Board
                 </Link>
@@ -87,7 +104,7 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
       <div className="flex flex-col gap-6">
         <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-accent/10">
           {/* // TODO: Improve UI */}
-          <BoardCanvas board={board} products={products} />
+          <BoardCanvas board={board} perfumes={perfumes} />
         </div>
 
         <div className="mt-8">
@@ -95,8 +112,8 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
             {board.perfumes.map((perfume) => (
               <Link
-                key={perfume.id}
-                href={`/fragrances/${perfume.id}`}
+                key={perfume.perfumeId}
+                href={`/fragrances/${perfume.perfumeId}`}
                 className="group relative aspect-square overflow-hidden rounded-lg bg-accent/10"
               >
                 {/* You can add perfume image here */}

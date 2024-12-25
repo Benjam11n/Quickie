@@ -1,13 +1,15 @@
 'use client';
 
 import L from 'leaflet';
+import { notFound } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
+import Loading from '@/app/(root)/loading';
 import { Badge } from '@/components/ui/badge';
+import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { VendingMachineView } from '@/types';
-import { products } from '@/types/data';
 
 // Fix for default marker icon
 const icon = L.icon({
@@ -72,13 +74,28 @@ export function LocationMap({
   selectedLocation,
   onLocationSelect,
 }: LocationMapProps) {
+  const { data: perfumesResponse, isLoading } = usePerfumes({
+    page: 1,
+    pageSize: 100,
+    query: '',
+    filter: '',
+  });
+
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!perfumesResponse?.data || !mounted) {
+    return notFound();
+  }
+
+  const { perfumes } = perfumesResponse.data || {};
 
   return (
     <MapContainer
@@ -113,13 +130,12 @@ export function LocationMap({
                 <p className="text-sm text-muted-foreground">
                   {location.location.address}
                 </p>
-                {/* <p className="mt-1 text-sm">{location.hours}</p> */}
               </div>
 
               <div className="space-y-2">
                 <h4 className="text-sm font-medium">Available Fragrances:</h4>
                 {location.inventory.map((item) => {
-                  const product = products.find(
+                  const product = perfumes.find(
                     (p) => p.id === item.perfumeId._id
                   );
                   if (!product) return null;

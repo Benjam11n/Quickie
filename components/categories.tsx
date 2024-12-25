@@ -59,7 +59,7 @@ export function Categories() {
           return (
             <Card
               key={category.title}
-              className="hover-lift hover:gradient-border group cursor-pointer overflow-hidden duration-300"
+              className="hover-lift group cursor-pointer overflow-hidden duration-300"
             >
               <CardHeader>
                 <div

@@ -4,7 +4,7 @@ import { getPerfume, getPerfumesPaginated } from '@/lib/actions/perfume.action';
 
 export function usePerfume(perfumeId: string) {
   return useQuery({
-    queryKey: ['perfumes', perfumeId],
+    queryKey: ['perfume', perfumeId],
     queryFn: () => getPerfume({ perfumeId }),
     enabled: !!perfumeId, // Only run if we have a perfumeId
   });
@@ -22,7 +22,7 @@ export function usePerfumes(params: PaginatedSearchParams) {
   };
 
   const result = useQuery({
-    queryKey: ['selector-perfumes', params],
+    queryKey: ['perfumes', params],
     queryFn: () => getPerfumesPaginated(params),
     staleTime: 1000 * 60 * 5,
   });

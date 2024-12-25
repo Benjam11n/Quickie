@@ -1,4 +1,4 @@
-import { Bookmark, ShoppingCart } from 'lucide-react';
+import { Bookmark } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -54,7 +54,7 @@ export function FeaturedPerfumes() {
         {featuredPerfumes.map((perfume) => (
           <Card
             key={perfume.name}
-            className="hover-lift hover:gradient-border overflow-hidden duration-300"
+            className="hover-lift overflow-hidden duration-300"
           >
             <div className="group relative aspect-square overflow-hidden">
               <Image

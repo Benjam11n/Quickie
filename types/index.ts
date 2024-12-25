@@ -1,9 +1,5 @@
 /* eslint-disable no-unused-vars */
-import {
-  IMoodBoardDoc,
-  WishlistPerfume,
-  WishlistPerfumeView,
-} from '@/database';
+import { WishlistPerfume, WishlistPerfumeView } from '@/database';
 
 export interface PerfumePosition {
   perfumeId: string; // ObjectId as string
@@ -14,8 +10,26 @@ export interface PerfumePosition {
 }
 
 export interface MoodBoard {
-  _id: string; // MongoDB _id as string
-  userId: string; // ObjectId as string
+  _id: string;
+  userId: string;
+  name: string;
+  description?: string;
+  perfumes: PerfumePosition[];
+  tags: string[];
+  isPublic: boolean;
+  views?: number;
+  likes?: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface MoodBoardView {
+  _id: string;
+  author: {
+    _id: string;
+    username: string;
+    image: string;
+  };
   name: string;
   description?: string;
   perfumes: PerfumePosition[];
@@ -70,24 +84,6 @@ export interface VendingMachineView {
     popularTimes: Record<string, number>;
   };
   author: string;
-}
-
-// Helper function to transform MongoDB doc to client MoodBoard
-export function transformToClientBoard(doc: IMoodBoardDoc): MoodBoard {
-  return {
-    _id: doc._id.toString(),
-    userId: doc.author.toString(),
-    name: doc.name,
-    description: doc.description,
-    perfumes: doc.perfumes.map((p) => ({
-      perfumeId: p.perfumeId.toString(),
-      position: p.position,
-    })),
-    tags: doc.tags,
-    isPublic: doc.isPublic,
-    views: doc.views,
-    likes: doc.likes,
-  };
 }
 
 export interface UserView {

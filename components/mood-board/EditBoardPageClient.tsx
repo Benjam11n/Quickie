@@ -1,23 +1,25 @@
 'use client';
 import { ArrowLeft, Save } from 'lucide-react';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { Session } from 'next-auth';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
+import Loading from '@/app/(root)/loading';
 import { BoardCanvas } from '@/components/mood-board/BoardCanvas';
 import { BoardSidebar } from '@/components/mood-board/BoardSidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ROUTES } from '@/constants/routes';
+import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { useEditMoodboardStore } from '@/hooks/stores/use-mood-boards';
 import { updateMoodBoard } from '@/lib/actions/moodboard.action';
-import { MoodBoard, transformToClientBoard } from '@/types';
-import { products } from '@/types/data';
+import { MoodBoardView } from '@/types';
 import { Perfume } from '@/types/fragrance';
 
 interface EditBoardPageProps {
-  initialBoard: MoodBoard;
+  initialBoard: MoodBoardView;
   session: Session;
 }
 
@@ -25,6 +27,13 @@ export default function EditBoardPageClient({
   initialBoard,
   session,
 }: EditBoardPageProps) {
+  const { data: perfumesResponse, isLoading } = usePerfumes({
+    page: 1,
+    pageSize: 100,
+    query: '',
+    filter: '',
+  });
+
   const [selectedSquare, setSelectedSquare] = useState<number | null>(null);
   const {
     currentBoard,
@@ -55,8 +64,7 @@ export default function EditBoardPageClient({
 
     if (result.success && result.data) {
       // Transform the response data as well
-      const clientBoard = transformToClientBoard(result.data);
-      initializeBoard(clientBoard);
+      initializeBoard(result.data);
       toast.success('Changes saved successfully');
     } else {
       toast.error('Failed to save changes');
@@ -90,6 +98,16 @@ export default function EditBoardPageClient({
     updateName(newName);
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!perfumesResponse?.data) {
+    return notFound();
+  }
+
+  const { perfumes } = perfumesResponse.data || {};
+
   return (
     <div className="container py-10">
       <div className="mb-8 flex items-center gap-4">
@@ -114,13 +132,13 @@ export default function EditBoardPageClient({
         <div className="flex-1">
           <BoardCanvas
             board={currentBoard || initialBoard}
-            products={products}
+            perfumes={perfumes}
             selectedSquare={selectedSquare}
             onSquareSelect={setSelectedSquare}
           />
         </div>
         <BoardSidebar
-          products={products}
+          perfumes={perfumes}
           onAddPerfume={handleAddPerfume}
           selectedSquare={selectedSquare}
         />

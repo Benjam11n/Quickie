@@ -2,15 +2,15 @@
 
 import { create } from 'zustand';
 
-import { MoodBoard } from '@/types';
+import { MoodBoardView } from '@/types';
 
 interface useEditMoodboardStoreState {
-  originalBoard: MoodBoard | null;
-  currentBoard: MoodBoard | null;
+  originalBoard: MoodBoardView | null;
+  currentBoard: MoodBoardView | null;
   hasChanges: boolean;
 
   // Initialization
-  initializeBoard: (board: MoodBoard) => void;
+  initializeBoard: (board: MoodBoardView) => void;
 
   // Board mutations
   updateName: (name: string) => void;
@@ -28,7 +28,7 @@ interface useEditMoodboardStoreState {
   // Change management
   hasUnsavedChanges: () => boolean;
   resetChanges: () => void;
-  getChanges: () => Partial<MoodBoard>;
+  getChanges: () => Partial<MoodBoardView>;
 }
 
 export const useEditMoodboardStore = create<useEditMoodboardStoreState>(
@@ -154,7 +154,7 @@ export const useEditMoodboardStore = create<useEditMoodboardStoreState>(
       const state = get();
       if (!state.currentBoard || !state.originalBoard) return {};
 
-      const changes: Partial<MoodBoard> = {};
+      const changes: Partial<MoodBoardView> = {};
 
       // Only include changed fields
       if (state.currentBoard.name !== state.originalBoard.name) {

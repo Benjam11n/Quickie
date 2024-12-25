@@ -4,10 +4,10 @@ import mongoose, { FilterQuery } from 'mongoose';
 import { revalidatePath } from 'next/cache';
 
 import { auth } from '@/auth';
-import MoodBoard, { IMoodBoardDoc } from '@/database/moodboard.model';
+import MoodBoard from '@/database/moodboard.model';
 import TagMoodBoard from '@/database/tag-moodboard.model';
 import Tag, { ITagDoc } from '@/database/tag.model';
-import { MoodBoard as MoodBoardType } from '@/types';
+import { MoodBoard as MoodBoardType, MoodBoardView } from '@/types';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -88,7 +88,7 @@ export async function createMoodBoard(
 
 export async function updateMoodBoard(
   params: UpdateMoodBoardParams
-): Promise<ActionResponse<IMoodBoardDoc>> {
+): Promise<ActionResponse<MoodBoardView>> {
   const validationResult = await action({
     params,
     schema: UpdateMoodBoardSchema,
@@ -108,6 +108,7 @@ export async function updateMoodBoard(
   try {
     const moodboard = await MoodBoard.findById(boardId)
       .populate('tags')
+      .populate({ path: 'author', select: '_id name image' })
       .populate({
         path: 'perfumes',
         select: 'perfumeId position',
@@ -366,7 +367,10 @@ export async function toggleLike(boardId: string): Promise<ActionResponse> {
       boardId,
       { $inc: { likes: 1 } },
       { new: true }
-    );
+    ).populate({
+      path: 'author',
+      select: '_id username image',
+    });
 
     revalidatePath(`/moodboards/${boardId}`);
     return { success: true, data: updatedBoard };

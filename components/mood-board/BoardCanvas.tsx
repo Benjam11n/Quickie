@@ -10,29 +10,29 @@ import {
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
-import { useBoardStore } from '@/hooks/stores/use-mood-boards';
-import { MoodBoard } from '@/types';
+import { useEditMoodboardStore } from '@/hooks/stores/use-mood-boards';
+import { MoodBoardView } from '@/types';
 import { Perfume } from '@/types/fragrance';
 
 import { DraggablePerfume } from './DraggablePerfume';
 import { DroppableArea } from './DroppableArea';
 
 interface BoardCanvasProps {
-  board: MoodBoard;
-  products: Perfume[];
-  selectedSquare: number | null;
-  onSquareSelect: (squareId: number) => void;
+  board: MoodBoardView;
+  perfumes: Perfume[];
+  selectedSquare?: number | null;
+  onSquareSelect?: (squareId: number) => void;
 }
 
 const GRID_SIZE = 9;
 
 export function BoardCanvas({
   board,
-  products,
+  perfumes,
   selectedSquare,
   onSquareSelect,
 }: BoardCanvasProps) {
-  const { updatePerfumePosition } = useBoardStore();
+  const { updatePerfumePosition } = useEditMoodboardStore();
   const [activeId, setActiveId] = useState<string | null>(null);
 
   // Configure sensors for drag and drop
@@ -84,7 +84,7 @@ export function BoardCanvas({
           {Array.from({ length: GRID_SIZE }).map((_, index) => {
             const perfume = getPerfumeAtPosition(index);
             const product = perfume
-              ? products.find((p) => p.id === perfume.perfumeId)
+              ? perfumes.find((p) => p.id === perfume.perfumeId)
               : null;
 
             return (
@@ -95,7 +95,7 @@ export function BoardCanvas({
                       ? 'border-dashed border-primary bg-primary/5'
                       : 'border-dashed border-border hover:border-primary/50 hover:bg-primary/5'
                   }`}
-                  onClick={() => !perfume && onSquareSelect(index)}
+                  onClick={() => !perfume && onSquareSelect?.(index)}
                 >
                   {product ? (
                     <DraggablePerfume

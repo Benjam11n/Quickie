@@ -9,22 +9,23 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useBoardStore } from '@/hooks/stores/use-mood-boards';
+import { useEditMoodboardStore } from '@/hooks/stores/use-mood-boards';
 import { Perfume } from '@/types/fragrance';
 
 interface BoardSidebarProps {
-  products: Perfume[];
+  perfumes: Perfume[];
   onAddPerfume: (product: Perfume) => void;
   selectedSquare: number | null;
 }
 
 export function BoardSidebar({
-  products,
+  perfumes,
   onAddPerfume,
   selectedSquare,
 }: BoardSidebarProps) {
   const [newTag, setNewTag] = useState('');
-  const { currentBoard, addTag, removeTag, toggleVisibility } = useBoardStore();
+  const { currentBoard, addTag, removeTag, toggleVisibility } =
+    useEditMoodboardStore();
 
   if (!currentBoard) return null;
 
@@ -38,7 +39,7 @@ export function BoardSidebar({
 
   const noteDistribution = currentBoard.perfumes.reduce(
     (acc, perfume) => {
-      const product = products.find((p) => p.id === perfume.perfumeId);
+      const product = perfumes.find((p) => p.id === perfume.perfumeId);
       if (!product) return acc;
 
       Object.values(product.notes)
@@ -115,7 +116,7 @@ export function BoardSidebar({
                 Click on an empty square in the board to add a perfume
               </p>
             ) : (
-              products
+              perfumes
                 .filter(
                   (product) =>
                     !currentBoard.perfumes.some(

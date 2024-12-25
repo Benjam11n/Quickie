@@ -1,34 +1,53 @@
 'use client';
 
 import { Sparkles, ThumbsUp } from 'lucide-react';
+import { notFound } from 'next/navigation';
 import { useState } from 'react';
 
 import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
 import { QuizCard } from '@/components/QuizCard';
 import { Card } from '@/components/ui/card';
+import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
-import { products } from '@/types/data';
+
+import Loading from '../loading';
 
 export default function RecommendationsPage() {
   const { collections } = useUserPerfumes();
   const [showQuiz, setShowQuiz] = useState(true);
+  const { data: perfumeResponse, isLoading } = usePerfumes({
+    page: 1,
+    pageSize: 100,
+    query: '',
+    filter: '',
+  });
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!perfumeResponse?.data?.perfumes) {
+    return notFound();
+  }
+
+  const { perfumes } = perfumeResponse.data;
 
   // Simple recommendation algorithm based on user ratings and preferences
   const getRecommendations = () => {
     const ratedProducts = collections.filter((item) => item.rating);
 
     if (ratedProducts.length === 0) {
-      return products.slice(0, 3); // Return top products if no ratings
+      return perfumes.slice(0, 3); // Return top products if no ratings
     }
 
     // Calculate average rating for each note and category
     const preferences = ratedProducts.reduce(
       (acc, item) => {
-        const product = products.find((p) => p.id === item.productId);
-        if (!product || !item.rating) return acc;
+        const perfume = perfumes.find((p) => p.id === item.productId);
+        if (!perfume || !item.rating) return acc;
 
         // Process categories
-        product.categories.forEach((category) => {
+        perfume.categories?.forEach((category) => {
           if (!acc.categories[category]) {
             acc.categories[category] = { total: 0, count: 0 };
           }
@@ -37,7 +56,7 @@ export default function RecommendationsPage() {
         });
 
         // Process notes
-        Object.values(product.notes)
+        Object.values(perfume.notes)
           .flat()
           .forEach((note) => {
             if (!acc.notes[note.name]) {
@@ -53,7 +72,7 @@ export default function RecommendationsPage() {
     );
 
     // Score each product based on preferences
-    const scoredProducts = products
+    const scoredProducts = perfumes
       .filter(
         (product) => !collections.some((item) => item.productId === product.id)
       )
@@ -61,7 +80,7 @@ export default function RecommendationsPage() {
         let score = 0;
 
         // Category score
-        product.categories.forEach((category) => {
+        product.categories?.forEach((category) => {
           if (preferences.categories[category]) {
             score +=
               preferences.categories[category].total /
@@ -142,7 +161,7 @@ export default function RecommendationsPage() {
               {recommendations.map((product) => (
                 <PerfumeCard
                   key={product.id}
-                  product={product}
+                  perfume={product}
                   userPerfume={collections.find(
                     (p) => p.productId === product.id
                   )}

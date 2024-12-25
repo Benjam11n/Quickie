@@ -39,9 +39,7 @@ export function LocationCard({
     <Card
       className={cn(
         'hover-lift cursor-pointer p-4 transition-all duration-300',
-        isSelected
-          ? 'gradient-border ring-2 ring-primary'
-          : 'hover:border-primary'
+        isSelected ? 'ring-2 ring-primary' : 'hover:border-primary'
       )}
       onClick={onSelect}
     >
