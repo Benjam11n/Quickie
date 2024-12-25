@@ -277,7 +277,6 @@ export async function getReviewInteractions(
   const validationResult = await action({
     params,
     schema: GetReviewInteractionsSchema,
-    authorize: true,
   });
 
   if (validationResult instanceof Error) {

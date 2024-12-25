@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import Loading from '@/app/(root)/loading';
 import { usePerfume } from '@/hooks/queries/use-perfumes';
 import { useReview } from '@/hooks/queries/use-reviews';
+import { useReviewStore } from '@/hooks/stores/use-review-store';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
 
@@ -38,6 +39,7 @@ export function SingleProductView({ perfumeId }: SingleProductViewProps) {
   } = useReview(perfumeId, userId);
 
   const { collections, toggleFavorite, addToCollection } = useUserPerfumes();
+  const { reset } = useReviewStore();
 
   if (perfumeLoading || (session && reviewLoading)) {
     return <Loading />;
@@ -75,11 +77,9 @@ export function SingleProductView({ perfumeId }: SingleProductViewProps) {
 
       <EnhancedVisualizer fragrance={enhancedFragrance} />
 
-      {userId && (
-        <AuthCheck>
-          <ReviewCard perfumeId={perfume._id} initialReview={review} />
-        </AuthCheck>
-      )}
+      <AuthCheck>
+        <ReviewCard perfumeId={perfume._id} initialReview={review} />
+      </AuthCheck>
     </div>
   );
 }

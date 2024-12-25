@@ -285,7 +285,7 @@ export async function getPerfumesByIds(
   }
 }
 
-export async function getPerfumes(
+export async function getPerfumesPaginated(
   params: PaginatedSearchParams
 ): Promise<ActionResponse<{ perfumes: PerfumeType[]; isNext: boolean }>> {
   const validationResult = await action({

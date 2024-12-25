@@ -3,7 +3,7 @@
 import { Sparkles, ThumbsUp } from 'lucide-react';
 import { useState } from 'react';
 
-import { ProductCard } from '@/components/fragrance/PerfumeCard';
+import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
 import { QuizCard } from '@/components/QuizCard';
 import { Card } from '@/components/ui/card';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
@@ -140,7 +140,7 @@ export default function RecommendationsPage() {
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {recommendations.map((product) => (
-                <ProductCard
+                <PerfumeCard
                   key={product.id}
                   product={product}
                   userPerfume={collections.find(

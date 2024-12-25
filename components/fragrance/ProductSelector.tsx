@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 
 import {
   Dialog,
@@ -11,7 +12,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useSelectorPerfumes } from '@/hooks/queries/use-selector-perfumes';
+import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { Perfume } from '@/types/fragrance';
 
 import LocalSearch from '../search/LocalSearch';
@@ -30,9 +31,16 @@ export function ProductSelector({
   onSelect,
   selectedIds = [],
 }: ProductSelectorProps) {
-  const { data, isLoading } = useSelectorPerfumes(isOpen);
+  const searchParams = useSearchParams();
+  const query = searchParams.get('query') || '';
 
-  console.log(data);
+  const { data, isLoading } = usePerfumes({
+    page: 1,
+    pageSize: 100,
+    query: query || '',
+    filter: '',
+  });
+
   const { perfumes } = data?.data || {};
 
   const availablePerfumes =

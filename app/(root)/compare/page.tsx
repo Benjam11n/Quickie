@@ -1,7 +1,7 @@
 'use client';
 
 import { Droplets, Plus, Scale } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { ProductSelector } from '@/components/fragrance/ProductSelector';
@@ -9,14 +9,23 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ROUTES } from '@/constants/routes';
-import { useSelectorPerfumes } from '@/hooks/queries/use-selector-perfumes';
+import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { Perfume } from '@/types/fragrance';
 
 export default function ComparePage() {
   const router = useRouter();
   const [isFullComparison, setIsFullComparison] = useState(true);
   const [showSelector, setShowSelector] = useState(false);
-  const { prefetchPerfumes } = useSelectorPerfumes(showSelector);
+  const searchParams = useSearchParams();
+  const query = searchParams.get('query') || '';
+
+  const { prefetchPerfumes } = usePerfumes({
+    page: 1,
+    pageSize: 100,
+    query: query || '',
+    filter: '',
+  });
+
   const handleAddProduct = (product: Perfume) => {
     const newProducts = [product];
 

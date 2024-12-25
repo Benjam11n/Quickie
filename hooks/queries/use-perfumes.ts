@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getPerfume, getPerfumes } from '@/lib/actions/perfume.action';
+import { getPerfume, getPerfumesPaginated } from '@/lib/actions/perfume.action';
 
 export function usePerfume(perfumeId: string) {
   return useQuery({
@@ -11,9 +11,24 @@ export function usePerfume(perfumeId: string) {
 }
 
 export function usePerfumes(params: PaginatedSearchParams) {
-  return useQuery({
-    queryKey: ['perfumes', params],
-    queryFn: () => getPerfumes(params),
-    enabled: !!params,
+  const queryClient = useQueryClient();
+
+  const prefetchPerfumes = () => {
+    return queryClient.prefetchQuery({
+      queryKey: ['perfumes', params],
+      queryFn: () => getPerfumesPaginated(params),
+      staleTime: 1000 * 60 * 5,
+    });
+  };
+
+  const result = useQuery({
+    queryKey: ['selector-perfumes', params],
+    queryFn: () => getPerfumesPaginated(params),
+    staleTime: 1000 * 60 * 5,
   });
+
+  return {
+    ...result,
+    prefetchPerfumes,
+  };
 }

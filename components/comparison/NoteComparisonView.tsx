@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { X, Plus, Sparkles } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { ProductSelector } from '@/components/fragrance/ProductSelector';
@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
-import { useSelectorPerfumes } from '@/hooks/queries/use-selector-perfumes';
+import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { Perfume, PerfumeView } from '@/types/fragrance';
 
 import { StarRating } from '../StarRating';
@@ -25,7 +25,15 @@ interface NoteComparisonViewProps {
 export function NoteComparisonView({ perfumes }: NoteComparisonViewProps) {
   const router = useRouter();
   const [showSelector, setShowSelector] = useState(false);
-  const { prefetchPerfumes } = useSelectorPerfumes(showSelector);
+  const searchParams = useSearchParams();
+  const query = searchParams.get('query') || '';
+
+  const { prefetchPerfumes } = usePerfumes({
+    page: 1,
+    pageSize: 100,
+    query: query || '',
+    filter: '',
+  });
   const [selectedNote, setSelectedNote] = useState<string | null>(null);
 
   const handleRemoveProduct = (productId: string) => {

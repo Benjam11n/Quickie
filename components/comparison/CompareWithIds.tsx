@@ -1,16 +1,17 @@
 'use client';
 import { Plus } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { ComparisonView } from '@/components/comparison/ComparisonView';
 import { ProductSelector } from '@/components/fragrance/ProductSelector';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
-import { useSelectorPerfumes } from '@/hooks/queries/use-selector-perfumes';
+import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { Perfume, PerfumeView } from '@/types/fragrance';
 
 const MAX_COMPARISONS = 2;
+
 interface CompareWithIdsProps {
   initialProducts: PerfumeView[];
 }
@@ -18,7 +19,15 @@ interface CompareWithIdsProps {
 export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
   const router = useRouter();
   const [showSelector, setShowSelector] = useState(false);
-  const { prefetchPerfumes } = useSelectorPerfumes(showSelector);
+  const searchParams = useSearchParams();
+  const query = searchParams.get('query') || '';
+
+  const { prefetchPerfumes } = usePerfumes({
+    page: 1,
+    pageSize: 100,
+    query: query || '',
+    filter: '',
+  });
 
   const handleAddProduct = (product: Perfume) => {
     const newProducts =

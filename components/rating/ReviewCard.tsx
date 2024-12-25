@@ -128,7 +128,14 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
       </div>
 
       {/* Rating Metrics */}
-      <RatingMetrics rating={rating} onChange={setRating} />
+      <RatingMetrics
+        rating={rating}
+        onChange={(rating) => {
+          if (initialReview) {
+            setRating(rating);
+          }
+        }}
+      />
 
       {/* Review Text Area */}
       <div className="space-y-2">
@@ -136,7 +143,11 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
         <Textarea
           placeholder="Share your thoughts about this fragrance..."
           value={review}
-          onChange={(e) => setReview(e.target.value)}
+          onChange={(e) => {
+            if (initialReview) {
+              setReview(e.target.value);
+            }
+          }}
           className="resize-none"
           rows={4}
         />
