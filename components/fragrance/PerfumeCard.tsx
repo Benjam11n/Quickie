@@ -141,8 +141,14 @@ export function PerfumeCard({
           </span>
           <div className="flex gap-2">
             <AffiliateNotice>
-              <Button size="sm" variant="outline" asChild>
-                <Link href={perfume.affiliateLink} passHref>
+              <Button size="sm" variant="outline">
+                <Link
+                  href={perfume.affiliateLink}
+                  passHref
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex"
+                >
                   <ExternalLink className="mr-1 size-4" />
                   Buy
                 </Link>

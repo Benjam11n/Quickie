@@ -1,7 +1,7 @@
 'use client';
 
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { signIn, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { useAuthDialogStore } from '@/hooks/stores/use-auth-dialog';
@@ -16,7 +16,7 @@ interface AuthDialogProps {
 }
 
 export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
-  const { data: session, update } = useSession();
+  const { update } = useSession();
   const { close } = useAuthDialogStore();
 
   return (
@@ -32,7 +32,7 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
           onSubmit={signInWithCredentials}
           onSuccess={async () => {
             await update(); // Refresh the session
-            close(); // Close the dialog
+            close();
           }}
         />
       </DialogContent>
