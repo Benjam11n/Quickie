@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   IMoodBoardDoc,
   WishlistPerfume,
@@ -139,6 +140,13 @@ export interface ReviewView {
   review: string;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export enum ReviewInteractionType {
+  Like = 'like',
+  Dislike = 'dislike',
+  Share = 'share',
+  Report = 'report',
 }
 
 export interface Wishlist {

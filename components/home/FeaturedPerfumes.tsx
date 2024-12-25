@@ -1,4 +1,4 @@
-import { ShoppingCart } from 'lucide-react';
+import { Bookmark, ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -65,9 +65,9 @@ export function FeaturedPerfumes() {
               />
               <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/60 to-transparent pb-6 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 <Button size="sm" asChild>
-                  <Link href={ROUTES.PRODUCT(perfume.link)}>
-                    <ShoppingCart className="mr-2 size-4" />
-                    Take Me Home
+                  <Link href={ROUTES.PRODUCT(perfume.link)} prefetch>
+                    <Bookmark className="mr-1 size-4" />
+                    Add To Your Collection
                   </Link>
                 </Button>
               </div>

@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { Perfume } from '@/types/fragrance';
+import { PerfumeView } from '@/types/fragrance';
 
 import { CharacteristicsChart } from './CharacteristicsChart';
 import { MetricsComparison } from './MetricsComparison';
@@ -18,7 +18,7 @@ import { ScentPyramid } from './ScentPyramid';
 import { ShareDialog } from './ShareDialog';
 
 interface ComparisonViewProps {
-  products: Perfume[];
+  products: PerfumeView[];
   onRemove: (productId: string) => void;
 }
 
@@ -64,7 +64,7 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
                 variant="outline"
                 size="icon"
                 className="absolute right-2 top-2 z-10 opacity-0 transition-opacity group-hover:opacity-100"
-                onClick={() => onRemove(product.id)}
+                onClick={() => onRemove(product._id)}
               >
                 <X className="size-4" />
               </Button>
@@ -84,7 +84,10 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
               <div className="relative space-y-4 p-6">
                 <div>
                   <h3 className="text-2xl font-bold">{product.name}</h3>
-                  <p className="text-muted-foreground">{product.brand}</p>
+                  {/* TODO: add brands into db */}
+                  <p className="text-muted-foreground">
+                    {product?.brand?.name}
+                  </p>
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -100,7 +103,7 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  {product.categories.map((category) => (
+                  {product?.categories?.map((category) => (
                     <Badge
                       key={category}
                       variant="secondary"

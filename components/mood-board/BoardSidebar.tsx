@@ -9,7 +9,7 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useBoardStore } from '@/hooks/use-mood-boards';
+import { useBoardStore } from '@/hooks/stores/use-mood-boards';
 import { Perfume } from '@/types/fragrance';
 
 interface BoardSidebarProps {

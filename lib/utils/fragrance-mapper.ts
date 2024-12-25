@@ -7,6 +7,7 @@ import {
   NoteHarmony,
   FragranceCharacteristic,
   Perfume,
+  PerfumeView,
 } from '@/types/fragrance';
 
 const NOTE_COLORS = {
@@ -163,7 +164,7 @@ function generateCharacteristics(product: Perfume): FragranceCharacteristic[] {
 }
 
 export function mapProductToEnhancedFragrance(
-  product: Perfume
+  product: PerfumeView
 ): EnhancedFragrance {
   // Map notes with colors and families
   const mappedNotes = {
@@ -179,9 +180,11 @@ export function mapProductToEnhancedFragrance(
   };
 
   return {
+    _id: product.id,
     id: product.id,
     name: product.name,
-    brand: product.brand,
+    // todo:
+    brand: product?.brand?.name,
     notes: mappedNotes,
     timeline: generateTimeline(mappedNotes),
     seasonal: generateSeasonalRatings(product),

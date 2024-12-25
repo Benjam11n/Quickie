@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
 import Image from 'next/image';
-import { useState } from 'react';
 
 import {
   Dialog,
@@ -11,82 +10,109 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { products } from '@/types/data';
+import { useSelectorPerfumes } from '@/hooks/queries/use-selector-perfumes';
 import { Perfume } from '@/types/fragrance';
+
+import LocalSearch from '../search/LocalSearch';
+import { SprayLoader } from '../SprayLoader';
+
 interface ProductSelectorProps {
-  open: boolean;
+  isOpen: boolean;
   onOpenChange: (open: boolean) => void;
   onSelect: (product: Perfume) => void;
-  excludeIds?: string[];
+  selectedIds?: string[];
 }
 
 export function ProductSelector({
-  open,
+  isOpen,
   onOpenChange,
   onSelect,
-  excludeIds = [],
+  selectedIds = [],
 }: ProductSelectorProps) {
-  const [search, setSearch] = useState('');
+  const { data, isLoading } = useSelectorPerfumes(isOpen);
 
-  const filteredProducts = products
-    .filter((product) => !excludeIds.includes(product.id))
-    .filter(
-      (product) =>
-        product.name.toLowerCase().includes(search.toLowerCase()) ||
-        product.brand.toLowerCase().includes(search.toLowerCase())
-    );
+  console.log(data);
+  const { perfumes } = data?.data || {};
+
+  const availablePerfumes =
+    perfumes?.filter((perfume) => !selectedIds.includes(perfume._id)) || [];
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Select Perfume</DialogTitle>
         </DialogHeader>
 
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Search perfumes..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-10"
-          />
+          <LocalSearch route="/compare" placeholder="Search perfumes..." />
         </div>
 
         <ScrollArea className="h-[300px] pr-4">
-          <div className="space-y-2">
-            {filteredProducts.map((product, index) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <button
-                  className="flex w-full items-center gap-4 rounded-lg p-4 transition-colors hover:bg-accent"
-                  onClick={() => onSelect(product)}
+          {isLoading ? (
+            <div className="flex min-h-[300px] flex-1 items-center justify-center">
+              <div className="flex flex-col items-center gap-4">
+                <SprayLoader />
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                  className="text-center"
                 >
-                  <div className="size-12 overflow-hidden rounded-md">
-                    <Image
-                      src={product.images[0]}
-                      alt={product.name}
-                      className="size-full object-cover"
-                      width={48}
-                      height={48}
-                    />
-                  </div>
-                  <div className="text-left">
-                    <p className="font-medium">{product.name}</p>
-                    <p className="text-sm text-muted-foreground">
-                      {product.brand}
-                    </p>
-                  </div>
-                </button>
-              </motion.div>
-            ))}
-          </div>
+                  <span className="mb-2 text-sm font-semibold">
+                    Preparing Our Collection...
+                  </span>
+                </motion.div>
+              </div>
+            </div>
+          ) : availablePerfumes.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex min-h-[300px] flex-1 items-center justify-center"
+            >
+              <div className="flex flex-col items-center gap-2 text-center">
+                <Search className="size-8 text-muted-foreground" />
+                <p className="font-medium">No perfumes found</p>
+                <p className="text-sm text-muted-foreground">
+                  Try adjusting your search or filters
+                </p>
+              </div>
+            </motion.div>
+          ) : (
+            <div className="space-y-2">
+              {availablePerfumes.map((product, index) => (
+                <motion.div
+                  key={product._id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <button
+                    className="flex w-full items-center gap-4 rounded-lg p-4 transition-colors hover:bg-accent"
+                    onClick={() => onSelect(product)}
+                  >
+                    <div className="size-12 overflow-hidden rounded-md">
+                      <Image
+                        src={product.images[0]}
+                        alt={product.name}
+                        className="size-full object-cover"
+                        width={48}
+                        height={48}
+                      />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-medium">{product.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {product.brand}
+                      </p>
+                    </div>
+                  </button>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </ScrollArea>
       </DialogContent>
     </Dialog>

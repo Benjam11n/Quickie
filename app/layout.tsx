@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
 
 import { auth } from '@/auth';
+import { QueryProvider } from '@/components/QueryProvider';
 import { ThemeProvider } from '@/components/theme';
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
@@ -26,19 +27,21 @@ export default async function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <SessionProvider session={session}>
-        <body className={inter.className}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-          <Toaster richColors />
-        </body>
-      </SessionProvider>
+      <body className={inter.className}>
+        <SessionProvider session={session}>
+          <QueryProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+            <Toaster richColors />
+          </QueryProvider>
+        </SessionProvider>
+      </body>
     </html>
   );
 }

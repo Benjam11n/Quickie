@@ -1,4 +1,4 @@
-import { ExternalLink, Heart, ShoppingCart } from 'lucide-react';
+import { Bookmark, ExternalLink, Heart } from 'lucide-react';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
@@ -56,7 +56,7 @@ export function ProductInfo({
             )}
             size="lg"
           >
-            <ShoppingCart className="mr-2 size-5" />
+            <Bookmark className="mr-2 size-5" />
             {userPerfume?.inCollection ? 'In Collection' : 'Add to Collection'}
           </Button>
         </AuthCheck>

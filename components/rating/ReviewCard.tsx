@@ -1,84 +1,62 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import isEqual from 'lodash/isEqual';
 import { ThumbsUp, ThumbsDown } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useEffect, useMemo } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { ReviewInteractionCounts } from '@/database/review-interaction.model';
-import { getReviewInteractions } from '@/lib/actions/review.action';
+import { useReviewMutations } from '@/hooks/mutations/use-review-mutations';
+import { useReviewInteractions } from '@/hooks/queries/use-review-interactions';
+import { useReviewStore } from '@/hooks/stores/use-review-store';
 import { cn } from '@/lib/utils';
-import { Review } from '@/types';
+import { ReviewInteractionType, ReviewView } from '@/types';
 
 import { RatingDistribution } from './RatingDistribution';
 import { RatingMetrics } from './RatingMetrics';
 
 interface ReviewCardProps {
-  productId: string;
-  initialRating?: Review;
-  onSubmit: (rating: CreateReviewParams) => void;
-  onInteraction: ({
-    type,
-  }: {
-    type: 'like' | 'dislike' | 'share' | 'report';
-  }) => Promise<ReviewInteractionCounts | undefined>;
-  onDelete: () => void;
-  className?: string;
+  perfumeId: string;
+  initialReview?: ReviewView;
 }
 
-export function ReviewCard({
-  productId,
-  initialRating,
-  onSubmit,
-  onInteraction,
-  onDelete,
-  className,
-}: ReviewCardProps) {
-  const [rating, setRating] = useState({
-    sillage: initialRating?.rating?.sillage || 0,
-    longevity: initialRating?.rating?.longevity || 0,
-    value: initialRating?.rating?.value || 0,
-    projection: initialRating?.rating?.projection || 0,
-    complexity: initialRating?.rating?.complexity || 0,
-  });
-  const [review, setReview] = useState(initialRating?.review || '');
-  const [interactions, setInteractions] = useState({
-    like: 0,
-    dislike: 0,
-    share: 0,
-    report: 0,
-  });
+export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
+  // Review zustand store
+  const { reset, rating, review, setRating, setReview } = useReviewStore();
+
+  // Review mutation methods
+  const { submitReview, deleteReview, interactionMutation } =
+    useReviewMutations(perfumeId, initialReview);
+
+  // Review fetching
+  const { data: interactionsResponse } = useReviewInteractions(
+    initialReview?._id
+  );
+  const interactions = interactionsResponse?.data;
 
   useEffect(() => {
-    if (initialRating?._id) {
-      getReviewInteractions({ reviewId: initialRating._id }).then((result) => {
-        if (result.success) {
-          if (result.data) {
-            setInteractions(result.data);
-          }
-        }
-      });
-    }
+    useReviewStore.getState().initializeFromReview(initialReview);
+  }, [initialReview]);
 
-    if (initialRating) {
-      setRating(initialRating.rating);
-      setReview(initialRating.review || '');
-    }
-  }, [initialRating?._id, initialRating]);
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, [perfumeId, reset]);
 
-  const hasChanges = () => {
-    if (!initialRating) return true;
-
-    const ratingChanged = Object.keys(rating).some(
-      (key) =>
-        rating[key as keyof typeof rating] !==
-        initialRating.rating[key as keyof typeof rating]
+  const hasChanges = useMemo(() => {
+    if (!initialReview) return true;
+    return (
+      !isEqual(rating, initialReview.rating) || review !== initialReview.review
     );
-    return ratingChanged || review !== initialRating.review;
-  };
+  }, [rating, review, initialReview]);
+
+  const isComplete = useMemo(
+    () => Object.values(rating).every((value) => value > 0),
+    [rating]
+  );
 
   const calculateOverallScore = () => {
     const weights = {
@@ -96,45 +74,15 @@ export function ReviewCard({
       .toFixed(1);
   };
 
-  const handleLike = async () => {
-    await onInteraction({ type: 'like' });
-  };
-
-  const handleDislike = async () => {
-    await onInteraction({ type: 'dislike' });
-  };
-
-  const handleDelete = async () => {
-    try {
-      await onDelete();
-      setRating({
-        sillage: 0,
-        longevity: 0,
-        value: 0,
-        projection: 0,
-        complexity: 0,
-      });
-      setInteractions({ like: 0, dislike: 0, share: 0, report: 0 });
-      setReview('');
-    } catch {
-      toast.error('Failed to delete review');
-    }
-  };
-
-  const handleSubmit = async () => {
-    await onSubmit({
-      perfumeId: productId,
-      rating,
-      review,
-    });
-  };
-
-  const isUpdate = Boolean(initialRating);
-  const isComplete = Object.values(rating).every((value) => value > 0);
-  const canUpdate = isComplete && (isUpdate ? hasChanges() : true);
+  const isLoading =
+    submitReview.isPending ||
+    deleteReview.isPending ||
+    interactionMutation.isPending;
+  const isUpdate = Boolean(initialReview);
+  const canUpdate = !isLoading && isComplete && (isUpdate ? hasChanges : true);
 
   return (
-    <Card className={cn('space-y-8 p-6', className)}>
+    <Card className={cn('space-y-8 p-6')}>
       {/* Header with Overall Score */}
       <div className="flex items-center justify-between">
         <div className="space-y-1">
@@ -153,19 +101,27 @@ export function ReviewCard({
               variant="outline"
               size="sm"
               className="gap-2"
-              onClick={handleLike}
+              onClick={() =>
+                interactionMutation.mutate({
+                  type: 'like' as ReviewInteractionType,
+                })
+              }
             >
               <ThumbsUp className="size-4" />
-              <span>{interactions.like}</span>
+              <span>{interactions?.like || 0}</span>
             </Button>
             <Button
               variant="outline"
               size="sm"
               className="gap-2"
-              onClick={handleDislike}
+              onClick={() =>
+                interactionMutation.mutate({
+                  type: 'dislike' as ReviewInteractionType,
+                })
+              }
             >
               <ThumbsDown className="size-4" />
-              <span>{interactions.dislike}</span>
+              <span>{interactions?.dislike || 0}</span>
             </Button>
           </div>
         )}
@@ -194,14 +150,26 @@ export function ReviewCard({
           transition={{ duration: 0.3 }}
           className="space-x-2"
         >
-          <Button onClick={handleSubmit} disabled={!canUpdate}>
+          <Button
+            onClick={() =>
+              submitReview.mutate({
+                perfumeId,
+                rating,
+                review,
+              })
+            }
+            disabled={!canUpdate}
+          >
             {isUpdate ? 'Update Review' : 'Submit Rating'}
           </Button>
           {isUpdate && (
             <Button
               variant="destructive"
               className="gap-2"
-              onClick={handleDelete}
+              onClick={() => {
+                deleteReview.mutate();
+                reset();
+              }}
             >
               Delete
             </Button>
@@ -210,7 +178,7 @@ export function ReviewCard({
       </div>
 
       {/* Rating Distribution */}
-      <RatingDistribution productId={productId} />
+      <RatingDistribution perfumeId={perfumeId} />
     </Card>
   );
 }

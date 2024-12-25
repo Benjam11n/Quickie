@@ -70,7 +70,7 @@ export function VendingLocations() {
 
       <div className="text-center">
         <Button asChild size="lg">
-          <Link href={ROUTES.LOCATIONS}>
+          <Link href={ROUTES.LOCATIONS} prefetch>
             <MapPin className="mr-2 size-5" />
             View All Locations
           </Link>

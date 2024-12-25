@@ -64,3 +64,14 @@ export const EMPTY_COLLECTIONS = {
     href: ROUTES.CATALOG,
   },
 };
+
+// TODO:
+export const EMPTY_PERFUME = {
+  title: 'Your Collection is Empty',
+  message:
+    'Start building your perfume collection by adding fragrances you own or have sampled.',
+  button: {
+    text: 'Build Your Collection',
+    href: ROUTES.CATALOG,
+  },
+};

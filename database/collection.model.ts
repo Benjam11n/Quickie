@@ -48,7 +48,7 @@ CollectionSchema.methods.addPerfume = async function (
   );
 
   if (exists) {
-    throw new Error('Perfume already in wishlist');
+    throw new Error('Perfume already in collection');
   }
 
   this.perfumes.push({

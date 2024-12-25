@@ -1,29 +1,33 @@
+import { notFound } from 'next/navigation';
+
 import { CompareWithIds } from '@/components/comparison';
-import { products } from '@/types/data';
-import { Perfume } from '@/types/fragrance';
+import { getPerfumesByIds } from '@/lib/actions/perfume.action';
 
-export function generateStaticParams() {
-  const params: { ids: string[] }[] = [];
-  products.forEach((product1, index) => {
-    products.slice(index + 1).forEach((product2) => {
-      params.push({ ids: [product1.id, product2.id] });
-    });
-  });
-  return params;
-}
-
-export default function CompareWithIdsPage({
+export default async function CompareWithIdsPage({
   params,
 }: {
   params: { ids: string[] };
 }) {
-  const selectedProducts = params.ids
-    .map((id) => products.find((p) => p.id === id))
-    .filter(Boolean);
+  const selectedIds = await params;
 
-  if (selectedProducts.length === 0) {
+  if (!selectedIds.ids) {
+    return <div>Products not found</div>;
+  }
+  if (selectedIds.ids.length === 0) {
     return <div>Products not found</div>;
   }
 
-  return <CompareWithIds initialProducts={selectedProducts as Perfume[]} />;
+  const selectedProducts = await getPerfumesByIds({
+    perfumeIds: selectedIds.ids,
+  });
+
+  if (
+    !selectedProducts ||
+    !selectedProducts.data ||
+    selectedProducts.data.length === 0
+  ) {
+    return notFound();
+  }
+
+  return <CompareWithIds initialProducts={selectedProducts.data} />;
 }

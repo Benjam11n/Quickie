@@ -1,6 +1,4 @@
 import CatalogClient from '@/components/fragrance/CatalogClient';
-import DataRenderer from '@/components/ui/DataRenderer';
-import { EMPTY_CATALOG } from '@/constants/states';
 import { getPerfumes } from '@/lib/actions/perfume.action';
 
 interface SearchParams {
@@ -19,13 +17,5 @@ export default async function CatalogPage({ searchParams }: SearchParams) {
 
   const { perfumes } = data || {};
 
-  return (
-    <DataRenderer
-      success={success}
-      error={error}
-      data={perfumes}
-      empty={EMPTY_CATALOG}
-      render={(perfumes) => <CatalogClient perfumes={perfumes} />}
-    />
-  );
+  return <CatalogClient perfumes={perfumes} success={success} error={error} />;
 }

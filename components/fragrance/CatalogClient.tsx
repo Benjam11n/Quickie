@@ -2,49 +2,80 @@
 
 import { SlidersHorizontal } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
+import Loading from '@/app/(root)/loading';
 import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
 import { ProductFilters } from '@/components/fragrance/ProductFilters';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { EMPTY_PERFUME } from '@/constants/states';
+import { useCollection } from '@/hooks/queries/use-collection';
+import { useComparisonStore } from '@/hooks/stores/use-comparison-store';
 import { Perfume } from '@/types/fragrance';
 
 import PaginationControls from '../pagination/PaginationControls';
 import LocalSearch from '../search/LocalSearch';
 import SortingControls from '../sort/SortingControls';
+import DataRenderer from '../ui/DataRenderer';
 
 interface CatalogPageProps {
-  perfumes: Perfume[];
+  perfumes?: Perfume[];
+  success: boolean;
+  error?: {
+    message: string;
+    details?: Record<string, string[]>;
+  };
 }
 
-export default function CatalogClient({ perfumes }: CatalogPageProps) {
+const MAXIMMUM_COMPARISONS = 2;
+
+export default function CatalogClient({
+  perfumes,
+  success,
+  error,
+}: CatalogPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { data: session } = useSession();
 
+  const { selectedItems, addItem, removeItem, reset } = useComparisonStore();
+  const isSelected = (perfumeId: string) => selectedItems.includes(perfumeId);
   const currentPageSize = Number(searchParams.get('pageSize')) || 10;
 
   const [showFilters, setShowFilters] = useState(false);
-  const [selectedForComparison, setSelectedForComparison] = useState<string[]>(
-    []
-  );
-  const totalCount = perfumes.length || 0;
+  const totalCount = perfumes?.length || 0;
 
-  const handleCompareToggle = (productId: string) => {
-    setSelectedForComparison((prev) => {
-      if (prev.includes(productId)) {
-        return prev.filter((id) => id !== productId);
-      }
-      if (prev.length >= 2) {
-        return [...prev.slice(1), productId];
-      }
-      return [...prev, productId];
-    });
-  };
+  const {
+    data: collectionResponse,
+    isPending: collectionLoading,
+    error: collectionError,
+  } = useCollection(session?.user?.id);
+
+  useEffect(() => {
+    if (collectionError) {
+      toast.error('Failed to load collection', {
+        description:
+          'Your collection data could not be loaded. Some features may be limited.',
+      });
+    }
+  }, [collectionError]);
+
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, [reset]);
+
+  if (collectionLoading && session) {
+    return <Loading />;
+  }
 
   const handleCompare = () => {
-    if (selectedForComparison.length >= 2) {
-      router.push(`/compare/${selectedForComparison.join('/')}`);
+    if (selectedItems.length >= MAXIMMUM_COMPARISONS) {
+      router.push(`/compare/${selectedItems.join('/')}`);
     }
   };
 
@@ -89,15 +120,15 @@ export default function CatalogClient({ perfumes }: CatalogPageProps) {
           )}
 
           <div className="flex-1 space-y-6">
-            {selectedForComparison.length > 0 && (
+            {selectedItems.length > 0 && (
               <div className="sticky top-20 z-10 rounded-lg border bg-background/80 p-4 shadow-lg backdrop-blur-sm">
                 <div className="flex items-center justify-between">
                   <p className="text-sm text-muted-foreground">
-                    {selectedForComparison.length} selected for comparison
+                    {selectedItems.length} selected for comparison
                   </p>
                   <Button
                     onClick={handleCompare}
-                    disabled={selectedForComparison.length < 1}
+                    disabled={selectedItems.length < 1}
                   >
                     Compare Selected
                   </Button>
@@ -105,25 +136,32 @@ export default function CatalogClient({ perfumes }: CatalogPageProps) {
               </div>
             )}
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {perfumes.map((perfume) => (
-                <PerfumeCard
-                  key={perfume._id}
-                  perfume={perfume}
-                  onCompareToggle={() => handleCompareToggle(perfume.id)}
-                  isSelectedForComparison={selectedForComparison.includes(
-                    perfume.id
-                  )}
-                />
-              ))}
-            </div>
-            {perfumes.length === 0 && (
-              <div className="py-12 text-center">
-                <p className="text-muted-foreground">
-                  No fragrances found matching your criteria.
-                </p>
-              </div>
-            )}
+            <DataRenderer
+              success={success}
+              error={error}
+              data={perfumes}
+              empty={EMPTY_PERFUME}
+              render={(perfumes) => (
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {perfumes.map((perfume) => (
+                    <PerfumeCard
+                      key={perfume._id}
+                      perfume={perfume}
+                      onCompareToggle={() => {
+                        const selected = isSelected(perfume._id);
+                        if (!selected) {
+                          addItem(perfume._id);
+                        } else {
+                          removeItem(perfume._id);
+                        }
+                      }}
+                      isSelectedForComparison={isSelected(perfume._id)}
+                      collection={collectionResponse?.data}
+                    />
+                  ))}
+                </div>
+              )}
+            />
           </div>
         </div>
       </div>

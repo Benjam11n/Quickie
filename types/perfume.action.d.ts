@@ -29,6 +29,10 @@ declare global {
   interface GetPerfumeParams {
     perfumeId: string;
   }
+
+  interface GetPerfumesByIdsParams {
+    perfumeIds: string[];
+  }
 }
 
 export {};

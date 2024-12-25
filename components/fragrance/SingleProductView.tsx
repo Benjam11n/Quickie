@@ -1,12 +1,13 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
-import { useReviewHandlers } from '@/hooks/use-review-handlers';
+import Loading from '@/app/(root)/loading';
+import { usePerfume } from '@/hooks/queries/use-perfumes';
+import { useReview } from '@/hooks/queries/use-reviews';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
-import { Review } from '@/types';
-import { Perfume } from '@/types/fragrance';
 
 import { EnhancedVisualizer } from './EnhancedVisualizer';
 import { ProductHeader } from './ProductHeader';
@@ -16,49 +17,69 @@ import { AuthCheck } from '../auth/AuthCheck';
 import { ReviewCard } from '../rating';
 
 interface SingleProductViewProps {
-  product: Perfume;
-  review?: Review;
+  perfumeId: string;
 }
 
-export function SingleProductView({ product, review }: SingleProductViewProps) {
+export function SingleProductView({ perfumeId }: SingleProductViewProps) {
   const router = useRouter();
-  const { collections, toggleFavorite, addToCollection } = useUserPerfumes();
-  const userPerfume = collections.find((p) => p.productId === product.id);
-  const enhancedFragrance = mapProductToEnhancedFragrance(product);
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
 
-  const { handleReviewSubmit, handleReviewDelete, handleInteraction } =
-    useReviewHandlers({ product, review, router });
+  const {
+    data: perfumeResponse,
+    isPending: perfumeLoading,
+    error: perfumeError,
+  } = usePerfume(perfumeId);
+
+  const {
+    data: reviewResponse,
+    isPending: reviewLoading,
+    error: reviewError,
+  } = useReview(perfumeId, userId);
+
+  const { collections, toggleFavorite, addToCollection } = useUserPerfumes();
+
+  if (perfumeLoading || (session && reviewLoading)) {
+    return <Loading />;
+  }
+
+  if (perfumeError || reviewError || !perfumeResponse.data) {
+    return notFound();
+  }
+
+  const perfume = perfumeResponse.data;
+
+  const review = reviewResponse?.data;
+
+  const userPerfume = collections.find((p) => p.productId === perfume._id);
+  const enhancedFragrance = mapProductToEnhancedFragrance(perfume);
 
   return (
     <div className="space-y-8">
-      <ProductHeader name={product.name} onBack={() => router.back()} />
+      <ProductHeader name={perfume.name} onBack={() => router.back()} />
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        <ProductImage src={product.images[0]} alt={product.name} />
-
+        <ProductImage src={perfume.images[0]} alt={perfume.name} />
         <ProductInfo
-          brand={product.brand}
-          price={product.price}
-          description={product.description}
-          categories={product.categories}
+          // todo:
+          brand={perfume?.brand?.name}
+          price={perfume.price}
+          description={perfume.description}
+          categories={perfume.categories}
           userPerfume={userPerfume}
-          affiliateLink={product.affiliateLink}
-          onCollectionClick={() => addToCollection(product.id)}
-          onFavoriteClick={() => toggleFavorite(product.id)}
+          affiliateLink={perfume.affiliateLink}
+          onCollectionClick={() => addToCollection(perfume._id)}
+          onFavoriteClick={() => toggleFavorite(perfume._id)}
         />
       </div>
 
       <EnhancedVisualizer fragrance={enhancedFragrance} />
 
-      <AuthCheck>
-        <ReviewCard
-          productId={product.id}
-          initialRating={review}
-          onSubmit={handleReviewSubmit}
-          onInteraction={handleInteraction}
-          onDelete={handleReviewDelete}
-        />
-      </AuthCheck>
+      {userId && (
+        <AuthCheck>
+          <ReviewCard perfumeId={perfume._id} initialReview={review} />
+        </AuthCheck>
+      )}
     </div>
   );
 }

@@ -41,8 +41,13 @@ InteractionSchema.index(
   }
 );
 
-// Index for counting interactions by type
-InteractionSchema.index({ reviewId: 1, type: 1 });
+// InteractionSchema.index(
+//   { author: 1, reviewId: 1 },
+//   {
+//     unique: true,
+//     partialFilterExpression: { type: { $in: ['like', 'dislike'] } },
+//   }
+// );
 
 const ReviewInteraction =
   models?.ReviewInteraction ||

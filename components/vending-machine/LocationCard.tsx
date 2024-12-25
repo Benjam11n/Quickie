@@ -35,7 +35,6 @@ export function LocationCard({
 }: LocationCardProps) {
   const [showPerfumes, setShowPerfumes] = useState(false);
 
-  console.log(vendingMachine.inventory);
   return (
     <Card
       className={cn(
@@ -75,7 +74,7 @@ export function LocationCard({
 
         <div className="flex items-center justify-between text-sm">
           <div className="flex items-center text-muted-foreground">
-            Change to
+            {/* Change to Tags */}
             <Clock className="mr-2 size-4" />
             {'24/7'}
           </div>

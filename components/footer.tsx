@@ -41,6 +41,7 @@ export default async function Footer() {
               <li>
                 <Link
                   href={ROUTES.CATALOG}
+                  prefetch
                   className="transition-colors hover:text-primary"
                 >
                   Browse Fragrances
@@ -49,6 +50,7 @@ export default async function Footer() {
               <li>
                 <Link
                   href={ROUTES.LOCATIONS}
+                  prefetch
                   className="transition-colors hover:text-primary"
                 >
                   Find Machines

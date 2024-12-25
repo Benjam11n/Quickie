@@ -5,7 +5,8 @@
     "standard",
     "plugin:tailwindcss/recommended",
     "prettier",
-    "plugin:storybook/recommended"
+    "plugin:storybook/recommended",
+    "plugin:@tanstack/query/recommended"
   ],
   "plugins": ["import", "tailwindcss"],
   "rules": {

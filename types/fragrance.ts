@@ -21,16 +21,39 @@ export interface Perfume {
   brand: string;
   price: number;
   size?: number;
-  description?: string;
+  description: string;
   affiliateLink: string;
   images: string[];
+  // TODO: Change categories to tags
+  // tgas: { name: string; count: number };
   categories?: string[];
-  notes?: {
+  notes: {
     top: OldNote[];
     middle: OldNote[];
     base: OldNote[];
   };
-  scentProfile?: ScentProfile;
+  scentProfile: ScentProfile;
+}
+
+export interface PerfumeView {
+  _id: string;
+  id: string;
+  name: string;
+  brand: { name: string };
+  price: number;
+  size?: number;
+  description: string;
+  affiliateLink: string;
+  images: string[];
+  // TODO: Change categories to tags
+  // tgas: { name: string; count: number };
+  categories?: string[];
+  notes: {
+    top: OldNote[];
+    middle: OldNote[];
+    base: OldNote[];
+  };
+  scentProfile: ScentProfile;
 }
 
 export interface UserPerfume {
@@ -79,6 +102,7 @@ export interface FragranceCharacteristic {
 }
 
 export interface EnhancedFragrance {
+  _id: string;
   id: string;
   name: string;
   brand: string;

@@ -9,7 +9,7 @@ interface AuthDialogStore {
   close: () => void;
 }
 
-export const useAuthDialog = create<AuthDialogStore>()((set) => ({
+export const useAuthDialogStore = create<AuthDialogStore>()((set) => ({
   isOpen: false,
   onSuccess: undefined,
   open: (onSuccess) => set({ isOpen: true, onSuccess }),

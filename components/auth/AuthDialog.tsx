@@ -1,8 +1,10 @@
 'use client';
 
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { signIn, useSession } from 'next-auth/react';
 
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { useAuthDialogStore } from '@/hooks/stores/use-auth-dialog';
 import { signInWithCredentials } from '@/lib/actions/auth.action';
 import { SignInSchema } from '@/lib/validations';
 
@@ -11,10 +13,12 @@ import AuthForm from '../forms/AuthForm';
 interface AuthDialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  onSuccess?: () => void;
 }
 
-export function AuthDialog({ open, onOpenChange, onSuccess }: AuthDialogProps) {
+export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
+  const { data: session, update } = useSession();
+  const { close } = useAuthDialogStore();
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <VisuallyHidden>
@@ -26,7 +30,10 @@ export function AuthDialog({ open, onOpenChange, onSuccess }: AuthDialogProps) {
           schema={SignInSchema}
           defaultValues={{ email: '', password: '' }}
           onSubmit={signInWithCredentials}
-          onSuccess={onSuccess}
+          onSuccess={async () => {
+            await update(); // Refresh the session
+            close(); // Close the dialog
+          }}
         />
       </DialogContent>
     </Dialog>

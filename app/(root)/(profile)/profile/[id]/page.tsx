@@ -164,12 +164,7 @@ export default async function ProfilePageClient({
               error={collectionError}
               data={collection?.perfumes}
               empty={EMPTY_COLLECTIONS}
-              render={(perfumes) => (
-                <CollectionGrid
-                  items={perfumes}
-                  emptyMessage="No perfumes in collection"
-                />
-              )}
+              render={(perfumes) => <CollectionGrid items={perfumes} />}
             />
           </TabsContent>
 

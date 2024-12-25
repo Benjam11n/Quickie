@@ -22,7 +22,7 @@ declare global {
 
   interface ReviewInteractionParams {
     reviewId: string;
-    type: 'like' | 'dislike' | 'share' | 'report';
+    type: ReviewInteractionType;
   }
 
   interface getReviewInteractionsParams {

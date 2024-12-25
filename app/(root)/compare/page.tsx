@@ -9,21 +9,20 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ROUTES } from '@/constants/routes';
+import { useSelectorPerfumes } from '@/hooks/queries/use-selector-perfumes';
 import { Perfume } from '@/types/fragrance';
 
 export default function ComparePage() {
   const router = useRouter();
-  const [, setSelectedProducts] = useState<Perfume[]>([]);
   const [isFullComparison, setIsFullComparison] = useState(true);
   const [showSelector, setShowSelector] = useState(false);
-
+  const { prefetchPerfumes } = useSelectorPerfumes(showSelector);
   const handleAddProduct = (product: Perfume) => {
     const newProducts = [product];
 
-    setSelectedProducts(newProducts);
     setShowSelector(false);
 
-    const productIds = newProducts.map((p) => p.id).join('/');
+    const productIds = newProducts.map((p) => p._id).join('/');
     if (isFullComparison) {
       router.push(ROUTES.FULL_COMPARE(productIds));
     } else {
@@ -74,6 +73,7 @@ export default function ComparePage() {
                     setIsFullComparison(true);
                     setShowSelector(true);
                   }}
+                  onMouseEnter={prefetchPerfumes}
                 >
                   <Plus className="mr-1 size-4" />
                   Add Perfume
@@ -96,6 +96,7 @@ export default function ComparePage() {
                     setIsFullComparison(false);
                     setShowSelector(true);
                   }}
+                  onMouseEnter={prefetchPerfumes}
                 >
                   <Plus className="mr-1 size-4" />
                   Add Perfume
@@ -107,7 +108,7 @@ export default function ComparePage() {
       </div>
 
       <ProductSelector
-        open={showSelector}
+        isOpen={showSelector}
         onOpenChange={setShowSelector}
         onSelect={handleAddProduct}
       />

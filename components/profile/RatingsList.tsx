@@ -41,6 +41,7 @@ export function RatingsList({ reviews }: RatingsListProps) {
                 <div>
                   <Link
                     href={ROUTES.PRODUCT(String(item.perfumeId._id))}
+                    prefetch
                     className="text-lg font-semibold transition-colors hover:text-primary"
                   >
                     {product.name}

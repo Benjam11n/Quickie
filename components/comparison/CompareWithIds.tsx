@@ -7,16 +7,18 @@ import { ComparisonView } from '@/components/comparison/ComparisonView';
 import { ProductSelector } from '@/components/fragrance/ProductSelector';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
-import { Perfume } from '@/types/fragrance';
+import { useSelectorPerfumes } from '@/hooks/queries/use-selector-perfumes';
+import { Perfume, PerfumeView } from '@/types/fragrance';
 
 const MAX_COMPARISONS = 2;
 interface CompareWithIdsProps {
-  initialProducts: Perfume[];
+  initialProducts: PerfumeView[];
 }
 
 export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
   const router = useRouter();
   const [showSelector, setShowSelector] = useState(false);
+  const { prefetchPerfumes } = useSelectorPerfumes(showSelector);
 
   const handleAddProduct = (product: Perfume) => {
     const newProducts =
@@ -24,18 +26,18 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
         ? [...initialProducts.slice(1), product]
         : [...initialProducts, product];
 
-    const productIds = newProducts.map((p) => p.id).join('/');
+    const productIds = newProducts.map((p) => p._id).join('/');
     router.push(ROUTES.FULL_COMPARE(productIds));
     setShowSelector(false);
   };
 
   const handleRemoveProduct = (productId: string) => {
-    const newProducts = initialProducts.filter((p) => p.id !== productId);
+    const newProducts = initialProducts.filter((p) => p._id !== productId);
 
     if (newProducts.length === 0) {
       router.push(ROUTES.FULL_COMPARE(''));
     } else {
-      const productIds = newProducts.map((p) => p.id).join('/');
+      const productIds = newProducts.map((p) => p._id).join('/');
       router.push(ROUTES.FULL_COMPARE(productIds));
     }
   };
@@ -61,7 +63,10 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
 
         <div className="flex justify-end">
           {initialProducts.length < MAX_COMPARISONS && (
-            <Button onClick={() => setShowSelector(true)}>
+            <Button
+              onClick={() => setShowSelector(true)}
+              onMouseEnter={prefetchPerfumes}
+            >
               <Plus className="mr-2 size-4" />
               Add Perfume ({initialProducts.length}/{MAX_COMPARISONS})
             </Button>
@@ -72,11 +77,12 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
           onRemove={handleRemoveProduct}
         />
       </div>
+
       <ProductSelector
-        open={showSelector}
+        isOpen={showSelector}
         onOpenChange={setShowSelector}
         onSelect={handleAddProduct}
-        excludeIds={initialProducts.map((p) => p.id)}
+        selectedIds={initialProducts.map((p) => p._id)}
       />
     </div>
   );

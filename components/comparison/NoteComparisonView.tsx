@@ -4,32 +4,42 @@ import { motion } from 'framer-motion';
 import { X, Plus, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { ProductSelector } from '@/components/fragrance/ProductSelector';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
-import { Perfume } from '@/types/fragrance';
+import { useSelectorPerfumes } from '@/hooks/queries/use-selector-perfumes';
+import { Perfume, PerfumeView } from '@/types/fragrance';
 
 import { StarRating } from '../StarRating';
 
 const MAX_COMPARISONS = 2;
 
 interface NoteComparisonViewProps {
-  initialProducts?: Perfume[];
+  perfumes: PerfumeView[];
 }
 
-export function NoteComparisonView({
-  initialProducts = [],
-}: NoteComparisonViewProps) {
+export function NoteComparisonView({ perfumes }: NoteComparisonViewProps) {
   const router = useRouter();
-  const [selectedProducts, setSelectedProducts] =
-    useState<Perfume[]>(initialProducts);
   const [showSelector, setShowSelector] = useState(false);
+  const { prefetchPerfumes } = useSelectorPerfumes(showSelector);
+  const [selectedNote, setSelectedNote] = useState<string | null>(null);
 
-  const getAllNotes = (product: Perfume) => {
+  const handleRemoveProduct = (productId: string) => {
+    const newProducts = perfumes.filter((p) => p._id !== productId);
+
+    if (newProducts.length === 0) {
+      router.push(ROUTES.NOTES_COMPARE(''));
+    } else {
+      const productIds = newProducts.map((p) => p._id).join('/');
+      router.push(ROUTES.NOTES_COMPARE(productIds));
+    }
+  };
+
+  const getAllNotes = (product: PerfumeView) => {
     const notes: { [key: string]: number } = {};
     Object.values(product.notes || {})
       .flat()
@@ -39,25 +49,26 @@ export function NoteComparisonView({
     return notes;
   };
 
-  const getOverlappingNotes = () => {
-    if (selectedProducts.length < 2) return new Set<string>();
+  const findCommonNotes = () => {
+    if (perfumes.length < 2) return new Set<string>();
 
-    const allNotes = selectedProducts.map(getAllNotes);
-    const firstNotes = Object.keys(allNotes[0]);
+    const allNotes = perfumes.map((product) =>
+      Object.values(product.notes)
+        .flat()
+        .map((note) => note.name)
+    );
 
     return new Set(
-      firstNotes.filter((note) =>
-        allNotes.every((productNotes) => note in productNotes)
+      allNotes[0].filter((note) =>
+        allNotes.slice(1).every((notes) => notes.includes(note))
       )
     );
   };
 
   const getUniqueNotes = (productIndex: number) => {
-    const currentNotes = Object.keys(
-      getAllNotes(selectedProducts[productIndex])
-    );
+    const currentNotes = Object.keys(getAllNotes(perfumes[productIndex]));
     const otherNotes = new Set(
-      selectedProducts
+      perfumes
         .filter((_, i) => i !== productIndex)
         .flatMap((p) => Object.keys(getAllNotes(p)))
     );
@@ -65,7 +76,10 @@ export function NoteComparisonView({
     return currentNotes.filter((note) => !otherNotes.has(note));
   };
 
-  const calculateSimilarity = (product1: Perfume, product2: Perfume) => {
+  const calculateSimilarity = (
+    product1: PerfumeView,
+    product2: PerfumeView
+  ) => {
     const notes1 = getAllNotes(product1);
     const notes2 = getAllNotes(product2);
     const allNotes = new Set([...Object.keys(notes1), ...Object.keys(notes2)]);
@@ -83,74 +97,65 @@ export function NoteComparisonView({
     return total > 0 ? (similarity / total) * 100 : 0;
   };
 
-  // Use effect to handle URL updates whenever selectedProducts changes
-  useEffect(() => {
-    const productIds =
-      selectedProducts.length > 0
-        ? selectedProducts.map((p) => p.id).join('/')
-        : '';
-    router.push(
-      productIds.length > 0
-        ? ROUTES.NOTES_COMPARE(productIds)
-        : ROUTES.FULL_COMPARE(productIds)
-    );
-  }, [selectedProducts, router]);
-
   const handleAddProduct = (product: Perfume) => {
-    setSelectedProducts((prev) => [...prev, product]);
+    const newProducts = [...perfumes, product];
+    const productIds = newProducts.map((p) => p._id).join('/');
+    router.push(ROUTES.NOTES_COMPARE(productIds));
     setShowSelector(false);
   };
 
-  const handleRemoveProduct = (index: number) => {
-    setSelectedProducts((prev) => prev.filter((_, i) => i !== index));
-  };
-  const overlappingNotes = getOverlappingNotes();
+  const commonNotes = findCommonNotes();
 
   return (
     <div className="space-y-8">
+      {/* Header */}
       <div>
         <h1 className="text-4xl font-bold">
           <span className="holographic-text">
-            {initialProducts?.length === 1
-              ? `${initialProducts[0].name}`
-              : initialProducts?.length === 2
-                ? `${initialProducts[0].name} vs ${initialProducts[1].name}`
-                : 'Compare Fragrances'}
+            {perfumes.length === 1
+              ? perfumes[0].name
+              : perfumes.length === 2
+                ? `${perfumes[0].name} vs ${perfumes[1].name}`
+                : 'Compare Notes'}
           </span>
         </h1>
         <p className="mt-2 text-muted-foreground">
-          {initialProducts &&
+          {perfumes.length > 0 &&
             'Compare perfumes and analyze their notes and similarities.'}
         </p>
       </div>
 
+      {/* Add Product Button */}
       <div className="flex justify-end">
-        {initialProducts.length < MAX_COMPARISONS && (
-          <Button onClick={() => setShowSelector(true)}>
+        {perfumes.length < MAX_COMPARISONS && (
+          <Button
+            onClick={() => setShowSelector(true)}
+            onMouseEnter={prefetchPerfumes}
+          >
             <Plus className="mr-2 size-4" />
-            Add Perfume ({initialProducts.length}/{MAX_COMPARISONS})
+            Add Perfume ({perfumes.length}/{MAX_COMPARISONS})
           </Button>
         )}
       </div>
 
+      {/* Product Cards */}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {selectedProducts.map((product, index) => (
+        {perfumes.map((product, index) => (
           <motion.div
-            key={product.id}
+            key={product._id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2 }}
           >
             <Card className="group relative overflow-hidden">
-              {/* Glass Effect Background */}
+              {/* Same card structure as ComparisonView */}
               <div className="absolute inset-0 z-0 bg-gradient-to-br from-background/10 to-background/30 backdrop-blur-sm" />
 
-              {/* Remove Button */}
               <Button
                 variant="outline"
                 size="icon"
                 className="absolute right-2 top-2 z-10 opacity-0 transition-opacity group-hover:opacity-100"
-                onClick={() => handleRemoveProduct(index)}
+                onClick={() => handleRemoveProduct(product._id)}
               >
                 <X className="size-4" />
               </Button>
@@ -170,7 +175,10 @@ export function NoteComparisonView({
               <div className="relative space-y-4 p-6">
                 <div>
                   <h3 className="text-2xl font-bold">{product.name}</h3>
-                  <p className="text-muted-foreground">{product.brand}</p>
+                  {/* TODO */}
+                  <p className="text-muted-foreground">
+                    {product?.brand?.name}
+                  </p>
                 </div>
 
                 <div className="flex items-center justify-between">
@@ -203,16 +211,12 @@ export function NoteComparisonView({
                   </div>
                 </div>
 
-                {selectedProducts.length > 1 && index > 0 && (
+                {perfumes.length > 1 && index > 0 && (
                   <div className="border-t pt-4">
                     <p className="text-sm text-muted-foreground">
-                      Similarity with {selectedProducts[0].name}:
+                      Similarity with {perfumes[0].name}:
                       <span className="ml-2 font-medium text-primary">
-                        {calculateSimilarity(
-                          selectedProducts[0],
-                          product
-                        ).toFixed(1)}
-                        %
+                        {calculateSimilarity(perfumes[0], product).toFixed(1)}%
                       </span>
                     </p>
                   </div>
@@ -223,14 +227,24 @@ export function NoteComparisonView({
         ))}
       </div>
 
-      {selectedProducts.length >= 2 && (
+      {/* Common Notes Section */}
+      {perfumes.length >= 2 && (
         <Card className="relative overflow-hidden p-6">
           <div className="absolute inset-0 z-0 bg-gradient-to-br from-background/10 to-background/30 backdrop-blur-sm" />
           <div className="relative">
             <h3 className="mb-4 text-xl font-bold">Common Notes</h3>
             <div className="flex flex-wrap gap-2">
-              {Array.from(overlappingNotes).map((note) => (
-                <Badge key={note} variant="secondary">
+              {Array.from(commonNotes).map((note) => (
+                <Badge
+                  key={note}
+                  variant="secondary"
+                  className={
+                    selectedNote === note
+                      ? 'bg-primary text-primary-foreground'
+                      : ''
+                  }
+                  onClick={() => setSelectedNote(note)}
+                >
                   {note}
                 </Badge>
               ))}
@@ -240,10 +254,10 @@ export function NoteComparisonView({
       )}
 
       <ProductSelector
-        open={showSelector}
+        isOpen={showSelector}
         onOpenChange={setShowSelector}
         onSelect={handleAddProduct}
-        excludeIds={selectedProducts.map((p) => p.id)}
+        selectedIds={perfumes.map((p) => p._id)}
       />
     </div>
   );

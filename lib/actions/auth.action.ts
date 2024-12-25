@@ -108,7 +108,15 @@ export async function signInWithCredentials(
 
     if (!passwordMatch) throw new Error('Password does not match');
 
-    await signIn('credentials', { email, password, redirect: false });
+    const result = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
+    });
+
+    if (result?.error) {
+      throw new Error(result.error);
+    }
 
     return { success: true };
   } catch (error) {

@@ -86,7 +86,7 @@ export function Hero() {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <Button asChild size="lg">
-                <Link href={ROUTES.LOCATIONS}>
+                <Link href={ROUTES.LOCATIONS} prefetch>
                   <MapPin className="mr-2 size-5" />
                   Find Nearest Machine
                 </Link>

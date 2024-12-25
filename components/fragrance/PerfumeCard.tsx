@@ -4,25 +4,27 @@ import { Heart, Check, ExternalLink, Scale, Bookmark } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 
 import { StarRating } from '@/components/StarRating';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
+import { useCollectionMutations } from '@/hooks/mutations/use-collection-mutations';
 import { useUserPerfumes } from '@/hooks/use-user-perfumes';
-import { addToCollection } from '@/lib/actions/collection.action';
 import { cn } from '@/lib/utils';
+import { CollectionView } from '@/types';
 import { Perfume, UserPerfume } from '@/types/fragrance';
 
 import AffiliateNotice from './AffiliateNotice';
+import { AuthCheck } from '../auth/AuthCheck';
 
 interface PerfumeCardProps {
   perfume: Perfume;
   userPerfume?: UserPerfume;
   onCompareToggle?: () => void;
   isSelectedForComparison?: boolean;
+  collection?: CollectionView;
 }
 
 export function PerfumeCard({
@@ -30,9 +32,18 @@ export function PerfumeCard({
   userPerfume,
   onCompareToggle,
   isSelectedForComparison,
+  collection,
 }: PerfumeCardProps) {
   const router = useRouter();
   const { toggleFavorite } = useUserPerfumes();
+
+  const { addToCollectionMutation, removeFromCollectionMutation } =
+    useCollectionMutations(perfume._id);
+
+  const inCollection =
+    collection?.perfumes
+      ?.map((perfume) => perfume.perfumeId._id)
+      .includes(perfume._id) ?? false;
 
   const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!(e.target as HTMLElement).closest('button')) {
@@ -43,15 +54,6 @@ export function PerfumeCard({
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     toggleFavorite(perfume.id);
-  };
-
-  const handleCollectionClick = async () => {
-    const result = await addToCollection({ perfumeId: perfume._id });
-    if (result.success) {
-      toast.success('Successfully added to collection');
-    } else {
-      toast.error('Something unexpected occured');
-    }
   };
 
   const handleCompareClick = (e: React.MouseEvent) => {
@@ -139,32 +141,42 @@ export function PerfumeCard({
           </span>
           <div className="flex gap-2">
             <AffiliateNotice>
-              <Button size="sm" variant="outline">
+              <Button size="sm" variant="outline" asChild>
                 <Link href={perfume.affiliateLink} passHref>
-                  <ExternalLink className="mr-2 size-4" />
+                  <ExternalLink className="mr-1 size-4" />
                   Buy
                 </Link>
               </Button>
             </AffiliateNotice>
-            <Button
-              size="sm"
-              className={cn(
-                userPerfume?.inCollection && 'bg-green-500 hover:bg-green-600'
-              )}
-              onClick={handleCollectionClick}
-            >
-              {userPerfume?.inCollection ? (
-                <>
-                  <Check className="mr-1 size-4" />
-                  In Collection
-                </>
-              ) : (
-                <>
-                  <Bookmark className="mr-1 size-4" />
-                  Add
-                </>
-              )}
-            </Button>
+            <AuthCheck>
+              <Button
+                size="sm"
+                className={cn(
+                  inCollection && 'bg-green-500 hover:bg-green-600'
+                )}
+                onClick={() => {
+                  if (collection) {
+                    if (inCollection) {
+                      removeFromCollectionMutation.mutate();
+                    } else {
+                      addToCollectionMutation.mutate();
+                    }
+                  }
+                }}
+              >
+                {inCollection ? (
+                  <>
+                    <Check className="mr-1 size-4" />
+                    In Collection
+                  </>
+                ) : (
+                  <>
+                    <Bookmark className="mr-1 size-4" />
+                    Add
+                  </>
+                )}
+              </Button>
+            </AuthCheck>
           </div>
         </div>
       </CardContent>

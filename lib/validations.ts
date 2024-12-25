@@ -235,6 +235,12 @@ export const GetPerfumeSchema = z.object({
   perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
 });
 
+export const GetPerfumesByIdsSchema = z.object({
+  perfumeIds: z.array(
+    z.string().min(1, { message: 'Perfume ID is required.' })
+  ),
+});
+
 const LocationSchema = z.object({
   type: z.literal('Point'),
   coordinates: z.tuple([
@@ -360,8 +366,6 @@ export const CreateReviewSchema = z.object({
     .string()
     .min(10, 'Review must be at least 10 characters long')
     .trim(),
-  // likes: z.number().default(0),
-  // likedBy: z.array(z.string()).optional().default([]),
 });
 
 export const UpdateReviewSchema = CreateReviewSchema.extend({

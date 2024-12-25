@@ -10,7 +10,7 @@ import { BoardSidebar } from '@/components/mood-board/BoardSidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ROUTES } from '@/constants/routes';
-import { useBoardStore } from '@/hooks/use-mood-boards';
+import { useEditMoodboardStore } from '@/hooks/stores/use-mood-boards';
 import { updateMoodBoard } from '@/lib/actions/moodboard.action';
 import { MoodBoard, transformToClientBoard } from '@/types';
 import { products } from '@/types/data';
@@ -34,14 +34,13 @@ export default function EditBoardPageClient({
     addPerfume,
     getChanges,
     // resetChanges,
-  } = useBoardStore();
+  } = useEditMoodboardStore();
 
   // Initialize edit state
   useEffect(() => {
     initializeBoard(initialBoard);
   }, [initialBoard, initializeBoard]);
 
-  console.log(currentBoard);
   const handleSaveChanges = async () => {
     if (!hasChanges || !currentBoard) return;
 

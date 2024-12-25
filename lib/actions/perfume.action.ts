@@ -5,12 +5,13 @@ import mongoose, { FilterQuery } from 'mongoose';
 import Perfume, { IPerfumeDoc } from '@/database/perfume.model';
 import TagPerfume from '@/database/tag-perfume.model';
 import Tag, { ITagDoc } from '@/database/tag.model';
-import { Perfume as PerfumeType } from '@/types/fragrance';
+import { Perfume as PerfumeType, PerfumeView } from '@/types/fragrance';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
 import {
   CreatePerfumeSchema,
+  GetPerfumesByIdsSchema,
   GetPerfumeSchema,
   PaginatedSearchParamsSchema,
   UpdatePerfumeSchema,
@@ -222,11 +223,10 @@ export async function updatePerfume(
 
 export async function getPerfume(
   params: GetPerfumeParams
-): Promise<ActionResponse> {
+): Promise<ActionResponse<PerfumeView>> {
   const validationResult = await action({
     params,
     schema: GetPerfumeSchema,
-    authorize: true,
   });
 
   if (validationResult instanceof Error) {
@@ -237,12 +237,49 @@ export async function getPerfume(
 
   try {
     const perfume = await Perfume.findById(perfumeId).populate('tags');
+    // .populate({
+    //   path: 'brand',
+    //   select: 'name',
+    // });
 
     if (!perfume) {
       throw new Error('Perfume not found');
     }
 
     return { success: true, data: JSON.parse(JSON.stringify(perfume)) };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
+}
+
+export async function getPerfumesByIds(
+  params: GetPerfumesByIdsParams
+): Promise<ActionResponse<PerfumeView[]>> {
+  const validationResult = await action({
+    params,
+    schema: GetPerfumesByIdsSchema,
+  });
+
+  if (validationResult instanceof Error) {
+    return handleError(validationResult) as ErrorResponse;
+  }
+
+  const { perfumeIds } = validationResult.params!;
+
+  try {
+    const perfumes = await Perfume.find({ _id: { $in: perfumeIds } }).populate(
+      'tags'
+    );
+    // .populate({
+    //   path: 'brand',
+    //   select: 'name',
+    // });
+
+    if (perfumes.length === 0) {
+      throw new Error('No perfumes found');
+    }
+
+    return { success: true, data: JSON.parse(JSON.stringify(perfumes)) };
   } catch (error) {
     return handleError(error) as ErrorResponse;
   }
@@ -301,6 +338,10 @@ export async function getPerfumes(
     const perfumes = await Perfume.find(filterQuery)
       .populate('tags', 'name')
       .populate('author', 'name image')
+      // .populate({
+      //   path: 'brand',
+      //   select: 'name',
+      // })
       .lean()
       .sort(sortCriteria)
       .skip(skip)

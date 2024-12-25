@@ -10,6 +10,7 @@ import { ShareDialog } from '@/components/comparison/ShareDialog';
 import { BoardCanvas } from '@/components/mood-board/BoardCanvas';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
+import { useEditMoodboardStore } from '@/hooks/stores/use-mood-boards';
 import { MoodBoard } from '@/types';
 import { products } from '@/types/data';
 
@@ -19,7 +20,7 @@ interface ViewBoardProps {
 }
 
 export function ViewBoard({ board, user }: ViewBoardProps) {
-  const { likeBoard } = useMoodBoards();
+  const { likeBoard } = useEditMoodboardStore();
   const [isLiked, setIsLiked] = useState(false);
   const router = useRouter();
 

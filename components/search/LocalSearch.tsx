@@ -52,14 +52,14 @@ const LocalSearch = ({
 
   return (
     <div
-      className={`background-light800_darkgradient flex min-h-[36px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
+      className={`flex min-h-[36px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
     >
       <Input
         type="text"
         placeholder={placeholder}
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="paragraph-regular no-focus placeholder text-dark400_light700 border-none shadow-none outline-none"
+        className="paragraph-regular shadow-none outline-none"
       />
     </div>
   );

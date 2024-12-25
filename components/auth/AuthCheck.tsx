@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { ReactNode } from 'react';
 
-import { useAuthDialog } from '@/hooks/use-auth-dialog';
+import { useAuthDialogStore } from '@/hooks/stores/use-auth-dialog';
 
 interface AuthCheckProps {
   children: ReactNode;
@@ -12,7 +12,7 @@ interface AuthCheckProps {
 
 export function AuthCheck({ children, onAuthSuccess }: AuthCheckProps) {
   const { data: session } = useSession();
-  const { open } = useAuthDialog();
+  const { open } = useAuthDialogStore();
 
   const handleClick = (e: React.MouseEvent) => {
     if (!session) {

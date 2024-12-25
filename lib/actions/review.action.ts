@@ -24,7 +24,7 @@ import {
 
 export async function createReview(
   params: CreateReviewParams
-): Promise<ActionResponse<ReviewType>> {
+): Promise<ActionResponse<IReviewDoc>> {
   const validationResult = await action({
     params,
     schema: CreateReviewSchema,
@@ -315,7 +315,7 @@ export async function getReviewInteractions(
 
 export async function getReview(
   params: GetReviewParams
-): Promise<ActionResponse<ReviewType>> {
+): Promise<ActionResponse<ReviewView>> {
   const validationResult = await action({
     params,
     schema: GetReviewSchema,
