@@ -41,14 +41,6 @@ InteractionSchema.index(
   }
 );
 
-// InteractionSchema.index(
-//   { author: 1, reviewId: 1 },
-//   {
-//     unique: true,
-//     partialFilterExpression: { type: { $in: ['like', 'dislike'] } },
-//   }
-// );
-
 const ReviewInteraction =
   models?.ReviewInteraction ||
   model<IReviewInteraction>('ReviewInteraction', InteractionSchema);
