@@ -5,7 +5,6 @@ import {
   FeaturedVendingLocations,
   FeaturedPerfumes,
 } from '@/components/home';
-import { Categories } from '@/components/home/Categories';
 import { getVendingMachines } from '@/lib/actions/vending-machine.action';
 
 export default async function Home() {
@@ -22,7 +21,6 @@ export default async function Home() {
     <div className="flex flex-col gap-24 pb-16">
       <Hero />
       <FeaturedPerfumes />
-      <Categories />
       <HowItWorks />
       <Features />
       <FeaturedVendingLocations
