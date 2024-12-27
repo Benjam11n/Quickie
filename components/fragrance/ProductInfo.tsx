@@ -2,7 +2,6 @@ import { Bookmark, ExternalLink, Heart } from 'lucide-react';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
-import { CollectionView } from '@/types';
 import { PerfumeView } from '@/types/fragrance';
 
 import AffiliateNotice from './AffiliateNotice';
@@ -12,26 +11,19 @@ import { Button } from '../ui/button';
 
 interface ProductInfoProps {
   perfume: PerfumeView;
-  collection?: CollectionView;
+  inCollection: boolean;
+  isFavourite: boolean;
   onCollectionClick: () => void;
   onFavoriteClick: () => void;
 }
 
 export function ProductInfo({
   perfume,
-  collection,
+  inCollection,
+  isFavourite,
   onCollectionClick,
   onFavoriteClick,
 }: ProductInfoProps) {
-  const inCollection: boolean = collection
-    ? collection.perfumes
-        .map((perfume) => perfume.perfume._id)
-        .includes(perfume._id)
-    : false;
-
-  // TODO:
-  const inWishlist: boolean = false;
-
   return (
     <div className="space-y-6">
       <div>
@@ -56,6 +48,7 @@ export function ProductInfo({
               'w-full',
               inCollection ? 'bg-green-500 hover:bg-green-600' : ''
             )}
+            onClick={onCollectionClick}
             size="lg"
           >
             <Bookmark className="mr-2 size-5" />
@@ -66,14 +59,20 @@ export function ProductInfo({
           <Button
             variant="outline"
             size="icon"
-            className={inWishlist ? 'text-red-500' : ''}
+            onClick={onFavoriteClick}
+            className={isFavourite ? 'text-red-500' : ''}
           >
-            <Heart className={`size-5 ${inWishlist ? 'fill-current' : ''}`} />
+            <Heart className={`size-5 ${isFavourite ? 'fill-current' : ''}`} />
           </Button>
         </AuthCheck>
         <AffiliateNotice>
           <Button variant="outline" size="lg" asChild className="flex-1">
-            <Link href={perfume.affiliateLink} passHref>
+            <Link
+              href={perfume.affiliateLink}
+              passHref
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <ExternalLink className="mr-2 size-4" />
               Buy from Partner
             </Link>

@@ -3,7 +3,7 @@
 import { SlidersHorizontal } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import Loading from '@/app/(root)/loading';
 import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
@@ -35,7 +35,7 @@ interface CatalogPageProps {
   };
 }
 
-const MAXIMMUM_COMPARISONS = 2;
+const MAXIMUM_COMPARISONS = 2;
 
 export default function CatalogClient({
   perfumes,
@@ -86,40 +86,49 @@ export default function CatalogClient({
   );
 
   // Handlers
-  const handleCompare = () => {
-    if (selectedItems.length >= MAXIMMUM_COMPARISONS) {
+  const handleCompare = useCallback(() => {
+    if (selectedItems.length >= MAXIMUM_COMPARISONS) {
       router.push(`/compare/${selectedItems.join('/')}`);
     }
-  };
+  }, [selectedItems, router]);
 
-  const handleCompareToggle = (perfume: string) => {
-    const selected = selectedItems.includes(perfume);
-    if (!selected) {
-      addItem(perfume);
-    } else {
-      removeItem(perfume);
-    }
-  };
+  const handleCompareToggle = useCallback(
+    (perfume: string) => {
+      const selected = selectedItems.includes(perfume);
+      if (!selected) {
+        addItem(perfume);
+      } else {
+        removeItem(perfume);
+      }
+    },
+    [selectedItems, addItem, removeItem]
+  );
 
-  const handleWishlistSelect = (wishlistId: string) => {
-    if (selectedPerfume) {
-      addToWishlistMutation.mutate({
-        wishlistId,
-        perfume: selectedPerfume.id,
-      });
-    }
-    setSelectedPerfume(null);
-  };
+  const handleWishlistSelect = useCallback(
+    (wishlistId: string) => {
+      if (selectedPerfume) {
+        addToWishlistMutation.mutate({
+          wishlistId,
+          perfume: selectedPerfume.id,
+        });
+      }
+      setSelectedPerfume(null);
+    },
+    [selectedPerfume, addToWishlistMutation]
+  );
 
-  const handleWishlistUnselect = (wishlistId: string) => {
-    if (selectedPerfume) {
-      removeFromWishlistMutation.mutate({
-        wishlistId,
-        perfume: selectedPerfume.id,
-      });
-    }
-    setSelectedPerfume(null);
-  };
+  const handleWishlistUnselect = useCallback(
+    (wishlistId: string) => {
+      if (selectedPerfume) {
+        removeFromWishlistMutation.mutate({
+          wishlistId,
+          perfume: selectedPerfume.id,
+        });
+      }
+      setSelectedPerfume(null);
+    },
+    [selectedPerfume, removeFromWishlistMutation]
+  );
 
   if (isLoading) {
     return <Loading />;
@@ -205,14 +214,14 @@ export default function CatalogClient({
                         .map((perfume) => perfume.perfume._id)
                         .includes(perfume._id) || false;
 
-                    const handleCollection = () =>
+                    const onCollectionToggle = () =>
                       inCollection
                         ? removeFromCollectionMutation.mutate(perfume._id)
                         : addToCollectionMutation.mutate(perfume._id);
 
                     return (
                       <PerfumeCard
-                        key={perfume.id}
+                        key={perfume._id}
                         id={perfume._id}
                         name={perfume.name}
                         price={perfume.price}
@@ -228,7 +237,7 @@ export default function CatalogClient({
                           },
                           collection: {
                             inCollection,
-                            onCollectionToggle: handleCollection,
+                            onCollectionToggle,
                           },
                           comparison: {
                             isSelected,
