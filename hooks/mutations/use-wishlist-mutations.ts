@@ -31,8 +31,14 @@ export function useWishlistMutations() {
       });
 
       const wishlistId = data._id;
+      const userId = data.author;
       queryClient.invalidateQueries({
         queryKey: ['wishlist', wishlistId],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['wishlists', userId],
+        refetchType: 'all',
       });
     },
     onError: (error) => {
@@ -60,8 +66,14 @@ export function useWishlistMutations() {
       });
 
       const wishlistId = data._id;
+      const userId = data.author;
       queryClient.invalidateQueries({
         queryKey: ['wishlist', wishlistId],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['wishlists', userId],
+        refetchType: 'all',
       });
     },
     onError: (error) => {
@@ -96,6 +108,7 @@ export function useWishlistMutations() {
 
       queryClient.invalidateQueries({
         queryKey: ['wishlists', userId],
+        refetchType: 'all',
       });
     },
     onError: (error) => {
@@ -136,6 +149,7 @@ export function useWishlistMutations() {
 
       queryClient.invalidateQueries({
         queryKey: ['wishlists', userId],
+        refetchType: 'all',
       });
     },
     onError: (error) => {
@@ -166,6 +180,11 @@ export function useWishlistMutations() {
       queryClient.invalidateQueries({
         queryKey: ['wishlist', wishlistId],
       });
+
+      // queryClient.invalidateQueries({
+      //   queryKey: ['wishlists', userId],
+      //   refetchType: 'all',
+      // });
     },
     onError: (error) => {
       toast.error('Error', {
