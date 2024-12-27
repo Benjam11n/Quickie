@@ -1,18 +1,19 @@
-import { model, models, Schema, Document } from 'mongoose';
+import { Schema, model, models, Document } from 'mongoose';
 
-export interface IBrand {
+export interface IBrand extends Document {
   name: string;
-  perfumes: number;
+  perfumesCount: number;
 }
-
-export interface IBrandDoc extends IBrand, Document {}
 
 const BrandSchema = new Schema<IBrand>(
   {
     name: { type: String, required: true, unique: true },
-    perfumes: { type: Number, default: 0 },
+    perfumesCount: {
+      type: Number,
+      default: 0,
+    },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
 const Brand = models?.Brand || model<IBrand>('Brand', BrandSchema);

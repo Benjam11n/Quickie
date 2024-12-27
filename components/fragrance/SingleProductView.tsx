@@ -4,10 +4,11 @@ import { notFound, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 import Loading from '@/app/(root)/loading';
+import { useCollectionMutations } from '@/hooks/mutations/use-collection-mutations';
+import { useWishlistMutations } from '@/hooks/mutations/use-wishlist-mutations';
+import { useCollection } from '@/hooks/queries/use-collection';
 import { usePerfume } from '@/hooks/queries/use-perfumes';
 import { useReview } from '@/hooks/queries/use-reviews';
-import { useReviewStore } from '@/hooks/stores/use-review-store';
-import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
 
 import { EnhancedVisualizer } from './EnhancedVisualizer';
@@ -38,10 +39,14 @@ export function SingleProductView({ perfumeId }: SingleProductViewProps) {
     error: reviewError,
   } = useReview(perfumeId, userId);
 
-  const { collections, toggleFavorite, addToCollection } = useUserPerfumes();
-  const { reset } = useReviewStore();
+  const { addToCollectionMutation } = useCollectionMutations(perfumeId);
+  const { addToWishlistMutation } = useWishlistMutations();
+  const { data: collectionResponse, isLoading: isLoadingCollection } =
+    useCollection(userId);
 
-  if (perfumeLoading || (session && reviewLoading)) {
+  const collection = collectionResponse?.data;
+
+  if (perfumeLoading || isLoadingCollection || (session && reviewLoading)) {
     return <Loading />;
   }
 
@@ -53,7 +58,6 @@ export function SingleProductView({ perfumeId }: SingleProductViewProps) {
 
   const review = reviewResponse?.data;
 
-  const userPerfume = collections.find((p) => p.productId === perfume._id);
   const enhancedFragrance = mapProductToEnhancedFragrance(perfume);
 
   return (
@@ -63,15 +67,13 @@ export function SingleProductView({ perfumeId }: SingleProductViewProps) {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         <ProductImage src={perfume.images[0]} alt={perfume.name} />
         <ProductInfo
+          perfume={perfume}
+          collection={collection}
+          onCollectionClick={() => addToCollectionMutation.mutate()}
           // todo:
-          brand={perfume?.brand?.name}
-          price={perfume.price}
-          description={perfume.description}
-          categories={perfume.categories}
-          userPerfume={userPerfume}
-          affiliateLink={perfume.affiliateLink}
-          onCollectionClick={() => addToCollection(perfume._id)}
-          onFavoriteClick={() => toggleFavorite(perfume._id)}
+          onFavoriteClick={() =>
+            addToWishlistMutation.mutate({ wishlistId: '1', perfumeId })
+          }
         />
       </div>
 

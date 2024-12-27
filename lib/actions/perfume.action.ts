@@ -5,7 +5,7 @@ import mongoose, { FilterQuery } from 'mongoose';
 import Perfume, { IPerfumeDoc } from '@/database/perfume.model';
 import TagPerfume from '@/database/tag-perfume.model';
 import Tag, { ITagDoc } from '@/database/tag.model';
-import { Perfume as PerfumeType, PerfumeView } from '@/types/fragrance';
+import { PerfumeView } from '@/types/fragrance';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -236,11 +236,12 @@ export async function getPerfume(
   const { perfumeId } = validationResult.params!;
 
   try {
-    const perfume = await Perfume.findById(perfumeId).populate('tags');
-    // .populate({
-    //   path: 'brand',
-    //   select: 'name',
-    // });
+    const perfume = await Perfume.findById(perfumeId)
+      .populate({ path: 'tags', select: 'name perfumesCount' })
+      .populate({
+        path: 'brand',
+        select: 'name',
+      });
 
     if (!perfume) {
       throw new Error('Perfume not found');
@@ -267,13 +268,12 @@ export async function getPerfumesByIds(
   const { perfumeIds } = validationResult.params!;
 
   try {
-    const perfumes = await Perfume.find({ _id: { $in: perfumeIds } }).populate(
-      'tags'
-    );
-    // .populate({
-    //   path: 'brand',
-    //   select: 'name',
-    // });
+    const perfumes = await Perfume.find({ _id: { $in: perfumeIds } })
+      .populate('tags')
+      .populate({
+        path: 'brand',
+        select: 'name',
+      });
 
     if (perfumes.length === 0) {
       throw new Error('No perfumes found');
@@ -287,7 +287,7 @@ export async function getPerfumesByIds(
 
 export async function getPerfumesPaginated(
   params: PaginatedSearchParams
-): Promise<ActionResponse<{ perfumes: PerfumeType[]; isNext: boolean }>> {
+): Promise<ActionResponse<{ perfumes: PerfumeView[]; isNext: boolean }>> {
   const validationResult = await action({
     params,
     schema: PaginatedSearchParamsSchema,
@@ -336,16 +336,17 @@ export async function getPerfumesPaginated(
     const totalPerfumes = await Perfume.countDocuments(filterQuery);
 
     const perfumes = await Perfume.find(filterQuery)
-      .populate('tags', 'name')
+      .populate({ path: 'tags', select: 'name perfumesCount' })
       .populate('author', 'name image')
-      // .populate({
-      //   path: 'brand',
-      //   select: 'name',
-      // })
+      .populate({
+        path: 'brand',
+        select: 'name',
+      })
       .lean()
       .sort(sortCriteria)
       .skip(skip)
       .limit(limit);
+
     const isNext = totalPerfumes > skip + perfumes.length;
 
     return {

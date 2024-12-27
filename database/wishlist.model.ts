@@ -12,9 +12,10 @@ export interface WishlistPerfumeView {
   perfumeId: {
     _id: string;
     name: string;
-    brand: string;
-    price: string;
+    brand: { name: string };
+    price: number;
     images: string[];
+    affiliateLink: string;
     rating: {
       average: number;
       count: number;
@@ -33,6 +34,7 @@ export interface WishlistPerfumeView {
 
 export interface IWishlist {
   name: string;
+  description: string;
   author: Types.ObjectId;
   perfumes: Array<WishlistPerfume>;
 }
@@ -42,6 +44,7 @@ export interface IWishlistDoc extends IWishlist, Document {}
 const WishlistSchema = new Schema<IWishlistDoc>(
   {
     name: { type: String, required: true, trim: true },
+    description: { type: String, trim: true },
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     perfumes: [
       {
@@ -67,9 +70,6 @@ const WishlistSchema = new Schema<IWishlistDoc>(
     toObject: { virtuals: true },
   }
 );
-
-// Prevent duplicate perfumes for a user
-WishlistSchema.index({ author: 1, 'perfumes.perfumeId': 1 }, { unique: true });
 
 // Useful indexes for querying
 WishlistSchema.index({ author: 1 });

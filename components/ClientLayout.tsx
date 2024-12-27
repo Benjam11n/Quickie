@@ -2,7 +2,7 @@
 
 import { AuthDialog } from '@/components/auth/AuthDialog';
 import { NavBar } from '@/components/navigation';
-import { useAuthDialogStore } from '@/hooks/stores/use-auth-dialog';
+import { useAuthDialogStore } from '@/hooks/stores/use-auth-dialog-store';
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
   const { isOpen, close, onSuccess } = useAuthDialogStore();

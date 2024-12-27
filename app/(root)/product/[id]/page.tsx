@@ -1,10 +1,6 @@
 import { SingleProductView } from '@/components/fragrance/SingleProductView';
 
-export default async function ProductPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function ProductPage({ params }: RouteParams) {
   const { id: perfumeId } = await params;
 
   return (

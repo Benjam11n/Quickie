@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ROUTES } from '@/constants/routes';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
-import { useEditMoodboardStore } from '@/hooks/stores/use-mood-boards';
+import { useEditMoodboardStore } from '@/hooks/stores/use-edit-mood-boards-store';
 import { updateMoodBoard } from '@/lib/actions/moodboard.action';
 import { MoodBoardView } from '@/types';
 import { Perfume } from '@/types/fragrance';

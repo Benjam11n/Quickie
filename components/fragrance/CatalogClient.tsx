@@ -4,7 +4,6 @@ import { SlidersHorizontal } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
 
 import Loading from '@/app/(root)/loading';
 import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
@@ -12,17 +11,23 @@ import { ProductFilters } from '@/components/fragrance/ProductFilters';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { EMPTY_PERFUME } from '@/constants/states';
+import { useWishlistMutations } from '@/hooks/mutations/use-wishlist-mutations';
 import { useCollection } from '@/hooks/queries/use-collection';
+import { useUserReviews } from '@/hooks/queries/use-reviews';
+import { useWishlists } from '@/hooks/queries/use-wishlists';
 import { useComparisonStore } from '@/hooks/stores/use-comparison-store';
-import { Perfume } from '@/types/fragrance';
+import { PerfumeView } from '@/types/fragrance';
 
+import ComparisonBar from './ComparisonBar';
 import PaginationControls from '../pagination/PaginationControls';
 import LocalSearch from '../search/LocalSearch';
 import SortingControls from '../sort/SortingControls';
 import DataRenderer from '../ui/DataRenderer';
+import { WishlistSelectDialog } from '../wishlist/WishlistSelectDialog';
+import { useCollectionMutations } from '@/hooks/mutations/use-collection-mutations';
 
 interface CatalogPageProps {
-  perfumes?: Perfume[];
+  perfumes?: PerfumeView[];
   success: boolean;
   error?: {
     message: string;
@@ -40,47 +45,89 @@ export default function CatalogClient({
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session } = useSession();
+  const userId = session?.user?.id;
 
-  const { selectedItems, addItem, removeItem, reset } = useComparisonStore();
-  const isSelected = (perfumeId: string) => selectedItems.includes(perfumeId);
-  const currentPageSize = Number(searchParams.get('pageSize')) || 10;
-
+  // State
+  const [selectedPerfume, setSelectedPerfume] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+
+  // Store
+  const { selectedItems, addItem, removeItem, reset } = useComparisonStore();
+
+  // Queries
+  const { data: collectionResponse, isPending: isLoadingCollection } =
+    useCollection(userId);
+  const { data: reviewsResponse, isPending: isLoadingReviews } =
+    useUserReviews(userId);
+  const { data: wishlistsResponse, isLoading: isLoadingWishlists } =
+    useWishlists(userId);
+
+  // Mutations
+  const { addToWishlistMutation, removeFromWishlistMutation } =
+    useWishlistMutations();
+  const { addToCollectionMutation, removeFromCollectionMutation } =
+    useCollectionMutations();
+
+  // Computed values
+  const currentPageSize = Number(searchParams.get('pageSize')) || 10;
   const totalCount = perfumes?.length || 0;
+  const reviews = reviewsResponse?.data?.reviews || [];
+  const isLoading = (isLoadingCollection || isLoadingReviews) && !!userId;
 
-  const {
-    data: collectionResponse,
-    isPending: collectionLoading,
-    error: collectionError,
-  } = useCollection(session?.user?.id);
-
-  useEffect(() => {
-    if (collectionError) {
-      toast.error('Failed to load collection', {
-        description:
-          'Your collection data could not be loaded. Some features may be limited.',
-      });
-    }
-  }, [collectionError]);
-
-  useEffect(() => {
-    return () => {
+  // Effects
+  useEffect(
+    () => () => {
       reset();
-    };
-  }, [reset]);
+    },
+    [reset]
+  );
 
-  if (collectionLoading && session) {
-    return <Loading />;
-  }
-
+  // Handlers
   const handleCompare = () => {
     if (selectedItems.length >= MAXIMMUM_COMPARISONS) {
       router.push(`/compare/${selectedItems.join('/')}`);
     }
   };
 
+  const handleCompareToggle = (perfumeId: string) => {
+    const selected = selectedItems.includes(perfumeId);
+    if (!selected) {
+      addItem(perfumeId);
+    } else {
+      removeItem(perfumeId);
+    }
+  };
+
+  const handleWishlistSelect = (wishlistId: string) => {
+    if (selectedPerfume) {
+      addToWishlistMutation.mutate({
+        wishlistId,
+        perfumeId: selectedPerfume.id,
+      });
+    }
+    setSelectedPerfume(null);
+  };
+
+  const handleWishlistUnselect = (wishlistId: string) => {
+    if (selectedPerfume) {
+      removeFromWishlistMutation.mutate({
+        wishlistId,
+        perfumeId: selectedPerfume.id,
+      });
+    }
+    setSelectedPerfume(null);
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="container py-10">
+      {/* Header */}
       <div className="space-y-8">
         <div>
           <h1 className="text-4xl font-bold">
@@ -91,6 +138,7 @@ export default function CatalogClient({
           </p>
         </div>
 
+        {/* Search and Filters */}
         <div className="flex flex-col gap-4 md:flex-row">
           <div className="relative flex-1">
             <LocalSearch
@@ -99,9 +147,7 @@ export default function CatalogClient({
               otherClasses="flex-1"
             />
           </div>
-
           <SortingControls route="/catalog" />
-
           <Button
             variant="outline"
             onClick={() => setShowFilters(!showFilters)}
@@ -112,6 +158,7 @@ export default function CatalogClient({
           </Button>
         </div>
 
+        {/* Main Content */}
         <div className="flex gap-8">
           {showFilters && (
             <Card className="w-[300px] shrink-0 p-6">
@@ -121,19 +168,10 @@ export default function CatalogClient({
 
           <div className="flex-1 space-y-6">
             {selectedItems.length > 0 && (
-              <div className="sticky top-20 z-10 rounded-lg border bg-background/80 p-4 shadow-lg backdrop-blur-sm">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-muted-foreground">
-                    {selectedItems.length} selected for comparison
-                  </p>
-                  <Button
-                    onClick={handleCompare}
-                    disabled={selectedItems.length < 1}
-                  >
-                    Compare Selected
-                  </Button>
-                </div>
-              </div>
+              <ComparisonBar
+                selectedCount={selectedItems.length}
+                onCompare={handleCompare}
+              />
             )}
 
             <DataRenderer
@@ -143,22 +181,63 @@ export default function CatalogClient({
               empty={EMPTY_PERFUME}
               render={(perfumes) => (
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {perfumes.map((perfume) => (
-                    <PerfumeCard
-                      key={perfume._id}
-                      perfume={perfume}
-                      onCompareToggle={() => {
-                        const selected = isSelected(perfume._id);
-                        if (!selected) {
-                          addItem(perfume._id);
-                        } else {
-                          removeItem(perfume._id);
-                        }
-                      }}
-                      isSelectedForComparison={isSelected(perfume._id)}
-                      collection={collectionResponse?.data}
-                    />
-                  ))}
+                  {perfumes.map((perfume) => {
+                    const isFavourite =
+                      wishlistsResponse?.data?.some((wishlist) =>
+                        wishlist.perfumes.some(
+                          (p) => p.perfumeId._id === perfume._id
+                        )
+                      ) || false;
+
+                    const onCompareToggle = () =>
+                      handleCompareToggle(perfume._id);
+
+                    const onWishlistClick = () =>
+                      setSelectedPerfume({
+                        id: perfume._id,
+                        name: perfume.name,
+                      });
+
+                    const isSelected = selectedItems.includes(perfume._id);
+
+                    const inCollection =
+                      collectionResponse?.data?.perfumes
+                        .map((perfume) => perfume.perfumeId._id)
+                        .includes(perfume._id) || false;
+
+                    const handleCollection = () =>
+                      inCollection
+                        ? removeFromCollectionMutation.mutate(perfume._id)
+                        : addToCollectionMutation.mutate(perfume._id);
+
+                    return (
+                      <PerfumeCard
+                        key={perfume.id}
+                        id={perfume._id}
+                        name={perfume.name}
+                        price={perfume.price}
+                        images={perfume.images}
+                        brand={perfume.brand}
+                        review={reviews.find(
+                          (r) => r.perfumeId._id === perfume._id
+                        )}
+                        interactive={{
+                          wishlist: {
+                            isFavourite,
+                            onWishlistClick: onWishlistClick,
+                          },
+                          collection: {
+                            inCollection,
+                            onCollectionToggle: handleCollection,
+                          },
+                          comparison: {
+                            isSelected,
+                            onCompareToggle: onCompareToggle,
+                          },
+                        }}
+                      />
+                    );
+                  })}
                 </div>
               )}
             />
@@ -166,6 +245,7 @@ export default function CatalogClient({
         </div>
       </div>
 
+      {/* Pagination */}
       <div className="mt-12">
         <PaginationControls
           route="/catalog"
@@ -173,6 +253,20 @@ export default function CatalogClient({
           totalPages={Math.ceil(totalCount / currentPageSize)}
         />
       </div>
+
+      {/* Wishlist Dialog */}
+      {selectedPerfume && (
+        <WishlistSelectDialog
+          isOpen={!!selectedPerfume}
+          onOpenChange={(open) => !open && setSelectedPerfume(null)}
+          onSelect={handleWishlistSelect}
+          onUnSelect={handleWishlistUnselect}
+          perfumeId={selectedPerfume.id}
+          perfumeName={selectedPerfume.name}
+          wishlists={wishlistsResponse?.data || []}
+          isLoading={isLoadingWishlists}
+        />
+      )}
     </div>
   );
 }

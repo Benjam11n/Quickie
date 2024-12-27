@@ -131,9 +131,7 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
       <RatingMetrics
         rating={rating}
         onChange={(rating) => {
-          if (initialReview) {
-            setRating(rating);
-          }
+          setRating(rating);
         }}
       />
 
@@ -144,9 +142,7 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
           placeholder="Share your thoughts about this fragrance..."
           value={review}
           onChange={(e) => {
-            if (initialReview) {
-              setReview(e.target.value);
-            }
+            setReview(e.target.value);
           }}
           className="resize-none"
           rows={4}

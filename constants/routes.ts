@@ -23,6 +23,11 @@ export const ROUTES = {
   BOARDS_EDIT: (id: string) => `/boards/${id}/edit`,
   BOARDS_VIEW: (id: string) => `/boards/${id}/view`,
 
+  // Wishlists
+  WISHLISTS: 'wishlists',
+  WISHLISTS_VIEW: (id: string) => `wishlists/${id}`,
+  WISHLISTS_NEW: 'wishlists/new',
+
   // Miscellaneous
   PRIVACY: '/privacy',
   TERMS: '/terms',

@@ -13,6 +13,46 @@ import {
   RemoveFromCollectionSchema,
 } from '../validations';
 
+export async function getCollection(
+  params: GetCollectionParams
+): Promise<ActionResponse<CollectionView>> {
+  const validationResult = await action({
+    params,
+    schema: GetCollectionSchema,
+    authorize: true,
+  });
+
+  if (validationResult instanceof Error) {
+    return handleError(validationResult) as ErrorResponse;
+  }
+
+  const { userId } = validationResult.params!;
+
+  try {
+    const collection = await Collection.findOne({ author: userId })
+      .populate({
+        path: 'author',
+        select: 'name image',
+      })
+      .populate({
+        path: 'perfumes.perfumeId',
+        select: '_id id name brand affiliateLink price images',
+        populate: {
+          path: 'brand',
+          select: 'name',
+        },
+      });
+
+    if (!collection) {
+      throw new Error('Collection not found');
+    }
+
+    return { success: true, data: JSON.parse(JSON.stringify(collection)) };
+  } catch (error) {
+    return handleError(error) as ErrorResponse;
+  }
+}
+
 export async function addToCollection(
   params: AddToCollectionParams
 ): Promise<ActionResponse<ICollectionDoc>> {
@@ -52,6 +92,10 @@ export async function addToCollection(
     }).populate({
       path: 'perfumes.perfumeId',
       select: 'name brand price images',
+      populate: {
+        path: 'brand',
+        select: 'name',
+      },
     });
 
     return {
@@ -119,41 +163,5 @@ export async function removeFromCollection(
     return handleError(error) as ErrorResponse;
   } finally {
     session.endSession();
-  }
-}
-
-export async function getCollection(
-  params: GetCollectionParams
-): Promise<ActionResponse<CollectionView>> {
-  const validationResult = await action({
-    params,
-    schema: GetCollectionSchema,
-    authorize: true,
-  });
-
-  if (validationResult instanceof Error) {
-    return handleError(validationResult) as ErrorResponse;
-  }
-
-  const { userId } = validationResult.params!;
-
-  try {
-    const collection = await Collection.findOne({ author: userId })
-      .populate({
-        path: 'author',
-        select: 'name image',
-      })
-      .populate({
-        path: 'perfumes.perfumeId',
-        select: '_id id name brand affiliateLink price images',
-      });
-
-    if (!collection) {
-      throw new Error('Collection not found');
-    }
-
-    return { success: true, data: JSON.parse(JSON.stringify(collection)) };
-  } catch (error) {
-    return handleError(error) as ErrorResponse;
   }
 }

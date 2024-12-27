@@ -2,7 +2,8 @@ import { Bookmark, ExternalLink, Heart } from 'lucide-react';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
-import { UserPerfume } from '@/types/fragrance';
+import { CollectionView } from '@/types';
+import { PerfumeView } from '@/types/fragrance';
 
 import AffiliateNotice from './AffiliateNotice';
 import { AuthCheck } from '../auth/AuthCheck';
@@ -10,39 +11,40 @@ import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 
 interface ProductInfoProps {
-  brand: string;
-  price: number;
-  description: string;
-  categories: string[];
-  userPerfume?: UserPerfume;
-  affiliateLink: string;
+  perfume: PerfumeView;
+  collection?: CollectionView;
   onCollectionClick: () => void;
   onFavoriteClick: () => void;
 }
 
 export function ProductInfo({
-  brand,
-  price,
-  description,
-  categories,
-  userPerfume,
-  affiliateLink,
+  perfume,
+  collection,
   onCollectionClick,
   onFavoriteClick,
 }: ProductInfoProps) {
+  const inCollection: boolean = collection
+    ? collection.perfumes
+        .map((perfume) => perfume.perfumeId._id)
+        .includes(perfume._id)
+    : false;
+
+  // TODO:
+  const inWishlist: boolean = false;
+
   return (
     <div className="space-y-6">
       <div>
-        <p className="text-xl text-muted-foreground">{brand}</p>
-        <p className="mt-2 text-3xl font-bold">${price}</p>
+        <p className="text-xl text-muted-foreground">{perfume.brand.name}</p>
+        <p className="mt-2 text-3xl font-bold">${perfume.price}</p>
       </div>
 
-      <p className="text-muted-foreground">{description}</p>
+      <p className="text-muted-foreground">{perfume.description}</p>
 
       <div className="flex flex-wrap gap-2">
-        {categories.map((category) => (
-          <Badge key={category} variant="secondary">
-            {category}
+        {perfume.tags.map((tag) => (
+          <Badge key={tag.name} variant="secondary">
+            {tag.name}
           </Badge>
         ))}
       </div>
@@ -52,28 +54,26 @@ export function ProductInfo({
           <Button
             className={cn(
               'w-full',
-              userPerfume?.inCollection ? 'bg-green-500 hover:bg-green-600' : ''
+              inCollection ? 'bg-green-500 hover:bg-green-600' : ''
             )}
             size="lg"
           >
             <Bookmark className="mr-2 size-5" />
-            {userPerfume?.inCollection ? 'In Collection' : 'Add to Collection'}
+            {inCollection ? 'In Collection' : 'Add to Collection'}
           </Button>
         </AuthCheck>
         <AuthCheck onAuthSuccess={onFavoriteClick}>
           <Button
             variant="outline"
             size="icon"
-            className={userPerfume?.isFavorite ? 'text-red-500' : ''}
+            className={inWishlist ? 'text-red-500' : ''}
           >
-            <Heart
-              className={`size-5 ${userPerfume?.isFavorite ? 'fill-current' : ''}`}
-            />
+            <Heart className={`size-5 ${inWishlist ? 'fill-current' : ''}`} />
           </Button>
         </AuthCheck>
         <AffiliateNotice>
           <Button variant="outline" size="lg" asChild className="flex-1">
-            <Link href={affiliateLink} passHref>
+            <Link href={perfume.affiliateLink} passHref>
               <ExternalLink className="mr-2 size-4" />
               Buy from Partner
             </Link>

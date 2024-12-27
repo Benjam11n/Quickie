@@ -10,6 +10,7 @@ export const categories = [
   'Casual',
   'Sport',
 ];
+
 export const notes = [
   'Bergamot',
   'Pink Pepper',

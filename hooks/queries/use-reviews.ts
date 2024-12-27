@@ -1,10 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 
 import {
   getPerfumeReviews,
   getReview,
   getUserReviews,
 } from '@/lib/actions/review.action';
+import { ReviewView } from '@/types';
 
 export function usePerfumeReviews(perfumeId: string) {
   return useQuery({
@@ -14,18 +15,22 @@ export function usePerfumeReviews(perfumeId: string) {
   });
 }
 
-export function useReview(perfumeId: string, userId?: string) {
+export function useReview(
+  perfumeId: string,
+  userId?: string
+): UseQueryResult<ActionResponse<ReviewView>> {
   return useQuery({
     queryKey: ['reviews', perfumeId, userId],
     queryFn: () => getReview({ perfumeId, userId: userId as string }),
     enabled: !!perfumeId && !!userId,
+    refetchOnMount: true,
   });
 }
 
-export function useUserReviews(userId: string) {
+export function useUserReviews(userId?: string) {
   return useQuery({
     queryKey: ['reviews', 'user', userId],
-    queryFn: () => getUserReviews({ userId }),
+    queryFn: () => getUserReviews({ userId: userId! }),
     enabled: !!userId,
   });
 }

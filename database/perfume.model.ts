@@ -135,6 +135,56 @@ PerfumeSchema.index({
   'notes.base': 'text',
 });
 
+// PerfumeSchema.post('save', async function () {
+//   await Promise.all(
+//     this.tags.map((tagId) =>
+//       Tag.findByIdAndUpdate(tagId, {
+//         $inc: { perfumesCount: 1 },
+//       })
+//     )
+//   );
+// });
+
+// PerfumeSchema.post(
+//   'deleteOne',
+//   { document: true, query: false },
+//   async function () {
+//     await Promise.all(
+//       this.tags.map((tagId: Types.ObjectId) =>
+//         Tag.findByIdAndUpdate(tagId, {
+//           $inc: { perfumesCount: -1 },
+//         })
+//       )
+//     );
+//   }
+// );
+
+// // Handle bulk operations
+// PerfumeSchema.pre('deleteMany', async function () {
+//   // Get affected perfumes and their tags
+//   const perfumes = await this.model.find(this.getQuery());
+
+//   // Count occurrences of each tag
+//   const tagCounts = perfumes.reduce(
+//     (acc, perfume) => {
+//       perfume.tags.forEach((tagId: Types.ObjectId) => {
+//         acc[tagId.toHexString()] = (acc[tagId.toHexString()] || 0) + 1;
+//       });
+//       return acc;
+//     },
+//     {} as Record<string, number>
+//   );
+
+//   // Update all affected tags
+//   await Promise.all(
+//     Object.entries(tagCounts).map(([tagId, count]) =>
+//       Tag.findByIdAndUpdate(tagId, {
+//         $inc: { perfumesCount: -(count as number) },
+//       })
+//     )
+//   );
+// });
+
 const Perfume = models?.Perfume || model<IPerfume>('Perfume', PerfumeSchema);
 
 export default Perfume;

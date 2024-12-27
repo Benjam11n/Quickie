@@ -7,34 +7,36 @@ import { useState } from 'react';
 import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
 import { QuizCard } from '@/components/QuizCard';
 import { Card } from '@/components/ui/card';
+import { useCollection } from '@/hooks/queries/use-collection';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
-import { useUserPerfumes } from '@/hooks/use-user-perfumes';
 
 import Loading from '../loading';
 
 export default function RecommendationsPage() {
-  const { collections } = useUserPerfumes();
   const [showQuiz, setShowQuiz] = useState(true);
-  const { data: perfumeResponse, isLoading } = usePerfumes({
+  const { data: perfumeResponse, isLoading: isLoadingPerfumes } = usePerfumes({
     page: 1,
     pageSize: 100,
     query: '',
     filter: '',
   });
+  const { data: collectionResponse, isLoading: isLoadingCollection } =
+    useCollection();
 
-  if (isLoading) {
+  if (isLoadingPerfumes || isLoadingCollection) {
     return <Loading />;
   }
 
-  if (!perfumeResponse?.data?.perfumes) {
+  if (!perfumeResponse?.data?.perfumes || !collectionResponse?.data) {
     return notFound();
   }
 
   const { perfumes } = perfumeResponse.data;
+  const collection = collectionResponse?.data;
 
   // Simple recommendation algorithm based on user ratings and preferences
   const getRecommendations = () => {
-    const ratedProducts = collections.filter((item) => item.rating);
+    const ratedProducts = collection.perfumes;
 
     if (ratedProducts.length === 0) {
       return perfumes.slice(0, 3); // Return top products if no ratings
@@ -43,16 +45,16 @@ export default function RecommendationsPage() {
     // Calculate average rating for each note and category
     const preferences = ratedProducts.reduce(
       (acc, item) => {
-        const perfume = perfumes.find((p) => p.id === item.productId);
+        const perfume = perfumes.find((p) => p.id === item.perfumeId._id);
         if (!perfume || !item.rating) return acc;
 
-        // Process categories
-        perfume.categories?.forEach((category) => {
-          if (!acc.categories[category]) {
-            acc.categories[category] = { total: 0, count: 0 };
+        // Process tags
+        perfume.tags?.forEach((tag) => {
+          if (!acc.tags[tag.name]) {
+            acc.tags[tag] = { total: 0, count: 0 };
           }
-          acc.categories[category].total += item.rating;
-          acc.categories[category].count += 1;
+          acc.tags[tag].total += item.rating;
+          acc.tags[tag].count += 1;
         });
 
         // Process notes
@@ -68,7 +70,7 @@ export default function RecommendationsPage() {
 
         return acc;
       },
-      { categories: {}, notes: {} }
+      { tags: {}, notes: {} }
     );
 
     // Score each product based on preferences
@@ -80,11 +82,9 @@ export default function RecommendationsPage() {
         let score = 0;
 
         // Category score
-        product.categories?.forEach((category) => {
-          if (preferences.categories[category]) {
-            score +=
-              preferences.categories[category].total /
-              preferences.categories[category].count;
+        product.tags?.forEach((tag) => {
+          if (preferences.tags[tag]) {
+            score += preferences.tags[tag].total / preferences.tags[tag].count;
           }
         });
 
@@ -158,13 +158,14 @@ export default function RecommendationsPage() {
             </div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {recommendations.map((product) => (
+              {recommendations.map((perfume) => (
                 <PerfumeCard
-                  key={product.id}
-                  perfume={product}
-                  userPerfume={collections.find(
-                    (p) => p.productId === product.id
-                  )}
+                  key={perfume.id}
+                  id={perfume._id}
+                  name={perfume.name}
+                  price={perfume.price}
+                  images={perfume.images}
+                  brand={perfume.brand}
                 />
               ))}
             </div>

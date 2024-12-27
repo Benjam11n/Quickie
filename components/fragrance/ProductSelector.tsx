@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
-import { Perfume } from '@/types/fragrance';
+import { PerfumeView } from '@/types/fragrance';
 
 import LocalSearch from '../search/LocalSearch';
 import { SprayLoader } from '../SprayLoader';
@@ -21,7 +21,7 @@ import { SprayLoader } from '../SprayLoader';
 interface ProductSelectorProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onSelect: (product: Perfume) => void;
+  onSelect: (product: PerfumeView) => void;
   selectedIds?: string[];
 }
 
@@ -113,7 +113,7 @@ export function ProductSelector({
                     <div className="text-left">
                       <p className="font-medium">{product.name}</p>
                       <p className="text-sm text-muted-foreground">
-                        {product.brand}
+                        {product.brand.name}
                       </p>
                     </div>
                   </button>

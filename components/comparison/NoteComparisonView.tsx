@@ -105,7 +105,7 @@ export function NoteComparisonView({ perfumes }: NoteComparisonViewProps) {
     return total > 0 ? (similarity / total) * 100 : 0;
   };
 
-  const handleAddProduct = (product: Perfume) => {
+  const handleAddProduct = (product: PerfumeView) => {
     const newProducts = [...perfumes, product];
     const productIds = newProducts.map((p) => p._id).join('/');
     router.push(ROUTES.NOTES_COMPARE(productIds));

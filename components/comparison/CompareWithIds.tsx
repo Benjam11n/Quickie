@@ -29,7 +29,7 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
     filter: '',
   });
 
-  const handleAddProduct = (product: Perfume) => {
+  const handleAddProduct = (product: PerfumeView) => {
     const newProducts =
       initialProducts.length >= MAX_COMPARISONS
         ? [...initialProducts.slice(1), product]

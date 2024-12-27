@@ -157,6 +157,7 @@ export interface WishlistView {
   _id: string;
   id: string;
   name: string;
+  description: string;
   author: string;
   perfumes: WishlistPerfumeView[];
 }

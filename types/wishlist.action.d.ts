@@ -1,7 +1,7 @@
 declare global {
   interface CreateWishlistParams {
     name: string;
-    perfumes: WishlistPerfume[];
+    description?: string;
   }
 
   interface UpdateWishlistParams extends CreateWishlistParams {
@@ -16,16 +16,14 @@ declare global {
     wishlistId: string;
   }
 
-  interface GetWishlistsParams {
+  interface GetUserWishlistsParams {
     userId: string;
   }
 
   interface AddToWishlistParams {
     wishlistId;
     perfumeId: string;
-    notes?: string;
     priority?: 'low' | 'medium' | 'high';
-    priceAlert?: number;
   }
 
   interface RemoveFromWishlistParams {

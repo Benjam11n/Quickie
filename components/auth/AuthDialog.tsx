@@ -4,7 +4,7 @@ import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { useSession } from 'next-auth/react';
 
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
-import { useAuthDialogStore } from '@/hooks/stores/use-auth-dialog';
+import { useAuthDialogStore } from '@/hooks/stores/use-auth-dialog-store';
 import { signInWithCredentials } from '@/lib/actions/auth.action';
 import { SignInSchema } from '@/lib/validations';
 

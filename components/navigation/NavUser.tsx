@@ -8,8 +8,10 @@ import {
   LogOut,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { useMediaQuery } from 'react-responsive';
 
+import Loading from '@/app/(root)/loading';
 import { signOut } from '@/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -22,7 +24,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ROUTES } from '@/constants/routes';
-import { useUserPerfumes } from '@/hooks/use-user-perfumes';
+import { useCollection } from '@/hooks/queries/use-collection';
+import { useUserReviews } from '@/hooks/queries/use-reviews';
 
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
@@ -39,11 +42,22 @@ export function NavUser({
   };
 }) {
   const isMobile = useMediaQuery({ maxWidth: 768 });
-  const { collections } = useUserPerfumes();
+  const { data: session } = useSession();
+  const userId = session?.user?.id || '';
+  const { data: collectionResponse, isLoading } = useCollection(userId);
+  const { data: reviewsResponse, isLoading: isLoadingReviews } =
+    useUserReviews(userId);
+
+  if (isLoading || isLoadingReviews) {
+    return <Loading />;
+  }
+
+  const collection = collectionResponse?.data;
+  const reviews = reviewsResponse?.data;
 
   const stats = {
-    reviews: collections.filter((item) => item.rating).length,
-    tried: collections.filter((item) => item.inCollection).length,
+    reviews: reviews?.reviews?.length,
+    tried: collection?.perfumes.length,
   };
 
   return (

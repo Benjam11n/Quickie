@@ -103,19 +103,19 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  {product?.categories?.map((category) => (
+                  {product?.tags?.map((tag) => (
                     <Badge
-                      key={category}
+                      key={tag.name}
                       variant="secondary"
                       className={cn(
                         'transition-colors',
-                        hoveredSection === category &&
+                        hoveredSection === tag.name &&
                           'bg-primary text-primary-foreground'
                       )}
-                      onMouseEnter={() => setHoveredSection(category)}
+                      onMouseEnter={() => setHoveredSection(tag.name)}
                       onMouseLeave={() => setHoveredSection(null)}
                     >
-                      {category}
+                      {tag.name}
                     </Badge>
                   ))}
                 </div>

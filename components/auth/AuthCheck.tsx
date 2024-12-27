@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { ReactNode } from 'react';
 
-import { useAuthDialogStore } from '@/hooks/stores/use-auth-dialog';
+import { useAuthDialogStore } from '@/hooks/stores/use-auth-dialog-store';
 
 interface AuthCheckProps {
   children: ReactNode;

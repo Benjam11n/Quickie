@@ -1,4 +1,3 @@
-import { Categories } from '@/components/Categories';
 import {
   Features,
   Hero,
@@ -6,6 +5,7 @@ import {
   FeaturedVendingLocations,
   FeaturedPerfumes,
 } from '@/components/home';
+import { Categories } from '@/components/home/Categories';
 import { getVendingMachines } from '@/lib/actions/vending-machine.action';
 
 export default async function Home() {

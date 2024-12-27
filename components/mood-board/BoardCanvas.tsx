@@ -10,7 +10,7 @@ import {
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
-import { useEditMoodboardStore } from '@/hooks/stores/use-mood-boards';
+import { useEditMoodboardStore } from '@/hooks/stores/use-edit-mood-boards-store';
 import { MoodBoardView } from '@/types';
 import { Perfume } from '@/types/fragrance';
 

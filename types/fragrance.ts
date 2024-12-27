@@ -45,24 +45,16 @@ export interface PerfumeView {
   description: string;
   affiliateLink: string;
   images: string[];
-  // TODO: Change categories to tags
-  // tgas: { name: string; count: number };
-  categories?: string[];
+  tags: {
+    name: string;
+    perfumesCount: number;
+  }[];
   notes: {
     top: OldNote[];
     middle: OldNote[];
     base: OldNote[];
   };
   scentProfile: ScentProfile;
-}
-
-export interface UserPerfume {
-  productId: string;
-  addedAt: string;
-  inCollection: boolean;
-  isFavorite: boolean;
-  rating?: number;
-  review?: string;
 }
 
 export interface Note {

@@ -3,9 +3,8 @@
 import mongoose, { Types } from 'mongoose';
 import { revalidatePath } from 'next/cache';
 
-import { IWishlistDoc } from '@/database';
 import Wishlist from '@/database/wishlist.model';
-import { Wishlist as WishlistType, WishlistView } from '@/types';
+import { WishlistView } from '@/types';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -13,15 +12,15 @@ import {
   AddToWishlistSchema,
   CreateWishlistSchema,
   DeleteWishlistSchema,
+  GetUserWishlistsSchema,
   GetWishlistSchema,
-  GetWishlistsSchema,
   RemoveFromWishlistSchema,
   UpdateWishlistSchema,
 } from '../validations';
 
 export async function addToWishlist(
   params: AddToWishlistParams
-): Promise<ActionResponse<IWishlistDoc>> {
+): Promise<ActionResponse<WishlistView>> {
   const validationResult = await action({
     params,
     schema: AddToWishlistSchema,
@@ -32,8 +31,7 @@ export async function addToWishlist(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { wishlistId, perfumeId, notes, priority, priceAlert } =
-    validationResult.params!;
+  const { wishlistId, perfumeId, priority } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
   const session = await mongoose.startSession();
@@ -48,14 +46,14 @@ export async function addToWishlist(
     }
 
     // Check authorization
-    if (wishlist.userId.toString() !== userId) {
+    if (wishlist.author.toString() !== userId) {
       throw new Error('Unauthorized');
     }
 
     // Add perfume to this specific wishlist
     await wishlist.addPerfume(
       new Types.ObjectId(perfumeId),
-      { notes, priority, priceAlert },
+      { priority },
       { session }
     );
 
@@ -64,7 +62,7 @@ export async function addToWishlist(
     // Get updated wishlist with populated data
     const updatedWishlist = await Wishlist.findById(wishlistId).populate({
       path: 'perfumes.perfumeId',
-      select: 'name brand price images',
+      select: 'name brand price images affiliateLink',
     });
 
     return {
@@ -91,7 +89,7 @@ export async function addToWishlist(
 
 export async function removeFromWishlist(
   params: RemoveFromWishlistParams
-): Promise<ActionResponse<IWishlistDoc>> {
+): Promise<ActionResponse<WishlistView>> {
   const validationResult = await action({
     params,
     schema: RemoveFromWishlistSchema,
@@ -109,14 +107,14 @@ export async function removeFromWishlist(
   session.startTransaction();
 
   try {
-    const wishlist = await Wishlist.findOne({ wishlistId });
+    const wishlist = await Wishlist.findById(wishlistId);
 
     if (!wishlist) {
       throw new Error('Wishlist not found');
     }
 
     // Check authorization
-    if (wishlist.userId.toString() !== userId) {
+    if (wishlist.author.toString() !== userId) {
       throw new Error('Unauthorized');
     }
 
@@ -137,7 +135,7 @@ export async function removeFromWishlist(
 
 export async function createWishlist(
   params: CreateWishlistParams
-): Promise<ActionResponse<IWishlistDoc>> {
+): Promise<ActionResponse<WishlistView>> {
   const validationResult = await action({
     params,
     schema: CreateWishlistSchema,
@@ -148,14 +146,14 @@ export async function createWishlist(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { name, perfumes } = validationResult.params!;
+  const { name, description } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
   const session = await mongoose.startSession();
   session.startTransaction();
 
   try {
     const [wishlist] = await Wishlist.create(
-      [{ name, perfumes, author: userId }],
+      [{ name, description, author: userId }],
       { session }
     );
 
@@ -185,7 +183,7 @@ export async function createWishlist(
 
 export async function updateWishlist(
   params: UpdateWishlistParams
-): Promise<ActionResponse<IWishlistDoc>> {
+): Promise<ActionResponse<WishlistView>> {
   const validationResult = await action({
     params,
     schema: UpdateWishlistSchema,
@@ -196,7 +194,7 @@ export async function updateWishlist(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { name, perfumes, wishlistId } = validationResult.params!;
+  const { name, wishlistId, description } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -208,17 +206,13 @@ export async function updateWishlist(
       throw new Error('Wishlist not found');
     }
 
-    if (wishlist.userId.toString() !== userId) {
+    if (wishlist.author.toString() !== userId) {
       throw new Error('Unauthorized');
     }
 
-    const hasChanges =
-      wishlist.name !== name ||
-      JSON.stringify(wishlist.perfumes) !== JSON.stringify(perfumes);
-
-    if (hasChanges) {
+    if (wishlist.name !== name || wishlist.description !== description) {
       wishlist.name = name;
-      wishlist.perfumes = perfumes;
+      wishlist.description = description;
       await wishlist.save({ session });
     }
 
@@ -226,7 +220,7 @@ export async function updateWishlist(
 
     const updatedWishlist = await Wishlist.findById(wishlistId).populate({
       path: 'perfumes.perfumeId',
-      select: 'name brand price images',
+      select: 'name brand price images affiliateLink',
     });
 
     return {
@@ -288,7 +282,7 @@ export async function deleteWishlist(
 
 export async function getWishlist(
   params: GetWishlistParams
-): Promise<ActionResponse<WishlistType>> {
+): Promise<ActionResponse<WishlistView>> {
   const validationResult = await action({
     params,
     schema: GetWishlistSchema,
@@ -309,7 +303,11 @@ export async function getWishlist(
       })
       .populate({
         path: 'perfumes.perfumeId',
-        select: 'name brand price images',
+        select: 'name brand price images affiliateLink',
+        populate: {
+          path: 'brand',
+          select: 'name',
+        },
       });
 
     if (!wishlist) {
@@ -323,11 +321,12 @@ export async function getWishlist(
 }
 
 export async function getUserWishlists(
-  params: GetWishlistsParams & PaginatedSearchParams
-): Promise<ActionResponse<{ wishlists: WishlistView[]; isNext: boolean }>> {
+  params: GetUserWishlistsParams
+): Promise<ActionResponse<WishlistView[]>> {
   const validationResult = await action({
     params,
-    schema: GetWishlistsSchema,
+    schema: GetUserWishlistsSchema,
+    authorize: true,
   });
 
   if (validationResult instanceof Error) {
@@ -335,66 +334,21 @@ export async function getUserWishlists(
   }
 
   const { userId } = validationResult.params!;
-  const { page = 1, pageSize = 10, query = '' } = params;
-  const skip = (Number(page) - 1) * pageSize;
-  const limit = Number(pageSize);
 
   try {
-    const queryConditions = {
-      author: new Types.ObjectId(userId),
-      ...(query && {
-        name: { $regex: new RegExp(query, 'i') },
-      }),
-    };
-
-    // Get total count for pagination
-    const totalWishlists = await Wishlist.countDocuments(queryConditions);
-
-    // Get wishlists with populated data and sorted by date
-    const wishlists = await Wishlist.find(queryConditions)
+    const wishlists = await Wishlist.find({ author: userId })
       .populate({
         path: 'author',
         select: 'name image',
       })
       .populate({
         path: 'perfumes.perfumeId',
-        select: 'name brand price images notes tags',
-        populate: [
-          {
-            path: 'notes.top',
-            select: 'name',
-          },
-          {
-            path: 'notes.middle',
-            select: 'name',
-          },
-          {
-            path: 'notes.base',
-            select: 'name',
-          },
-          {
-            path: 'rating',
-            select: 'average count',
-          },
-          {
-            path: 'tags',
-            select: 'name',
-          },
-        ],
-      })
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .lean();
-
-    const isNext = totalWishlists > skip + wishlists.length;
+        select: 'name brand price images affiliateLink',
+      });
 
     return {
       success: true,
-      data: {
-        wishlists: JSON.parse(JSON.stringify(wishlists)),
-        isNext,
-      },
+      data: JSON.parse(JSON.stringify(wishlists)),
     };
   } catch (error) {
     return handleError(error) as ErrorResponse;

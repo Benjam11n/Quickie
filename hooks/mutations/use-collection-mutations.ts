@@ -6,11 +6,11 @@ import {
   removeFromCollection,
 } from '@/lib/actions/collection.action';
 
-export function useCollectionMutations(perfumeId: string) {
+export function useCollectionMutations() {
   const queryClient = useQueryClient();
 
   const addToCollectionMutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (perfumeId: string) => {
       const result = await addToCollection({
         perfumeId,
       });
@@ -48,7 +48,7 @@ export function useCollectionMutations(perfumeId: string) {
   });
 
   const removeFromCollectionMutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (perfumeId: string) => {
       const result = await removeFromCollection({
         perfumeId,
       });

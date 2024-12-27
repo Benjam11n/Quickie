@@ -411,16 +411,12 @@ export const PaginatedSearchParamsSchema = z.object({
   sort: z.string().optional(),
 });
 
-const WishlistPerfumeSchema = z.object({
-  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
-  notes: z.string().optional(),
-  priority: z.enum(['low', 'medium', 'high']).optional(),
-  priceAlert: z.number().min(0).optional(),
-});
-
 export const CreateWishlistSchema = z.object({
   name: z.string().min(1, { message: 'Name is required.' }),
-  perfumes: z.array(WishlistPerfumeSchema),
+  description: z
+    .string()
+    .max(2000, { message: 'Description cannot exceed 2000 characters.' })
+    .optional(),
 });
 
 export const UpdateWishlistSchema = CreateWishlistSchema.extend({
@@ -433,16 +429,15 @@ export const GetWishlistSchema = z.object({
   wishlistId: z.string().min(1, { message: 'Wishlist ID is required.' }),
 });
 
-export const GetWishlistsSchema = z.object({
+export const GetUserWishlistsSchema = z.object({
   userId: z.string().min(1, { message: 'User ID is required.' }),
 });
 
 export const AddToWishlistSchema = z.object({
   wishlistId: z.string().min(1, { message: 'Wishlist ID is required.' }),
   perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
-  notes: z.string().optional(),
   priority: z.enum(['low', 'medium', 'high']).optional(),
-  priceAlert: z.number().min(0).optional(),
+  // priceAlert: z.number().min(0).optional(),
 });
 
 export const RemoveFromWishlistSchema = AddToWishlistSchema;

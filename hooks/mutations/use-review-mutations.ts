@@ -26,14 +26,20 @@ export function useReviewMutations(perfumeId: string, review?: ReviewView) {
 
       return result.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success(review ? 'Review Updated' : 'Review Created', {
         description: review
           ? 'Your review has been updated successfully!'
           : 'Review created successfully!',
       });
+
       queryClient.invalidateQueries({
-        queryKey: ['reviews', perfumeId],
+        queryKey: ['reviews', 'user', data?.author],
+        refetchType: 'all',
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ['reviews', perfumeId, data?.author],
       });
     },
     onError: (error) => {
