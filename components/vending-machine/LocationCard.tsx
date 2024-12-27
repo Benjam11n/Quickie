@@ -116,7 +116,7 @@ export function LocationCard({
                       <div>
                         <p className="font-medium">{product.name}</p>
                         <p className="text-xs text-muted-foreground">
-                          {product.brand}
+                          {product.brand.name}
                         </p>
                       </div>
                       <Badge variant={item.stock > 3 ? 'default' : 'secondary'}>

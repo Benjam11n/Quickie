@@ -63,6 +63,10 @@ export async function addToWishlist(
     const updatedWishlist = await Wishlist.findById(wishlistId).populate({
       path: 'perfumes.perfumeId',
       select: 'name brand price images affiliateLink',
+      populate: {
+        path: 'brand',
+        select: 'name',
+      },
     });
 
     return {
@@ -166,6 +170,10 @@ export async function createWishlist(
     const populatedWishlist = await Wishlist.findById(wishlist._id).populate({
       path: 'perfumes.perfumeId',
       select: 'name brand price images',
+      populate: {
+        path: 'brand',
+        select: 'name',
+      },
     });
 
     return {
@@ -221,6 +229,10 @@ export async function updateWishlist(
     const updatedWishlist = await Wishlist.findById(wishlistId).populate({
       path: 'perfumes.perfumeId',
       select: 'name brand price images affiliateLink',
+      populate: {
+        path: 'brand',
+        select: 'name',
+      },
     });
 
     return {
@@ -344,6 +356,10 @@ export async function getUserWishlists(
       .populate({
         path: 'perfumes.perfumeId',
         select: 'name brand price images affiliateLink',
+        populate: {
+          path: 'brand',
+          select: 'name',
+        },
       });
 
     return {

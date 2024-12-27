@@ -71,7 +71,7 @@ export interface VendingMachineView {
       _id: string;
       id: string;
       name: string;
-      brand: string;
+      brand: { _id: string; name: string };
       price: number;
       images: string[];
     };

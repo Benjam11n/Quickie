@@ -1,14 +1,11 @@
 'use client';
 
 import L from 'leaflet';
-import { notFound } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
-import Loading from '@/app/(root)/loading';
 import { Badge } from '@/components/ui/badge';
-import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { VendingMachineView } from '@/types';
 
 // Fix for default marker icon
@@ -74,32 +71,9 @@ export function LocationMap({
   selectedLocation,
   onLocationSelect,
 }: LocationMapProps) {
-  const { data: perfumesResponse, isLoading } = usePerfumes({
-    page: 1,
-    pageSize: 100,
-    query: '',
-    filter: '',
-  });
-
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (!perfumesResponse?.data || !mounted) {
-    return notFound();
-  }
-
-  const { perfumes } = perfumesResponse.data || {};
-
   return (
     <MapContainer
-      center={[40.7128, -74.006]} // Default to NYC
+      center={[1.3521, 103.8198]}
       zoom={13}
       style={{ height: '100%', width: '100%' }}
     >
@@ -135,9 +109,8 @@ export function LocationMap({
               <div className="space-y-2">
                 <h4 className="text-sm font-medium">Available Fragrances:</h4>
                 {location.inventory.map((item) => {
-                  const product = perfumes.find(
-                    (p) => p.id === item.perfumeId._id
-                  );
+                  const product = item.perfumeId;
+
                   if (!product) return null;
 
                   return (
@@ -148,7 +121,7 @@ export function LocationMap({
                       <div>
                         <p className="font-medium">{product.name}</p>
                         <p className="text-xs text-muted-foreground">
-                          {product.brand}
+                          {product.brand.name}
                         </p>
                       </div>
                       <Badge variant={item.stock > 3 ? 'default' : 'secondary'}>

@@ -82,6 +82,10 @@ export async function updateVendingMachine(
     ).populate({
       path: 'inventory.perfumeId',
       select: 'name brand price images description',
+      populate: {
+        path: 'brand',
+        select: 'name',
+      },
     });
 
     if (!vendingMachine) {
@@ -123,6 +127,10 @@ export async function updateVendingMachine(
       .populate({
         path: 'inventory.perfumeId',
         select: 'name brand price images description',
+        populate: {
+          path: 'brand',
+          select: 'name',
+        },
       })
       .lean();
 
@@ -159,6 +167,10 @@ export async function getVendingMachine(
     ).populate({
       path: 'inventory.perfumeId',
       select: 'name brand price images description',
+      populate: {
+        path: 'brand',
+        select: 'name',
+      },
     });
 
     if (!vendingMachine) {
@@ -196,6 +208,10 @@ export async function getVendingMachines(
       .populate({
         path: 'inventory.perfumeId',
         select: '_id id name brand price images',
+        populate: {
+          path: 'brand',
+          select: 'name',
+        },
       })
       .lean()
       .skip(skip)
