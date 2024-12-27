@@ -17,11 +17,12 @@ export const ROUTES = {
   NOTES_COMPARE: (ids: string) => `/compare/notes/${ids}`,
 
   // Mood boards
+  USER_PROFILE: `/profile`,
   PROFILE: (username: string) => `/profile/${username}`,
-  PROFILE_SETTINGS: (username: string) => `/profile/${username}/settings`,
+  PROFILE_SETTINGS: `/profile/settings`,
   BOARDS_NEW: '/boards/new',
   BOARDS_EDIT: (id: string) => `/boards/${id}/edit`,
-  BOARDS_VIEW: (id: string) => `/boards/${id}/view`,
+  BOARDS_VIEW: (id: string) => `/boards/${id}`,
 
   // Wishlists
   WISHLISTS: 'wishlists',

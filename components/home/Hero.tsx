@@ -13,45 +13,6 @@ export function Hero() {
 
   return (
     <div className="relative flex min-h-[80vh] items-center">
-      {/* Background with animated gradient and pattern */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] dark:bg-[linear-gradient(to_right,#1f2937_1px,transparent_1px),linear-gradient(to_bottom,#1f2937_1px,transparent_1px)]"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-pink-500/20 via-purple-500/20 to-transparent"></div>
-        <motion.div
-          className="animate-blob absolute -left-4 top-0 size-72 rounded-full bg-pink-500 opacity-70 mix-blend-multiply blur-xl"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, 50, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-          }}
-        />
-        <motion.div
-          className="animate-blob animation-delay-2000 absolute -right-4 top-0 size-96 rounded-full bg-purple-500 opacity-80 mix-blend-multiply blur-xl"
-          animate={{
-            x: [0, -100, 0],
-            y: [0, 100, 0],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-          }}
-        />
-        <motion.div
-          className="animate-blob animation-delay-4000 absolute bottom-32 left-20 size-96 rounded-full bg-indigo-500 opacity-80 mix-blend-multiply blur-xl"
-          animate={{
-            x: [0, 50, 0],
-            y: [0, -50, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-          }}
-        />
-      </div>
-
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           {/* Left Column - Text Content */}
@@ -99,9 +60,7 @@ export function Hero() {
               >
                 <Link
                   href={
-                    session?.user?.id
-                      ? ROUTES.PROFILE(session?.user?.id)
-                      : ROUTES.SIGN_IN
+                    session?.user?.id ? ROUTES.USER_PROFILE : ROUTES.SIGN_IN
                   }
                 >
                   <Star className="mr-2 size-5" />

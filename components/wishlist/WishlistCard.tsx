@@ -21,10 +21,12 @@ import {
 import { ROUTES } from '@/constants/routes';
 import { WishlistView } from '@/types';
 
+import ConfirmationDialog from '../ConfirmationDialog';
+
 interface WishlistCardProps {
   wishlist: WishlistView;
-  onDelete?: () => void;
-  onEdit?: () => void;
+  onDelete: () => void;
+  onEdit: () => void;
 }
 
 export function WishlistCard({
@@ -48,7 +50,16 @@ export function WishlistCard({
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem onClick={onEdit}>Edit</DropdownMenuItem>
-              <DropdownMenuItem onClick={onDelete}>Delete</DropdownMenuItem>
+
+              <ConfirmationDialog
+                trigger={
+                  <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                    Delete
+                  </DropdownMenuItem>
+                }
+                item="review"
+                onConfirm={onDelete}
+              />
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

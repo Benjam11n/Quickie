@@ -33,6 +33,7 @@ export default async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     '/profile',
+    '/profile/settings',
     '/wishlists/:path*',
     '/collection/:path*',
     '/boards/:path/edit',

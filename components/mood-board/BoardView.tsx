@@ -54,7 +54,7 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
         <div className="mb-4 flex items-center gap-4">
           {isOwner && user?.id ? (
             <Button variant="ghost" size="icon" asChild>
-              <Link href={ROUTES.PROFILE(user.id)}>
+              <Link href={ROUTES.USER_PROFILE}>
                 <ArrowLeft className="size-4" />
               </Link>
             </Button>

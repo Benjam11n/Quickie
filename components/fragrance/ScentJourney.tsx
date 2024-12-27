@@ -30,7 +30,7 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
   const [playbackSpeed, setPlaybackSpeed] = useState(1); // Speed multiplier
 
   // Combine all notes into a single lookup object
-  const allNotes = useMemo(
+  const allNotes: { [key: string]: Note } = useMemo(
     () => ({
       ...notes.top.reduce((acc, note) => ({ ...acc, [note.name]: note }), {}),
       ...notes.middle.reduce(
@@ -81,7 +81,7 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
   }: {
     cx: number;
     cy: number;
-    payload: any;
+    payload: TimelinePoint;
   }) => {
     if (payload.time === Math.floor(currentTime)) {
       return (
@@ -207,7 +207,7 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
               stroke="hsl(var(--primary))"
               fill="url(#intensityGradient)"
               strokeWidth={2}
-              dot={<CustomDot />}
+              dot={(props) => <CustomDot key={props.payload.time} {...props} />}
             />
           </AreaChart>
         </ResponsiveContainer>

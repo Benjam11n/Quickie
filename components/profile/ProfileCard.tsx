@@ -73,7 +73,7 @@ const ProfileCard = ({ username, collectionNum, stats }: ProfileCardProps) => {
               Follow
             </Button>
             <Button variant="outline" size="icon">
-              <Link href={ROUTES.PROFILE_SETTINGS(username as string)}>
+              <Link href={ROUTES.PROFILE_SETTINGS}>
                 <Settings className="size-4" />
               </Link>
             </Button>

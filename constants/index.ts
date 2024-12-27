@@ -3,7 +3,6 @@ import {
   Search,
   Scale,
   MapPin,
-  Heart,
   Star,
   Grid,
   TrendingUp,
@@ -34,14 +33,9 @@ export const getMainNavItems = (user?: User) => [
   { href: ROUTES.COMPARE, label: 'Compare', icon: Scale },
   { href: ROUTES.LOCATIONS, label: 'Vending Machines', icon: MapPin },
   {
-    href: user?.id ? ROUTES.PROFILE(user.id) : '/sign-in',
+    href: user ? ROUTES.USER_PROFILE : ROUTES.SIGN_IN,
     label: 'My Collection',
     icon: Grid,
-  },
-  {
-    href: user?.id ? `${ROUTES.PROFILE(user.id)}?tab=favorites` : '/sign-in',
-    label: 'Wishlist',
-    icon: Heart,
   },
 ];
 

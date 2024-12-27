@@ -6,6 +6,7 @@ import { SettingsForm } from '@/components/settings/SettingsForm';
 export default async function SettingsPage() {
   const session = await auth();
 
+  // Middleware already protects this route
   if (!session || !session.user) {
     redirect('/sign-in');
   }

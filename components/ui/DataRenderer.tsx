@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 import { Button } from './button';
 import { DEFAULT_EMPTY, DEFAULT_ERROR } from '@/constants/states';
+import { Card } from './card';
 
 interface Props<T> {
   success: boolean;
@@ -42,31 +43,32 @@ const StateSkeleton = ({
   message,
   button,
 }: StateSkeletonProps) => (
-  <div className="my-16 flex w-full flex-col items-center justify-center sm:mt-36">
-    <>
+  <div className="flex flex-col items-center justify-center w-full my-16 sm:mt-36">
+    <div className="relative w-80 h-64">
       <Image
         src={image.dark}
         alt={image.alt}
-        width={270}
-        height={200}
-        className="hidden object-contain dark:block"
+        layout="fill"
+        objectFit="contain"
+        className="hidden dark:block"
       />
       <Image
         src={image.light}
         alt={image.alt}
-        width={270}
-        height={200}
-        className="block object-contain dark:hidden"
+        layout="fill"
+        objectFit="contain"
+        className="block dark:hidden"
       />
-    </>
-
-    <h2 className="h2-bold text-dark200_light900 mt-8">{title}</h2>
-    <p className="body-regular text-dark500_light700 my-3.5 max-w-md text-center">
+    </div>
+    <h2 className="mt-8 text-4xl holographic-text font-bold text-dark200 dark:text-light900">
+      {title}
+    </h2>
+    <p className="mt-8 my-3.5 max-w-md text-center text-foreground">
       {message}
     </p>
     {button && (
       <Link href={button.href}>
-        <Button variant="outline" className="mt-8">
+        <Button size="lg" className="mt-8">
           {button.text}
         </Button>
       </Link>

@@ -16,7 +16,7 @@ import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { useEditMoodboardStore } from '@/hooks/stores/use-edit-mood-boards-store';
 import { updateMoodBoard } from '@/lib/actions/moodboard.action';
 import { MoodBoardView } from '@/types';
-import { Perfume } from '@/types/fragrance';
+import { PerfumeView } from '@/types/fragrance';
 
 interface EditBoardPageProps {
   initialBoard: MoodBoardView;
@@ -25,7 +25,6 @@ interface EditBoardPageProps {
 
 export default function EditBoardPageClient({
   initialBoard,
-  session,
 }: EditBoardPageProps) {
   const { data: perfumesResponse, isLoading } = usePerfumes({
     page: 1,
@@ -84,7 +83,7 @@ export default function EditBoardPageClient({
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [hasChanges]);
 
-  const handleAddPerfume = (product: Perfume) => {
+  const handleAddPerfume = (product: PerfumeView) => {
     if (selectedSquare !== null) {
       const x = selectedSquare % 3;
       const y = Math.floor(selectedSquare / 3);
@@ -112,7 +111,7 @@ export default function EditBoardPageClient({
     <div className="container py-10">
       <div className="mb-8 flex items-center gap-4">
         <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.PROFILE(session?.user?.id ?? '')}>
+          <Link href={ROUTES.USER_PROFILE}>
             <ArrowLeft className="size-4" />
           </Link>
         </Button>

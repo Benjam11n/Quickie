@@ -67,7 +67,7 @@ export default async function Footer() {
               {user?.id && (
                 <li>
                   <Link
-                    href={ROUTES.PROFILE(user.id)}
+                    href={ROUTES.USER_PROFILE}
                     className="transition-colors hover:text-primary"
                   >
                     My Collection

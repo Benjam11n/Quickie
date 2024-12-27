@@ -1,5 +1,7 @@
 'use client';
 
+import { DialogDescription } from '@radix-ui/react-dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { Sparkles, Menu, LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -30,6 +32,11 @@ const MobileSidebar = () => {
       <SheetTrigger className="cursor-pointer rounded-md p-3 hover:bg-accent hover:text-accent-foreground lg:hidden">
         <Menu className="size-5" />
       </SheetTrigger>
+      <VisuallyHidden>
+        <DialogDescription>
+          Sidebar for navigation on mobile view
+        </DialogDescription>
+      </VisuallyHidden>
       <SheetContent side="right" className="w-full max-w-xs p-0">
         <div className="flex h-full flex-col">
           {/* Header */}

@@ -88,7 +88,7 @@ export function NavUser({
         {user && (
           <DropdownMenuLabel>
             <SheetClose asChild>
-              <Link href={ROUTES.PROFILE(user.id)}>
+              <Link href={ROUTES.USER_PROFILE}>
                 <div className="py-1">
                   <div className="mb-3 flex items-center gap-3">
                     <Avatar className="m-2 size-12 rounded-lg">
@@ -121,7 +121,7 @@ export function NavUser({
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <SheetClose asChild>
-            <Link href={ROUTES.PROFILE(user.id)}>
+            <Link href={ROUTES.USER_PROFILE}>
               <DropdownMenuItem>
                 <BadgeCheck />
                 Profile

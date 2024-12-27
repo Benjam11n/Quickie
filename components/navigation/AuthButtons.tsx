@@ -12,17 +12,17 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 export function AuthButtons() {
   const { data: session } = useSession();
 
-  if (session && session.user && session.user.id && session.user.name) {
+  if (session && session?.user?.name) {
     return (
       <>
         <Button asChild variant="ghost" size="sm">
-          <Link href={ROUTES.PROFILE(session.user.id)}>
+          <Link href={ROUTES.USER_PROFILE}>
             <User className="mr-2 size-4" />
             Profile
           </Link>
         </Button>
 
-        <Link href={ROUTES.PROFILE(session.user.id)}>
+        <Link href={ROUTES.USER_PROFILE}>
           <Avatar className="my-3 size-8">
             <AvatarImage src="/images/default-avatar.png" />
             <AvatarFallback>

@@ -59,7 +59,6 @@ export interface VendingLocation {
 
 export interface VendingMachineView {
   _id: string;
-  id: string;
   location: {
     type: 'Point';
     coordinates: [number, number];

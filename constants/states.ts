@@ -23,10 +23,6 @@ export const EMPTY_VENDING_MACHINES = {
   title: 'No Vending Machines Found Nearby',
   message:
     "We haven't placed any perfume vending machines in this area yet. Check back soon as we expand our locations!",
-  button: {
-    text: 'View All Locations',
-    href: ROUTES.LOCATIONS,
-  },
 };
 
 export const EMPTY_CATALOG = {
@@ -50,8 +46,8 @@ export const EMPTY_WISHLISTS = {
   message:
     "Start adding perfumes to your wishlist to keep track of fragrances you'd love to try.",
   button: {
-    text: 'Explore Perfumes',
-    href: ROUTES.CATALOG,
+    text: 'Create your first wishlist!',
+    href: ROUTES.WISHLISTS_NEW,
   },
 };
 

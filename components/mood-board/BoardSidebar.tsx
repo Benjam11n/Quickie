@@ -10,11 +10,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useEditMoodboardStore } from '@/hooks/stores/use-edit-mood-boards-store';
-import { Perfume } from '@/types/fragrance';
+import { PerfumeView } from '@/types/fragrance';
 
 interface BoardSidebarProps {
-  perfumes: Perfume[];
-  onAddPerfume: (product: Perfume) => void;
+  perfumes: PerfumeView[];
+  onAddPerfume: (product: PerfumeView) => void;
   selectedSquare: number | null;
 }
 
@@ -139,7 +139,7 @@ export function BoardSidebar({
                     <div className="text-left">
                       <p className="text-sm font-medium">{product.name}</p>
                       <p className="text-xs text-muted-foreground">
-                        {product.brand}
+                        {product.brand.name}
                       </p>
                     </div>
                   </button>

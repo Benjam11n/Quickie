@@ -22,13 +22,13 @@ const icon = L.icon({
 });
 
 interface LocationMapProps {
-  locations: VendingMachineView[];
+  vendingMachines: VendingMachineView[];
   selectedLocation: string | null;
   onLocationSelect: (id: string) => void;
 }
 
 export function LocationMap({
-  locations,
+  vendingMachines,
   selectedLocation,
   onLocationSelect,
 }: LocationMapProps) {
@@ -43,33 +43,35 @@ export function LocationMap({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <MapController
-        locations={locations}
+        vendingMachines={vendingMachines}
         selectedLocation={selectedLocation}
       />
-      {locations.map((location) => (
+      {vendingMachines.map((vendingMachine) => (
         <Marker
-          key={location._id}
+          key={vendingMachine._id}
           position={[
-            location.location.coordinates[1],
-            location.location.coordinates[0],
+            vendingMachine.location.coordinates[1],
+            vendingMachine.location.coordinates[0],
           ]}
           icon={icon}
           eventHandlers={{
-            click: () => onLocationSelect(location.id),
+            click: () => onLocationSelect(vendingMachine._id),
           }}
         >
           <Popup>
             <div className="space-y-4 p-4">
               <div>
-                <h3 className="font-semibold">{location.location.address}</h3>
+                <h3 className="font-semibold">
+                  {vendingMachine.location.address}
+                </h3>
                 <p className="text-sm text-muted-foreground">
-                  {location.location.address}
+                  {vendingMachine.location.address}
                 </p>
               </div>
 
               <div className="space-y-2">
                 <h4 className="text-sm font-medium">Available Fragrances:</h4>
-                {location.inventory.map((item) => {
+                {vendingMachine.inventory.map((item) => {
                   const product = item.perfume;
 
                   if (!product) return null;

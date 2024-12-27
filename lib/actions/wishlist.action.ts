@@ -282,7 +282,10 @@ export async function deleteWishlist(
     await session.commitTransaction();
 
     revalidatePath('/wishlists');
-    return { success: true, data: { _id: deletedWishlist._id } };
+    return {
+      success: true,
+      data: { _id: deletedWishlist._id.toString() },
+    };
   } catch (error) {
     await session.abortTransaction();
 

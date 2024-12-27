@@ -16,6 +16,7 @@ import { ReviewInteractionType, ReviewView } from '@/types';
 
 import { RatingDistribution } from './RatingDistribution';
 import { RatingMetrics } from './RatingMetrics';
+import ConfirmationDialog from '../ConfirmationDialog';
 
 interface ReviewCardProps {
   perfumeId: string;
@@ -170,21 +171,22 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
             {isUpdate ? 'Update Review' : 'Submit Rating'}
           </Button>
           {isUpdate && (
-            <Button
-              variant="destructive"
-              className="gap-2"
-              onClick={() => {
+            <ConfirmationDialog
+              trigger={
+                <Button variant="destructive" className="gap-2">
+                  Delete
+                </Button>
+              }
+              item="review"
+              onConfirm={() => {
                 deleteReview.mutate();
                 reset();
               }}
-            >
-              Delete
-            </Button>
+            />
           )}
         </motion.div>
       </div>
 
-      {/* Rating Distribution */}
       <RatingDistribution />
     </Card>
   );
