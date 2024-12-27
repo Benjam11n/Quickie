@@ -47,7 +47,7 @@ export function RatingsList({ reviews }: RatingsListProps) {
                     {product.name}
                   </Link>
                   <p className="text-sm text-muted-foreground">
-                    {product.brand}
+                    {product.brand.name}
                   </p>
                 </div>
 

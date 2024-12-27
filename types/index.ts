@@ -120,7 +120,7 @@ export interface ReviewView {
     _id: string;
     id: string;
     name: string;
-    brand: string;
+    brand: { name: string };
     images: string[];
     price: number;
   };
