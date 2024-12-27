@@ -108,7 +108,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    padding: 1px; /* Border width */
+    padding: 2.5px; /* Border width */
     border-radius: inherit;
     background: linear-gradient(
       to right,

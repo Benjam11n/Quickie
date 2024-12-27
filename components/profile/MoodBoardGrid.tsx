@@ -9,7 +9,7 @@ import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
 import { MoodBoard } from '@/types';
 
-import { BoardList } from './BoardList';
+import { BoardList } from '../mood-board/BoardList';
 
 interface MoodBoardGridProps {
   boards: MoodBoard[];

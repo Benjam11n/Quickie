@@ -2,7 +2,7 @@
 import { WishlistPerfume, WishlistPerfumeView } from '@/database';
 
 export interface PerfumePosition {
-  perfumeId: string; // ObjectId as string
+  perfume: string; // ObjectId as string
   position: {
     x: number;
     y: number;
@@ -67,7 +67,7 @@ export interface VendingMachineView {
     area: string;
   };
   inventory: {
-    perfumeId: {
+    perfume: {
       _id: string;
       id: string;
       name: string;
@@ -99,7 +99,7 @@ export interface Review {
   _id: string;
   id: string;
   author: string;
-  perfumeId: string;
+  perfume: string;
   vendingMachineId?: string;
   rating: {
     sillage: number;
@@ -117,7 +117,7 @@ export interface ReviewView {
   _id: string;
   id: string;
   author: string;
-  perfumeId: {
+  perfume: {
     _id: string;
     id: string;
     name: string;
@@ -164,21 +164,23 @@ export interface WishlistView {
 
 export interface Collection {
   author: string;
-  perfumes: { perfumeId: string; addedAt: Date };
+  perfumes: { perfume: string; addedAt: Date };
+}
+
+export interface CollectionPerfumeView {
+  perfume: {
+    _id: string;
+    id: string;
+    name: string;
+    brand: { name: string };
+    price: number;
+    affiliateLink: string;
+    images: string[];
+  };
+  addedAt: Date;
 }
 
 export interface CollectionView {
   author: string;
-  perfumes: {
-    perfumeId: {
-      _id: string;
-      id: string;
-      name: string;
-      brand: string;
-      price: number;
-      affiliateLink: string;
-      images: string[];
-    };
-    addedAt: Date;
-  }[];
+  perfumes: CollectionPerfumeView[];
 }

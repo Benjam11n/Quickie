@@ -112,8 +112,8 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
             {board.perfumes.map((perfume) => (
               <Link
-                key={perfume.perfumeId}
-                href={`/fragrances/${perfume.perfumeId}`}
+                key={perfume.perfume}
+                href={`/fragrances/${perfume.perfume}`}
                 className="group relative aspect-square overflow-hidden rounded-lg bg-accent/10"
               >
                 {/* You can add perfume image here */}

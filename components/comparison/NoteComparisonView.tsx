@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
-import { Perfume, PerfumeView } from '@/types/fragrance';
+import { PerfumeView } from '@/types/fragrance';
 
 import { StarRating } from '../StarRating';
 

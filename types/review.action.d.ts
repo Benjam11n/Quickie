@@ -1,6 +1,6 @@
 declare global {
   interface CreateReviewParams {
-    perfumeId: Types.ObjectId;
+    perfume: Types.ObjectId;
     vendingMachineId?: Types.ObjectId;
     rating: {
       sillage: number;
@@ -34,7 +34,7 @@ declare global {
   }
 
   interface GetReviewParams {
-    perfumeId: string;
+    perfume: string;
     userId: string;
   }
 
@@ -43,7 +43,7 @@ declare global {
   }
 
   interface GetPerfumeReviewsParams {
-    perfumeId: string;
+    perfume: string;
   }
 }
 

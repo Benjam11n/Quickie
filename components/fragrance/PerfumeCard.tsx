@@ -4,19 +4,19 @@ import { Heart, Check, ExternalLink, Scale, Bookmark } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import { StarRating } from '@/components/StarRating';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
+import { useWishlists } from '@/hooks/queries/use-wishlists';
 import { cn } from '@/lib/utils';
 import { ReviewView } from '@/types';
 
 import AffiliateNotice from './AffiliateNotice';
 import { AuthCheck } from '../auth/AuthCheck';
-import { useWishlists } from '@/hooks/queries/use-wishlists';
-import { useSession } from 'next-auth/react';
 
 interface PerfumeCardProps {
   // Core perfume data (always required)
@@ -166,7 +166,7 @@ export function PerfumeCard({
 
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
-            <span className="holographic-text font-bold text-lg">${price}</span>
+            <span className="holographic-text text-lg font-bold">${price}</span>
 
             {interactive && (
               <div className="flex gap-2">

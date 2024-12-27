@@ -1,5 +1,4 @@
 import { ROUTES } from '@/constants/routes';
-import { IMoodBoard } from '@/database';
 import { IAccount } from '@/database/account.model';
 import { IUser } from '@/database/user.model';
 
@@ -64,21 +63,21 @@ export const api = {
     delete: (id: string) =>
       fetchHandler(`${API_BASE_URL}/accounts/${id}`, { method: 'DELETE' }),
   },
-  moodboards: {
-    getAll: () => fetchHandler(`${API_BASE_URL}/moodboards`),
-    getById: (id: string) =>
-      fetchHandler<IMoodBoard>(`${API_BASE_URL}/moodboards/${id}`),
-    create: (moodboardData: Partial<IMoodBoard>) =>
-      fetchHandler(`${API_BASE_URL}/moodboards`, {
-        method: 'POST',
-        body: JSON.stringify(moodboardData),
-      }),
-    update: (id: string, moodboardData: Partial<IMoodBoard>) =>
-      fetchHandler(`${API_BASE_URL}/moodboards/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(moodboardData),
-      }),
-    delete: (id: string) =>
-      fetchHandler(`${API_BASE_URL}/moodboards/${id}`, { method: 'DELETE' }),
-  },
+  // moodboards: {
+  //   getAll: () => fetchHandler(`${API_BASE_URL}/moodboards`),
+  //   getById: (id: string) =>
+  //     fetchHandler<IMoodBoard>(`${API_BASE_URL}/moodboards/${id}`),
+  //   create: (moodboardData: Partial<IMoodBoard>) =>
+  //     fetchHandler(`${API_BASE_URL}/moodboards`, {
+  //       method: 'POST',
+  //       body: JSON.stringify(moodboardData),
+  //     }),
+  //   update: (id: string, moodboardData: Partial<IMoodBoard>) =>
+  //     fetchHandler(`${API_BASE_URL}/moodboards/${id}`, {
+  //       method: 'PUT',
+  //       body: JSON.stringify(moodboardData),
+  //     }),
+  //   delete: (id: string) =>
+  //     fetchHandler(`${API_BASE_URL}/moodboards/${id}`, { method: 'DELETE' }),
+  // },
 };

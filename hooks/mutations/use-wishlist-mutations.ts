@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 
-import { ROUTES } from '@/constants/routes';
 import {
   addToWishlist,
   createWishlist,
+  deleteWishlist,
   removeFromWishlist,
   updateWishlist,
 } from '@/lib/actions/wishlist.action';
@@ -13,7 +12,6 @@ import { WishlistView } from '@/types';
 
 export function useWishlistMutations() {
   const queryClient = useQueryClient();
-  const router = useRouter();
 
   const createWishlistMutation = useMutation({
     mutationFn: async (params: CreateWishlistParams) => {
@@ -36,8 +34,6 @@ export function useWishlistMutations() {
       queryClient.invalidateQueries({
         queryKey: ['wishlist', wishlistId],
       });
-
-      router.push(ROUTES.WISHLISTS_VIEW(data._id));
     },
     onError: (error) => {
       toast.error('Error', {
@@ -149,10 +145,40 @@ export function useWishlistMutations() {
     },
   });
 
+  const deleteWishlistMutation = useMutation({
+    mutationFn: async (params: DeleteWishlistParams) => {
+      const result = await deleteWishlist(params);
+
+      if (!result.success) {
+        throw new Error(
+          result.error?.message || 'An unexpected error occurred'
+        );
+      }
+
+      return result.data as SuccessDeleteResponse;
+    },
+    onSuccess: (data: SuccessDeleteResponse) => {
+      toast.success('Success', {
+        description: 'Successfully deleted wishlist',
+      });
+
+      const wishlistId = data._id;
+      queryClient.invalidateQueries({
+        queryKey: ['wishlist', wishlistId],
+      });
+    },
+    onError: (error) => {
+      toast.error('Error', {
+        description: error.message || 'An unexpected error occurred',
+      });
+    },
+  });
+
   return {
     createWishlistMutation,
     updateWishlistMutation,
     addToWishlistMutation,
     removeFromWishlistMutation,
+    deleteWishlistMutation,
   };
 }

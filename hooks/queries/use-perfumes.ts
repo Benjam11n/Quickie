@@ -6,7 +6,7 @@ export function usePerfume(perfumeId: string) {
   return useQuery({
     queryKey: ['perfume', perfumeId],
     queryFn: () => getPerfume({ perfumeId }),
-    enabled: !!perfumeId, // Only run if we have a perfumeId
+    enabled: !!perfumeId, // Only run if we have a perfume
   });
 }
 

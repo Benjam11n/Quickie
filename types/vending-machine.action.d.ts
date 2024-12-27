@@ -7,7 +7,7 @@ declare global {
       area: string;
     };
     inventory: {
-      perfumeId: Types.ObjectId;
+      perfume: Types.ObjectId;
       stock: number;
       lastRefilled: Date;
     }[];

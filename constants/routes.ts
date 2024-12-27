@@ -25,8 +25,8 @@ export const ROUTES = {
 
   // Wishlists
   WISHLISTS: 'wishlists',
-  WISHLISTS_VIEW: (id: string) => `wishlists/${id}`,
-  WISHLISTS_NEW: 'wishlists/new',
+  WISHLISTS_VIEW: (id: string) => `/wishlists/${id}`,
+  WISHLISTS_NEW: '/wishlists/new',
 
   // Miscellaneous
   PRIVACY: '/privacy',

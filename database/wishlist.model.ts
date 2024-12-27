@@ -1,7 +1,7 @@
 import { Schema, Document, models, model, Types } from 'mongoose';
 
 export interface WishlistPerfume {
-  perfumeId: Types.ObjectId;
+  perfume: Types.ObjectId;
   notes?: string;
   priority: 'low' | 'medium' | 'high';
   priceAlert?: number;
@@ -9,7 +9,7 @@ export interface WishlistPerfume {
 }
 
 export interface WishlistPerfumeView {
-  perfumeId: {
+  perfume: {
     _id: string;
     name: string;
     brand: { name: string };
@@ -27,7 +27,7 @@ export interface WishlistPerfumeView {
     };
   };
   notes?: string;
-  priority: 'low' | 'medium' | 'high';
+  priority?: 'low' | 'medium' | 'high';
   priceAlert?: number;
   addedAt: Date;
 }
@@ -48,7 +48,7 @@ const WishlistSchema = new Schema<IWishlistDoc>(
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     perfumes: [
       {
-        perfumeId: {
+        perfume: {
           type: Schema.Types.ObjectId,
           ref: 'Perfume',
           required: true,
@@ -83,7 +83,7 @@ WishlistSchema.virtual('totalItems').get(function () {
 
 // Instance methods
 WishlistSchema.methods.addPerfume = async function (
-  perfumeId: Types.ObjectId,
+  perfume: Types.ObjectId,
   options?: {
     notes?: string;
     priority?: 'low' | 'medium' | 'high';
@@ -91,7 +91,7 @@ WishlistSchema.methods.addPerfume = async function (
   }
 ) {
   const exists = this.perfumes.some(
-    (p: WishlistPerfume) => p.perfumeId.toString() === perfumeId.toString()
+    (p: WishlistPerfume) => p.perfume.toString() === perfume.toString()
   );
 
   if (exists) {
@@ -99,7 +99,7 @@ WishlistSchema.methods.addPerfume = async function (
   }
 
   this.perfumes.push({
-    perfumeId,
+    perfume,
     ...options,
     addedAt: new Date(),
   });
@@ -108,10 +108,10 @@ WishlistSchema.methods.addPerfume = async function (
 };
 
 WishlistSchema.methods.removePerfume = async function (
-  perfumeId: Types.ObjectId
+  perfume: Types.ObjectId
 ) {
   this.perfumes = this.perfumes.filter(
-    (p: WishlistPerfume) => p.perfumeId.toString() !== perfumeId.toString()
+    (p: WishlistPerfume) => p.perfume.toString() !== perfume.toString()
   );
   return this.save();
 };
@@ -119,11 +119,11 @@ WishlistSchema.methods.removePerfume = async function (
 // Static methods
 WishlistSchema.statics.findByUserAndPerfume = async function (
   author: Types.ObjectId,
-  perfumeId: Types.ObjectId
+  perfume: Types.ObjectId
 ) {
   return this.findOne({
     author,
-    'perfumes.perfumeId': perfumeId,
+    'perfumes.perfume': perfume,
   });
 };
 

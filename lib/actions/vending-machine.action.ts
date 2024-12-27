@@ -2,9 +2,7 @@
 
 import mongoose from 'mongoose';
 
-import VendingMachine, {
-  IVendingMachine,
-} from '@/database/vending-machine.model';
+import VendingMachine from '@/database/vending-machine.model';
 import { VendingMachineView } from '@/types';
 
 import action from '../handlers/action';
@@ -59,7 +57,7 @@ export async function createVendingMachine(
 
 export async function updateVendingMachine(
   params: UpdateVendingMachineParams
-): Promise<ActionResponse<IVendingMachine>> {
+): Promise<ActionResponse<VendingMachineView>> {
   const validationResult = await action({
     params,
     schema: UpdateVendingMachineSchema,
@@ -80,7 +78,7 @@ export async function updateVendingMachine(
     const vendingMachine = await VendingMachine.findById(
       vendingMachineId
     ).populate({
-      path: 'inventory.perfumeId',
+      path: 'inventory.perfume',
       select: 'name brand price images description',
       populate: {
         path: 'brand',
@@ -111,7 +109,7 @@ export async function updateVendingMachine(
     // Simply update the inventory directly
     if (inventory) {
       vendingMachine.inventory = inventory.map((item) => ({
-        perfumeId: item.perfumeId,
+        perfume: item.perfume,
         stock: item.stock,
         lastRefilled: new Date(),
       }));
@@ -125,7 +123,7 @@ export async function updateVendingMachine(
       vendingMachineId
     )
       .populate({
-        path: 'inventory.perfumeId',
+        path: 'inventory.perfume',
         select: 'name brand price images description',
         populate: {
           path: 'brand',
@@ -148,7 +146,7 @@ export async function updateVendingMachine(
 
 export async function getVendingMachine(
   params: GetVendingMachineParams
-): Promise<ActionResponse> {
+): Promise<ActionResponse<VendingMachineView>> {
   const validationResult = await action({
     params,
     schema: GetVendingMachineSchema,
@@ -165,7 +163,7 @@ export async function getVendingMachine(
     const vendingMachine = await VendingMachine.findById(
       vendingMachineId
     ).populate({
-      path: 'inventory.perfumeId',
+      path: 'inventory.perfume',
       select: 'name brand price images description',
       populate: {
         path: 'brand',
@@ -206,7 +204,7 @@ export async function getVendingMachines(
 
     const vendingMachines = await VendingMachine.find()
       .populate({
-        path: 'inventory.perfumeId',
+        path: 'inventory.perfume',
         select: '_id id name brand price images',
         populate: {
           path: 'brand',

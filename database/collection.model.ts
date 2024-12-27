@@ -4,7 +4,7 @@ import { Schema, model, models, Types } from 'mongoose';
 interface ICollection {
   author: Types.ObjectId;
   perfumes: Array<{
-    perfumeId: Types.ObjectId;
+    perfume: Types.ObjectId;
     addedAt: Date;
   }>;
 }
@@ -21,7 +21,7 @@ const CollectionSchema = new Schema<ICollection>(
     },
     perfumes: [
       {
-        perfumeId: {
+        perfume: {
           type: Schema.Types.ObjectId,
           ref: 'Perfume',
           required: true,
@@ -37,14 +37,12 @@ const CollectionSchema = new Schema<ICollection>(
 );
 
 // Create index for faster lookups
-CollectionSchema.index({ 'perfumes.perfumeId': 1 });
+CollectionSchema.index({ 'perfumes.perfume': 1 });
 
-CollectionSchema.methods.addPerfume = async function (
-  perfumeId: Types.ObjectId
-) {
+CollectionSchema.methods.addPerfume = async function (perfume: Types.ObjectId) {
   const exists = this.perfumes.some(
-    (p: { perfumeId: Types.ObjectId; addedAt: Date }) =>
-      p.perfumeId.toString() === perfumeId.toString()
+    (p: { perfume: Types.ObjectId; addedAt: Date }) =>
+      p.perfume.toString() === perfume.toString()
   );
 
   if (exists) {
@@ -52,7 +50,7 @@ CollectionSchema.methods.addPerfume = async function (
   }
 
   this.perfumes.push({
-    perfumeId,
+    perfume,
     addedAt: new Date(),
   });
 
@@ -60,11 +58,11 @@ CollectionSchema.methods.addPerfume = async function (
 };
 
 CollectionSchema.methods.removePerfume = async function (
-  perfumeId: Types.ObjectId
+  perfume: Types.ObjectId
 ) {
   this.perfumes = this.perfumes.filter(
-    (p: { perfumeId: Types.ObjectId; addedAt: Date }) =>
-      p.perfumeId.toString() !== perfumeId.toString()
+    (p: { perfume: Types.ObjectId; addedAt: Date }) =>
+      p.perfume.toString() !== perfume.toString()
   );
   return this.save();
 };

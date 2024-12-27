@@ -155,7 +155,7 @@ export default function AdminPage() {
                     history: {
                       triedPerfumes: [
                         {
-                          perfumeId: 'ObjectId(...)',
+                          perfume: 'ObjectId(...)',
                           rating: 4,
                           review: 'Amazing fragrance!',
                         },
@@ -208,7 +208,7 @@ export default function AdminPage() {
                     },
                     inventory: [
                       {
-                        perfumeId: 'ObjectId(...)',
+                        perfume: 'ObjectId(...)',
                         stock: 5,
                         lastRefilled: '2024-03-15T10:00:00Z',
                       },
@@ -233,7 +233,7 @@ export default function AdminPage() {
                 {JSON.stringify(
                   {
                     userId: 'ObjectId(...)',
-                    perfumeId: 'ObjectId(...)',
+                    perfume: 'ObjectId(...)',
                     vendingMachineId: 'ObjectId(...)',
                     rating: 5,
                     review: 'Perfect for date nights!',

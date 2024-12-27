@@ -11,6 +11,7 @@ import { ProductFilters } from '@/components/fragrance/ProductFilters';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { EMPTY_PERFUME } from '@/constants/states';
+import { useCollectionMutations } from '@/hooks/mutations/use-collection-mutations';
 import { useWishlistMutations } from '@/hooks/mutations/use-wishlist-mutations';
 import { useCollection } from '@/hooks/queries/use-collection';
 import { useUserReviews } from '@/hooks/queries/use-reviews';
@@ -24,7 +25,6 @@ import LocalSearch from '../search/LocalSearch';
 import SortingControls from '../sort/SortingControls';
 import DataRenderer from '../ui/DataRenderer';
 import { WishlistSelectDialog } from '../wishlist/WishlistSelectDialog';
-import { useCollectionMutations } from '@/hooks/mutations/use-collection-mutations';
 
 interface CatalogPageProps {
   perfumes?: PerfumeView[];
@@ -92,12 +92,12 @@ export default function CatalogClient({
     }
   };
 
-  const handleCompareToggle = (perfumeId: string) => {
-    const selected = selectedItems.includes(perfumeId);
+  const handleCompareToggle = (perfume: string) => {
+    const selected = selectedItems.includes(perfume);
     if (!selected) {
-      addItem(perfumeId);
+      addItem(perfume);
     } else {
-      removeItem(perfumeId);
+      removeItem(perfume);
     }
   };
 
@@ -105,7 +105,7 @@ export default function CatalogClient({
     if (selectedPerfume) {
       addToWishlistMutation.mutate({
         wishlistId,
-        perfumeId: selectedPerfume.id,
+        perfume: selectedPerfume.id,
       });
     }
     setSelectedPerfume(null);
@@ -115,7 +115,7 @@ export default function CatalogClient({
     if (selectedPerfume) {
       removeFromWishlistMutation.mutate({
         wishlistId,
-        perfumeId: selectedPerfume.id,
+        perfume: selectedPerfume.id,
       });
     }
     setSelectedPerfume(null);
@@ -185,7 +185,7 @@ export default function CatalogClient({
                     const isFavourite =
                       wishlistsResponse?.data?.some((wishlist) =>
                         wishlist.perfumes.some(
-                          (p) => p.perfumeId._id === perfume._id
+                          (p) => p.perfume._id === perfume._id
                         )
                       ) || false;
 
@@ -202,7 +202,7 @@ export default function CatalogClient({
 
                     const inCollection =
                       collectionResponse?.data?.perfumes
-                        .map((perfume) => perfume.perfumeId._id)
+                        .map((perfume) => perfume.perfume._id)
                         .includes(perfume._id) || false;
 
                     const handleCollection = () =>
@@ -219,12 +219,12 @@ export default function CatalogClient({
                         images={perfume.images}
                         brand={perfume.brand}
                         review={reviews.find(
-                          (r) => r.perfumeId._id === perfume._id
+                          (r) => r.perfume._id === perfume._id
                         )}
                         interactive={{
                           wishlist: {
                             isFavourite,
-                            onWishlistClick: onWishlistClick,
+                            onWishlistClick,
                           },
                           collection: {
                             inCollection,
@@ -232,7 +232,7 @@ export default function CatalogClient({
                           },
                           comparison: {
                             isSelected,
-                            onCompareToggle: onCompareToggle,
+                            onCompareToggle,
                           },
                         }}
                       />
@@ -261,7 +261,7 @@ export default function CatalogClient({
           onOpenChange={(open) => !open && setSelectedPerfume(null)}
           onSelect={handleWishlistSelect}
           onUnSelect={handleWishlistUnselect}
-          perfumeId={selectedPerfume.id}
+          perfume={selectedPerfume.id}
           perfumeName={selectedPerfume.name}
           wishlists={wishlistsResponse?.data || []}
           isLoading={isLoadingWishlists}

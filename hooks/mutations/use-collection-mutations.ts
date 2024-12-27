@@ -12,7 +12,7 @@ export function useCollectionMutations() {
   const addToCollectionMutation = useMutation({
     mutationFn: async (perfumeId: string) => {
       const result = await addToCollection({
-        perfumeId,
+        perfume: perfumeId,
       });
 
       if (!result.success) {
@@ -50,7 +50,7 @@ export function useCollectionMutations() {
   const removeFromCollectionMutation = useMutation({
     mutationFn: async (perfumeId: string) => {
       const result = await removeFromCollection({
-        perfumeId,
+        perfume: perfumeId,
       });
 
       if (!result.success) {

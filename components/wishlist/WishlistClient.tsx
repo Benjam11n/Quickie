@@ -1,10 +1,12 @@
 'use client';
 
 import { Pencil, Plus, X } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import Loading from '@/app/(root)/loading';
 import { useWishlistMutations } from '@/hooks/mutations/use-wishlist-mutations';
+import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { useWishlist } from '@/hooks/queries/use-wishlists';
 import { useWishlistEditStore } from '@/hooks/stores/use-edit-wishlist-store';
 import { PerfumeView } from '@/types/fragrance';
@@ -14,8 +16,6 @@ import { Button } from '../ui/button';
 import { Card } from '../ui/card';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
-import { usePerfumes } from '@/hooks/queries/use-perfumes';
-import { useSearchParams } from 'next/navigation';
 
 interface WishlistClientProps {
   id: string;
@@ -55,7 +55,6 @@ const WishlistClient = ({ id }: WishlistClientProps) => {
     }
   }, [wishlistResponse?.data, initializeFromWishlist]);
 
-  console.log(wishlistResponse?.data);
   if (isLoading) {
     return <Loading />;
   }
@@ -67,18 +66,18 @@ const WishlistClient = ({ id }: WishlistClientProps) => {
 
     await addToWishlistMutation.mutateAsync({
       wishlistId: wishlist?._id,
-      perfumeId: product._id,
+      perfume: product._id,
     });
 
     setIsEditing(false);
   };
 
-  const handleRemovePerfume = async (perfumeId: string) => {
+  const handleRemovePerfume = async (perfume: string) => {
     setShowSelector(false);
 
     await removeFromWishlistMutation.mutateAsync({
       wishlistId: id,
-      perfumeId,
+      perfume,
     });
 
     setIsEditing(false);
@@ -188,17 +187,17 @@ const WishlistClient = ({ id }: WishlistClientProps) => {
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {wishlist?.perfumes.map((item) => {
-              const perfume = item.perfumeId;
+              const perfume = item.perfume;
 
               return (
-                <div key={item.perfumeId._id} className="group relative">
+                <div key={item.perfume._id} className="group relative">
                   <div className="absolute right-2 top-2 z-10 opacity-0 transition-opacity group-hover:opacity-100">
                     <Button
                       variant="outline"
                       size="icon"
                       className="size-8"
                       onClick={() => {
-                        handleRemovePerfume(item.perfumeId._id);
+                        handleRemovePerfume(item.perfume._id);
                       }}
                     >
                       <X className="size-4" />
@@ -223,7 +222,7 @@ const WishlistClient = ({ id }: WishlistClientProps) => {
         isOpen={showSelector}
         onOpenChange={setShowSelector}
         onSelect={handleAddPerfume}
-        selectedIds={wishlist?.perfumes.map((perfume) => perfume.perfumeId._id)}
+        selectedIds={wishlist?.perfumes.map((perfume) => perfume.perfume._id)}
       />
     </div>
   );

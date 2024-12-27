@@ -4,7 +4,11 @@ import { getToken } from 'next-auth/jwt';
 import { ROUTES } from './constants/routes';
 
 export default async function middleware(req: NextRequest) {
-  const token = await getToken({ req });
+  const token = await getToken({
+    req,
+    secret: process.env.AUTH_SECRET,
+  });
+
   const isAuthenticated = !!token;
 
   const pathname = req.nextUrl.pathname;

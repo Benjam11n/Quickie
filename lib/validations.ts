@@ -109,7 +109,7 @@ export const SignInWithOAuthSchema = z.object({
 
 // Perfume positions
 export const PerfumePositionSchema = z.object({
-  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+  perfume: z.string().min(1, { message: 'Perfume ID is required.' }),
   position: z.object({
     x: z
       .number()
@@ -220,7 +220,7 @@ export const UpdatePerfumeSchema = PerfumeSchema.extend({
 
 // Rating Schema for user ratings
 export const PerfumeRatingSchema = z.object({
-  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+  perfume: z.string().min(1, { message: 'Perfume ID is required.' }),
   rating: z
     .number()
     .min(1, { message: 'Rating must be at least 1.' })
@@ -252,7 +252,7 @@ const LocationSchema = z.object({
 });
 
 const InventoryItemSchema = z.object({
-  perfumeId: z.string(),
+  perfume: z.string(),
   stock: z.number().int().min(0),
   lastRefilled: z.date(),
 });
@@ -332,7 +332,7 @@ export const UpdateMoodBoardSchema = MoodBoardSchema.extend({
 // Schema for updating perfume position
 export const UpdatePerfumePositionSchema = z.object({
   boardId: z.string().min(1, { message: 'Board ID is required.' }),
-  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+  perfume: z.string().min(1, { message: 'Perfume ID is required.' }),
   position: z.object({
     x: z
       .number()
@@ -359,7 +359,7 @@ const ReviewRatingSchema = z.object({
 
 // Create Review Schema
 export const CreateReviewSchema = z.object({
-  perfumeId: z.string(),
+  perfume: z.string(),
   vendingMachineId: z.string().optional(),
   rating: ReviewRatingSchema,
   review: z
@@ -391,7 +391,7 @@ export const LikeReviewSchema = z.object({
 
 // Get Review Schema
 export const GetReviewSchema = z.object({
-  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+  perfume: z.string().min(1, { message: 'Perfume ID is required.' }),
   userId: z.string().min(1, { message: 'User ID is required.' }),
 });
 
@@ -400,7 +400,7 @@ export const GetUserReviewsSchema = z.object({
 });
 
 export const GetPerfumeReviewsSchema = z.object({
-  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+  perfume: z.string().min(1, { message: 'Perfume ID is required.' }),
 });
 
 export const PaginatedSearchParamsSchema = z.object({
@@ -423,7 +423,9 @@ export const UpdateWishlistSchema = CreateWishlistSchema.extend({
   wishlistId: z.string().min(1, { message: 'Wishlist ID is required.' }),
 });
 
-export const DeleteWishlistSchema = UpdateWishlistSchema;
+export const DeleteWishlistSchema = z.object({
+  wishlistId: z.string().min(1, { message: 'Wishlist ID is required.' }),
+});
 
 export const GetWishlistSchema = z.object({
   wishlistId: z.string().min(1, { message: 'Wishlist ID is required.' }),
@@ -435,7 +437,7 @@ export const GetUserWishlistsSchema = z.object({
 
 export const AddToWishlistSchema = z.object({
   wishlistId: z.string().min(1, { message: 'Wishlist ID is required.' }),
-  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+  perfume: z.string().min(1, { message: 'Perfume ID is required.' }),
   priority: z.enum(['low', 'medium', 'high']).optional(),
   // priceAlert: z.number().min(0).optional(),
 });
@@ -443,7 +445,7 @@ export const AddToWishlistSchema = z.object({
 export const RemoveFromWishlistSchema = AddToWishlistSchema;
 
 export const AddToCollectionSchema = z.object({
-  perfumeId: z.string().min(1, { message: 'Perfume ID is required.' }),
+  perfume: z.string().min(1, { message: 'Perfume ID is required.' }),
 });
 
 export const RemoveFromCollectionSchema = AddToCollectionSchema;

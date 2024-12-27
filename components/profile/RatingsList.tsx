@@ -14,7 +14,7 @@ export function RatingsList({ reviews }: RatingsListProps) {
   return (
     <div className="space-y-4">
       {reviews.map((item) => {
-        const product = item.perfumeId;
+        const product = item.perfume;
         if (!product) return null;
         const overallRating =
           (item.rating.complexity +
@@ -25,7 +25,7 @@ export function RatingsList({ reviews }: RatingsListProps) {
           5;
 
         return (
-          <Card key={item.perfumeId._id} className="p-6">
+          <Card key={item.perfume._id} className="p-6">
             <div className="flex gap-6">
               <div className="relative size-24 overflow-hidden rounded-lg">
                 <Image
@@ -40,7 +40,7 @@ export function RatingsList({ reviews }: RatingsListProps) {
               <div className="flex-1 space-y-2">
                 <div>
                   <Link
-                    href={ROUTES.PRODUCT(String(item.perfumeId._id))}
+                    href={ROUTES.PRODUCT(String(item.perfume._id))}
                     prefetch
                     className="text-lg font-semibold transition-colors hover:text-primary"
                   >

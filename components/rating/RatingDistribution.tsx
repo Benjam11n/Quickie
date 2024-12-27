@@ -2,12 +2,8 @@
 
 import { motion } from 'framer-motion';
 
-interface RatingDistributionProps {
-  perfumeId: string;
-}
-
-export function RatingDistribution({ perfumeId }: RatingDistributionProps) {
-  // Mock data - replace with real data from your API
+export function RatingDistribution() {
+  // Mock data - replace with real data
   const distribution = [
     { rating: 5, count: 423 },
     { rating: 4, count: 256 },

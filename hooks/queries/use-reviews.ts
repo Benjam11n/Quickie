@@ -10,8 +10,8 @@ import { ReviewView } from '@/types';
 export function usePerfumeReviews(perfumeId: string) {
   return useQuery({
     queryKey: ['reviews', 'perfumes', perfumeId],
-    queryFn: () => getPerfumeReviews({ perfumeId }),
-    enabled: !!perfumeId, // Only run if we have a perfumeId
+    queryFn: () => getPerfumeReviews({ perfume: perfumeId }),
+    enabled: !!perfumeId, // Only run if we have a perfume
   });
 }
 
@@ -21,7 +21,7 @@ export function useReview(
 ): UseQueryResult<ActionResponse<ReviewView>> {
   return useQuery({
     queryKey: ['reviews', perfumeId, userId],
-    queryFn: () => getReview({ perfumeId, userId: userId as string }),
+    queryFn: () => getReview({ perfume: perfumeId, userId: userId as string }),
     enabled: !!perfumeId && !!userId,
     refetchOnMount: true,
   });

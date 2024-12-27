@@ -24,7 +24,7 @@ interface WishlistSelectDialogProps {
   onOpenChange: (open: boolean) => void;
   onSelect: (wishlistId: string) => void;
   onUnSelect: (wishlistId: string) => void;
-  perfumeId: string;
+  perfume: string;
   perfumeName?: string;
   wishlists: WishlistView[];
   isLoading: boolean;
@@ -35,7 +35,7 @@ export function WishlistSelectDialog({
   onOpenChange,
   onSelect,
   onUnSelect,
-  perfumeId,
+  perfume,
   perfumeName = 'this perfume',
   wishlists,
   isLoading,
@@ -103,8 +103,8 @@ export function WishlistSelectDialog({
                 <div className="space-y-2">
                   {wishlists.map((wishlist) => {
                     const includesPerfume = wishlist.perfumes
-                      .map((perfume) => perfume.perfumeId._id)
-                      .includes(perfumeId);
+                      .map((perfume) => perfume.perfume._id)
+                      .includes(perfume);
 
                     return (
                       <WishlistButton

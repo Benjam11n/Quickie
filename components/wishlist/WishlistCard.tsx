@@ -18,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { ROUTES } from '@/constants/routes';
 import { WishlistView } from '@/types';
 
 interface WishlistCardProps {
@@ -32,7 +33,7 @@ export function WishlistCard({
   onEdit,
 }: WishlistCardProps) {
   const hasItems = wishlist.perfumes.length > 0;
-  const firstPerfume = wishlist.perfumes[0]?.perfumeId;
+  const firstPerfume = wishlist.perfumes[0]?.perfume;
 
   return (
     <Card className="group relative overflow-hidden">
@@ -57,7 +58,7 @@ export function WishlistCard({
       </CardHeader>
 
       <CardContent>
-        <Link href={`/wishlist/${wishlist._id}`}>
+        <Link href={ROUTES.WISHLISTS_VIEW(wishlist._id)}>
           <div className="relative aspect-square overflow-hidden rounded-lg bg-muted">
             {hasItems ? (
               <Image

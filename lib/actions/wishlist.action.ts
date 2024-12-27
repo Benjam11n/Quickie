@@ -31,7 +31,7 @@ export async function addToWishlist(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { wishlistId, perfumeId, priority } = validationResult.params!;
+  const { wishlistId, perfume, priority } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
   const session = await mongoose.startSession();
@@ -52,7 +52,7 @@ export async function addToWishlist(
 
     // Add perfume to this specific wishlist
     await wishlist.addPerfume(
-      new Types.ObjectId(perfumeId),
+      new Types.ObjectId(perfume),
       { priority },
       { session }
     );
@@ -61,7 +61,7 @@ export async function addToWishlist(
 
     // Get updated wishlist with populated data
     const updatedWishlist = await Wishlist.findById(wishlistId).populate({
-      path: 'perfumes.perfumeId',
+      path: 'perfumes.perfume',
       select: 'name brand price images affiliateLink',
       populate: {
         path: 'brand',
@@ -104,7 +104,7 @@ export async function removeFromWishlist(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { wishlistId, perfumeId } = validationResult.params!;
+  const { wishlistId, perfume } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
   const session = await mongoose.startSession();
@@ -122,7 +122,7 @@ export async function removeFromWishlist(
       throw new Error('Unauthorized');
     }
 
-    await wishlist.removePerfume(new Types.ObjectId(perfumeId));
+    await wishlist.removePerfume(new Types.ObjectId(perfume));
 
     return {
       success: true,
@@ -168,7 +168,7 @@ export async function createWishlist(
     await session.commitTransaction();
 
     const populatedWishlist = await Wishlist.findById(wishlist._id).populate({
-      path: 'perfumes.perfumeId',
+      path: 'perfumes.perfume',
       select: 'name brand price images',
       populate: {
         path: 'brand',
@@ -227,7 +227,7 @@ export async function updateWishlist(
     await session.commitTransaction();
 
     const updatedWishlist = await Wishlist.findById(wishlistId).populate({
-      path: 'perfumes.perfumeId',
+      path: 'perfumes.perfume',
       select: 'name brand price images affiliateLink',
       populate: {
         path: 'brand',
@@ -250,7 +250,7 @@ export async function updateWishlist(
 
 export async function deleteWishlist(
   params: DeleteWishlistParams
-): Promise<ActionResponse> {
+): Promise<ActionResponse<SuccessDeleteResponse>> {
   const validationResult = await action({
     params,
     schema: DeleteWishlistSchema,
@@ -282,7 +282,7 @@ export async function deleteWishlist(
     await session.commitTransaction();
 
     revalidatePath('/wishlists');
-    return { success: true };
+    return { success: true, data: { _id: deletedWishlist._id } };
   } catch (error) {
     await session.abortTransaction();
 
@@ -314,7 +314,7 @@ export async function getWishlist(
         select: 'name image',
       })
       .populate({
-        path: 'perfumes.perfumeId',
+        path: 'perfumes.perfume',
         select: 'name brand price images affiliateLink',
         populate: {
           path: 'brand',
@@ -354,12 +354,18 @@ export async function getUserWishlists(
         select: 'name image',
       })
       .populate({
-        path: 'perfumes.perfumeId',
-        select: 'name brand price images affiliateLink',
-        populate: {
-          path: 'brand',
-          select: 'name',
-        },
+        path: 'perfumes.perfume',
+        select: 'name brand price images affiliateLink notes',
+        populate: [
+          {
+            path: 'brand',
+            select: 'name',
+          },
+          {
+            path: 'notes',
+            select: 'name',
+          },
+        ],
       });
 
     return {

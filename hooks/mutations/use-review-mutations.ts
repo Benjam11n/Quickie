@@ -9,7 +9,7 @@ import {
 } from '@/lib/actions/review.action';
 import { ReviewInteractionType, ReviewView } from '@/types';
 
-export function useReviewMutations(perfumeId: string, review?: ReviewView) {
+export function useReviewMutations(perfume: string, review?: ReviewView) {
   const queryClient = useQueryClient();
 
   const submitReview = useMutation({
@@ -39,7 +39,7 @@ export function useReviewMutations(perfumeId: string, review?: ReviewView) {
       });
 
       queryClient.invalidateQueries({
-        queryKey: ['reviews', perfumeId, data?.author],
+        queryKey: ['reviews', perfume, data?.author],
       });
     },
     onError: (error) => {
@@ -71,7 +71,7 @@ export function useReviewMutations(perfumeId: string, review?: ReviewView) {
       toast.success('Review Deleted', {
         description: 'Your review has been deleted successfully!',
       });
-      queryClient.invalidateQueries({ queryKey: ['reviews', perfumeId] });
+      queryClient.invalidateQueries({ queryKey: ['reviews', perfume] });
     },
     onError: () => {
       toast.error('Error', {

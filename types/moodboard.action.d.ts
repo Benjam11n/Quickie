@@ -13,14 +13,14 @@ declare global {
     // views?: number;
     // likes?: number;
     perfumes?: {
-      perfumeId: string;
+      perfume: string;
       position: Position;
     }[];
   }
 
   interface UpdatePerfumePositionParams {
     boardId: string;
-    perfumeId: string;
+    perfume: string;
     position: {
       x: number;
       y: number;

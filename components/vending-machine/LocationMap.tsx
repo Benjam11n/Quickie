@@ -1,12 +1,13 @@
 'use client';
 
 import L from 'leaflet';
-import { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
 import { Badge } from '@/components/ui/badge';
 import { VendingMachineView } from '@/types';
+
+import MapController from './MapController';
 
 // Fix for default marker icon
 const icon = L.icon({
@@ -24,46 +25,6 @@ interface LocationMapProps {
   locations: VendingMachineView[];
   selectedLocation: string | null;
   onLocationSelect: (id: string) => void;
-}
-
-function MapController({
-  locations,
-  selectedLocation,
-}: {
-  locations: VendingMachineView[];
-  selectedLocation: string | null;
-}) {
-  const map = useMap();
-  const initialized = useRef(false);
-
-  useEffect(() => {
-    if (!initialized.current && locations.length > 0) {
-      const bounds = L.latLngBounds(
-        locations.map((loc) => [
-          loc.location.coordinates[1],
-          loc.location.coordinates[0],
-        ])
-      );
-      map.fitBounds(bounds, { padding: [50, 50] });
-      initialized.current = true;
-    }
-
-    if (selectedLocation) {
-      const location = locations.find((loc) => loc.id === selectedLocation);
-      if (location) {
-        map.setView(
-          [location.location.coordinates[1], location.location.coordinates[0]],
-          16,
-          {
-            animate: true,
-            duration: 1,
-          }
-        );
-      }
-    }
-  }, [map, locations, selectedLocation]);
-
-  return null;
 }
 
 export function LocationMap({
@@ -109,13 +70,13 @@ export function LocationMap({
               <div className="space-y-2">
                 <h4 className="text-sm font-medium">Available Fragrances:</h4>
                 {location.inventory.map((item) => {
-                  const product = item.perfumeId;
+                  const product = item.perfume;
 
                   if (!product) return null;
 
                   return (
                     <div
-                      key={item.perfumeId._id}
+                      key={item.perfume._id}
                       className="flex items-center justify-between text-sm"
                     >
                       <div>

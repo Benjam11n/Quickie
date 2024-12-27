@@ -171,7 +171,7 @@ export async function updatePerfume(
         if (existingTag) {
           newTagDocuments.push({
             tagId: existingTag._id,
-            perfume: perfumeId,
+            perfume,
           });
 
           perfume.tags.push(existingTag._id);
@@ -189,7 +189,7 @@ export async function updatePerfume(
       );
 
       await TagPerfume.deleteMany(
-        { tag: { $in: tagIdsToRemove }, perfume: perfumeId },
+        { tag: { $in: tagIdsToRemove }, perfume },
         { session }
       );
 

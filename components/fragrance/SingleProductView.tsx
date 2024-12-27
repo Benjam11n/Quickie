@@ -39,7 +39,7 @@ export function SingleProductView({ perfumeId }: SingleProductViewProps) {
     error: reviewError,
   } = useReview(perfumeId, userId);
 
-  const { addToCollectionMutation } = useCollectionMutations(perfumeId);
+  const { addToCollectionMutation } = useCollectionMutations();
   const { addToWishlistMutation } = useWishlistMutations();
   const { data: collectionResponse, isLoading: isLoadingCollection } =
     useCollection(userId);
@@ -69,10 +69,13 @@ export function SingleProductView({ perfumeId }: SingleProductViewProps) {
         <ProductInfo
           perfume={perfume}
           collection={collection}
-          onCollectionClick={() => addToCollectionMutation.mutate()}
+          onCollectionClick={() => addToCollectionMutation.mutate(perfumeId)}
           // todo:
           onFavoriteClick={() =>
-            addToWishlistMutation.mutate({ wishlistId: '1', perfumeId })
+            addToWishlistMutation.mutate({
+              wishlistId: '1',
+              perfume: perfumeId,
+            })
           }
         />
       </div>
@@ -80,7 +83,7 @@ export function SingleProductView({ perfumeId }: SingleProductViewProps) {
       <EnhancedVisualizer fragrance={enhancedFragrance} />
 
       <AuthCheck>
-        <ReviewCard perfumeId={perfume._id} initialReview={review} />
+        <ReviewCard perfumeId={perfumeId} initialReview={review} />
       </AuthCheck>
     </div>
   );

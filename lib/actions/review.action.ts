@@ -36,7 +36,7 @@ export async function createReview(
   }
 
   const {
-    perfumeId,
+    perfume,
     vendingMachineId,
     review: writtenReview,
     rating,
@@ -50,7 +50,7 @@ export async function createReview(
     const [review] = await Review.create(
       [
         {
-          perfumeId,
+          perfume,
           vendingMachineId,
           review: writtenReview,
           rating,
@@ -325,11 +325,11 @@ export async function getReview(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { perfumeId, userId: author } = validationResult.params!;
+  const { perfume, userId: author } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
   try {
-    const review = await Review.findOne({ perfumeId, author })
+    const review = await Review.findOne({ perfume, author })
       .populate({
         path: 'author',
         select: 'name image',
@@ -377,8 +377,12 @@ export async function getUserReviews(
         select: 'name image',
       })
       .populate({
-        path: 'perfumeId',
-        select: '_id id name images brand price',
+        path: 'perfume',
+        select: 'name images brand price',
+        populate: {
+          path: 'brand',
+          select: 'name',
+        },
       })
       .populate({
         path: 'vendingMachineId',
@@ -415,17 +419,17 @@ export async function getPerfumeReviews(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { perfumeId } = validationResult.params!;
+  const { perfume } = validationResult.params!;
   const { page = 1, pageSize = 10 } = params;
   const skip = (Number(page) - 1) * pageSize;
   const limit = Number(pageSize);
 
   try {
     // Get total count for pagination
-    const totalReviews = await Review.countDocuments({ perfumeId });
+    const totalReviews = await Review.countDocuments({ perfume });
 
     // Get reviews with populated author and sorted by date
-    const reviews = await Review.find({ perfumeId })
+    const reviews = await Review.find({ perfume })
       .populate({
         path: 'author',
         select: 'name image',

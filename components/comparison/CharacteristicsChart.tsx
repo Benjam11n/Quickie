@@ -10,10 +10,10 @@ import {
   Tooltip,
 } from 'recharts';
 
-import { Perfume } from '@/types/fragrance';
+import { PerfumeView } from '@/types/fragrance';
 
 interface CharacteristicsChartProps {
-  products: Perfume[];
+  products: PerfumeView[];
 }
 
 export function CharacteristicsChart({ products }: CharacteristicsChartProps) {
@@ -55,13 +55,6 @@ export function CharacteristicsChart({ products }: CharacteristicsChartProps) {
           stroke="hsl(var(--muted-foreground))"
           strokeOpacity={0.2}
         />
-        {/* <PolarRadiusAxis
-          angle={30}
-          domain={[0, 100]}
-          stroke="hsl(var(--muted-foreground))"
-          strokeOpacity={0.2}
-          tick={{ fill: 'hsl(var(--muted-foreground))' }}
-        /> */}
 
         {products.map((product, index) => (
           <Radar

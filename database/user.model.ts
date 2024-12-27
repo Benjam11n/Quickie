@@ -13,7 +13,7 @@ export interface IUser {
     dislikedNotes: string[];
   };
   triedPerfumes: Array<{
-    perfumeId: Types.ObjectId;
+    perfume: Types.ObjectId;
     date: Date;
     rating: number;
     review?: string;

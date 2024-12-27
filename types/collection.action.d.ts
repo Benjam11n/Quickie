@@ -1,10 +1,10 @@
 declare global {
   interface AddToCollectionParams {
-    perfumeId: string;
+    perfume: string;
   }
 
   interface RemoveFromCollectionParams {
-    perfumeId: string;
+    perfume: string;
   }
 
   interface GetCollectionParams {

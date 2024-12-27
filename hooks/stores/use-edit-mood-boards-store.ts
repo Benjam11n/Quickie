@@ -15,10 +15,10 @@ interface useEditMoodboardStoreState {
   // Board mutations
   updateName: (name: string) => void;
   updateDescription: (description: string) => void;
-  addPerfume: (perfumeId: string, position: { x: number; y: number }) => void;
-  removePerfume: (perfumeId: string) => void;
+  addPerfume: (perfume: string, position: { x: number; y: number }) => void;
+  removePerfume: (perfume: string) => void;
   updatePerfumePosition: (
-    perfumeId: string,
+    perfume: string,
     position: { x: number; y: number }
   ) => void;
   addTag: (tag: string) => void;
@@ -62,40 +62,40 @@ export const useEditMoodboardStore = create<useEditMoodboardStoreState>(
         };
       }),
 
-    addPerfume: (perfumeId, position) =>
+    addPerfume: (perfume, position) =>
       set((state) => {
         if (!state.currentBoard) return state;
         return {
           currentBoard: {
             ...state.currentBoard,
-            perfumes: [...state.currentBoard.perfumes, { perfumeId, position }],
+            perfumes: [...state.currentBoard.perfumes, { perfume, position }],
           },
           hasChanges: true,
         };
       }),
 
-    removePerfume: (perfumeId) =>
+    removePerfume: (perfume) =>
       set((state) => {
         if (!state.currentBoard) return state;
         return {
           currentBoard: {
             ...state.currentBoard,
             perfumes: state.currentBoard.perfumes.filter(
-              (p) => p.perfumeId !== perfumeId
+              (p) => p.perfume !== perfume
             ),
           },
           hasChanges: true,
         };
       }),
 
-    updatePerfumePosition: (perfumeId, position) =>
+    updatePerfumePosition: (perfume, position) =>
       set((state) => {
         if (!state.currentBoard) return state;
         return {
           currentBoard: {
             ...state.currentBoard,
             perfumes: state.currentBoard.perfumes.map((p) =>
-              p.perfumeId === perfumeId ? { ...p, position } : p
+              p.perfume === perfume ? { ...p, position } : p
             ),
           },
           hasChanges: true,

@@ -17,7 +17,7 @@ export default async function EditBoardPage({ params }: RouteParams) {
   const { data: moodboard, success } = await getMoodBoard({ boardId: id });
   if (!success || !moodboard) return notFound();
 
-  if (moodboard.userId !== session.user.id) {
+  if (moodboard.author._id !== session.user.id) {
     return redirect(ROUTES.BOARDS_VIEW(moodboard._id));
   }
 

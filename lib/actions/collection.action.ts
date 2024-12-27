@@ -35,7 +35,7 @@ export async function getCollection(
         select: 'name image',
       })
       .populate({
-        path: 'perfumes.perfumeId',
+        path: 'perfumes.perfume',
         select: '_id id name brand affiliateLink price images',
         populate: {
           path: 'brand',
@@ -66,7 +66,7 @@ export async function addToCollection(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { perfumeId } = validationResult.params!;
+  const { perfume } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
   const session = await mongoose.startSession();
@@ -84,13 +84,13 @@ export async function addToCollection(
       throw new Error('Unauthorized');
     }
 
-    await collection.addPerfume(new Types.ObjectId(perfumeId), { session });
+    await collection.addPerfume(new Types.ObjectId(perfume), { session });
     await session.commitTransaction();
 
     const updatedCollection = await Collection.findOne({
       author: userId,
     }).populate({
-      path: 'perfumes.perfumeId',
+      path: 'perfumes.perfume',
       select: 'name brand price images',
       populate: {
         path: 'brand',
@@ -133,7 +133,7 @@ export async function removeFromCollection(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { perfumeId } = validationResult.params!;
+  const { perfume } = validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
   const session = await mongoose.startSession();
@@ -151,7 +151,7 @@ export async function removeFromCollection(
       throw new Error('Unauthorized');
     }
 
-    await collection.removePerfume(new Types.ObjectId(perfumeId));
+    await collection.removePerfume(new Types.ObjectId(perfume));
 
     return {
       success: true,

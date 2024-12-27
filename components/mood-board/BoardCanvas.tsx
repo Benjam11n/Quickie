@@ -12,14 +12,14 @@ import { useState } from 'react';
 
 import { useEditMoodboardStore } from '@/hooks/stores/use-edit-mood-boards-store';
 import { MoodBoardView } from '@/types';
-import { Perfume } from '@/types/fragrance';
+import { PerfumeView } from '@/types/fragrance';
 
 import { DraggablePerfume } from './DraggablePerfume';
 import { DroppableArea } from './DroppableArea';
 
 interface BoardCanvasProps {
   board: MoodBoardView;
-  perfumes: Perfume[];
+  perfumes: PerfumeView[];
   selectedSquare?: number | null;
   onSquareSelect?: (squareId: number) => void;
 }
@@ -84,7 +84,7 @@ export function BoardCanvas({
           {Array.from({ length: GRID_SIZE }).map((_, index) => {
             const perfume = getPerfumeAtPosition(index);
             const product = perfume
-              ? perfumes.find((p) => p.id === perfume.perfumeId)
+              ? perfumes.find((p) => p.id === perfume.perfume)
               : null;
 
             return (

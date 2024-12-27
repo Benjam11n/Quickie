@@ -22,13 +22,13 @@ declare global {
 
   interface AddToWishlistParams {
     wishlistId;
-    perfumeId: string;
+    perfume: string;
     priority?: 'low' | 'medium' | 'high';
   }
 
   interface RemoveFromWishlistParams {
     wishlistId;
-    perfumeId: string;
+    perfume: string;
   }
 }
 

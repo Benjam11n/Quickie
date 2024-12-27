@@ -45,7 +45,7 @@ export default function RecommendationsPage() {
     // Calculate average rating for each note and category
     const preferences = ratedProducts.reduce(
       (acc, item) => {
-        const perfume = perfumes.find((p) => p.id === item.perfumeId._id);
+        const perfume = perfumes.find((p) => p.id === item.perfume._id);
         if (!perfume || !item.rating) return acc;
 
         // Process tags

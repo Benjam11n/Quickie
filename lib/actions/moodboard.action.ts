@@ -111,7 +111,7 @@ export async function updateMoodBoard(
       .populate({ path: 'author', select: '_id name image' })
       .populate({
         path: 'perfumes',
-        select: 'perfumeId position',
+        select: 'perfume position',
       });
 
     if (!moodboard) {
@@ -233,7 +233,7 @@ export async function updatePerfumePosition(
     const updatedBoard = await MoodBoard.findOneAndUpdate(
       {
         _id: new mongoose.Types.ObjectId(params.boardId),
-        'perfumes.perfumeId': new mongoose.Types.ObjectId(params.perfumeId),
+        'perfumes.perfume': new mongoose.Types.ObjectId(params.perfume),
       },
       {
         $set: {
@@ -250,7 +250,7 @@ export async function updatePerfumePosition(
         {
           $push: {
             perfumes: {
-              perfumeId: new mongoose.Types.ObjectId(params.perfumeId),
+              perfume: new mongoose.Types.ObjectId(params.perfume),
               position: params.position,
             },
           },
@@ -271,7 +271,7 @@ export async function updatePerfumePosition(
 
 export async function deletePerfumeFromBoard(
   boardId: string,
-  perfumeId: string
+  perfume: string
 ): Promise<ActionResponse> {
   try {
     const session = await auth();
@@ -287,7 +287,7 @@ export async function deletePerfumeFromBoard(
       {
         $pull: {
           perfumes: {
-            perfumeId: new mongoose.Types.ObjectId(perfumeId),
+            perfume: new mongoose.Types.ObjectId(perfume),
           },
         },
       },
@@ -381,7 +381,7 @@ export async function toggleLike(boardId: string): Promise<ActionResponse> {
 
 export async function getMoodBoard(
   params: GetMoodBoardParams
-): Promise<ActionResponse<MoodBoardType>> {
+): Promise<ActionResponse<MoodBoardView>> {
   const validationResult = await action({
     params,
     schema: GetMoodBoardSchema,

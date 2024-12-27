@@ -160,7 +160,7 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
           <Button
             onClick={() =>
               submitReview.mutate({
-                perfumeId,
+                perfume: perfumeId,
                 rating,
                 review,
               })
@@ -185,7 +185,7 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
       </div>
 
       {/* Rating Distribution */}
-      <RatingDistribution perfumeId={perfumeId} />
+      <RatingDistribution />
     </Card>
   );
 }

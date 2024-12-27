@@ -1,7 +1,7 @@
 import { Schema, Document, Types, models, model } from 'mongoose';
 
 interface IPerfumePosition {
-  perfumeId: Types.ObjectId;
+  perfume: Types.ObjectId;
   position: {
     x: number;
     y: number;
@@ -30,7 +30,7 @@ const MoodBoardSchema = new Schema<IMoodBoard>(
     description: { type: String, trim: true },
     perfumes: [
       {
-        perfumeId: {
+        perfume: {
           type: Schema.Types.ObjectId,
           ref: 'Perfume',
           required: true,
@@ -73,5 +73,4 @@ MoodBoardSchema.index(
 const MoodBoard =
   models?.MoodBoard || model<IMoodBoard>('MoodBoard', MoodBoardSchema);
 
-// export const Review = models.Review || model<IReview>('Review', ReviewSchema);
 export default MoodBoard;

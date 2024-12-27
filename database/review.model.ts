@@ -2,7 +2,7 @@ import { Schema, Document, model, models, Types } from 'mongoose';
 
 export interface IReview {
   author: Types.ObjectId;
-  perfumeId: Types.ObjectId;
+  perfume: Types.ObjectId;
   vendingMachineId?: Types.ObjectId;
   rating: {
     sillage: number;
@@ -19,7 +19,7 @@ export interface IReviewDoc extends IReview, Document {}
 const ReviewSchema = new Schema<IReview>(
   {
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    perfumeId: {
+    perfume: {
       type: Schema.Types.ObjectId,
       ref: 'Perfume',
       required: true,
@@ -72,8 +72,8 @@ const ReviewSchema = new Schema<IReview>(
 );
 
 // Create compound indexes
-ReviewSchema.index({ perfumeId: 1, createdAt: -1 });
-ReviewSchema.index({ author: 1, perfumeId: 1 }, { unique: true });
+ReviewSchema.index({ perfume: 1, createdAt: -1 });
+ReviewSchema.index({ author: 1, perfume: 1 }, { unique: true });
 
 const Review = models?.Review || model<IReview>('Review', ReviewSchema);
 

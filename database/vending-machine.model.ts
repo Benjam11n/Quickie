@@ -8,7 +8,7 @@ export interface IVendingMachine {
     area: string;
   };
   inventory: {
-    perfumeId: Types.ObjectId;
+    perfume: Types.ObjectId;
     stock: number;
     lastRefilled: Date;
   }[];
@@ -32,7 +32,7 @@ const VendingMachineSchema = new Schema<IVendingMachine>(
     },
     inventory: [
       {
-        perfumeId: {
+        perfume: {
           type: Schema.Types.ObjectId,
           ref: 'Perfume',
           required: true,

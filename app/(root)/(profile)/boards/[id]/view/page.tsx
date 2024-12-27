@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { auth } from '@/auth';
 import { ViewBoard } from '@/components/mood-board/BoardView';
-import { api } from '@/lib/api';
+import { getMoodBoard } from '@/lib/actions/moodboard.action';
 
 export default async function BoardPage({
   params,
@@ -10,7 +10,7 @@ export default async function BoardPage({
   params: { id: string };
 }) {
   const session = await auth();
-  const { success, data } = await api.moodboards.getById(params.id);
+  const { success, data } = await getMoodBoard({ boardId: params.id });
 
   if (!success || !data) {
     notFound();

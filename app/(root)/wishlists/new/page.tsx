@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { ROUTES } from '@/constants/routes';
 import { useWishlistMutations } from '@/hooks/mutations/use-wishlist-mutations';
 
 const WishlistNewSchema = z.object({
@@ -40,9 +41,10 @@ export default function NewWishlistPage() {
   });
 
   const handleSubmit = async (data: FormValues) => {
-    createWishlistMutation.mutate({
-      name: data.name,
-      description: data.description,
+    await createWishlistMutation.mutateAsync(data, {
+      onSuccess: (response) => {
+        router.replace(ROUTES.WISHLISTS_VIEW(response._id));
+      },
     });
   };
 

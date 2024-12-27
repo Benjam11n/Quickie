@@ -1,25 +1,16 @@
 import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
+import { CollectionPerfumeView } from '@/types';
 
 interface CollectionGridProps {
-  items: {
-    perfumeId: {
-      _id: string;
-      id: string;
-      name: string;
-      brand: { name: string };
-      price: number;
-      images: string[];
-      affiliateLink: string;
-    };
-    addedAt: Date;
-  }[];
+  items: CollectionPerfumeView[];
 }
 
+// todo: add reviews
 export function CollectionGrid({ items }: CollectionGridProps) {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {items.map((item) => {
-        const perfume = item.perfumeId;
+        const perfume = item.perfume;
 
         return (
           <PerfumeCard

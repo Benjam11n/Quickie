@@ -25,7 +25,7 @@ export function ProductInfo({
 }: ProductInfoProps) {
   const inCollection: boolean = collection
     ? collection.perfumes
-        .map((perfume) => perfume.perfumeId._id)
+        .map((perfume) => perfume.perfume._id)
         .includes(perfume._id)
     : false;
 

@@ -106,11 +106,11 @@ export function LocationCard({
             >
               <div className="space-y-2 border-t pt-2">
                 {vendingMachine.inventory.map((item) => {
-                  const product = item.perfumeId;
+                  const product = item.perfume;
 
                   return (
                     <div
-                      key={item.perfumeId._id}
+                      key={item.perfume._id}
                       className="flex items-center justify-between text-sm"
                     >
                       <div>
@@ -119,7 +119,15 @@ export function LocationCard({
                           {product.brand.name}
                         </p>
                       </div>
-                      <Badge variant={item.stock > 3 ? 'default' : 'secondary'}>
+                      <Badge
+                        variant={
+                          item.stock > 3
+                            ? 'default'
+                            : item.stock === 0
+                              ? 'destructive'
+                              : 'secondary'
+                        }
+                      >
                         {item.stock} left
                       </Badge>
                     </div>

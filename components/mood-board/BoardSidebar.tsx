@@ -39,7 +39,7 @@ export function BoardSidebar({
 
   const noteDistribution = currentBoard.perfumes.reduce(
     (acc, perfume) => {
-      const product = perfumes.find((p) => p.id === perfume.perfumeId);
+      const product = perfumes.find((p) => p.id === perfume.perfume);
       if (!product) return acc;
 
       Object.values(product.notes)
@@ -119,9 +119,7 @@ export function BoardSidebar({
               perfumes
                 .filter(
                   (product) =>
-                    !currentBoard.perfumes.some(
-                      (p) => p.perfumeId === product.id
-                    )
+                    !currentBoard.perfumes.some((p) => p.perfume === product.id)
                 )
                 .map((product) => (
                   <button
