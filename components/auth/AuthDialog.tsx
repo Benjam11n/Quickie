@@ -10,17 +10,12 @@ import { SignInSchema } from '@/lib/validations';
 
 import AuthForm from '../forms/AuthForm';
 
-interface AuthDialogProps {
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-}
-
-export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
+export function AuthDialog() {
   const { update } = useSession();
-  const { close } = useAuthDialogStore();
+  const { isOpen, close, onSuccess } = useAuthDialogStore();
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={close}>
       <VisuallyHidden>
         <DialogTitle>Sign In</DialogTitle>
       </VisuallyHidden>
@@ -32,6 +27,7 @@ export function AuthDialog({ open, onOpenChange }: AuthDialogProps) {
           onSubmit={signInWithCredentials}
           onSuccess={async () => {
             await update(); // Refresh the session
+            onSuccess?.();
             close();
           }}
         />

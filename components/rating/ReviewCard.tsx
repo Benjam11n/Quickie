@@ -17,6 +17,7 @@ import { ReviewInteractionType, ReviewView } from '@/types';
 import { RatingDistribution } from './RatingDistribution';
 import { RatingMetrics } from './RatingMetrics';
 import ConfirmationDialog from '../ConfirmationDialog';
+import { AuthCheck } from '../auth/AuthCheck';
 
 interface ReviewCardProps {
   perfumeId: string;
@@ -158,18 +159,20 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
           transition={{ duration: 0.3 }}
           className="space-x-2"
         >
-          <Button
-            onClick={() =>
-              submitReview.mutate({
-                perfume: perfumeId,
-                rating,
-                review,
-              })
-            }
-            disabled={!canUpdate}
-          >
-            {isUpdate ? 'Update Review' : 'Submit Rating'}
-          </Button>
+          <AuthCheck>
+            <Button
+              onClick={() =>
+                submitReview.mutate({
+                  perfume: perfumeId,
+                  rating,
+                  review,
+                })
+              }
+              disabled={!canUpdate}
+            >
+              {isUpdate ? 'Update Review' : 'Submit Rating'}
+            </Button>
+          </AuthCheck>
           {isUpdate && (
             <ConfirmationDialog
               trigger={

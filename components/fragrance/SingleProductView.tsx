@@ -39,37 +39,32 @@ export function SingleProductView({ perfumeId }: SingleProductViewProps) {
     isPending: perfumeLoading,
     error: perfumeError,
   } = usePerfume(perfumeId);
-
-  const {
-    data: reviewResponse,
-    isPending: reviewLoading,
-    error: reviewError,
-  } = useReview(perfumeId, userId);
-
+  const { data: reviewResponse, isPending: reviewLoading } = useReview(
+    perfumeId,
+    userId
+  );
   const { data: wishlistsResponse, isPending: isLoadingWishlists } =
     useWishlists(userId);
+  const { data: collectionResponse, isLoading: isLoadingCollection } =
+    useCollection(userId);
 
   const { addToCollectionMutation, removeFromCollectionMutation } =
     useCollectionMutations();
   const { addToWishlistMutation, removeFromWishlistMutation } =
     useWishlistMutations();
-  const { data: collectionResponse, isLoading: isLoadingCollection } =
-    useCollection(userId);
 
-  const collection = collectionResponse?.data;
   if (
     perfumeLoading ||
-    isLoadingCollection ||
-    isLoadingWishlists ||
-    (session && reviewLoading)
+    (session && (isLoadingCollection || isLoadingWishlists || reviewLoading))
   ) {
     return <Loading />;
   }
 
-  if (perfumeError || reviewError || !perfumeResponse.data) {
+  if (perfumeError || !perfumeResponse.data) {
     return notFound();
   }
 
+  const collection = collectionResponse?.data;
   const perfume = perfumeResponse.data;
   const review = reviewResponse?.data;
   const wishlist = wishlistsResponse?.data;

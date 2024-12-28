@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   DefaultValues,
   FieldValues,
@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { ROUTES } from '@/constants/routes';
+import { useAuthDialogStore } from '@/hooks/stores/use-auth-dialog-store';
 
 interface AuthFormProps<T extends FieldValues> {
   schema: ZodType<T>;
@@ -43,6 +44,10 @@ const AuthForm = <T extends FieldValues>({
   onSuccess,
 }: AuthFormProps<T>) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { callbackUrl: pathname } = useAuthDialogStore();
+
+  const callbackUrl = searchParams.get('callbackUrl') || pathname || '';
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -50,7 +55,9 @@ const AuthForm = <T extends FieldValues>({
   });
 
   const handleSubmit: SubmitHandler<T> = async (data) => {
-    const result = (await onSubmit(data)) as ActionResponse;
+    const result = (await onSubmit({
+      ...data,
+    })) as ActionResponse;
 
     if (result?.success) {
       toast.success('Success', {
@@ -61,7 +68,11 @@ const AuthForm = <T extends FieldValues>({
       });
       onSuccess?.();
 
-      router.push(ROUTES.HOME);
+      if (callbackUrl) {
+        router.push(callbackUrl);
+      } else {
+        router.push(ROUTES.HOME);
+      }
     } else {
       toast.error(`Error ${result?.status}`, {
         description: result?.error?.message,
