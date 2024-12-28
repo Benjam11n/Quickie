@@ -128,18 +128,32 @@ const AuthForm = <T extends FieldValues>({
                   )}
                   {buttonText}
                 </Button>
+
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  disabled={form.formState.isSubmitting}
+                >
+                  <Link href={ROUTES.HOME}>
+                    {formType === 'SIGN_IN'
+                      ? 'Continue to Quickie without signing in'
+                      : 'Continue to Quickie without signing up'}
+                  </Link>
+                </Button>
               </div>
 
               {formType === 'SIGN_IN' ? (
-                <p className="mt-4 text-center text-sm text-muted-foreground">
-                  Don&apos;t have an account?{' '}
-                  <Link
-                    href={ROUTES.SIGN_UP}
-                    className="text-primary hover:underline"
-                  >
-                    Sign up
-                  </Link>
-                </p>
+                <div className="space-y-3 pt-2">
+                  <p className="text-center text-sm text-muted-foreground">
+                    Don&apos;t have an account?{' '}
+                    <Link
+                      href={ROUTES.SIGN_UP}
+                      className="text-primary hover:underline"
+                    >
+                      Sign up
+                    </Link>
+                  </p>
+                </div>
               ) : (
                 <p className="mt-4 text-center text-sm text-muted-foreground">
                   Already have an account?{' '}
