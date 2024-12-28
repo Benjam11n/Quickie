@@ -30,6 +30,10 @@ function mapNote(name: string, intensity: number, family: NoteFamily): Note {
   };
 }
 
+// Add these fields to perfume model.
+// Intensity of notes, family
+// Seasonal values
+
 function generateTimeline(notes: {
   top: Note[];
   middle: Note[];

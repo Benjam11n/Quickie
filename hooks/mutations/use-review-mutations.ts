@@ -61,21 +61,19 @@ export function useReviewMutations(perfume: string, review?: ReviewView) {
 
       if (!result.success) {
         throw new Error(
-          result.error?.message || 'An unexpected error occurred'
+          result.error?.message || 'An unexpected error occurred.'
         );
       }
 
       return result.data;
     },
     onSuccess: () => {
-      toast.success('Review Deleted', {
-        description: 'Your review has been deleted successfully!',
-      });
+      toast.success('Your review has been deleted successfully.');
       queryClient.invalidateQueries({ queryKey: ['reviews', perfume] });
     },
     onError: () => {
       toast.error('Error', {
-        description: 'Failed to delete review',
+        description: 'Failed to delete review.',
       });
     },
   });
@@ -110,7 +108,7 @@ export function useReviewMutations(perfume: string, review?: ReviewView) {
     },
     onError: () => {
       toast.error('Error', {
-        description: 'Something went wrong',
+        description: 'Something went wrong.',
       });
     },
   });

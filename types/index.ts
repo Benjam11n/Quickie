@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { WishlistPerfume, WishlistPerfumeView } from '@/database';
 
+import { Rating } from './fragrance';
+
 export interface PerfumePosition {
   perfume: string; // ObjectId as string
   position: {
@@ -19,8 +21,8 @@ export interface MoodBoard {
   isPublic: boolean;
   views?: number;
   likes?: number;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface MoodBoardView {
@@ -100,13 +102,7 @@ export interface Review {
   author: string;
   perfume: string;
   vendingMachineId?: string;
-  rating: {
-    sillage: number;
-    longevity: number;
-    value: number;
-    projection: number;
-    complexity: number;
-  };
+  rating: Rating;
   review: string;
   createdAt: Date;
   updatedAt: Date;
@@ -125,13 +121,7 @@ export interface ReviewView {
     price: number;
   };
   vendingMachineId?: string;
-  rating: {
-    sillage: number;
-    longevity: number;
-    value: number;
-    projection: number;
-    complexity: number;
-  };
+  rating: Rating;
   review: string;
   createdAt: Date;
   updatedAt: Date;

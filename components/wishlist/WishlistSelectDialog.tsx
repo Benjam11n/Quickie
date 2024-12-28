@@ -55,7 +55,7 @@ export function WishlistSelectDialog({
           <DialogDescription>
             {isLoading
               ? 'Loading your wishlists, please wait.'
-              : 'An error occured loading your wishlists.'}
+              : 'An error occurred loading your wishlists.'}
           </DialogDescription>
         </VisuallyHidden>
         <DialogContent>

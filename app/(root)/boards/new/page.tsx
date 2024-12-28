@@ -65,12 +65,12 @@ export default function CreateBoardPage() {
         }
 
         toast.error('Error', {
-          description: result.error?.message || 'Failed to create board',
+          description: result.error?.message || 'Failed to create board.',
         });
       }
     } catch (error) {
       toast.error('Error', {
-        description: (error as Error)?.message || 'Something went wrong',
+        description: (error as Error)?.message || 'Something went wrong.',
       });
     }
   };

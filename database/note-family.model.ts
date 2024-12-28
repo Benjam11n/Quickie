@@ -1,13 +1,13 @@
 import { Schema, model, models, Document } from 'mongoose';
 
-export interface IBrand {
+export interface INoteFamily {
   name: string;
   perfumesCount: number;
 }
 
-export interface IBrandDoc extends IBrand, Document {}
+export interface INoteFamilyDoc extends INoteFamily, Document {}
 
-const BrandSchema = new Schema<IBrand>(
+const NoteFamilySchema = new Schema<INoteFamily>(
   {
     name: { type: String, required: true, unique: true },
     perfumesCount: {
@@ -19,6 +19,7 @@ const BrandSchema = new Schema<IBrand>(
   { timestamps: true }
 );
 
-const Brand = models?.Brand || model<IBrand>('Brand', BrandSchema);
+const NoteFamily =
+  models?.NoteFamily || model<INoteFamily>('NoteFamily', NoteFamilySchema);
 
-export default Brand;
+export default NoteFamily;

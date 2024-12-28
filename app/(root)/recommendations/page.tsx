@@ -14,13 +14,13 @@ import Loading from '../loading';
 
 export default function RecommendationsPage() {
   const [showQuiz, setShowQuiz] = useState(true);
-  const { data: perfumeResponse, isLoading: isLoadingPerfumes } = usePerfumes({
+  const { data: perfumeResponse, isPending: isLoadingPerfumes } = usePerfumes({
     page: 1,
     pageSize: 100,
     query: '',
     filter: '',
   });
-  const { data: collectionResponse, isLoading: isLoadingCollection } =
+  const { data: collectionResponse, isPending: isLoadingCollection } =
     useCollection();
 
   if (isLoadingPerfumes || isLoadingCollection) {

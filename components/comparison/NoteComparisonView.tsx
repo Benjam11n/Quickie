@@ -183,7 +183,6 @@ export function NoteComparisonView({ perfumes }: NoteComparisonViewProps) {
               <div className="relative space-y-4 p-6">
                 <div>
                   <h3 className="text-2xl font-bold">{product.name}</h3>
-                  {/* TODO */}
                   <p className="text-muted-foreground">
                     {product?.brand?.name}
                   </p>

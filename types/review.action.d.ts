@@ -1,14 +1,10 @@
+import { Rating } from './fragrance';
+
 declare global {
   interface CreateReviewParams {
     perfume: Types.ObjectId;
     vendingMachineId?: Types.ObjectId;
-    rating: {
-      sillage: number;
-      longevity: number;
-      value: number;
-      projection: number;
-      complexity: number;
-    };
+    rating: Rating;
     review: string;
   }
 

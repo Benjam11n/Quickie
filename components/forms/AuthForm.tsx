@@ -63,8 +63,8 @@ const AuthForm = <T extends FieldValues>({
       toast.success('Success', {
         description:
           formType === 'SIGN_IN'
-            ? 'Signed in successfully'
-            : 'Signed up successfully',
+            ? 'Signed in successfully.'
+            : 'Signed up successfully.',
       });
       onSuccess?.();
 

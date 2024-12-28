@@ -26,7 +26,7 @@ interface EditBoardPageProps {
 export default function EditBoardPageClient({
   initialBoard,
 }: EditBoardPageProps) {
-  const { data: perfumesResponse, isLoading } = usePerfumes({
+  const { data: perfumesResponse, isPending } = usePerfumes({
     page: 1,
     pageSize: 100,
     query: '',
@@ -64,9 +64,9 @@ export default function EditBoardPageClient({
     if (result.success && result.data) {
       // Transform the response data as well
       initializeBoard(result.data);
-      toast.success('Changes saved successfully');
+      toast.success('Changes saved successfully.');
     } else {
-      toast.error('Failed to save changes');
+      toast.error('Failed to save changes.');
     }
   };
 
@@ -97,7 +97,7 @@ export default function EditBoardPageClient({
     updateName(newName);
   };
 
-  if (isLoading) {
+  if (isPending) {
     return <Loading />;
   }
 

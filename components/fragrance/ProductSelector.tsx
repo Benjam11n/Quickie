@@ -34,7 +34,7 @@ export function ProductSelector({
   const searchParams = useSearchParams();
   const query = searchParams.get('query') || '';
 
-  const { data, isLoading } = usePerfumes({
+  const { data, isPending } = usePerfumes({
     page: 1,
     pageSize: 100,
     query: query || '',
@@ -58,7 +58,7 @@ export function ProductSelector({
         </div>
 
         <ScrollArea className="h-[300px] pr-4">
-          {isLoading ? (
+          {isPending ? (
             <div className="flex min-h-[300px] flex-1 items-center justify-center">
               <div className="flex flex-col items-center gap-4">
                 <SprayLoader />

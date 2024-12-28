@@ -9,8 +9,6 @@ interface EnhancedVisualizerProps {
   fragrance: EnhancedFragrance;
 }
 
-// TODO: NOT USED
-
 export function EnhancedVisualizer({ fragrance }: EnhancedVisualizerProps) {
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">

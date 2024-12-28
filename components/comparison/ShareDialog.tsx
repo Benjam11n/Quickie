@@ -25,7 +25,7 @@ const openShareWindow = (url: string) => {
 };
 
 // TODO: Complete sharing implementation
-// Add more sharing optiosnas well. Telegram, facebook etc.
+// Add more sharing options as well. Telegram, facebook etc.
 const shareToSocial = {
   twitter: (url: string, text: string) => {
     const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
@@ -61,10 +61,8 @@ export function ShareDialog({ text }: ShareDialogProps) {
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(url);
-      // Show success toast/message
-      toast.success('Successfully copied to clipboard');
+      toast.success('Successfully copied to clipboard.');
     } catch (err) {
-      // Show error toast/message
       console.error('Failed to copy:', err);
     }
   };

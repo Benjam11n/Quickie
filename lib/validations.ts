@@ -353,7 +353,7 @@ const ReviewRatingSchema = z.object({
   sillage: z.number().min(1).max(5),
   longevity: z.number().min(1).max(5),
   value: z.number().min(1).max(5),
-  projection: z.number().min(1).max(5),
+  uniqueness: z.number().min(1).max(5),
   complexity: z.number().min(1).max(5),
 });
 

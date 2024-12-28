@@ -10,7 +10,7 @@ type ActionResponse<T = null> = {
 
 type SuccessResponse<T = null> = ActionResponse<T> & { success: true };
 
-type SuccessDeleteResponse = { _id: string };
+type SuccessDeleteResponse = { _id: string; userId?: string };
 type ErrorResponse = ActionResponse<undefined> & { success: false };
 
 type APIErrorResponse = NextResponse<ErrorResponse>;

@@ -1,16 +1,12 @@
 import { Schema, Document, model, models, Types } from 'mongoose';
 
+import { Rating } from '@/types/fragrance';
+
 export interface IReview {
   author: Types.ObjectId;
   perfume: Types.ObjectId;
   vendingMachineId?: Types.ObjectId;
-  rating: {
-    sillage: number;
-    longevity: number;
-    value: number;
-    projection: number;
-    complexity: number;
-  };
+  rating: Rating;
   review: string;
 }
 
@@ -48,7 +44,7 @@ const ReviewSchema = new Schema<IReview>(
         min: 1,
         max: 5,
       },
-      projection: {
+      uniqueness: {
         type: Number,
         required: true,
         min: 1,

@@ -84,7 +84,6 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
               <div className="relative space-y-4 p-6">
                 <div>
                   <h3 className="text-2xl font-bold">{product.name}</h3>
-                  {/* TODO: add brands into db */}
                   <p className="text-muted-foreground">
                     {product?.brand?.name}
                   </p>
@@ -96,7 +95,8 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
                       ${product.price}
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      ${(product.price / product.size).toFixed(2)}/ml
+                      {/* TODO: add product size */}$
+                      {(product.price / product.size).toFixed(2)}/ml
                     </div>
                   </div>
                   <StarRating rating={4.5} />

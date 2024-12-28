@@ -35,7 +35,7 @@ export function MetricsComparison({ products }: MetricsComparisonProps) {
       getValue: (product: PerfumeView) => `${product.scentProfile.longevity}%`,
     },
     {
-      label: 'Projection',
+      label: 'Uniqueness',
       icon: Activity,
       getValue: (product: PerfumeView) => `${product.scentProfile.sillage}%`,
     },

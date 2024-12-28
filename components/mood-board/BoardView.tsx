@@ -21,7 +21,7 @@ interface ViewBoardProps {
 }
 
 export function ViewBoard({ board, user }: ViewBoardProps) {
-  const { data: perfumesResponse, isLoading } = usePerfumes({
+  const { data: perfumesResponse, isPending } = usePerfumes({
     page: 1,
     pageSize: 100,
     query: '',
@@ -38,7 +38,7 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
     toggleLike(board._id);
   };
 
-  if (isLoading) {
+  if (isPending) {
     return <Loading />;
   }
 

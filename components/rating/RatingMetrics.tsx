@@ -14,7 +14,7 @@ interface RatingMetricsProps {
 
 const metrics = [
   {
-    key: 'sillage', // No more 'rating.' prefix
+    key: 'sillage',
     label: 'Sillage',
     icon: Wind,
     description: 'How far the fragrance projects',
@@ -32,10 +32,10 @@ const metrics = [
     description: 'Price to quality ratio',
   },
   {
-    key: 'projection',
-    label: 'Projection',
+    key: 'uniqueness',
+    label: 'Uniqueness',
     icon: Activity,
-    description: 'Strength of the scent',
+    description: 'Versatility of the scent',
   },
   {
     key: 'complexity',

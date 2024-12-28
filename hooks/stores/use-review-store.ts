@@ -1,15 +1,10 @@
 import { create } from 'zustand';
 
 import { ReviewView } from '@/types';
+import { Rating } from '@/types/fragrance';
 
 interface ReviewState {
-  rating: {
-    sillage: number;
-    longevity: number;
-    value: number;
-    projection: number;
-    complexity: number;
-  };
+  rating: Rating;
   review: string;
   setRating: (rating: ReviewState['rating']) => void;
   setReview: (review: string) => void;
@@ -22,7 +17,7 @@ export const useReviewStore = create<ReviewState>((set) => ({
     sillage: 0,
     longevity: 0,
     value: 0,
-    projection: 0,
+    uniqueness: 0,
     complexity: 0,
   },
   review: '',
@@ -34,7 +29,7 @@ export const useReviewStore = create<ReviewState>((set) => ({
         sillage: 0,
         longevity: 0,
         value: 0,
-        projection: 0,
+        uniqueness: 0,
         complexity: 0,
       },
       review: '',

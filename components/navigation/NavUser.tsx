@@ -44,11 +44,13 @@ export function NavUser({
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const { data: session } = useSession();
   const userId = session?.user?.id || '';
-  const { data: collectionResponse, isLoading } = useCollection(userId);
-  const { data: reviewsResponse, isLoading: isLoadingReviews } =
+  const { data: collectionResponse, isPending: isLoadingCollection } =
+    useCollection(userId);
+  const { data: reviewsResponse, isPending: isLoadingReviews } =
     useUserReviews(userId);
 
-  if (isLoading || isLoadingReviews) {
+  if (isLoadingCollection || isLoadingReviews) {
+    // todo: improve loading experience
     return <Loading />;
   }
 

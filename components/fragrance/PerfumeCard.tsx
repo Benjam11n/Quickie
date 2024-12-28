@@ -66,7 +66,7 @@ export function PerfumeCard({
   const overall = review?.rating
     ? (review?.rating?.longevity +
         review?.rating?.complexity +
-        review?.rating?.projection +
+        review?.rating?.uniqueness +
         review?.rating?.sillage +
         review?.rating?.value) /
       5

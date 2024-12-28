@@ -17,16 +17,14 @@ export function useCollectionMutations() {
 
       if (!result.success) {
         throw new Error(
-          result.error?.message || 'An unexpected error occurred'
+          result.error?.message || 'An unexpected error occurred.'
         );
       }
 
       return result.data; // Assuming result.data contains userId
     },
     onSuccess: (data) => {
-      toast.success('Success', {
-        description: 'Successfully added to collection',
-      });
+      toast.success('Successfully added to collection.');
 
       const userId = data?.author;
 
@@ -36,12 +34,10 @@ export function useCollectionMutations() {
     },
     onError: (error) => {
       if (error.message === 'Perfume already in collection') {
-        toast.error('Already Added', {
-          description: 'This perfume is already in your collection',
-        });
+        toast.error('This perfume is already in your collection.');
       } else {
         toast.error('Error', {
-          description: error.message || 'An unexpected error occurred',
+          description: error.message || 'An unexpected error occurred.',
         });
       }
     },
@@ -62,9 +58,7 @@ export function useCollectionMutations() {
       return result.data;
     },
     onSuccess: (data) => {
-      toast.success('Success', {
-        description: 'Successfully removed from collection',
-      });
+      toast.success('Successfully removed from collection.');
 
       const userId = data?.author;
 
@@ -74,7 +68,7 @@ export function useCollectionMutations() {
     },
     onError: (error) => {
       toast.error('Error', {
-        description: error.message || 'Failed to update collection',
+        description: error.message || 'Failed to update collection.',
       });
     },
   });

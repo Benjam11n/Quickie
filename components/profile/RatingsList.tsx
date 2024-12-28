@@ -19,7 +19,7 @@ export function RatingsList({ reviews }: RatingsListProps) {
         const overallRating =
           (item.rating.complexity +
             item.rating.longevity +
-            item.rating.projection +
+            item.rating.uniqueness +
             item.rating.sillage +
             item.rating.value) /
           5;

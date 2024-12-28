@@ -22,7 +22,7 @@ interface WishlistClientProps {
 }
 
 const WishlistClient = ({ id }: WishlistClientProps) => {
-  const { data: wishlistResponse, isLoading } = useWishlist(id);
+  const { data: wishlistResponse, isPending } = useWishlist(id);
   const {
     updateWishlistMutation,
     addToWishlistMutation,
@@ -55,7 +55,7 @@ const WishlistClient = ({ id }: WishlistClientProps) => {
     }
   }, [wishlistResponse?.data, initializeFromWishlist]);
 
-  if (isLoading) {
+  if (isPending) {
     return <Loading />;
   }
 

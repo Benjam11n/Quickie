@@ -7,9 +7,21 @@ export interface IPerfume {
   affiliateLink: string;
   images: string[];
   notes: {
-    top: Types.ObjectId[];
-    middle: Types.ObjectId[];
-    base: Types.ObjectId[];
+    top: {
+      note: Types.ObjectId;
+      intensity: number;
+      noteFamily: Types.ObjectId;
+    }[];
+    middle: {
+      note: Types.ObjectId;
+      intensity: number;
+      noteFamily: Types.ObjectId;
+    }[];
+    base: {
+      note: Types.ObjectId;
+      intensity: number;
+      noteFamily: Types.ObjectId;
+    }[];
   };
   scentProfile: {
     intensity: number;
@@ -26,6 +38,19 @@ export interface IPerfume {
   };
   tags: Types.ObjectId[];
   author: Types.ObjectId;
+  seasonalCompatibility: {
+    summer: number;
+    fall: number;
+    winter: number;
+    spring: number;
+  };
+  distribution: {
+    1: number;
+    2: number;
+    3: number;
+    4: number;
+    5: number;
+  };
 }
 
 export interface IPerfumeDoc extends IPerfume, Document {}
@@ -58,9 +83,36 @@ const PerfumeSchema = new Schema<IPerfume>(
       },
     ],
     notes: {
-      top: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
-      middle: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
-      base: [{ type: Schema.Types.ObjectId, ref: 'Note' }],
+      top: [
+        {
+          note: {
+            type: Schema.Types.ObjectId,
+            ref: 'Note',
+            required: true,
+          },
+          intensity: { type: Number, min: 0, max: 100 },
+        },
+      ],
+      middle: [
+        {
+          note: {
+            type: Schema.Types.ObjectId,
+            ref: 'Note',
+            required: true,
+          },
+          intensity: { type: Number, min: 0, max: 100 },
+        },
+      ],
+      base: [
+        {
+          note: {
+            type: Schema.Types.ObjectId,
+            ref: 'Note',
+            required: true,
+          },
+          intensity: { type: Number, min: 0, max: 100 },
+        },
+      ],
     },
     scentProfile: {
       intensity: {
@@ -105,6 +157,25 @@ const PerfumeSchema = new Schema<IPerfume>(
       required: true,
       min: 0,
     },
+    seasonalCompatibility: {
+      summer: { type: Number, default: 0, min: 0, max: 100 },
+      fall: { type: Number, default: 0, min: 0, max: 100 },
+      winter: { type: Number, default: 0, min: 0, max: 100 },
+      spring: { type: Number, default: 0, min: 0, max: 100 },
+    },
+    tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+
+    // Rating distribution
+    distribution: {
+      1: { type: Number, default: 0 },
+      2: { type: Number, default: 0 },
+      3: { type: Number, default: 0 },
+      4: { type: Number, default: 0 },
+      5: { type: Number, default: 0 },
+    },
+
+    // Rating
     rating: {
       average: {
         type: Number,
@@ -120,70 +191,17 @@ const PerfumeSchema = new Schema<IPerfume>(
         immutable: true,
       },
     },
-    tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
-    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   },
   { timestamps: true }
 );
 
-// Create text index for search
 PerfumeSchema.index({
   name: 'text',
   brand: 'text',
-  'notes.top': 'text',
-  'notes.middle': 'text',
-  'notes.base': 'text',
+  description: 'text',
 });
 
-// PerfumeSchema.post('save', async function () {
-//   await Promise.all(
-//     this.tags.map((tagId) =>
-//       Tag.findByIdAndUpdate(tagId, {
-//         $inc: { perfumesCount: 1 },
-//       })
-//     )
-//   );
-// });
-
-// PerfumeSchema.post(
-//   'deleteOne',
-//   { document: true, query: false },
-//   async function () {
-//     await Promise.all(
-//       this.tags.map((tagId: Types.ObjectId) =>
-//         Tag.findByIdAndUpdate(tagId, {
-//           $inc: { perfumesCount: -1 },
-//         })
-//       )
-//     );
-//   }
-// );
-
-// // Handle bulk operations
-// PerfumeSchema.pre('deleteMany', async function () {
-//   // Get affected perfumes and their tags
-//   const perfumes = await this.model.find(this.getQuery());
-
-//   // Count occurrences of each tag
-//   const tagCounts = perfumes.reduce(
-//     (acc, perfume) => {
-//       perfume.tags.forEach((tagId: Types.ObjectId) => {
-//         acc[tagId.toHexString()] = (acc[tagId.toHexString()] || 0) + 1;
-//       });
-//       return acc;
-//     },
-//     {} as Record<string, number>
-//   );
-
-//   // Update all affected tags
-//   await Promise.all(
-//     Object.entries(tagCounts).map(([tagId, count]) =>
-//       Tag.findByIdAndUpdate(tagId, {
-//         $inc: { perfumesCount: -(count as number) },
-//       })
-//     )
-//   );
-// });
+PerfumeSchema.index({ brand: 1, name: 1 });
 
 const Perfume = models?.Perfume || model<IPerfume>('Perfume', PerfumeSchema);
 

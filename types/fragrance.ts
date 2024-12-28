@@ -1,8 +1,11 @@
 import { Season, TimeOfDay, Weather } from './enums';
 
-export interface OldNote {
+export interface Note {
+  _id: string;
   name: string;
-  percentage: number;
+  color: string;
+  family: string;
+  description?: string;
 }
 
 export interface ScentProfile {
@@ -24,13 +27,11 @@ export interface Perfume {
   description: string;
   affiliateLink: string;
   images: string[];
-  // TODO: Change categories to tags
-  // tgas: { name: string; count: number };
-  categories?: string[];
+  tags: { name: string; count: number };
   notes: {
-    top: OldNote[];
-    middle: OldNote[];
-    base: OldNote[];
+    top: Note[];
+    middle: Note[];
+    base: Note[];
   };
   scentProfile: ScentProfile;
 }
@@ -50,21 +51,12 @@ export interface PerfumeView {
     perfumesCount: number;
   }[];
   notes: {
-    top: OldNote[];
-    middle: OldNote[];
-    base: OldNote[];
+    top: { note: Note; intensity: number }[];
+    middle: { note: Note; intensity: number }[];
+    base: { note: Note; intensity: number }[];
   };
   scentProfile: ScentProfile;
 }
-
-export interface Note {
-  name: string;
-  intensity: number;
-  color: string;
-  family: string;
-  description?: string;
-}
-
 export interface TimelinePoint {
   time: number; // minutes
   intensity: number;
@@ -119,7 +111,7 @@ export interface Rating {
   sillage: number;
   longevity: number;
   value: number;
-  projection: number;
+  uniqueness: number;
   complexity: number;
 }
 

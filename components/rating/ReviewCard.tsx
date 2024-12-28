@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import isEqual from 'lodash/isEqual';
-import { ThumbsUp, ThumbsDown } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, Loader2 } from 'lucide-react';
 import { useEffect, useMemo } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -16,8 +16,8 @@ import { ReviewInteractionType, ReviewView } from '@/types';
 
 import { RatingDistribution } from './RatingDistribution';
 import { RatingMetrics } from './RatingMetrics';
-import ConfirmationDialog from '../ConfirmationDialog';
 import { AuthCheck } from '../auth/AuthCheck';
+import ConfirmationDialog from '../ConfirmationDialog';
 
 interface ReviewCardProps {
   perfumeId: string;
@@ -61,19 +61,11 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
   );
 
   const calculateOverallScore = () => {
-    const weights = {
-      sillage: 0.25,
-      longevity: 0.3,
-      value: 0.15,
-      projection: 0.2,
-      complexity: 0.1,
-    };
-
-    return Object.entries(rating)
-      .reduce((sum, [key, value]) => {
-        return sum + value * weights[key as keyof typeof weights];
-      }, 0)
-      .toFixed(1);
+    return (
+      Object.entries(rating).reduce((sum, [, value]) => {
+        return sum + value;
+      }, 0) / 5
+    ).toFixed(1);
   };
 
   const isLoading =
@@ -170,6 +162,7 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
               }
               disabled={!canUpdate}
             >
+              {isLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
               {isUpdate ? 'Update Review' : 'Submit Rating'}
             </Button>
           </AuthCheck>

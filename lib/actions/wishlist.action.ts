@@ -284,7 +284,7 @@ export async function deleteWishlist(
     revalidatePath('/wishlists');
     return {
       success: true,
-      data: { _id: deletedWishlist._id.toString() },
+      data: { _id: deletedWishlist._id.toString(), userId },
     };
   } catch (error) {
     await session.abortTransaction();

@@ -26,9 +26,7 @@ export function useWishlistMutations() {
       return result.data as WishlistView;
     },
     onSuccess: (data: WishlistView) => {
-      toast.success('Success', {
-        description: 'Successfully created wishlist',
-      });
+      toast.success('Successfully created wishlist.');
 
       const wishlistId = data._id;
       const userId = data.author;
@@ -43,7 +41,7 @@ export function useWishlistMutations() {
     },
     onError: (error) => {
       toast.error('Error', {
-        description: error.message || 'An unexpected error occurred',
+        description: error.message || 'An unexpected error occurred.',
       });
     },
   });
@@ -61,9 +59,7 @@ export function useWishlistMutations() {
       return result.data as WishlistView;
     },
     onSuccess: (data: WishlistView) => {
-      toast.success('Success', {
-        description: 'Successfully updated wishlist',
-      });
+      toast.success('Successfully updated wishlist.');
 
       const wishlistId = data._id;
       const userId = data.author;
@@ -78,7 +74,7 @@ export function useWishlistMutations() {
     },
     onError: (error) => {
       toast.error('Error', {
-        description: error.message || 'An unexpected error occurred',
+        description: error.message || 'An unexpected error occurred.',
       });
     },
   });
@@ -96,9 +92,7 @@ export function useWishlistMutations() {
       return result.data as WishlistView;
     },
     onSuccess: (data: WishlistView) => {
-      toast.success('Success', {
-        description: 'Successfully added to wishlist',
-      });
+      toast.success('Successfully added to wishlist.');
 
       const wishlistId = data._id;
       const userId = data.author;
@@ -113,12 +107,10 @@ export function useWishlistMutations() {
     },
     onError: (error) => {
       if (error.message === 'Perfume already in wishlist') {
-        toast.error('Already Added', {
-          description: 'This perfume is already in your wishlist',
-        });
+        toast.error('This perfume is already in your wishlist.');
       } else {
         toast.error('Error', {
-          description: error.message || 'An unexpected error occurred',
+          description: error.message || 'An unexpected error occurred.',
         });
       }
     },
@@ -137,9 +129,7 @@ export function useWishlistMutations() {
       return result.data as WishlistView;
     },
     onSuccess: (data: WishlistView) => {
-      toast.success('Success', {
-        description: 'Successfully removed from wishlist',
-      });
+      toast.success('Successfully removed from wishlist.');
 
       const wishlistId = data._id;
       const userId = data.author;
@@ -154,7 +144,7 @@ export function useWishlistMutations() {
     },
     onError: (error) => {
       toast.error('Error', {
-        description: error.message || 'Failed to update wishlist',
+        description: error.message || 'Failed to update wishlist.',
       });
     },
   });
@@ -172,23 +162,22 @@ export function useWishlistMutations() {
       return result.data as SuccessDeleteResponse;
     },
     onSuccess: (data: SuccessDeleteResponse) => {
-      toast.success('Success', {
-        description: 'Successfully deleted wishlist',
-      });
+      toast.success('Successfully deleted wishlist.');
 
       const wishlistId = data._id;
+      const userId = data.userId;
       queryClient.invalidateQueries({
         queryKey: ['wishlist', wishlistId],
       });
 
-      // queryClient.invalidateQueries({
-      //   queryKey: ['wishlists', userId],
-      //   refetchType: 'all',
-      // });
+      queryClient.invalidateQueries({
+        queryKey: ['wishlists', userId],
+        refetchType: 'all',
+      });
     },
     onError: (error) => {
       toast.error('Error', {
-        description: error.message || 'An unexpected error occurred',
+        description: error.message || 'An unexpected error occurred.',
       });
     },
   });

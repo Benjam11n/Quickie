@@ -45,7 +45,7 @@ export function SingleProductView({ perfumeId }: SingleProductViewProps) {
   );
   const { data: wishlistsResponse, isPending: isLoadingWishlists } =
     useWishlists(userId);
-  const { data: collectionResponse, isLoading: isLoadingCollection } =
+  const { data: collectionResponse, isPending: isLoadingCollection } =
     useCollection(userId);
 
   const { addToCollectionMutation, removeFromCollectionMutation } =

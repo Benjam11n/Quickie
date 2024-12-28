@@ -22,7 +22,7 @@ const SocialAuthForm = () => {
         description:
           error instanceof Error
             ? error.message
-            : 'An error occured during sign-in',
+            : 'An error occured during sign-in.',
       });
     }
   };

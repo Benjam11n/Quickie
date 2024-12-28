@@ -62,7 +62,7 @@ export default function CatalogClient({
     useCollection(userId);
   const { data: reviewsResponse, isPending: isLoadingReviews } =
     useUserReviews(userId);
-  const { data: wishlistsResponse, isLoading: isLoadingWishlists } =
+  const { data: wishlistsResponse, isPending: isLoadingWishlists } =
     useWishlists(userId);
 
   // Mutations

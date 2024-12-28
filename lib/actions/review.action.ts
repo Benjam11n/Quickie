@@ -95,6 +95,7 @@ export async function updateReview(
   if (validationResult instanceof Error) {
     return handleError(validationResult) as ErrorResponse;
   }
+
   const {
     vendingMachineId,
     rating,
