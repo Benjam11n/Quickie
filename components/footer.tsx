@@ -83,7 +83,7 @@ export default async function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
                 <MapPin className="size-4" />
-                New York, NY
+                Singapore, SG
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="size-4" />

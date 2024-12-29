@@ -15,7 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { communityNavItems, getMainNavItems } from '@/constants';
+import { getMainNavItems } from '@/constants';
 import { ROUTES } from '@/constants/routes';
 
 import { MobileNavLink } from './MobileNavLink';
@@ -61,11 +61,12 @@ const MobileSidebar = ({ user }: MobileSidebarProps) => {
                     key={item.href}
                     label={item.label}
                     href={item.href}
+                    icon={item.icon}
                   />
                 ))}
               </div>
               {/* Community Section */}
-              <div className="space-y-1">
+              {/* <div className="space-y-1">
                 <h4 className="mt-2 px-3 text-sm font-medium text-muted-foreground">
                   Community
                 </h4>
@@ -76,7 +77,7 @@ const MobileSidebar = ({ user }: MobileSidebarProps) => {
                     href={item.href}
                   />
                 ))}
-              </div>
+              </div> */}
             </ScrollArea>
 
             {user ? (

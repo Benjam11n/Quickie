@@ -11,7 +11,7 @@ import { SheetClose } from '../ui/sheet';
 interface MobileNavLinkProps {
   href: string;
   label: string;
-  icon?: LucideIcon;
+  icon?: LucideIcon; // This is correct
 }
 
 export function MobileNavLink({ href, label, icon: Icon }: MobileNavLinkProps) {

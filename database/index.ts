@@ -10,3 +10,6 @@ export * from './tag-moodboard.model';
 export * from './tag-perfume.model';
 export * from './wishlist.model';
 export * from './collection.model';
+export * from './follow.model';
+export * from './note-family.model';
+export * from './review-interaction.model';
