@@ -8,13 +8,16 @@ export default async function middleware(req: NextRequest) {
     req,
     secret: process.env.AUTH_SECRET,
   });
-
   const isAuthenticated = !!token;
-
   const pathname = req.nextUrl.pathname;
 
+  // Auth pages - redirect to home if already logged in
+  const authRoutes = ['/sign-in', '/sign-up'];
+  if (authRoutes.includes(pathname) && isAuthenticated) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+  // Protected routes - redirect to login if not authenticated
   const protectedRoutes = ['/profile', '/wishlists', '/collection', '/boards'];
-
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
   );
@@ -32,6 +35,8 @@ export default async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
+    '/sign-in',
+    '/sign-up',
     '/profile',
     '/profile/settings',
     '/wishlists/:path*',
