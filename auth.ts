@@ -5,7 +5,7 @@ import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
 import Account, { IAccountDoc } from './database/account.model';
-import User from './database/user.model';
+import User, { IUserDoc } from './database/user.model';
 import { api } from './lib/api';
 import { SignInSchema } from './lib/validations';
 
@@ -38,6 +38,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return {
               id: user.id,
               name: user.name,
+              username: user.username,
               email: user.email,
               image: user.image,
             };
@@ -50,6 +51,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async session({ session, token }) {
       session.user.id = token.sub as string;
+      if (token.sub) {
+        const { data: userData, success } = (await api.users.getById(
+          token.sub
+        )) as ActionResponse<IUserDoc>;
+        if (success && userData) {
+          session.user.name = userData.name;
+          session.user.username = userData.username;
+          session.user.image = userData.image;
+        }
+      }
+
       return session;
     },
     async jwt({ token, account }) {

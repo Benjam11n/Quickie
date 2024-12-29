@@ -5,9 +5,9 @@ import {
   Clock,
   DollarSign,
   Star,
-  Activity,
   Wind,
   Sparkles,
+  Activity,
 } from 'lucide-react';
 
 import { Card } from '@/components/ui/card';
@@ -35,9 +35,9 @@ export function MetricsComparison({ products }: MetricsComparisonProps) {
       getValue: (product: PerfumeView) => `${product.scentProfile.longevity}%`,
     },
     {
-      label: 'Uniqueness',
+      label: 'Complexity',
       icon: Activity,
-      getValue: (product: PerfumeView) => `${product.scentProfile.sillage}%`,
+      getValue: (product: PerfumeView) => `${product.scentProfile.longevity}%`,
     },
     {
       label: 'Uniqueness',

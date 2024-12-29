@@ -77,9 +77,9 @@ export default async function ProfilePageClient({
   const { moodboards } = moodboardsData || {};
 
   const stats = {
-    reviews: 0,
+    reviews: reviews?.length || 0,
+    perfumes: collection?.perfumes.length || 0,
     wishlists: wishlists?.length || 0,
-    followers: 0,
   };
 
   const calculateInsights = (wishlists: WishlistView[]): Insights => {

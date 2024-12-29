@@ -32,75 +32,73 @@ export default async function ProfilePageClient({
   searchParams,
 }: ProfilePageProps) {
   const session = await auth();
-  const { page, pageSize, query, filter } = await searchParams;
+  const { page, pageSize, query, filter } = searchParams;
   const userId = session?.user?.id || '';
+  const username = session?.user?.username || '';
+
+  const [wishlistResult, reviewResult, collectionResult, moodboardResult] =
+    await Promise.all([
+      getUserWishlists({ userId }),
+      getUserReviews({
+        userId,
+        page: Number(page) || 1,
+        pageSize: Number(pageSize) || 10,
+        query: query || '',
+        filter: filter || '',
+      }),
+      getCollection({ userId }),
+      getMoodBoards({
+        page: Number(page) || 1,
+        pageSize: Number(pageSize) || 10,
+        query: query || '',
+        filter: filter || '',
+      }),
+    ]);
 
   const {
     success: wishlistSuccess,
     data: wishlistsData,
     error: wishlistError,
-  } = await getUserWishlists({ userId });
-
+  } = wishlistResult;
   const {
     success: reviewSuccess,
     data: reviewsData,
     error: reviewError,
-  } = await getUserReviews({
-    userId,
-    page: Number(page) || 1,
-    pageSize: Number(pageSize) || 10,
-    query: query || '',
-    filter: filter || '',
-  });
-
+  } = reviewResult;
   const {
     success: collectionSuccess,
     data: collection,
     error: collectionError,
-  } = await getCollection({
-    userId,
-  });
-
+  } = collectionResult;
   const {
     success: moodboardSuccess,
     data: moodboardsData,
     error: moodboardError,
-  } = await getMoodBoards({
-    page: Number(page) || 1,
-    pageSize: Number(pageSize) || 10,
-    query: query || '',
-    filter: filter || '',
-  });
+  } = moodboardResult;
 
   const { reviews } = reviewsData || {};
   const wishlists = wishlistsData;
   const { moodboards } = moodboardsData || {};
 
   const stats = {
-    reviews: 0,
+    reviews: reviews?.length || 0,
     perfumes: collection?.perfumes.length || 0,
     wishlists: wishlists?.length || 0,
-    followers: 0,
   };
 
   const calculateInsights = (wishlists: WishlistView[]): Insights => {
-    // First flatten all perfumes from all wishlists
     const allPerfumes =
       wishlists?.flatMap((wishlist) => wishlist.perfumes) || [];
 
-    // Then reduce over all perfumes
     return allPerfumes.reduce(
       (acc, perfume) => {
-        // Count notes
         Object.values(perfume.perfume.notes).forEach((noteSection) => {
           acc.notes[noteSection.name] = (acc.notes[noteSection.name] || 0) + 1;
         });
 
-        // Count brands
         acc.brands[perfume.perfume.brand.name] =
           (acc.brands[perfume.perfume.brand.name] || 0) + 1;
 
-        // Calculate average rating if exists
         if (perfume.perfume.rating) {
           acc.totalRating += perfume.perfume.rating.average;
           acc.ratedCount += 1;
@@ -120,9 +118,9 @@ export default async function ProfilePageClient({
   const insights = calculateInsights(wishlists || []);
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
       <ProfileCard
-        username={userId}
+        username={username}
         collectionNum={collection?.perfumes.length || 0}
         stats={stats}
       />

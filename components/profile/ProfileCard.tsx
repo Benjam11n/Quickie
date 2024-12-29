@@ -1,4 +1,4 @@
-import { Plus, Settings } from 'lucide-react';
+import { Settings } from 'lucide-react';
 import Link from 'next/link';
 
 import { ROUTES } from '@/constants/routes';
@@ -68,10 +68,11 @@ const ProfileCard = ({ username, collectionNum, stats }: ProfileCardProps) => {
 
           {/* Action Buttons */}
           <div className="mt-4 flex gap-4 md:mt-0">
-            <Button variant="premium" className="gap-2">
+            {/* TODO: Implement following */}
+            {/* <Button variant="premium" className="gap-2">
               <Plus className="size-4" />
               Follow
-            </Button>
+            </Button> */}
             <Button variant="outline" size="icon">
               <Link href={ROUTES.PROFILE_SETTINGS}>
                 <Settings className="size-4" />

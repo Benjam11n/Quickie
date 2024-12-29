@@ -57,7 +57,7 @@ export function WishlistCard({
                     Delete
                   </DropdownMenuItem>
                 }
-                item="review"
+                item="wishlist"
                 onConfirm={onDelete}
               />
             </DropdownMenuContent>

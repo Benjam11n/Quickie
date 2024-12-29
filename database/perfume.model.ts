@@ -32,6 +32,7 @@ export interface IPerfume {
     value: number;
   };
   fullPrice: number;
+  size: number;
   rating: {
     average: number;
     count: number;
@@ -153,6 +154,11 @@ const PerfumeSchema = new Schema<IPerfume>(
       },
     },
     fullPrice: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    size: {
       type: Number,
       required: true,
       min: 0,
