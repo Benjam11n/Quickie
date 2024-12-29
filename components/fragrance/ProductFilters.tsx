@@ -7,8 +7,10 @@ import { useEffect, useState } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
+import { IBrandDoc, INoteDoc } from '@/database';
+import { ITagDoc } from '@/database/tag.model';
+import { getPerfumeFilters } from '@/lib/actions/perfume.action';
 import { removeKeysFromUrlQuery } from '@/lib/url';
-import { brands, categories, notes } from '@/types/data';
 import { FragranceFilters } from '@/types/fragrance';
 
 interface ProductFiltersProps {
@@ -22,11 +24,20 @@ export function ProductFilters({ route }: ProductFiltersProps) {
   const initialFilters = {
     priceRange: [0, 500],
     brands: [],
-    categories: [],
+    tags: [],
     notes: [],
   };
-
   const [filters, setFilters] = useState<FragranceFilters>(initialFilters);
+  const [filterData, setFilterData] = useState<{
+    tags: ITagDoc[];
+    notes: INoteDoc[];
+    brands: IBrandDoc[];
+  }>();
+
+  useEffect(() => {
+    getPerfumeFilters().then((data) => setFilterData(data));
+  }, []);
+  // TODO: handle isPending
 
   useEffect(() => {
     if (Object.keys(filters).length > 0) {
@@ -40,8 +51,8 @@ export function ProductFilters({ route }: ProductFiltersProps) {
         queryParams.brands = filters.brands.join(',');
       }
 
-      if (filters.categories.length >= 0) {
-        queryParams.categories = filters.categories.join(',');
+      if (filters.tags.length >= 0) {
+        queryParams.tags = filters.tags.join(',');
       }
 
       if (filters.notes.length >= 0) {
@@ -61,7 +72,7 @@ export function ProductFilters({ route }: ProductFiltersProps) {
       if (pathname === route) {
         const newUrl = removeKeysFromUrlQuery({
           params: searchParams.toString(),
-          keysToRemove: ['priceRange', 'brands', 'categories', 'notes'],
+          keysToRemove: ['priceRange', 'brands', 'tags', 'notes'],
         });
         router.push(newUrl, { scroll: false });
       }
@@ -91,56 +102,54 @@ export function ProductFilters({ route }: ProductFiltersProps) {
       <div className="space-y-4">
         <h3 className="font-semibold">Brands</h3>
         <div className="space-y-2">
-          {brands.map((brand) => (
-            <div key={brand} className="flex items-center space-x-2">
+          {filterData?.brands?.map((brand) => (
+            <div key={brand.id} className="flex items-center space-x-2">
               <Checkbox
                 id={`brand-${brand}`}
-                checked={filters.brands.includes(brand)}
+                checked={filters.brands.includes(brand.name)}
                 onCheckedChange={(checked) => {
                   if (checked) {
                     setFilters({
                       ...filters,
-                      brands: [...filters.brands, brand],
+                      brands: [...filters.brands, brand.name],
                     });
                   } else {
                     setFilters({
                       ...filters,
-                      brands: filters.brands.filter((b) => b !== brand),
+                      brands: filters.brands.filter((b) => b !== brand.name),
                     });
                   }
                 }}
               />
-              <Label htmlFor={`brand-${brand}`}>{brand}</Label>
+              <Label htmlFor={`brand-${brand}`}>{brand.name}</Label>
             </div>
           ))}
         </div>
       </div>
 
       <div className="space-y-4">
-        <h3 className="font-semibold">Categories</h3>
+        <h3 className="font-semibold">Tags</h3>
         <div className="space-y-2">
-          {categories.map((category) => (
-            <div key={category} className="flex items-center space-x-2">
+          {filterData?.tags?.map((tag) => (
+            <div key={tag.id} className="flex items-center space-x-2">
               <Checkbox
-                id={`category-${category}`}
-                checked={filters.categories.includes(category)}
+                id={`tag-${tag}`}
+                checked={filters.tags.includes(tag.name)}
                 onCheckedChange={(checked) => {
                   if (checked) {
                     setFilters({
                       ...filters,
-                      categories: [...filters.categories, category],
+                      tags: [...filters.tags, tag.name],
                     });
                   } else {
                     setFilters({
                       ...filters,
-                      categories: filters.categories.filter(
-                        (c) => c !== category
-                      ),
+                      tags: filters.tags.filter((t) => t !== tag.name),
                     });
                   }
                 }}
               />
-              <Label htmlFor={`category-${category}`}>{category}</Label>
+              <Label htmlFor={`tag-${tag.name}`}>{tag.name}</Label>
             </div>
           ))}
         </div>
@@ -149,26 +158,26 @@ export function ProductFilters({ route }: ProductFiltersProps) {
       <div className="space-y-4">
         <h3 className="font-semibold">Notes</h3>
         <div className="space-y-2">
-          {notes.map((note) => (
-            <div key={note} className="flex items-center space-x-2">
+          {filterData?.notes?.map((note) => (
+            <div key={note.id} className="flex items-center space-x-2">
               <Checkbox
                 id={`note-${note}`}
-                checked={filters.notes.includes(note)}
+                checked={filters.notes.includes(note.name)}
                 onCheckedChange={(checked) => {
                   if (checked) {
                     setFilters({
                       ...filters,
-                      notes: [...filters.notes, note],
+                      notes: [...filters.notes, note.name],
                     });
                   } else {
                     setFilters({
                       ...filters,
-                      notes: filters.notes.filter((n) => n !== note),
+                      notes: filters.notes.filter((n) => n !== note.name),
                     });
                   }
                 }}
               />
-              <Label htmlFor={`note-${note}`}>{note}</Label>
+              <Label htmlFor={`note-${note}`}>{note.name}</Label>
             </div>
           ))}
         </div>

@@ -16,6 +16,9 @@ import {
   PaginatedSearchParamsSchema,
   UpdatePerfumeSchema,
 } from '../validations';
+import { getBrands } from './brand.action';
+import { getNotes } from './note.action';
+import { getTags } from './tag.action';
 
 export async function createPerfume(
   params: CreatePerfumeParams
@@ -356,4 +359,18 @@ export async function getPerfumesPaginated(
   } catch (error) {
     return handleError(error) as ErrorResponse;
   }
+}
+
+export async function getPerfumeFilters() {
+  const [tagsResponse, notesResponse, brandsResponse] = await Promise.all([
+    getTags(),
+    getNotes(),
+    getBrands(),
+  ]);
+
+  const tags = tagsResponse?.data ?? [];
+  const notes = notesResponse?.data ?? [];
+  const brands = brandsResponse?.data ?? [];
+
+  return { tags, notes, brands };
 }

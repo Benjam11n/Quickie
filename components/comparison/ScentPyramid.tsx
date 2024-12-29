@@ -3,16 +3,12 @@
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { cn } from '@/lib/utils';
-
-interface Note {
-  name: string;
-  percentage: number;
-}
+import { Note } from '@/types/fragrance';
 
 interface Notes {
-  top: Note[];
-  middle: Note[];
-  base: Note[];
+  top: { note: Note; intensity: number }[];
+  middle: { note: Note; intensity: number }[];
+  base: { note: Note; intensity: number }[];
 }
 
 interface ScentPyramidProps {
@@ -103,27 +99,30 @@ export function ScentPyramid({
                     >
                       {section.notes.map((note) => (
                         <motion.button
-                          key={note.name}
+                          key={note.note.name}
                           onClick={() =>
                             onNoteSelect(
-                              selectedNote === note.name ? null : note.name
+                              selectedNote === note.note.name
+                                ? null
+                                : note.note.name
                             )
                           }
                           className={cn(
                             'rounded-full px-3 py-1.5 text-sm',
                             'transition-all duration-200',
                             'backdrop-blur-sm',
-                            selectedNote === note.name
+                            selectedNote === note.note.name
                               ? 'bg-white/40'
                               : 'bg-white/20 hover:bg-white/30',
-                            commonNotes.has(note.name) && 'ring-2 ring-white/50'
+                            commonNotes.has(note.note.name) &&
+                              'ring-2 ring-white/50'
                           )}
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
-                          <span>{note.name}</span>
+                          <span>{note.note.name}</span>
                           <span className="ml-1 opacity-80">
-                            {note.percentage}%
+                            {note.intensity}%
                           </span>
                         </motion.button>
                       ))}

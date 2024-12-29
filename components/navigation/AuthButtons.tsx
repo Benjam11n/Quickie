@@ -1,11 +1,12 @@
 'use client';
 
-import { User } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { User as UserType } from 'next-auth';
 
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
+import { signOutAction } from '@/lib/actions/auth.action';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
@@ -19,11 +20,15 @@ export function AuthButtons({ user }: AuthButtonsProps) {
   if (userName) {
     return (
       <>
-        <Button asChild variant="ghost" size="sm" aria-label="Profile">
-          <Link href={ROUTES.USER_PROFILE}>
-            <User className="mr-2 size-4" />
-            Profile
-          </Link>
+        <Button
+          variant="ghost"
+          size="sm"
+          aria-label="Sign out"
+          onClick={signOutAction}
+          className="mr-1"
+        >
+          <LogOut />
+          Sign Out
         </Button>
 
         <Link href={ROUTES.USER_PROFILE}>

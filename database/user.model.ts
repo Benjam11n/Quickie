@@ -19,6 +19,8 @@ export interface IUser {
     review?: string;
   }>;
   wishlist: Types.ObjectId[];
+
+  isPrivate: boolean;
 }
 
 export interface IUserDoc extends IUser, Document {}
@@ -42,6 +44,7 @@ const UserSchema = new Schema<IUserDoc>(
         ref: 'Perfume',
       },
     ],
+    isPrivate: { type: Boolean, default: false, required: true },
   },
   { timestamps: true }
 );

@@ -208,7 +208,7 @@ export async function updateWishlist(
   session.startTransaction();
 
   try {
-    const wishlist = await Wishlist.findById(wishlistId);
+    const wishlist = await Wishlist.findById(wishlistId).session(session);
 
     if (!wishlist) {
       throw new Error('Wishlist not found');

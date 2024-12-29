@@ -23,7 +23,7 @@ export interface Perfume {
   name: string;
   brand: string;
   price: number;
-  size?: number;
+  size: number;
   description: string;
   affiliateLink: string;
   images: string[];
@@ -42,7 +42,7 @@ export interface PerfumeView {
   name: string;
   brand: { name: string };
   price: number;
-  size?: number;
+  size: number;
   description: string;
   affiliateLink: string;
   images: string[];
@@ -118,6 +118,6 @@ export interface Rating {
 export interface FragranceFilters {
   priceRange: number[];
   brands: string[];
-  categories: string[];
+  tags: string[];
   notes: string[];
 }

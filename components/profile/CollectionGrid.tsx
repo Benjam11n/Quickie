@@ -7,7 +7,7 @@ interface CollectionGridProps {
 
 export function CollectionGrid({ items }: CollectionGridProps) {
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
       {items.map((item) => {
         const perfume = item.perfume;
 

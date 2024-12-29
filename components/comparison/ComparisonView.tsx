@@ -32,7 +32,7 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
     const allNotes = products.map((product) =>
       Object.values(product.notes)
         .flat()
-        .map((note) => note.name)
+        .map((note) => note.note.name)
     );
 
     return new Set(

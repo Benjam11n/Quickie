@@ -49,7 +49,6 @@ export async function signUpWithCredentials(
       [
         {
           userId: newUser._id,
-          name,
           provider: 'credentials',
           providerAccountId: email,
           password: hashedPassword,

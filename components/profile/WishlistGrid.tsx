@@ -29,7 +29,7 @@ export function WishlistsGrid({ wishlists }: WishlistsGridProps) {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {wishlists.map((wishlist) => (
           <WishlistCard
             key={wishlist._id}

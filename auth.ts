@@ -41,6 +41,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               username: user.username,
               email: user.email,
               image: user.image,
+              isPrivate: user.isPrivate,
             };
           }
         }
@@ -59,6 +60,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           session.user.name = userData.name;
           session.user.username = userData.username;
           session.user.image = userData.image;
+          session.user.isPrivate = userData.isPrivate;
         }
       }
 
@@ -90,6 +92,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         name: user.name!,
         email: user.email!,
         image: user.image!,
+        isPrivate: user.isPrivate!,
         username:
           account.provider === 'github'
             ? (profile?.login as string)
