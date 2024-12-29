@@ -1,5 +1,3 @@
-'use client';
-
 import { AuthDialog } from '@/components/auth/AuthDialog';
 import { NavBar } from '@/components/navigation';
 

@@ -2,7 +2,6 @@
 
 import { SlidersHorizontal } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { useEffect, useState, useCallback } from 'react';
 
 import Loading from '@/app/(root)/loading';
@@ -27,6 +26,7 @@ import DataRenderer from '../ui/DataRenderer';
 import { WishlistSelectDialog } from '../wishlist/WishlistSelectDialog';
 
 interface CatalogPageProps {
+  userId?: string;
   perfumes?: PerfumeView[];
   success: boolean;
   error?: {
@@ -38,14 +38,13 @@ interface CatalogPageProps {
 const MAXIMUM_COMPARISONS = 2;
 
 export default function CatalogClient({
+  userId,
   perfumes,
   success,
   error,
 }: CatalogPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { data: session } = useSession();
-  const userId = session?.user?.id;
 
   // State
   const [selectedPerfume, setSelectedPerfume] = useState<{

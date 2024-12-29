@@ -2,9 +2,9 @@
 
 import { DialogDescription } from '@radix-ui/react-dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { Sparkles, Menu, LogIn } from 'lucide-react';
+import { Sparkles, Menu, LogIn, UserPen } from 'lucide-react';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { User } from 'next-auth';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -20,12 +20,14 @@ import { ROUTES } from '@/constants/routes';
 
 import { MobileNavLink } from './MobileNavLink';
 import { NavUser } from './NavUser';
+import { Button } from '../ui/button';
 
-const MobileSidebar = () => {
-  const { data: session } = useSession();
+interface MobileSidebarProps {
+  user?: User;
+}
 
-  const user = session?.user;
-  const mainNavItems = getMainNavItems(session?.user);
+const MobileSidebar = ({ user }: MobileSidebarProps) => {
+  const mainNavItems = getMainNavItems(user);
 
   return (
     <Sheet>
@@ -80,13 +82,21 @@ const MobileSidebar = () => {
             {user ? (
               <NavUser user={user} />
             ) : (
-              <div className="m-3 rounded-md bg-primary p-0.5 hover:bg-primary/90">
+              <div className="m-2 space-y-2 rounded-md p-2">
                 <SheetClose asChild>
-                  <Link href={ROUTES.SIGN_IN} className="block">
-                    <span className="group flex items-center justify-center rounded-md px-3 py-2 font-medium transition-colors hover:text-accent-foreground">
+                  <Link href={ROUTES.SIGN_IN} className="block w-full">
+                    <Button className="w-full justify-center">
                       <LogIn className="mr-2 size-5" />
                       <span>Sign In</span>
-                    </span>
+                    </Button>
+                  </Link>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Link href={ROUTES.SIGN_UP} className="block w-full">
+                    <Button variant="premium" className="w-full justify-center">
+                      <UserPen className="mr-2 size-5" />
+                      <span>Sign Up</span>
+                    </Button>
                   </Link>
                 </SheetClose>
               </div>

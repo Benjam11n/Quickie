@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import CatalogClient from '@/components/fragrance/CatalogClient';
 import { getPerfumesPaginated } from '@/lib/actions/perfume.action';
 
@@ -6,6 +7,7 @@ interface SearchParams {
 }
 
 export default async function CatalogPage({ searchParams }: SearchParams) {
+  const session = await auth();
   const { page, pageSize, query, filter } = await searchParams;
 
   const { success, data, error } = await getPerfumesPaginated({
@@ -17,5 +19,12 @@ export default async function CatalogPage({ searchParams }: SearchParams) {
 
   const { perfumes } = data || {};
 
-  return <CatalogClient perfumes={perfumes} success={success} error={error} />;
+  return (
+    <CatalogClient
+      userId={session?.user.id}
+      perfumes={perfumes}
+      success={success}
+      error={error}
+    />
+  );
 }

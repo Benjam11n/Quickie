@@ -1,7 +1,6 @@
 'use client';
 
 import { notFound, useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 import Loading from '@/app/(root)/loading';
@@ -22,13 +21,15 @@ import { ReviewCard } from '../rating';
 import { WishlistSelectDialog } from '../wishlist/WishlistSelectDialog';
 
 interface SingleProductViewProps {
+  userId?: string;
   perfumeId: string;
 }
 
-export function SingleProductView({ perfumeId }: SingleProductViewProps) {
+export function SingleProductView({
+  userId,
+  perfumeId,
+}: SingleProductViewProps) {
   const router = useRouter();
-  const { data: session } = useSession();
-  const userId = session?.user?.id;
   const [selectedPerfume, setSelectedPerfume] = useState<{
     id: string;
     name: string;
@@ -55,7 +56,7 @@ export function SingleProductView({ perfumeId }: SingleProductViewProps) {
 
   if (
     perfumeLoading ||
-    (session && (isLoadingCollection || isLoadingWishlists || reviewLoading))
+    (userId && (isLoadingCollection || isLoadingWishlists || reviewLoading))
   ) {
     return <Loading />;
   }

@@ -3,14 +3,15 @@
 import { motion } from 'framer-motion';
 import { MapPin, Sparkles, Star } from 'lucide-react';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
 
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 
-export function Hero() {
-  const { data: session } = useSession();
+interface HeroProps {
+  userId?: string;
+}
 
+export function Hero({ userId }: HeroProps) {
   return (
     <div className="relative flex min-h-[80vh] items-center">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,11 +59,7 @@ export function Hero() {
                 size="lg"
                 className="gradient-border"
               >
-                <Link
-                  href={
-                    session?.user?.id ? ROUTES.USER_PROFILE : ROUTES.SIGN_IN
-                  }
-                >
+                <Link href={userId ? ROUTES.USER_PROFILE : ROUTES.SIGN_IN}>
                   <Star className="mr-2 size-5" />
                   Start Your Collection
                 </Link>

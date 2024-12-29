@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import {
   Features,
   Hero,
@@ -8,6 +9,7 @@ import {
 import { getVendingMachines } from '@/lib/actions/vending-machine.action';
 
 export default async function Home() {
+  const session = await auth();
   const { success, data, error } = await getVendingMachines({
     page: 1,
     pageSize: 3,
@@ -19,7 +21,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col gap-24 pb-16">
-      <Hero />
+      <Hero userId={session?.user.id} />
       <FeaturedPerfumes />
       <HowItWorks />
       <Features />

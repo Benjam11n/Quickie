@@ -15,11 +15,17 @@ import {
 
 interface ProfileCardProps {
   username: string;
+  image?: string;
   collectionNum: number;
   stats: { [key: string]: number };
 }
 
-const ProfileCard = ({ username, collectionNum, stats }: ProfileCardProps) => {
+const ProfileCard = ({
+  username,
+  image,
+  collectionNum,
+  stats,
+}: ProfileCardProps) => {
   return (
     <Card className="px-6">
       <CardContent className="py-6">
@@ -28,7 +34,7 @@ const ProfileCard = ({ username, collectionNum, stats }: ProfileCardProps) => {
           <div className="group relative">
             <div className="size-32 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 p-1">
               <Avatar className="size-full">
-                <AvatarImage src="/images/default-avatar.png" />
+                <AvatarImage src={image ?? '/images/default-avatar.png'} />
                 <AvatarFallback>
                   {(username as string)?.slice(0, 2).toUpperCase() ?? ''}
                 </AvatarFallback>

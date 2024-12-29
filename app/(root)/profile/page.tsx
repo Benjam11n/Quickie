@@ -32,9 +32,8 @@ export default async function ProfilePageClient({
   searchParams,
 }: ProfilePageProps) {
   const session = await auth();
-  const { page, pageSize, query, filter } = searchParams;
+  const { page, pageSize, query, filter } = await searchParams;
   const userId = session?.user?.id || '';
-  const username = session?.user?.username || '';
 
   const [wishlistResult, reviewResult, collectionResult, moodboardResult] =
     await Promise.all([
@@ -120,7 +119,8 @@ export default async function ProfilePageClient({
   return (
     <div className="min-h-screen">
       <ProfileCard
-        username={username}
+        username={session?.user.username || ''}
+        image={session?.user.image}
         collectionNum={collection?.perfumes.length || 0}
         stats={stats}
       />

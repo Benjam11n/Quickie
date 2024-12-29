@@ -1,6 +1,7 @@
 import { Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
+import { auth } from '@/auth';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { navLinks } from '@/constants';
 import { ROUTES } from '@/constants/routes';
@@ -9,7 +10,9 @@ import { AuthButtons } from './AuthButtons';
 import MobileSidebar from './MobileSidebar';
 import { NavLink } from './NavLink';
 
-export function NavBar() {
+export async function NavBar() {
+  const session = await auth();
+
   return (
     <header className="sticky top-0 z-50 mb-8 w-full border-b bg-background/80 backdrop-blur">
       <nav className="container flex h-16 items-center px-4">
@@ -35,9 +38,9 @@ export function NavBar() {
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle />
           <div className="hidden items-center gap-2 lg:flex">
-            <AuthButtons />
+            <AuthButtons user={session?.user} />
           </div>
-          <MobileSidebar />
+          <MobileSidebar user={session?.user} />
         </div>
       </nav>
     </header>

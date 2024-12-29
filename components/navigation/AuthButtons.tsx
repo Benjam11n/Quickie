@@ -2,20 +2,24 @@
 
 import { User } from 'lucide-react';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { User as UserType } from 'next-auth';
 
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
-export function AuthButtons() {
-  const { data: session } = useSession();
+interface AuthButtonsProps {
+  user?: UserType;
+}
 
-  if (session && session?.user?.name) {
+export function AuthButtons({ user }: AuthButtonsProps) {
+  const userName = user?.name;
+
+  if (userName) {
     return (
       <>
-        <Button asChild variant="ghost" size="sm">
+        <Button asChild variant="ghost" size="sm" aria-label="Profile">
           <Link href={ROUTES.USER_PROFILE}>
             <User className="mr-2 size-4" />
             Profile
@@ -24,9 +28,9 @@ export function AuthButtons() {
 
         <Link href={ROUTES.USER_PROFILE}>
           <Avatar className="my-3 size-8">
-            <AvatarImage src="/images/default-avatar.png" />
+            <AvatarImage src={user?.image ?? '/images/default-avatar.png'} />
             <AvatarFallback>
-              {session.user.name.slice(0, 2).toUpperCase()}
+              {userName.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </Link>
@@ -36,10 +40,10 @@ export function AuthButtons() {
 
   return (
     <>
-      <Button variant="ghost" size="sm">
+      <Button variant="ghost" size="sm" aria-label="Sign In">
         <Link href={ROUTES.SIGN_IN}>Sign In</Link>
       </Button>
-      <Button asChild size="sm">
+      <Button asChild variant="premium" size="sm" aria-label="Get Started">
         <Link href={ROUTES.SIGN_UP}>Get Started</Link>
       </Button>
     </>
