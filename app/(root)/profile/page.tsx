@@ -1,6 +1,7 @@
 import { Layout, Grid, Star, BookMarked } from 'lucide-react';
 
 import { auth } from '@/auth';
+import DataRenderer from '@/components/DataRenderer';
 import { CollectionGrid } from '@/components/profile/CollectionGrid';
 import {
   CollectionInsights,
@@ -10,7 +11,6 @@ import { MoodBoardGrid } from '@/components/profile/MoodBoardGrid';
 import ProfileCard from '@/components/profile/ProfileCard';
 import { RatingsList } from '@/components/profile/RatingsList';
 import { WishlistsGrid } from '@/components/profile/WishlistGrid';
-import DataRenderer from '@/components/ui/DataRenderer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   DEFAULT_EMPTY,

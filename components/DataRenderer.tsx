@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
-import { Button } from './button';
+
 import { DEFAULT_EMPTY, DEFAULT_ERROR } from '@/constants/states';
-import { Card } from './card';
+
+import { Button } from './ui/button';
 
 interface Props<T> {
   success: boolean;
@@ -43,8 +44,8 @@ const StateSkeleton = ({
   message,
   button,
 }: StateSkeletonProps) => (
-  <div className="flex flex-col items-center justify-center w-full my-16 sm:mt-36">
-    <div className="relative w-80 h-64">
+  <div className="my-16 flex w-full flex-col items-center justify-center sm:mt-36">
+    <div className="relative h-64 w-80">
       <Image
         src={image.dark}
         alt={image.alt}
@@ -60,10 +61,8 @@ const StateSkeleton = ({
         className="block dark:hidden"
       />
     </div>
-    <h2 className="mt-8 text-4xl holographic-text font-bold text-dark200 dark:text-light900">
-      {title}
-    </h2>
-    <p className="mt-8 my-3.5 max-w-md text-center text-foreground">
+    <h2 className="holographic-text mt-8 text-4xl font-bold">{title}</h2>
+    <p className="my-3.5 mt-8 max-w-md text-center text-foreground">
       {message}
     </p>
     {button && (

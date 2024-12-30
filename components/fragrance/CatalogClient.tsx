@@ -3,8 +3,8 @@
 import { SlidersHorizontal } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react';
+import { useInView } from 'react-intersection-observer';
 
-import Loading from '@/app/(root)/loading';
 import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
 import { ProductFilters } from '@/components/fragrance/ProductFilters';
 import { Button } from '@/components/ui/button';
@@ -16,18 +16,19 @@ import { useCollection } from '@/hooks/queries/use-collection';
 import { useUserReviews } from '@/hooks/queries/use-reviews';
 import { useWishlists } from '@/hooks/queries/use-wishlists';
 import { useComparisonStore } from '@/hooks/stores/use-comparison-store';
+import { getPerfumesPaginated } from '@/lib/actions/perfume.action';
 import { PerfumeView } from '@/types/fragrance';
 
 import ComparisonBar from './ComparisonBar';
-import PaginationControls from '../pagination/PaginationControls';
+import DataRenderer from '../DataRenderer';
 import LocalSearch from '../search/LocalSearch';
 import SortingControls from '../sort/SortingControls';
-import DataRenderer from '../ui/DataRenderer';
 import { WishlistSelectDialog } from '../wishlist/WishlistSelectDialog';
 
 interface CatalogPageProps {
   userId?: string;
   perfumes?: PerfumeView[];
+  isNext: boolean;
   success: boolean;
   error?: {
     message: string;
@@ -36,15 +37,29 @@ interface CatalogPageProps {
 }
 
 const MAXIMUM_COMPARISONS = 2;
+const ITEMS_PER_PAGE = 20;
 
 export default function CatalogClient({
   userId,
-  perfumes,
+  perfumes: initialPerfumes,
+  isNext: initialIsNext,
   success,
   error,
 }: CatalogPageProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  // Infinite scroll state
+  const [perfumes, setPerfumes] = useState(initialPerfumes || []);
+  const [isNext, setIsNext] = useState(initialIsNext);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // IntersectionObserver setup
+  const { ref, inView } = useInView({
+    threshold: 0,
+    rootMargin: '100px',
+  });
 
   // State
   const [selectedPerfume, setSelectedPerfume] = useState<{
@@ -70,19 +85,57 @@ export default function CatalogClient({
   const { addToCollectionMutation, removeFromCollectionMutation } =
     useCollectionMutations();
 
-  // Computed values
-  const currentPageSize = Number(searchParams.get('pageSize')) || 10;
-  const totalCount = perfumes?.length || 0;
-  const reviews = reviewsResponse?.data?.reviews || [];
-  const isLoading = (isLoadingCollection || isLoadingReviews) && !!userId;
+  // Load more data when scrolled to bottom
+  const loadMore = useCallback(async () => {
+    if (isLoading || !isNext) return;
 
-  // Effects
-  useEffect(
-    () => () => {
-      reset();
-    },
-    [reset]
-  );
+    setIsLoading(true);
+    const nextPage = page + 1;
+
+    try {
+      const result = await getPerfumesPaginated({
+        page: nextPage,
+        pageSize: ITEMS_PER_PAGE,
+        query: searchParams.get('query') || '',
+        notes: searchParams.get('notes') || '',
+        priceRange: searchParams.get('priceRange') || '',
+        tags: searchParams.get('tags') || '',
+        brands: searchParams.get('brands') || '',
+        sortBy: searchParams.get('sortBy') || '',
+      });
+
+      if (result.success && result.data) {
+        const { perfumes: newPerfumes, isNext: hasMore } = result.data;
+        // Simply append new perfumes without filtering
+        setPerfumes((prev) => [...prev, ...newPerfumes]);
+        setIsNext(hasMore);
+        setPage(nextPage);
+      }
+    } catch (error) {
+      console.error('Error loading more perfumes:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [isLoading, isNext, page, searchParams]);
+
+  // Trigger load more when scroll near bottom
+  useEffect(() => {
+    if (inView) {
+      loadMore();
+    }
+  }, [inView, loadMore]);
+
+  // Reset comparison store on unmount
+  useEffect(() => {
+    return () => reset();
+  }, [reset]);
+
+  // Reset pagination when search params change
+  useEffect(() => {
+    setPerfumes(initialPerfumes || []);
+    setPage(1);
+    setIsNext(initialIsNext);
+  }, [initialPerfumes, initialIsNext, searchParams]);
 
   // Handlers
   const handleCompare = useCallback(() => {
@@ -129,12 +182,21 @@ export default function CatalogClient({
     [selectedPerfume, removeFromWishlistMutation]
   );
 
-  if (isLoading) {
-    return <Loading />;
+  if (userId && (isLoadingCollection || isLoadingReviews)) {
+    return (
+      <div className="flex h-96 items-center justify-center">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="size-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          <span>Loading catalog...</span>
+        </div>
+      </div>
+    );
   }
 
+  const reviews = reviewsResponse?.data?.reviews || [];
+
   return (
-    <div className="container py-10">
+    <div className="container md:py-4 lg:py-8">
       {/* Header */}
       <div className="space-y-8">
         <div>
@@ -188,78 +250,87 @@ export default function CatalogClient({
               data={perfumes}
               empty={EMPTY_PERFUME}
               render={(perfumes) => (
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                  {perfumes.map((perfume) => {
-                    const isFavourite =
-                      wishlistsResponse?.data?.some((wishlist) =>
-                        wishlist.perfumes.some(
-                          (p) => p.perfume._id === perfume._id
-                        )
-                      ) || false;
+                <>
+                  <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    {perfumes.map((perfume) => {
+                      const isFavourite =
+                        wishlistsResponse?.data?.some((wishlist) =>
+                          wishlist.perfumes.some(
+                            (p) => p.perfume._id === perfume._id
+                          )
+                        ) || false;
 
-                    const onCompareToggle = () =>
-                      handleCompareToggle(perfume._id);
+                      const onCompareToggle = () =>
+                        handleCompareToggle(perfume._id);
 
-                    const onWishlistClick = () =>
-                      setSelectedPerfume({
-                        id: perfume._id,
-                        name: perfume.name,
-                      });
+                      const onWishlistClick = () =>
+                        setSelectedPerfume({
+                          id: perfume._id,
+                          name: perfume.name,
+                        });
 
-                    const isSelected = selectedItems.includes(perfume._id);
+                      const isSelected = selectedItems.includes(perfume._id);
 
-                    const inCollection =
-                      collectionResponse?.data?.perfumes
-                        .map((perfume) => perfume.perfume._id)
-                        .includes(perfume._id) || false;
+                      const inCollection =
+                        collectionResponse?.data?.perfumes
+                          .map((perfume) => perfume.perfume._id)
+                          .includes(perfume._id) || false;
 
-                    const onCollectionToggle = () =>
-                      inCollection
-                        ? removeFromCollectionMutation.mutate(perfume._id)
-                        : addToCollectionMutation.mutate(perfume._id);
+                      const onCollectionToggle = () =>
+                        inCollection
+                          ? removeFromCollectionMutation.mutate(perfume._id)
+                          : addToCollectionMutation.mutate(perfume._id);
 
-                    return (
-                      <PerfumeCard
-                        key={perfume._id}
-                        id={perfume._id}
-                        name={perfume.name}
-                        price={perfume.fullPrice}
-                        images={perfume.images}
-                        brand={perfume.brand}
-                        review={reviews.find(
-                          (r) => r.perfume._id === perfume._id
-                        )}
-                        interactive={{
-                          wishlist: {
-                            isFavourite,
-                            onWishlistClick,
-                          },
-                          collection: {
-                            inCollection,
-                            onCollectionToggle,
-                          },
-                          comparison: {
-                            isSelected,
-                            onCompareToggle,
-                          },
-                        }}
-                      />
-                    );
-                  })}
-                </div>
+                      return (
+                        <PerfumeCard
+                          key={perfume._id}
+                          id={perfume._id}
+                          name={perfume.name}
+                          price={perfume.fullPrice}
+                          images={perfume.images}
+                          brand={perfume.brand}
+                          review={reviews.find(
+                            (r) => r.perfume._id === perfume._id
+                          )}
+                          interactive={{
+                            wishlist: {
+                              isFavourite,
+                              onWishlistClick,
+                            },
+                            collection: {
+                              inCollection,
+                              onCollectionToggle,
+                            },
+                            comparison: {
+                              isSelected,
+                              onCompareToggle,
+                            },
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
+
+                  {/* Infinite scroll loading indicator */}
+                  {isNext && (
+                    <div ref={ref} className="flex justify-center py-4">
+                      {isLoading ? (
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <div className="size-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                          <span className="text-sm">
+                            Loading more perfumes...
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="h-4" /> // Spacer for intersection observer
+                      )}
+                    </div>
+                  )}
+                </>
               )}
             />
           </div>
         </div>
-      </div>
-
-      {/* Pagination */}
-      <div className="mt-12">
-        <PaginationControls
-          route="/catalog"
-          // TODO: get totalcount from API
-          totalPages={Math.ceil(totalCount / currentPageSize)}
-        />
       </div>
 
       {/* Wishlist Dialog */}

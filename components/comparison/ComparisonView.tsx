@@ -50,7 +50,7 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {products.map((product, index) => (
           <motion.div
-            key={product.id}
+            key={product._id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2 }}
@@ -75,7 +75,7 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
                   src={product.images[0]}
                   alt={product.name}
                   fill
-                  className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="size-full object-cover transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
               </div>
@@ -127,7 +127,7 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
       {/* Note Pyramids */}
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         {products.map((product) => (
-          <Card key={product.id} className="relative overflow-hidden p-6">
+          <Card key={product._id} className="relative overflow-hidden p-6">
             <div className="absolute inset-0 z-0 bg-gradient-to-br from-background/10 to-background/30 backdrop-blur-sm" />
             <div className="relative">
               <h3 className="mb-6 text-xl font-bold">Note Pyramid</h3>

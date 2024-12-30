@@ -69,7 +69,6 @@ export function SingleProductView({
   const perfume = perfumeResponse.data;
   const review = reviewResponse?.data;
   const wishlist = wishlistsResponse?.data;
-  console.log(perfume);
 
   const isFavourite =
     wishlist?.some((wishlist) =>

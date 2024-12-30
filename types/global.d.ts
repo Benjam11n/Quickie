@@ -26,6 +26,9 @@ interface PaginatedSearchParams {
   page?: number;
   pageSize?: number;
   query?: string;
-  filter?: string;
-  sort?: string;
+  brands?: string;
+  notes?: string;
+  priceRange?: string;
+  tags?: string;
+  sortBy?: string;
 }

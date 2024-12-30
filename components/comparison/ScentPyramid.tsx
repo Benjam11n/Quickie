@@ -97,9 +97,9 @@ export function ScentPyramid({
                       exit={{ opacity: 0, y: -10 }}
                       className="mt-4 flex flex-wrap justify-center gap-2"
                     >
-                      {section.notes.map((note) => (
+                      {section.notes.map((note, index) => (
                         <motion.button
-                          key={note.note.name}
+                          key={index}
                           onClick={() =>
                             onNoteSelect(
                               selectedNote === note.note.name

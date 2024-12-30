@@ -9,7 +9,6 @@ import { MoodBoardGrid } from '@/components/profile/MoodBoardGrid';
 import ProfileCard from '@/components/profile/ProfileCard';
 import { RatingsList } from '@/components/profile/RatingsList';
 import { WishlistsGrid } from '@/components/profile/WishlistGrid';
-import DataRenderer from '@/components/ui/DataRenderer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   DEFAULT_EMPTY,
@@ -22,6 +21,8 @@ import { getMoodBoards } from '@/lib/actions/moodboard.action';
 import { getUserReviews } from '@/lib/actions/review.action';
 import { getUserWishlists } from '@/lib/actions/wishlist.action';
 import { WishlistView } from '@/types';
+
+import DataRenderer from '@/components/ui/DataRenderer';
 
 interface ProfilePageProps {
   params: { id: string };

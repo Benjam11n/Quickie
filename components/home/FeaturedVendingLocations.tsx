@@ -9,7 +9,7 @@ import { ROUTES } from '@/constants/routes';
 import { EMPTY_VENDING_MACHINES } from '@/constants/states';
 import { VendingMachineView } from '@/types';
 
-import DataRenderer from '../ui/DataRenderer';
+import DataRenderer from '../DataRenderer';
 
 function getVendingMachineName(address: string): string {
   // Get first part before comma

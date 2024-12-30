@@ -2,6 +2,8 @@
 
 import mongoose, { FilterQuery } from 'mongoose';
 
+import Brand from '@/database/brand.model';
+import Note from '@/database/note.model';
 import Perfume, { IPerfumeDoc } from '@/database/perfume.model';
 import TagPerfume from '@/database/tag-perfume.model';
 import Tag, { ITagDoc } from '@/database/tag.model';
@@ -377,35 +379,104 @@ export async function getPerfumesPaginated(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { page = 1, pageSize = 10, query, filter } = params;
+  const {
+    page = 1,
+    pageSize = 12,
+    query,
+    sortBy,
+    brands,
+    notes,
+    priceRange,
+    tags,
+  } = params;
+
   const skip = (Number(page) - 1) * pageSize;
   const limit = Number(pageSize);
 
   const filterQuery: FilterQuery<typeof Perfume> = {};
 
-  if (filter === 'recommended') {
-    return { success: true, data: { perfumes: [], isNext: false } };
+  // Step 1: Handle brands filtering
+  if (brands && brands.length > 0) {
+    const brandNames = brands.split(',');
+    const foundBrands = await Brand.find({ name: { $in: brandNames } }).select(
+      '_id'
+    );
+
+    if (foundBrands.length === 0) {
+      return handleError(new Error('No brands found')) as ErrorResponse;
+    }
+
+    // Map the brand names to their respective ObjectIds
+    const brandIds = foundBrands.map((brand) => brand._id);
+
+    // Add the brand ObjectIds to the filter query
+    filterQuery.brand = { $in: brandIds };
   }
 
-  if (query) {
+  // Step 2: Handle notes filtering
+  if (notes && notes.length > 0) {
+    const noteNames = notes.split(',');
+    const foundNotes = await Note.find({ name: { $in: noteNames } }).select(
+      '_id'
+    );
+
+    if (foundNotes.length === 0) {
+      return handleError(new Error('No notes found')) as ErrorResponse;
+    }
+
+    const noteIds = foundNotes.map((note) => note._id);
+
     filterQuery.$or = [
-      { title: { $regex: new RegExp(query, 'i') } },
-      { content: { $regex: new RegExp(query, 'i') } },
+      { 'notes.top.note': { $in: noteIds } },
+      { 'notes.middle.note': { $in: noteIds } },
+      { 'notes.base.note': { $in: noteIds } },
     ];
   }
 
-  let sortCriteria = {};
+  // Step 3: Handle tags filtering
+  if (tags && tags.length > 0) {
+    const tagNames = tags.split(',');
+    const foundTags = await Tag.find({ name: { $in: tagNames } }).select('_id');
 
-  switch (filter) {
-    case 'newest':
-      sortCriteria = { createdAt: -1 };
+    if (foundTags.length === 0) {
+      return handleError(new Error('No tags found')) as ErrorResponse;
+    }
+
+    const tagIds = foundTags.map((tag) => tag._id);
+
+    filterQuery.tags = { $in: tagIds };
+  }
+
+  // Step 4: Handle price range filtering
+  if (priceRange && priceRange.length > 0) {
+    const [minPrice, maxPrice] = priceRange.split(',').map(Number);
+
+    filterQuery.fullPrice = { $gte: minPrice, $lte: maxPrice };
+  }
+
+  // Step 5: Handle search
+  if (query) {
+    filterQuery.$or = [
+      { name: { $regex: new RegExp(query, 'i') } },
+      { description: { $regex: new RegExp(query, 'i') } },
+    ];
+  }
+
+  // Step 6: Set up sorting criteria
+  // todo: add not sorting options
+  let sortCriteria = {};
+  switch (sortBy) {
+    case 'price-desc':
+      sortCriteria = { fullPrice: -1 };
       break;
-    case 'unanswered':
-      filterQuery.answers = 0;
-      sortCriteria = { createdAt: -1 };
+    case 'price-asc':
+      sortCriteria = { fullPrice: 1 };
       break;
-    case 'popular':
-      sortCriteria = { upvotes: -1 };
+    case 'name-desc':
+      sortCriteria = { name: -1 };
+      break;
+    case 'name-asc':
+      sortCriteria = { name: 1 };
       break;
     default:
       sortCriteria = { createdAt: -1 };
@@ -413,8 +484,10 @@ export async function getPerfumesPaginated(
   }
 
   try {
+    // Step 7: Get the total number of perfumes
     const totalPerfumes = await Perfume.countDocuments(filterQuery);
 
+    // Step 8: Query the perfumes with the constructed filter and sort criteria
     const perfumes = await Perfume.find(filterQuery)
       .populate({ path: 'tags', select: 'name perfumesCount' })
       .populate('author', 'name image')
@@ -451,6 +524,7 @@ export async function getPerfumesPaginated(
       .skip(skip)
       .limit(limit);
 
+    // Step 9: Check if there are more perfumes to load
     const isNext = totalPerfumes > skip + perfumes.length;
 
     return {

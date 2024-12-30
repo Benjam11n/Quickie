@@ -58,7 +58,6 @@ export interface Perfume {
 
 export interface PerfumeView {
   _id: string;
-  id: string;
   name: string;
   brand: { name: string };
   fullPrice: number;

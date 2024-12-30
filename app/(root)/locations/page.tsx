@@ -1,5 +1,5 @@
+import DataRenderer from '@/components/DataRenderer';
 import LocalSearch from '@/components/search/LocalSearch';
-import DataRenderer from '@/components/ui/DataRenderer';
 import VendingMachineClient from '@/components/vending-machine/VendingMachineClient';
 import { EMPTY_VENDING_MACHINES } from '@/constants/states';
 import { getVendingMachines } from '@/lib/actions/vending-machine.action';
@@ -9,12 +9,12 @@ interface SearchParams {
 }
 
 const LocationsPage = async ({ searchParams }: SearchParams) => {
-  const { page, pageSize, query, filter } = await searchParams;
+  // todo: implement sorting and filtering
+  const { page, pageSize, query } = await searchParams;
   const { success, data, error } = await getVendingMachines({
     page: Number(page) || 1,
     pageSize: Number(pageSize) || 10,
     query: query || '',
-    filter: filter || '',
   });
   const { vendingMachines } = data || {};
 

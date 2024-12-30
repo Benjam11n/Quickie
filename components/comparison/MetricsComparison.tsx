@@ -78,7 +78,7 @@ export function MetricsComparison({ products }: MetricsComparisonProps) {
                 <div className="grid grid-cols-2 gap-4">
                   {products.map((product) => (
                     <div
-                      key={product.id}
+                      key={product._id}
                       className="rounded-lg bg-accent/50 p-3 backdrop-blur-sm"
                     >
                       <div className="text-sm text-muted-foreground">

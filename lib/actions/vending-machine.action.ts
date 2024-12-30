@@ -1,6 +1,6 @@
 'use server';
 
-import mongoose from 'mongoose';
+import mongoose, { FilterQuery } from 'mongoose';
 
 import VendingMachine from '@/database/vending-machine.model';
 import { VendingMachineView } from '@/types';
@@ -195,14 +195,36 @@ export async function getVendingMachines(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { page = 1, pageSize = 10 } = params;
+  const { page = 1, pageSize = 10, query, sortBy } = params;
+
   const skip = (Number(page) - 1) * pageSize;
   const limit = Number(pageSize);
+
+  const filterQuery: FilterQuery<typeof VendingMachine> = {};
+
+  if (query) {
+    filterQuery.$or = [
+      { 'location.address': { $regex: new RegExp(query, 'i') } },
+    ];
+  }
+
+  let sortCriteria = {};
+  switch (sortBy) {
+    case 'name-desc':
+      sortCriteria = { 'location.address': -1 };
+      break;
+    case 'name-asc':
+      sortCriteria = { 'loation.address': 1 };
+      break;
+    default:
+      sortCriteria = { createdAt: -1 };
+      break;
+  }
 
   try {
     const totalVendingMachines = await VendingMachine.countDocuments();
 
-    const vendingMachines = await VendingMachine.find()
+    const vendingMachines = await VendingMachine.find(filterQuery)
       .populate({
         path: 'inventory.perfume',
         select: '_id id name brand price images',
@@ -212,6 +234,7 @@ export async function getVendingMachines(
         },
       })
       .lean()
+      .sort(sortCriteria)
       .skip(skip)
       .limit(limit);
 

@@ -448,9 +448,12 @@ export const GetPerfumeReviewsSchema = z.object({
 
 export const PaginatedSearchParamsSchema = z.object({
   page: z.number().int().positive().default(1),
-  pageSize: z.number().int().positive().default(10),
+  pageSize: z.number().int().positive().default(12).optional(),
   query: z.string().optional(),
-  filter: z.string().optional(),
+  brand: z.string().optional(),
+  priceRange: z.string().optional(),
+  notes: z.string().optional(),
+  tags: z.string().optional(),
   sort: z.string().optional(),
 });
 

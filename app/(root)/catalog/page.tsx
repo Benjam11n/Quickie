@@ -8,21 +8,27 @@ interface SearchParams {
 
 export default async function CatalogPage({ searchParams }: SearchParams) {
   const session = await auth();
-  const { page, pageSize, query, filter } = await searchParams;
+  const { page, pageSize, query, notes, priceRange, tags, brands, sortBy } =
+    await searchParams;
 
   const { success, data, error } = await getPerfumesPaginated({
     page: Number(page) || 1,
-    pageSize: Number(pageSize) || 10,
+    pageSize: Number(pageSize) || 12,
     query: query || '',
-    filter: filter || '',
+    brands: brands || '',
+    notes: notes || '',
+    priceRange: priceRange || '',
+    tags: tags || '',
+    sortBy: sortBy || '',
   });
 
-  const { perfumes } = data || {};
+  const { perfumes, isNext } = data || {};
 
   return (
     <CatalogClient
       userId={session?.user.id}
       perfumes={perfumes}
+      isNext={isNext}
       success={success}
       error={error}
     />

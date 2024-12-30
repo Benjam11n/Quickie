@@ -58,7 +58,7 @@ export function CharacteristicsChart({ products }: CharacteristicsChartProps) {
 
         {products.map((product, index) => (
           <Radar
-            key={product.id}
+            key={product._id}
             name={product.name}
             dataKey={`product${index + 1}`}
             stroke={colors[index].stroke}
