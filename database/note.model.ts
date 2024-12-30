@@ -3,7 +3,6 @@ import { model, models, Schema, Document, Types } from 'mongoose';
 export interface INote {
   name: string;
   perfumes: number;
-  color: string;
   family: Types.ObjectId;
   description?: string;
 }
@@ -14,7 +13,6 @@ const NoteSchema = new Schema<INote>(
   {
     name: { type: String, required: true, unique: true, index: true },
     perfumes: { type: Number, default: 0, min: 0 },
-    color: { type: String },
     family: {
       type: Schema.Types.ObjectId,
       ref: 'NoteFamily',

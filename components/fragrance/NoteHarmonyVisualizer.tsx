@@ -1,11 +1,14 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { NoteHarmony, Note } from '@/types/fragrance';
+
+import { Button } from '../ui/button';
 
 interface NoteHarmonyVisualizerProps {
   harmony: NoteHarmony[];
@@ -61,7 +64,7 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
           y: position.y - 40,
         }}
         className={cn(
-          'absolute flex size-20 items-center justify-center rounded-full',
+          'absolute flex size-24 items-center justify-center rounded-full',
           'cursor-pointer transition-shadow duration-300',
           'hover:shadow-lg hover:shadow-primary/20'
         )}
@@ -72,12 +75,15 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
         }}
         onClick={() =>
           setSelectedHarmony(
-            harmony.find((h) => h.primary.name === note.name) || null
+            selectedHarmony ===
+              harmony.find((h) => h.primary.name === note.name)
+              ? null
+              : harmony.find((h) => h.primary.name === note.name) || null
           )
         }
       >
         <div className="text-center">
-          <div className="text-sm font-medium">{note.name}</div>
+          <div className="mx-4 text-xs font-medium">{note.name}</div>
           <div className="text-xs text-muted-foreground">{note.family}</div>
         </div>
       </motion.div>
@@ -148,14 +154,23 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
                 exit={{ opacity: 0, y: -20 }}
                 className="absolute inset-x-4 bottom-4 rounded-lg border bg-background/95 p-4 backdrop-blur-sm"
               >
-                <div className="mb-2 flex items-center gap-2">
-                  <div
-                    className="size-3 rounded-full"
-                    style={{ backgroundColor: selectedHarmony.primary.color }}
-                  />
-                  <h4 className="font-medium">
-                    {selectedHarmony.primary.name}
-                  </h4>
+                <div className="mb-2 flex justify-between">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="size-3 rounded-full"
+                      style={{ backgroundColor: selectedHarmony.primary.color }}
+                    />
+                    <h4 className="font-medium">
+                      {selectedHarmony.primary.name}
+                    </h4>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSelectedHarmony(null)}
+                  >
+                    <X />
+                  </Button>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">

@@ -1,3 +1,5 @@
+// todo: remove this file
+
 import { Season, TimeOfDay, Weather, NoteFamily } from '@/types/enums';
 import {
   EnhancedFragrance,
@@ -6,7 +8,6 @@ import {
   SeasonalRating,
   NoteHarmony,
   FragranceCharacteristic,
-  Perfume,
   PerfumeView,
 } from '@/types/fragrance';
 
@@ -21,12 +22,18 @@ const NOTE_COLORS = {
   [NoteFamily.Aquatic]: '#0EA5E9',
 };
 
-function mapNote(name: string, intensity: number, family: NoteFamily): Note {
+function mapNote(
+  name: string,
+  intensity: number,
+  family: NoteFamily
+): { note: Note; intensity: number } {
   return {
-    name,
+    note: {
+      name,
+      color: NOTE_COLORS[family],
+      family,
+    },
     intensity,
-    color: NOTE_COLORS[family],
-    family,
   };
 }
 
@@ -125,21 +132,23 @@ function generateNoteHarmony(notes: {
   const allNotes = [...notes.top, ...notes.middle, ...notes.base];
 
   return allNotes.map((note) => ({
-    primary: note,
+    primary: note.note,
     complementary: allNotes
       .filter(
         (n) =>
           n.note?.name !== note.note?.name &&
           n.note?.family === note.note.family
       )
-      .slice(0, 2),
+      .slice(0, 2)
+      .map((n) => n.note),
     contrasting: allNotes
       .filter(
         (n) =>
           n.note?.name !== note.note?.name &&
           n.note?.family !== note.note.family
       )
-      .slice(0, 2),
+      .slice(0, 2)
+      .map((n) => n.note),
     strength: note.intensity,
   }));
 }

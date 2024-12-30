@@ -163,7 +163,7 @@ export default function RecommendationsPage() {
                   key={perfume.id}
                   id={perfume._id}
                   name={perfume.name}
-                  price={perfume.price}
+                  price={perfume.fullPrice}
                   images={perfume.images}
                   brand={perfume.brand}
                 />

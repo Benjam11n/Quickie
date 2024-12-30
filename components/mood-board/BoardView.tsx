@@ -31,7 +31,7 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
   const [isLiked, setIsLiked] = useState(false);
   const router = useRouter();
 
-  const isOwner = user?.id === board.author;
+  const isOwner = user?.id === board.author._id;
 
   const handleLike = async () => {
     setIsLiked(!isLiked);

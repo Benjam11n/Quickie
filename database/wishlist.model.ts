@@ -13,7 +13,7 @@ export interface WishlistPerfumeView {
     _id: string;
     name: string;
     brand: { name: string };
-    price: number;
+    fullPrice: number;
     images: string[];
     affiliateLink: string;
     rating: {

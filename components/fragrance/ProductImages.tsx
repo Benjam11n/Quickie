@@ -27,7 +27,6 @@ export function ProductImages({ images, alt }: ProductImageProps) {
 
   const wheelGestures = WheelGesturesPlugin({
     forceWheelAxis: 'x',
-    dragFree: true,
   });
 
   const [mainViewRef, mainEmbla] = useEmblaCarousel(
@@ -77,20 +76,20 @@ export function ProductImages({ images, alt }: ProductImageProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <Card className="mx-auto w-full max-w-lg">
+      <Card className="mx-auto w-full max-w-lg rounded-lg">
         <div className="relative">
           <div className="overflow-hidden" ref={mainViewRef}>
             <div className="flex touch-pan-y">
               {images.map((image, index) => (
                 <div
-                  className="relative aspect-square min-w-0 flex-[0_0_100%]"
+                  className="relative aspect-square min-w-0 flex-[0_0_100%] rounded-lg"
                   key={index}
                 >
                   <Image
                     src={image}
                     alt={`${alt} - View ${index + 1}`}
                     fill
-                    className="object-cover"
+                    className="rounded-lg object-cover"
                     priority={index === 0}
                   />
                 </div>

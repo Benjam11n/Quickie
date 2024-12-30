@@ -28,7 +28,7 @@ export function ProductInfo({
     <div className="space-y-6">
       <div>
         <p className="text-xl text-muted-foreground">{perfume.brand.name}</p>
-        <p className="mt-2 text-3xl font-bold">${perfume.price}</p>
+        <p className="mt-2 text-3xl font-bold">${perfume.fullPrice}</p>
       </div>
 
       <p className="text-muted-foreground">{perfume.description}</p>
@@ -60,7 +60,7 @@ export function ProductInfo({
             variant="outline"
             size="icon"
             onClick={onFavoriteClick}
-            className={isFavourite ? 'text-red-500 min-w-10' : 'min-w-10'}
+            className={isFavourite ? 'min-w-10 text-red-500' : 'min-w-10'}
           >
             <Heart className={`size-5 ${isFavourite ? 'fill-current' : ''}`} />
           </Button>

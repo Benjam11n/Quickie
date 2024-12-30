@@ -2,7 +2,7 @@
 
 import Autoplay from 'embla-carousel-autoplay';
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
-import { Bookmark, ExternalLink } from 'lucide-react';
+import { Bookmark } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -57,16 +57,15 @@ const featuredPerfumes = [
 export function FeaturedPerfumes() {
   return (
     <section className="container py-12">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="holographic-text text-3xl font-bold tracking-tight">
+      <div className="mb-12 space-y-4 text-center">
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
           Tonight&apos;s Specials
-        </h1>
-        <Button variant="ghost" size="sm" asChild>
-          <Link href={ROUTES.CATALOG} className="group">
-            View All
-            <ExternalLink className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </Button>
+        </h2>
+        <p className="mx-auto max-w-[600px] text-muted-foreground">
+          Discover our exclusive selection of perfumes curated for tonight. Each
+          fragrance is crafted to evoke unique emotions and unforgettable
+          memories.
+        </p>
       </div>
 
       <div className="relative">
@@ -84,7 +83,6 @@ export function FeaturedPerfumes() {
             }),
             WheelGesturesPlugin({
               forceWheelAxis: 'x',
-              dragFree: true,
             }),
           ]}
           className="w-full"

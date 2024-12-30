@@ -81,7 +81,9 @@ export function SeasonalWheel({ seasonal }: SeasonalWheelProps) {
                 whileHover={{ opacity: 0.4 }}
                 onClick={() =>
                   setSelectedSeason(
-                    seasonal.find((s) => s.season === season) || null
+                    selectedSeason === seasonal.find((s) => s.season === season)
+                      ? null
+                      : seasonal.find((s) => s.season === season) || null
                   )
                 }
                 className="cursor-pointer"

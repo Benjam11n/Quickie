@@ -14,11 +14,11 @@ import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
 
 import { EnhancedVisualizer } from './EnhancedVisualizer';
 import { ProductHeader } from './ProductHeader';
+import { ProductImages } from './ProductImages';
 import { ProductInfo } from './ProductInfo';
 import { AuthCheck } from '../auth/AuthCheck';
 import { ReviewCard } from '../rating';
 import { WishlistSelectDialog } from '../wishlist/WishlistSelectDialog';
-import { ProductImages } from './ProductImages';
 
 interface SingleProductViewProps {
   userId?: string;
@@ -69,6 +69,7 @@ export function SingleProductView({
   const perfume = perfumeResponse.data;
   const review = reviewResponse?.data;
   const wishlist = wishlistsResponse?.data;
+  console.log(perfume);
 
   const isFavourite =
     wishlist?.some((wishlist) =>

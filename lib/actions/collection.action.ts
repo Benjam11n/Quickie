@@ -36,7 +36,7 @@ export async function getCollection(
       })
       .populate({
         path: 'perfumes.perfume',
-        select: '_id id name brand affiliateLink price images',
+        select: '_id id name brand affiliateLink fullPrice images',
         populate: {
           path: 'brand',
           select: 'name',
@@ -91,7 +91,7 @@ export async function addToCollection(
       author: userId,
     }).populate({
       path: 'perfumes.perfume',
-      select: 'name brand price images',
+      select: 'name brand fullPrice images',
       populate: {
         path: 'brand',
         select: 'name',

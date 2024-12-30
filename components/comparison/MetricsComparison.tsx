@@ -22,7 +22,7 @@ export function MetricsComparison({ products }: MetricsComparisonProps) {
       label: 'Price per ml',
       icon: DollarSign,
       getValue: (product: PerfumeView) =>
-        `$${(product.price / product.size).toFixed(2)}/ml`,
+        `$${(product.fullPrice / product.size).toFixed(2)}/ml`,
     },
     {
       label: 'Sillage',

@@ -131,7 +131,36 @@ export async function updatePerfume(
   session.startTransaction();
 
   try {
-    const perfume = await Perfume.findById(perfumeId).populate('tags');
+    const perfume = await Perfume.findById(perfumeId)
+      .populate('tags')
+      .populate({
+        path: 'brand',
+        select: 'name',
+      })
+      .populate({
+        path: 'notes.top.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'notes.middle.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'notes.base.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
+      });
 
     if (!perfume) {
       throw new Error('perfume not found');
@@ -244,6 +273,30 @@ export async function getPerfume(
       .populate({
         path: 'brand',
         select: 'name',
+      })
+      .populate({
+        path: 'notes.top.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'notes.middle.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'notes.base.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
       });
 
     if (!perfume) {
@@ -276,6 +329,30 @@ export async function getPerfumesByIds(
       .populate({
         path: 'brand',
         select: 'name',
+      })
+      .populate({
+        path: 'notes.top.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'notes.middle.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'notes.base.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
       });
 
     if (perfumes.length === 0) {
@@ -344,6 +421,30 @@ export async function getPerfumesPaginated(
       .populate({
         path: 'brand',
         select: 'name',
+      })
+      .populate({
+        path: 'notes.top.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'notes.middle.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
+      })
+      .populate({
+        path: 'notes.base.note',
+        select: 'name family',
+        populate: {
+          path: 'family',
+          select: 'name',
+        },
       })
       .lean()
       .sort(sortCriteria)

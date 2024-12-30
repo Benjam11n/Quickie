@@ -27,7 +27,7 @@ export interface MoodBoard {
 
 export interface MoodBoardView {
   _id: string;
-  author: string;
+  author: { _id: string; username: string };
   name: string;
   description?: string;
   perfumes: PerfumePosition[];
@@ -158,7 +158,7 @@ export interface CollectionPerfumeView {
     id: string;
     name: string;
     brand: { name: string };
-    price: number;
+    fullPrice: number;
     affiliateLink: string;
     images: string[];
   };

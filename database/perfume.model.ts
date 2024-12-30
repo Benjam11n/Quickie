@@ -10,17 +10,14 @@ export interface IPerfume {
     top: {
       note: Types.ObjectId;
       intensity: number;
-      noteFamily: Types.ObjectId;
     }[];
     middle: {
       note: Types.ObjectId;
       intensity: number;
-      noteFamily: Types.ObjectId;
     }[];
     base: {
       note: Types.ObjectId;
       intensity: number;
-      noteFamily: Types.ObjectId;
     }[];
   };
   scentProfile: {

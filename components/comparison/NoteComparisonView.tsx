@@ -191,10 +191,10 @@ export function NoteComparisonView({ perfumes }: NoteComparisonViewProps) {
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
                     <div className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-xl font-bold text-transparent">
-                      ${product.price}
+                      ${product.fullPrice}
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      ${(product.price / (product.size || 1)).toFixed(2)}/ml
+                      ${(product.fullPrice / (product.size || 1)).toFixed(2)}/ml
                     </div>
                   </div>
                   <StarRating rating={4.5} />

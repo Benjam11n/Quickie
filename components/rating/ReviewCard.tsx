@@ -13,12 +13,12 @@ import { useReviewInteractions } from '@/hooks/queries/use-review-interactions';
 import { useReviewStore } from '@/hooks/stores/use-review-store';
 import { cn } from '@/lib/utils';
 import { ReviewInteractionType, ReviewView } from '@/types';
+import { PerfumeView } from '@/types/fragrance';
 
 import { RatingDistribution } from './RatingDistribution';
 import { RatingMetrics } from './RatingMetrics';
 import { AuthCheck } from '../auth/AuthCheck';
 import ConfirmationDialog from '../ConfirmationDialog';
-import { PerfumeView } from '@/types/fragrance';
 
 interface ReviewCardProps {
   perfume: PerfumeView;
@@ -26,7 +26,6 @@ interface ReviewCardProps {
 }
 
 export function ReviewCard({ perfume, initialReview }: ReviewCardProps) {
-  console.log(perfume);
   // Review zustand store
   const { reset, rating, review, setRating, setReview } = useReviewStore();
 

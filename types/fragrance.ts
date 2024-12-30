@@ -1,6 +1,13 @@
 import { Season, TimeOfDay, Weather } from './enums';
 
 export interface Note {
+  name: string;
+  color: string;
+  family: string;
+  description?: string;
+}
+
+export interface NoteView {
   _id: string;
   name: string;
   color: string;
@@ -17,12 +24,20 @@ export interface ScentProfile {
   value: number;
 }
 
+export interface RatingDistribution {
+  1: number;
+  2: number;
+  3: number;
+  4: number;
+  5: number;
+}
+
 export interface Perfume {
   _id: string;
   id: string;
   name: string;
   brand: string;
-  price: number;
+  fullPrice: number;
   size: number;
   description: string;
   affiliateLink: string;
@@ -46,7 +61,7 @@ export interface PerfumeView {
   id: string;
   name: string;
   brand: { name: string };
-  price: number;
+  fullPrice: number;
   size: number;
   description: string;
   affiliateLink: string;
@@ -130,12 +145,4 @@ export interface FragranceFilters {
   brands: string[];
   tags: string[];
   notes: string[];
-}
-
-export interface RatingDistribution {
-  1: number;
-  2: number;
-  3: number;
-  4: number;
-  5: number;
 }

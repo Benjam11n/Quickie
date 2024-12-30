@@ -16,7 +16,7 @@ export function CollectionGrid({ items }: CollectionGridProps) {
             key={perfume._id}
             id={perfume._id}
             name={perfume.name}
-            price={perfume.price}
+            price={perfume.fullPrice}
             images={perfume.images}
             brand={perfume.brand}
           />
