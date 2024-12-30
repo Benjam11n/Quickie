@@ -14,11 +14,11 @@ import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
 
 import { EnhancedVisualizer } from './EnhancedVisualizer';
 import { ProductHeader } from './ProductHeader';
-import { ProductImage } from './ProductImage';
 import { ProductInfo } from './ProductInfo';
 import { AuthCheck } from '../auth/AuthCheck';
 import { ReviewCard } from '../rating';
 import { WishlistSelectDialog } from '../wishlist/WishlistSelectDialog';
+import { ProductImages } from './ProductImages';
 
 interface SingleProductViewProps {
   userId?: string;
@@ -103,7 +103,7 @@ export function SingleProductView({
       <ProductHeader name={perfume.name} onBack={() => router.back()} />
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        <ProductImage src={perfume.images[0]} alt={perfume.name} />
+        <ProductImages images={perfume.images} alt={perfume.name} />
         <ProductInfo
           perfume={perfume}
           inCollection={inCollection}
