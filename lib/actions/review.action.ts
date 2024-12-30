@@ -21,6 +21,16 @@ import {
   ReviewInteractionSchema,
   UpdateReviewSchema,
 } from '../validations';
+import Perfume, { IPerfumeDoc } from '@/database/perfume.model';
+
+interface RatingUpdateQuery {
+  $set: {
+    'rating.average': number;
+  };
+  $inc?: {
+    [key: string]: number;
+  };
+}
 
 export async function createReview(
   params: CreateReviewParams
@@ -57,6 +67,38 @@ export async function createReview(
           author: userId,
         },
       ],
+      { session }
+    );
+
+    const averageRating =
+      (rating.complexity +
+        rating.longevity +
+        rating.sillage +
+        rating.uniqueness +
+        rating.value) /
+      5;
+
+    const perfumeDoc = (await Perfume.findById(perfume).select(
+      'rating'
+    )) as IPerfumeDoc;
+    const currentCount = perfumeDoc?.rating?.count || 0;
+    const currentTotal = (perfumeDoc?.rating?.average || 0) * currentCount;
+
+    const newTotal = currentTotal + averageRating;
+    const newCount = currentCount + 1;
+    const newAverage = newTotal / newCount;
+
+    await Perfume.findByIdAndUpdate(
+      perfume,
+      {
+        $inc: {
+          'rating.count': 1,
+          [`rating.distribution.${Math.ceil(averageRating)}`]: 1,
+        },
+        $set: {
+          'rating.average': newAverage,
+        },
+      },
       { session }
     );
 
@@ -111,16 +153,25 @@ export async function updateReview(
     const review = await Review.findById(reviewId);
 
     if (!review) {
-      throw new Error('review not found');
+      throw new Error('Review not found');
     }
 
     if (review.author.toString() !== userId) {
       throw new Error('Unauthorized');
     }
 
+    const originalRating = review.rating;
+    const originalAverageRating =
+      (originalRating.complexity +
+        originalRating.longevity +
+        originalRating.sillage +
+        originalRating.uniqueness +
+        originalRating.value) /
+      5;
+
     if (
       review.vendingMachineId !== vendingMachineId ||
-      review.rating !== rating ||
+      JSON.stringify(review.rating) !== JSON.stringify(rating) ||
       review.review !== reviewText
     ) {
       review.vendingMachineId = vendingMachineId;
@@ -129,7 +180,40 @@ export async function updateReview(
       await review.save({ session });
     }
 
-    await review.save({ session });
+    const newAverageRating =
+      (rating.complexity +
+        rating.longevity +
+        rating.sillage +
+        rating.uniqueness +
+        rating.value) /
+      5;
+
+    const perfumeDoc = (await Perfume.findById(review.perfume).select(
+      'rating'
+    )) as IPerfumeDoc;
+    const currentCount = perfumeDoc?.rating?.count || 0;
+    const currentTotal = (perfumeDoc?.rating?.average || 0) * currentCount;
+
+    const newTotal = currentTotal - originalAverageRating + newAverageRating;
+    const newAverage = newTotal / currentCount;
+
+    const ratingUpdateQuery: RatingUpdateQuery = {
+      $set: {
+        'rating.average': newAverage,
+      },
+    };
+
+    if (Math.ceil(originalAverageRating) !== Math.ceil(newAverageRating)) {
+      ratingUpdateQuery.$inc = {
+        [`rating.distribution.${Math.ceil(originalAverageRating)}`]: -1,
+        [`rating.distribution.${Math.ceil(newAverageRating)}`]: 1,
+      };
+    }
+
+    await Perfume.findByIdAndUpdate(review.perfume, ratingUpdateQuery, {
+      session,
+    });
+
     await session.commitTransaction();
 
     return {
@@ -174,6 +258,38 @@ export async function deleteReview(
     if (review.author.toString() !== userId) {
       throw new Error('Unauthorized');
     }
+
+    const averageRating =
+      (review.rating.complexity +
+        review.rating.longevity +
+        review.rating.sillage +
+        review.rating.uniqueness +
+        review.rating.value) /
+      5;
+
+    const perfumeDoc = (await Perfume.findById(review.perfume).select(
+      'rating'
+    )) as IPerfumeDoc;
+    const currentCount = perfumeDoc?.rating?.count || 0;
+    const currentTotal = (perfumeDoc?.rating?.average || 0) * currentCount;
+
+    const newTotal = currentTotal - averageRating;
+    const newCount = currentCount - 1;
+    const newAverage = newCount === 0 ? 0 : newTotal / newCount;
+
+    await Perfume.findByIdAndUpdate(
+      review.perfume,
+      {
+        $inc: {
+          'rating.count': -1,
+          [`rating.distribution.${Math.ceil(averageRating)}`]: -1,
+        },
+        $set: {
+          'rating.average': newAverage,
+        },
+      },
+      { session }
+    );
 
     // Delete review and all associated interactions
     await Promise.all([

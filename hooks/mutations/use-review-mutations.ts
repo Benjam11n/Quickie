@@ -41,6 +41,10 @@ export function useReviewMutations(perfume: string, review?: ReviewView) {
       queryClient.invalidateQueries({
         queryKey: ['reviews', perfume, data?.author],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ['perfume', perfume],
+      });
     },
     onError: (error) => {
       if (error.message === 'You have already reviewed this perfume') {
@@ -70,6 +74,10 @@ export function useReviewMutations(perfume: string, review?: ReviewView) {
     onSuccess: () => {
       toast.success('Your review has been deleted successfully.');
       queryClient.invalidateQueries({ queryKey: ['reviews', perfume] });
+
+      queryClient.invalidateQueries({
+        queryKey: ['perfume', perfume],
+      });
     },
     onError: () => {
       toast.error('Error', {

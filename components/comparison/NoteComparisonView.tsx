@@ -52,7 +52,7 @@ export function NoteComparisonView({ perfumes }: NoteComparisonViewProps) {
     Object.values(product.notes || {})
       .flat()
       .forEach((note) => {
-        notes[note.name] = note.percentage;
+        notes[note.note.name] = note.intensity;
       });
     return notes;
   };
@@ -63,7 +63,7 @@ export function NoteComparisonView({ perfumes }: NoteComparisonViewProps) {
     const allNotes = perfumes.map((product) =>
       Object.values(product.notes)
         .flat()
-        .map((note) => note.name)
+        .map((note) => note.note.name)
     );
 
     return new Set(

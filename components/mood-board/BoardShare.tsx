@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { MoodBoard } from '@/types';
+import { usePathname } from 'next/navigation';
 
 interface BoardShareProps {
   board: MoodBoard;
@@ -20,13 +21,12 @@ interface BoardShareProps {
 
 export function BoardShare({ board, onToggleVisibility }: BoardShareProps) {
   const [copied, setCopied] = useState(false);
+  const pathname = usePathname();
 
   const handleCopy = () => {
-    if (board.shareUrl) {
-      navigator.clipboard.writeText(board.shareUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
+    navigator.clipboard.writeText(pathname);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -39,7 +39,7 @@ export function BoardShare({ board, onToggleVisibility }: BoardShareProps) {
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <Input
-              value={board.shareUrl || 'Make board public to get share link'}
+              value={pathname || 'Make board public to get share link'}
               readOnly
               disabled={!board.isPublic}
             />

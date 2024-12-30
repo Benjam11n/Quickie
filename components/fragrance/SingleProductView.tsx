@@ -125,7 +125,7 @@ export function SingleProductView({
       <EnhancedVisualizer fragrance={enhancedFragrance} />
 
       <AuthCheck>
-        <ReviewCard perfumeId={perfumeId} initialReview={review} />
+        <ReviewCard perfume={perfume} initialReview={review} />
       </AuthCheck>
 
       {selectedPerfume && (

@@ -9,7 +9,7 @@ interface ProductImageProps {
 
 export function ProductImage({ src, alt }: ProductImageProps) {
   return (
-    <Card className="p-6">
+    <Card className="max-w-lg w-full mx-auto">
       <div className="relative aspect-square overflow-hidden rounded-lg">
         <Image src={src} alt={alt} fill className="size-full object-cover" />
       </div>

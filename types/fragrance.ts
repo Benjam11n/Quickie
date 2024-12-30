@@ -34,6 +34,11 @@ export interface Perfume {
     base: Note[];
   };
   scentProfile: ScentProfile;
+  rating: {
+    count: number;
+    average: number;
+    distribution: RatingDistribution;
+  };
 }
 
 export interface PerfumeView {
@@ -56,6 +61,11 @@ export interface PerfumeView {
     base: { note: Note; intensity: number }[];
   };
   scentProfile: ScentProfile;
+  rating: {
+    count: number;
+    average: number;
+    distribution: RatingDistribution;
+  };
 }
 export interface TimelinePoint {
   time: number; // minutes
@@ -120,4 +130,12 @@ export interface FragranceFilters {
   brands: string[];
   tags: string[];
   notes: string[];
+}
+
+export interface RatingDistribution {
+  1: number;
+  2: number;
+  3: number;
+  4: number;
+  5: number;
 }

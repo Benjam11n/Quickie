@@ -27,11 +27,7 @@ export interface MoodBoard {
 
 export interface MoodBoardView {
   _id: string;
-  author: {
-    _id: string;
-    username: string;
-    image: string;
-  };
+  author: string;
   name: string;
   description?: string;
   perfumes: PerfumePosition[];

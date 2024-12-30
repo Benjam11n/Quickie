@@ -18,19 +18,21 @@ import { RatingDistribution } from './RatingDistribution';
 import { RatingMetrics } from './RatingMetrics';
 import { AuthCheck } from '../auth/AuthCheck';
 import ConfirmationDialog from '../ConfirmationDialog';
+import { PerfumeView } from '@/types/fragrance';
 
 interface ReviewCardProps {
-  perfumeId: string;
+  perfume: PerfumeView;
   initialReview?: ReviewView;
 }
 
-export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
+export function ReviewCard({ perfume, initialReview }: ReviewCardProps) {
+  console.log(perfume);
   // Review zustand store
   const { reset, rating, review, setRating, setReview } = useReviewStore();
 
   // Review mutation methods
   const { submitReview, deleteReview, interactionMutation } =
-    useReviewMutations(perfumeId, initialReview);
+    useReviewMutations(perfume._id, initialReview);
 
   // Review fetching
   const { data: interactionsResponse } = useReviewInteractions(
@@ -40,13 +42,14 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
 
   useEffect(() => {
     useReviewStore.getState().initializeFromReview(initialReview);
-  }, [initialReview]);
+    useReviewStore.getState().initializeFromPerfume(perfume);
+  }, [initialReview, perfume]);
 
   useEffect(() => {
     return () => {
       reset();
     };
-  }, [perfumeId, reset]);
+  }, [perfume._id, reset]);
 
   const hasChanges = useMemo(() => {
     if (!initialReview) return true;
@@ -155,7 +158,7 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
             <Button
               onClick={() =>
                 submitReview.mutate({
-                  perfume: perfumeId,
+                  perfume: perfume._id,
                   rating,
                   review,
                 })
@@ -183,7 +186,7 @@ export function ReviewCard({ perfumeId, initialReview }: ReviewCardProps) {
         </motion.div>
       </div>
 
-      <RatingDistribution />
+      <RatingDistribution distribution={perfume.rating.distribution} />
     </Card>
   );
 }

@@ -60,7 +60,7 @@ export function ProductInfo({
             variant="outline"
             size="icon"
             onClick={onFavoriteClick}
-            className={isFavourite ? 'text-red-500' : ''}
+            className={isFavourite ? 'text-red-500 min-w-10' : 'min-w-10'}
           >
             <Heart className={`size-5 ${isFavourite ? 'fill-current' : ''}`} />
           </Button>

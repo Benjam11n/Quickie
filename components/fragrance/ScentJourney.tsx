@@ -239,11 +239,11 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-              {currentPoint.activeNotes.map((noteName) => {
+              {currentPoint.activeNotes.map((noteName, index) => {
                 const note = allNotes[noteName];
                 return (
                   <div
-                    key={noteName}
+                    key={index}
                     className={cn(
                       'rounded-lg p-3 transition-colors',
                       'border border-transparent hover:border-primary'

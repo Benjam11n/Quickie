@@ -45,7 +45,7 @@ export function BoardSidebar({
       Object.values(product.notes)
         .flat()
         .forEach((note) => {
-          acc[note.name] = (acc[note.name] || 0) + note.percentage;
+          acc[note.note.name] = (acc[note.note.name] || 0) + note.intensity;
         });
 
       return acc;

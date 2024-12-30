@@ -1,15 +1,19 @@
 import { create } from 'zustand';
 
 import { ReviewView } from '@/types';
-import { Rating } from '@/types/fragrance';
+import { PerfumeView, Rating, RatingDistribution } from '@/types/fragrance';
 
 interface ReviewState {
   rating: Rating;
   review: string;
+  ratingDistribution: RatingDistribution;
+  ratingsCount: number;
+  ratingsAverage: number;
   setRating: (rating: ReviewState['rating']) => void;
   setReview: (review: string) => void;
   reset: () => void;
   initializeFromReview: (review: ReviewView | undefined) => void;
+  initializeFromPerfume: (perfume: PerfumeView | undefined) => void;
 }
 
 export const useReviewStore = create<ReviewState>((set) => ({
@@ -20,6 +24,15 @@ export const useReviewStore = create<ReviewState>((set) => ({
     uniqueness: 0,
     complexity: 0,
   },
+  ratingDistribution: {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+  },
+  ratingsCount: 0,
+  ratingsAverage: 0,
   review: '',
   setRating: (rating) => set({ rating }),
   setReview: (review) => set({ review }),
@@ -39,6 +52,15 @@ export const useReviewStore = create<ReviewState>((set) => ({
       set({
         rating: review.rating,
         review: review.review || '',
+      });
+    }
+  },
+  initializeFromPerfume: (perfume) => {
+    if (perfume) {
+      set({
+        ratingDistribution: perfume.rating.distribution,
+        ratingsCount: perfume.rating.count,
+        ratingsAverage: perfume.rating.average,
       });
     }
   },

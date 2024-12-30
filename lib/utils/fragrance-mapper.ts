@@ -77,7 +77,7 @@ function generateTimeline(notes: {
   return timeline;
 }
 
-function generateSeasonalRatings(product: Perfume): SeasonalRating[] {
+function generateSeasonalRatings(product: PerfumeView): SeasonalRating[] {
   const { scentProfile } = product;
 
   return [
@@ -118,25 +118,35 @@ function generateSeasonalRatings(product: Perfume): SeasonalRating[] {
 }
 
 function generateNoteHarmony(notes: {
-  top: Note[];
-  middle: Note[];
-  base: Note[];
+  top: { note: Note; intensity: number }[];
+  middle: { note: Note; intensity: number }[];
+  base: { note: Note; intensity: number }[];
 }): NoteHarmony[] {
   const allNotes = [...notes.top, ...notes.middle, ...notes.base];
 
   return allNotes.map((note) => ({
     primary: note,
     complementary: allNotes
-      .filter((n) => n.name !== note.name && n.family === note.family)
+      .filter(
+        (n) =>
+          n.note?.name !== note.note?.name &&
+          n.note?.family === note.note.family
+      )
       .slice(0, 2),
     contrasting: allNotes
-      .filter((n) => n.name !== note.name && n.family !== note.family)
+      .filter(
+        (n) =>
+          n.note?.name !== note.note?.name &&
+          n.note?.family !== note.note.family
+      )
       .slice(0, 2),
     strength: note.intensity,
   }));
 }
 
-function generateCharacteristics(product: Perfume): FragranceCharacteristic[] {
+function generateCharacteristics(
+  product: PerfumeView
+): FragranceCharacteristic[] {
   const { scentProfile } = product;
 
   return [
@@ -173,13 +183,13 @@ export function mapProductToEnhancedFragrance(
   // Map notes with colors and families
   const mappedNotes = {
     top: product.notes.top.map((n) =>
-      mapNote(n.name, n.percentage, NoteFamily.Fresh)
+      mapNote(n.note?.name, n.intensity, NoteFamily.Fresh)
     ),
     middle: product.notes.middle.map((n) =>
-      mapNote(n.name, n.percentage, NoteFamily.Floral)
+      mapNote(n.note?.name, n.intensity, NoteFamily.Floral)
     ),
     base: product.notes.base.map((n) =>
-      mapNote(n.name, n.percentage, NoteFamily.Woody)
+      mapNote(n.note?.name, n.intensity, NoteFamily.Woody)
     ),
   };
 

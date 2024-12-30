@@ -7,12 +7,14 @@ import { deleteMoodBoard } from '@/lib/actions/moodboard.action';
 import { MoodBoard } from '@/types';
 
 import { BoardPreview } from './BoardPreview';
+import { useRouter } from 'next/navigation';
 
 interface BoardListProps {
   boards: MoodBoard[];
 }
 
 export function BoardList({ boards }: BoardListProps) {
+  const router = useRouter();
   const handleDelete = async (id: string) => {
     await deleteMoodBoard(id);
   };
@@ -27,7 +29,7 @@ export function BoardList({ boards }: BoardListProps) {
         <Button asChild>
           <Link href={ROUTES.BOARDS_NEW}>
             <Plus className="mr-1 size-4" />
-            Create Board
+            Create Mood Board
           </Link>
         </Button>
       </div>

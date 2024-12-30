@@ -33,10 +33,6 @@ export interface IPerfume {
   };
   fullPrice: number;
   size: number;
-  rating: {
-    average: number;
-    count: number;
-  };
   tags: Types.ObjectId[];
   author: Types.ObjectId;
   seasonalCompatibility: {
@@ -45,12 +41,18 @@ export interface IPerfume {
     winter: number;
     spring: number;
   };
-  distribution: {
-    1: number;
-    2: number;
-    3: number;
-    4: number;
-    5: number;
+
+  // Reviews related
+  rating: {
+    average: number;
+    count: number;
+    distribution: {
+      1: number;
+      2: number;
+      3: number;
+      4: number;
+      5: number;
+    };
   };
 }
 
@@ -173,13 +175,6 @@ const PerfumeSchema = new Schema<IPerfume>(
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 
     // Rating distribution
-    distribution: {
-      1: { type: Number, default: 0 },
-      2: { type: Number, default: 0 },
-      3: { type: Number, default: 0 },
-      4: { type: Number, default: 0 },
-      5: { type: Number, default: 0 },
-    },
 
     // Rating
     rating: {
@@ -188,13 +183,18 @@ const PerfumeSchema = new Schema<IPerfume>(
         default: 0,
         min: 0,
         max: 5,
-        immutable: true,
       },
       count: {
         type: Number,
         default: 0,
         min: 0,
-        immutable: true,
+      },
+      distribution: {
+        1: { type: Number, default: 0, min: 0 },
+        2: { type: Number, default: 0, min: 0 },
+        3: { type: Number, default: 0, min: 0 },
+        4: { type: Number, default: 0, min: 0 },
+        5: { type: Number, default: 0, min: 0 },
       },
     },
   },
