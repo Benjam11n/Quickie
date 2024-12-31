@@ -1,3 +1,5 @@
+// <a target="_blank" href="https://icons8.com/icon/118467/facebook">Facebook</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+// <a target="_blank" href="https://icons8.com/icon/lUktdBVdL4Kb/telegram">Telegram</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 import { Copy, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -24,29 +26,33 @@ const openShareWindow = (url: string) => {
   }
 };
 
-// TODO: Complete sharing implementation
-// Add more sharing options as well. Telegram, facebook etc.
+// TODO: complete instagram sharing
 const shareToSocial = {
   twitter: (url: string, text: string) => {
     const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
     openShareWindow(shareUrl);
   },
+  telegram: (url: string, text: string) => {
+    const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+    openShareWindow(shareUrl);
+  },
+  facebook: (url: string) => {
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+    openShareWindow(shareUrl);
+  },
   linkedin: (url: string) => {
     const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(url)}`;
-    const newWindow = window.open(shareUrl, '_blank');
-    if (!newWindow) {
-      alert('Please allow popups for this website to share content.');
-    }
+    openShareWindow(shareUrl);
   },
-  instagram: async (url: string) => {
-    try {
-      await navigator.clipboard.writeText(url);
-      console.log('Link copied! Open Instagram to share.');
-    } catch (err) {
-      console.error('Failed to copy:', err);
-      alert('Could not copy the link. Please try again.');
-    }
-  },
+  // instagram: async (url: string) => {
+  //   try {
+  //     await navigator.clipboard.writeText(url);
+  //     console.log('Link copied! Open Instagram to share.');
+  //   } catch (err) {
+  //     console.error('Failed to copy:', err);
+  //     alert('Could not copy the link. Please try again.');
+  //   }
+  // },
 };
 
 interface ShareDialogProps {
@@ -84,6 +90,24 @@ export function ShareDialog({ text }: ShareDialogProps) {
             <Button
               className="size-16 rounded-full shadow-md"
               variant="outline"
+              onClick={() =>
+                shareToSocial.telegram(
+                  url,
+                  'Check out this comparison of these two perfumes!'
+                )
+              }
+            >
+              <Image
+                src="/icons/telegram.svg"
+                alt="telegram"
+                width={32}
+                height={32}
+                className="dark:invert"
+              />
+            </Button>
+            {/* <Button
+              className="size-16 rounded-full shadow-md"
+              variant="outline"
               onClick={() => shareToSocial.instagram(url)}
             >
               <Image
@@ -92,6 +116,19 @@ export function ShareDialog({ text }: ShareDialogProps) {
                 width={32}
                 height={32}
                 className="invert-colors"
+              />
+            </Button> */}
+            <Button
+              className="size-16 rounded-full shadow-md"
+              variant="outline"
+              onClick={() => shareToSocial.facebook(url)}
+            >
+              <Image
+                src="/icons/facebook.svg"
+                alt="facebook"
+                width={32}
+                height={32}
+                className="dark:invert"
               />
             </Button>
             <Button
