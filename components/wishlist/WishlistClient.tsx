@@ -36,7 +36,6 @@ const WishlistClient = ({ id }: WishlistClientProps) => {
     page: 1,
     pageSize: 100,
     query: query || '',
-    filter: '',
   });
 
   const {

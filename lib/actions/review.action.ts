@@ -3,6 +3,7 @@
 import mongoose, { Types } from 'mongoose';
 import { revalidatePath } from 'next/cache';
 
+import Perfume, { IPerfumeDoc } from '@/database/perfume.model';
 import ReviewInteraction, {
   ReviewInteractionCounts,
 } from '@/database/review-interaction.model';
@@ -21,7 +22,6 @@ import {
   ReviewInteractionSchema,
   UpdateReviewSchema,
 } from '../validations';
-import Perfume, { IPerfumeDoc } from '@/database/perfume.model';
 
 interface RatingUpdateQuery {
   $set: {

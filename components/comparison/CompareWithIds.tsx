@@ -26,7 +26,6 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
     page: 1,
     pageSize: 100,
     query: query || '',
-    filter: '',
   });
 
   const handleAddProduct = (product: PerfumeView) => {

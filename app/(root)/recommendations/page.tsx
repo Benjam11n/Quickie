@@ -160,7 +160,7 @@ export default function RecommendationsPage() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {recommendations.map((perfume) => (
                 <PerfumeCard
-                  key={perfume.id}
+                  key={perfume._id}
                   id={perfume._id}
                   name={perfume.name}
                   price={perfume.fullPrice}

@@ -30,7 +30,6 @@ export default function EditBoardPageClient({
     page: 1,
     pageSize: 100,
     query: '',
-    filter: '',
   });
 
   const [selectedSquare, setSelectedSquare] = useState<number | null>(null);
@@ -88,7 +87,7 @@ export default function EditBoardPageClient({
       const x = selectedSquare % 3;
       const y = Math.floor(selectedSquare / 3);
 
-      addPerfume(product.id, { x, y });
+      addPerfume(product._id, { x, y });
       setSelectedSquare(null);
     }
   };

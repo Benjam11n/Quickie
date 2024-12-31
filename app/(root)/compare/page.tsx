@@ -23,7 +23,6 @@ export default function ComparePage() {
     page: 1,
     pageSize: 100,
     query: query || '',
-    filter: '',
   });
 
   const handleAddProduct = (product: PerfumeView) => {

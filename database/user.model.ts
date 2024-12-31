@@ -51,4 +51,11 @@ const UserSchema = new Schema<IUserDoc>(
 
 const User = models?.User || model<IUserDoc>('User', UserSchema);
 
+UserSchema.pre('save', function (next) {
+  if (this.isModified('email')) {
+    this.email = this.email.toLowerCase();
+  }
+  next();
+});
+
 export default User;

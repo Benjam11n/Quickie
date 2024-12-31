@@ -38,7 +38,6 @@ export function ProductSelector({
     page: 1,
     pageSize: 100,
     query: query || '',
-    filter: '',
   });
 
   const { perfumes } = data?.data || {};

@@ -32,7 +32,6 @@ export function NoteComparisonView({ perfumes }: NoteComparisonViewProps) {
     page: 1,
     pageSize: 100,
     query: query || '',
-    filter: '',
   });
   const [selectedNote, setSelectedNote] = useState<string | null>(null);
 

@@ -25,7 +25,6 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
     page: 1,
     pageSize: 100,
     query: '',
-    filter: '',
   });
 
   const [isLiked, setIsLiked] = useState(false);

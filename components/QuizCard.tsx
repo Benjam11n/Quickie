@@ -89,7 +89,7 @@ export function QuizCard({ onComplete }: QuizCardProps) {
                   <Button
                     key={option.id}
                     variant="outline"
-                    className="gradient-border h-auto justify-start p-4 text-left"
+                    className="h-auto justify-start p-4 text-left"
                     onClick={() =>
                       handleAnswer(questions[currentQuestion].id, option.id)
                     }

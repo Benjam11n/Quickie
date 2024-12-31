@@ -17,7 +17,13 @@ export default async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/', req.url));
   }
   // Protected routes - redirect to login if not authenticated
-  const protectedRoutes = ['/profile', '/wishlists', '/collection', '/boards'];
+  const protectedRoutes = [
+    '/profile',
+    '/wishlists',
+    '/collection',
+    '/boards',
+    '/admin',
+  ];
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
   );
@@ -43,5 +49,7 @@ export const config = {
     '/collection/:path*',
     '/boards/:path/edit',
     '/boards/new',
+    '/admin/:path*',
+    '/waitlist/:path*',
   ],
 };

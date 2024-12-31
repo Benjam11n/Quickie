@@ -1,5 +1,6 @@
 import { Layout, Grid, Star, BookMarked } from 'lucide-react';
 
+import DataRenderer from '@/components/DataRenderer';
 import { CollectionGrid } from '@/components/profile/CollectionGrid';
 import {
   CollectionInsights,
@@ -22,8 +23,6 @@ import { getUserReviews } from '@/lib/actions/review.action';
 import { getUserWishlists } from '@/lib/actions/wishlist.action';
 import { WishlistView } from '@/types';
 
-import DataRenderer from '@/components/ui/DataRenderer';
-
 interface ProfilePageProps {
   params: { id: string };
   searchParams: { [key: string]: string };
@@ -34,7 +33,7 @@ export default async function ProfilePageClient({
   searchParams,
 }: ProfilePageProps) {
   const { id: userId } = await params;
-  const { page, pageSize, query, filter } = await searchParams;
+  const { page, pageSize, query } = await searchParams;
 
   const {
     success: wishlistSuccess,
@@ -51,7 +50,6 @@ export default async function ProfilePageClient({
     page: Number(page) || 1,
     pageSize: Number(pageSize) || 10,
     query: query || '',
-    filter: filter || '',
   });
 
   const {
@@ -70,7 +68,6 @@ export default async function ProfilePageClient({
     page: Number(page) || 1,
     pageSize: Number(pageSize) || 10,
     query: query || '',
-    filter: filter || '',
   });
 
   const { reviews } = reviewsData || {};

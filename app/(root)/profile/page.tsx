@@ -32,7 +32,7 @@ export default async function ProfilePageClient({
   searchParams,
 }: ProfilePageProps) {
   const session = await auth();
-  const { page, pageSize, query, filter } = await searchParams;
+  const { page, pageSize, query } = await searchParams;
   const userId = session?.user?.id || '';
 
   const [wishlistResult, reviewResult, collectionResult, moodboardResult] =
@@ -43,14 +43,12 @@ export default async function ProfilePageClient({
         page: Number(page) || 1,
         pageSize: Number(pageSize) || 10,
         query: query || '',
-        filter: filter || '',
       }),
       getCollection({ userId }),
       getMoodBoards({
         page: Number(page) || 1,
         pageSize: Number(pageSize) || 10,
         query: query || '',
-        filter: filter || '',
       }),
     ]);
 

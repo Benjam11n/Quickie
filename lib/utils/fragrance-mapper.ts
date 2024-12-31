@@ -203,8 +203,8 @@ export function mapProductToEnhancedFragrance(
   };
 
   return {
-    _id: product.id,
-    id: product.id,
+    _id: product._id,
+    id: product._id,
     name: product.name,
     // todo:
     brand: product?.brand?.name,

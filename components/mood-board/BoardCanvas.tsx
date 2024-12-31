@@ -84,7 +84,7 @@ export function BoardCanvas({
           {Array.from({ length: GRID_SIZE }).map((_, index) => {
             const perfume = getPerfumeAtPosition(index);
             const product = perfume
-              ? perfumes.find((p) => p.id === perfume.perfume)
+              ? perfumes.find((p) => p._id === perfume.perfume)
               : null;
 
             return (
@@ -99,9 +99,9 @@ export function BoardCanvas({
                 >
                   {product ? (
                     <DraggablePerfume
-                      id={product.id}
+                      id={product._id}
                       product={product}
-                      isActive={activeId === product.id}
+                      isActive={activeId === product._id}
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">

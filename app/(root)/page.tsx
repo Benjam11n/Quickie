@@ -14,7 +14,6 @@ export default async function Home() {
     page: 1,
     pageSize: 3,
     query: '',
-    filter: '',
   });
 
   const { vendingMachines } = data || {};

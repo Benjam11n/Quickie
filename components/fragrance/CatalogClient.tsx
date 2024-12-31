@@ -28,7 +28,7 @@ import { WishlistSelectDialog } from '../wishlist/WishlistSelectDialog';
 interface CatalogPageProps {
   userId?: string;
   perfumes?: PerfumeView[];
-  isNext: boolean;
+  isNext?: boolean;
   success: boolean;
   error?: {
     message: string;
@@ -292,6 +292,7 @@ export default function CatalogClient({
                           review={reviews.find(
                             (r) => r.perfume._id === perfume._id
                           )}
+                          affiliateLink={perfume.affiliateLink}
                           interactive={{
                             wishlist: {
                               isFavourite,

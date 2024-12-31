@@ -68,6 +68,7 @@ export default async function Footer() {
                 <li>
                   <Link
                     href={ROUTES.USER_PROFILE}
+                    prefetch
                     className="transition-colors hover:text-primary"
                   >
                     My Collection

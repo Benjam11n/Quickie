@@ -499,3 +499,41 @@ export const RemoveFromCollectionSchema = AddToCollectionSchema;
 export const GetCollectionSchema = z.object({
   userId: z.string().min(1, { message: 'User ID is required.' }),
 });
+
+export const CreateWaitlistSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: 'Email is required' })
+    .email({ message: 'Please provide a valid email address.' }),
+  name: z
+    .string()
+    .min(1, { message: 'Name is required.' })
+    .max(50, { message: 'Name cannot exceed 50 characters.' })
+    .regex(/^[a-zA-Z\s]+$/, {
+      message: 'Name can only contain letters and spaces.',
+    }),
+});
+
+export const GetWaitlistSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: 'Email is required' })
+    .email({ message: 'Please provide a valid email address.' }),
+});
+
+export const NotifyWaitlistSchema = z.object({
+  emails: z.array(
+    z
+      .string()
+      .min(1, { message: 'Email is required' })
+      .email({ message: 'Please provide a valid email address.' })
+  ),
+});
+
+export const VerifyEmailSchema = z.object({
+  email: z
+    .string()
+    .min(1, { message: 'Email is required' })
+    .email({ message: 'Please provide a valid email address.' }),
+  token: z.string().min(1, { message: 'Token is required' }),
+});

@@ -419,15 +419,11 @@ export async function getMoodBoards(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { page = 1, pageSize = 10, query, filter } = params;
+  const { page = 1, pageSize = 10, query, sortBy } = params;
   const skip = (Number(page) - 1) * pageSize;
   const limit = Number(pageSize);
 
   const filterQuery: FilterQuery<typeof MoodBoard> = {};
-
-  if (filter === 'recommended') {
-    return { success: true, data: { moodboards: [], isNext: false } };
-  }
 
   if (query) {
     filterQuery.$or = [
@@ -438,7 +434,7 @@ export async function getMoodBoards(
 
   let sortCriteria = {};
 
-  switch (filter) {
+  switch (sortBy) {
     case 'newest':
       sortCriteria = { createdAt: -1 };
       break;

@@ -1,6 +1,7 @@
 import { AuthDialog } from '@/components/auth/AuthDialog';
 import Footer from '@/components/Footer';
 import { NavBar } from '@/components/navigation';
+import { WaitlistModal } from '@/components/WaitlistModal';
 
 export function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,6 +12,7 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
           {children}
           <AuthDialog />
           <Footer />
+          <WaitlistModal />
         </div>
       </main>
     </div>
