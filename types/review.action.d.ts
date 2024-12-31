@@ -5,7 +5,7 @@ declare global {
     perfume: Types.ObjectId;
     vendingMachineId?: Types.ObjectId;
     rating: Rating;
-    review: string;
+    review?: string;
   }
 
   interface UpdateReviewParams extends CreateReviewParams {

@@ -407,8 +407,9 @@ export const CreateReviewSchema = z.object({
   rating: ReviewRatingSchema,
   review: z
     .string()
-    .min(10, 'Review must be at least 10 characters long')
-    .trim(),
+    .trim()
+    .max(2000, { message: 'Review cannot exceed 2000 characters.' })
+    .optional(),
 });
 
 export const UpdateReviewSchema = CreateReviewSchema.extend({

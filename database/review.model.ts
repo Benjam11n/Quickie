@@ -7,7 +7,7 @@ export interface IReview {
   perfume: Types.ObjectId;
   vendingMachineId?: Types.ObjectId;
   rating: Rating;
-  review: string;
+  review?: string;
 }
 
 export interface IReviewDoc extends IReview, Document {}
@@ -59,9 +59,8 @@ const ReviewSchema = new Schema<IReview>(
     },
     review: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
-      minlength: [10, 'Review must be at least 10 characters long'],
     },
   },
   { timestamps: true }
