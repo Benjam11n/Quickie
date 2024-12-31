@@ -11,7 +11,7 @@ export enum WaitlistStatus {
 
 export interface IWaitlist {
   email: string;
-  name: string;
+  name?: string;
   emailVerified: boolean;
   signedUpAt: Date;
   notified: boolean;
@@ -41,6 +41,7 @@ const WaitlistSchema = new Schema<IWaitlist>(
     name: {
       type: String,
       trim: true,
+      required: false,
     },
     signedUpAt: {
       type: Date,

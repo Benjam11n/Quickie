@@ -507,11 +507,11 @@ export const CreateWaitlistSchema = z.object({
     .email({ message: 'Please provide a valid email address.' }),
   name: z
     .string()
-    .min(1, { message: 'Name is required.' })
     .max(50, { message: 'Name cannot exceed 50 characters.' })
     .regex(/^[a-zA-Z\s]+$/, {
       message: 'Name can only contain letters and spaces.',
-    }),
+    })
+    .optional(),
 });
 
 export const GetWaitlistSchema = z.object({

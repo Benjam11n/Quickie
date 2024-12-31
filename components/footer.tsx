@@ -120,8 +120,7 @@ export default async function Footer() {
           <div className="space-y-4">
             <h3 className="font-semibold">Stay Updated</h3>
             <p className="text-sm text-muted-foreground">
-              Subscribe to our newsletter for the latest fragrances and
-              locations.
+              Join our waitlist for the latest fragrances and locations.
             </p>
             <NewsletterForm />
           </div>

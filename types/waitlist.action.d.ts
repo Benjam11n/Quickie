@@ -1,7 +1,7 @@
 declare global {
   interface CreateWaitlistParams {
     email: string;
-    name: string;
+    name?: string;
   }
 
   interface GetWaitlistParams {
