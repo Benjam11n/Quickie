@@ -24,6 +24,12 @@ interface ScentJourneyProps {
   };
 }
 
+interface CustomDotProps {
+  cx: number;
+  cy: number;
+  payload: TimelinePoint;
+}
+
 export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -73,16 +79,7 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
     });
   }, [currentTime, timeline]);
 
-  // Progress indicator for the chart
-  const CustomDot = ({
-    cx,
-    cy,
-    payload,
-  }: {
-    cx: number;
-    cy: number;
-    payload: TimelinePoint;
-  }) => {
+  const CustomDot = ({ cx, cy, payload }: CustomDotProps) => {
     if (payload.time === Math.floor(currentTime)) {
       return (
         <circle
@@ -178,11 +175,11 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
                       <div className="mt-2">
                         <p className="text-sm font-medium">Active Notes:</p>
                         <div className="mt-1 flex flex-wrap gap-1">
-                          {point.activeNotes.map((noteName) => {
+                          {point.activeNotes.map((noteName, index) => {
                             const note = allNotes[noteName];
                             return (
                               <span
-                                key={noteName}
+                                key={`${noteName}-${index}`}
                                 className="inline-flex items-center rounded-full px-2 py-1 text-xs"
                                 style={{
                                   backgroundColor: `${note.color}20`,
@@ -207,7 +204,10 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
               stroke="hsl(var(--primary))"
               fill="url(#intensityGradient)"
               strokeWidth={2}
-              dot={(props) => <CustomDot key={props.payload.time} {...props} />}
+              dot={(props) => {
+                const { key, ...restProps } = props;
+                return <CustomDot key={key} {...restProps} />;
+              }}
             />
           </AreaChart>
         </ResponsiveContainer>
