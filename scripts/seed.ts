@@ -2,14 +2,14 @@ import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
 import mongoose, { Types } from 'mongoose';
 
-import Wishlist from '@/database/wishlist.model';
-
 import Brand from '../database/brand.model';
 import Collection from '../database/collection.model';
 import NoteFamily from '../database/note-family.model';
 import Note from '../database/note.model';
 import Perfume from '../database/perfume.model';
+import Review from '../database/review.model';
 import Tag from '../database/tag.model';
+import Wishlist from '../database/wishlist.model';
 import dbConnect from '../lib/mongoose';
 
 dotenv.config({ path: '.env.local' });
@@ -30,6 +30,7 @@ async function seedData() {
     await NoteFamily.deleteMany({});
     await Note.deleteMany({});
     await Brand.deleteMany({});
+    await Review.deleteMany({});
     await Perfume.deleteMany({});
     console.log('Cleared existing data');
 
@@ -189,5 +190,214 @@ async function seedData() {
   }
 }
 
-// Run Seeder
-seedData();
+// scripts/seed.ts
+async function seedReviews() {
+  try {
+    await dbConnect();
+    // Clear existing reviews
+    await Review.deleteMany({});
+    console.log('Cleared existing reviews');
+
+    // Get all perfumes
+    const perfumes = await Perfume.find();
+
+    // Create multiple author IDs to simulate different reviewers
+    const authorIds = [
+      new Types.ObjectId('67653f80f5e53f9472caa184'), // Your original author
+      new Types.ObjectId(), // Random additional reviewers
+      new Types.ObjectId(),
+      new Types.ObjectId(),
+      new Types.ObjectId(),
+    ];
+
+    // Review templates and word banks (same as before)
+    const reviewTemplates = [
+      'A {adjective} fragrance that {impression}. The {note} notes are {description}.',
+      'This scent is {adjective} and {adjective}. {impression}.',
+      'Wearing this makes me feel {emotion}. The {note} in the {phase} is {description}.',
+      '{impression} Perfect for {occasion}.',
+      'A {adjective} composition that {impression}. The {phase} phase is particularly {description}.',
+    ];
+
+    const adjectives = [
+      'sophisticated',
+      'elegant',
+      'bold',
+      'subtle',
+      'captivating',
+      'enchanting',
+      'mysterious',
+      'refreshing',
+      'warm',
+      'cool',
+      'intoxicating',
+      'delicate',
+    ];
+
+    const impressions = [
+      'leaves a lasting impression',
+      'evolves beautifully on the skin',
+      'creates an aura of sophistication',
+      'captures attention without being overwhelming',
+      'brings out the best of each note',
+      "blends seamlessly with one's natural scent",
+    ];
+
+    const descriptions = [
+      'beautifully balanced',
+      'expertly blended',
+      'masterfully crafted',
+      'harmoniously integrated',
+      'artfully composed',
+      'perfectly proportioned',
+    ];
+
+    const emotions = [
+      'confident',
+      'sophisticated',
+      'energized',
+      'relaxed',
+      'romantic',
+      'powerful',
+    ];
+
+    const occasions = [
+      'evening wear',
+      'special occasions',
+      'daily wear',
+      'formal events',
+      'summer days',
+      'winter nights',
+      'spring mornings',
+      'autumn evenings',
+    ];
+
+    const phases = ['opening', 'heart', 'base', 'dry down'];
+    const notes = [
+      'floral',
+      'woody',
+      'citrus',
+      'oriental',
+      'spicy',
+      'fresh',
+      'green',
+    ];
+
+    // Generate reviews
+    const reviews = [];
+    for (const perfume of perfumes) {
+      // Generate 1-5 reviews per perfume
+      const numReviews = faker.number.int({ min: 1, max: 5 });
+
+      // Use different authors for each review
+      const shuffledAuthors = faker.helpers
+        .shuffle([...authorIds])
+        .slice(0, numReviews);
+
+      for (let i = 0; i < numReviews; i++) {
+        // Use a different author for each review
+        const author = shuffledAuthors[i];
+
+        // Generate review text (same as before)
+        const template = faker.helpers.arrayElement(reviewTemplates);
+        const review = template
+          .replace('{adjective}', faker.helpers.arrayElement(adjectives))
+          .replace('{impression}', faker.helpers.arrayElement(impressions))
+          .replace('{description}', faker.helpers.arrayElement(descriptions))
+          .replace('{emotion}', faker.helpers.arrayElement(emotions))
+          .replace('{occasion}', faker.helpers.arrayElement(occasions))
+          .replace('{phase}', faker.helpers.arrayElement(phases))
+          .replace('{note}', faker.helpers.arrayElement(notes));
+
+        // Generate ratings
+        const baseRating = faker.number.int({ min: 3, max: 5 });
+        const variation = () => faker.number.int({ min: -1, max: 1 });
+
+        reviews.push({
+          author,
+          perfume: perfume._id,
+          rating: {
+            sillage: Math.max(1, Math.min(5, baseRating + variation())),
+            longevity: Math.max(1, Math.min(5, baseRating + variation())),
+            value: Math.max(1, Math.min(5, baseRating + variation())),
+            uniqueness: Math.max(1, Math.min(5, baseRating + variation())),
+            complexity: Math.max(1, Math.min(5, baseRating + variation())),
+          },
+          review,
+        });
+      }
+    }
+
+    // Insert reviews in batches to avoid timeout
+    const batchSize = 100;
+    for (let i = 0; i < reviews.length; i += batchSize) {
+      const batch = reviews.slice(i, i + batchSize);
+      await Review.insertMany(batch);
+      console.log(
+        `Inserted reviews ${i + 1} to ${Math.min(i + batchSize, reviews.length)}`
+      );
+    }
+
+    // Update perfume ratings
+    for (const perfume of perfumes) {
+      const perfumeReviews = reviews.filter((r) =>
+        r.perfume.equals(perfume._id)
+      );
+
+      if (perfumeReviews.length > 0) {
+        const avgRating = {
+          sillage: 0,
+          longevity: 0,
+          value: 0,
+          uniqueness: 0,
+          complexity: 0,
+        };
+
+        perfumeReviews.forEach((review) => {
+          (Object.keys(avgRating) as (keyof typeof avgRating)[]).forEach(
+            (key) => {
+              avgRating[key] += review.rating[key];
+            }
+          );
+        });
+
+        Object.keys(avgRating).forEach((key) => {
+          avgRating[key as keyof typeof avgRating] /= perfumeReviews.length;
+        });
+
+        await Perfume.findByIdAndUpdate(perfume._id, {
+          'rating.average':
+            Object.values(avgRating).reduce((a, b) => a + b) / 5,
+          'rating.count': perfumeReviews.length,
+        });
+      }
+    }
+
+    console.log('Successfully seeded reviews and updated perfume ratings');
+  } catch (error) {
+    console.error('Error seeding reviews:', error);
+    throw error; // Rethrow to handle in main function
+  }
+}
+
+async function main() {
+  try {
+    await dbConnect();
+    console.log('Connected to MongoDB');
+
+    // Run seeders sequentially
+    await seedData();
+    console.log('Completed seeding base data');
+
+    await seedReviews();
+    console.log('Completed seeding reviews');
+  } catch (error) {
+    console.error('Error in seeding:', error);
+  } finally {
+    await mongoose.disconnect();
+    console.log('Disconnected from MongoDB');
+  }
+}
+
+// Run the main function
+main().catch(console.error);

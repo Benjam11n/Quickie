@@ -481,7 +481,6 @@ export async function getUserReviews(
   const { userId } = validationResult.params!;
   const { page = 1, pageSize = 10 } = params;
   const skip = (Number(page) - 1) * pageSize;
-  const limit = Number(pageSize);
 
   try {
     // Get total count for pagination
@@ -507,7 +506,8 @@ export async function getUserReviews(
       })
       .sort({ createdAt: -1 }) // Most recent first
       .skip(skip)
-      .limit(limit)
+      // Set a suitable limit
+      .limit(100)
       .lean();
 
     const isNext = totalReviews > skip + reviews.length;
