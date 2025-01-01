@@ -17,11 +17,30 @@ export interface IMoodBoard {
   isPublic: boolean;
   views?: number;
   likes?: number;
+  dimensions: { layout: string; cols: number; rows: number };
 }
 
 export interface IMoodBoardDoc extends IMoodBoard, Document {
   _id: Types.ObjectId;
 }
+
+const BoardDimensionsSchema = new Schema({
+  layout: {
+    type: String,
+    enum: ['grid3x3', 'grid2x4', 'grid4x2', 'pinterest'],
+    default: 'grid3x3',
+  },
+  cols: {
+    type: Number,
+    required: true,
+    default: 3,
+  },
+  rows: {
+    type: Number,
+    required: true,
+    default: 3,
+  },
+});
 
 const MoodBoardSchema = new Schema<IMoodBoard>(
   {
@@ -40,13 +59,11 @@ const MoodBoardSchema = new Schema<IMoodBoard>(
             type: Number,
             required: true,
             min: 0,
-            max: 2, // For 3x3 grid
           },
           y: {
             type: Number,
             required: true,
             min: 0,
-            max: 2,
           },
         },
       },
@@ -55,6 +72,15 @@ const MoodBoardSchema = new Schema<IMoodBoard>(
     isPublic: { type: Boolean, default: false },
     views: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },
+    dimensions: {
+      type: BoardDimensionsSchema,
+      required: true,
+      default: {
+        layout: 'grid3x3',
+        cols: 3,
+        rows: 3,
+      },
+    },
   },
   { timestamps: true }
 );

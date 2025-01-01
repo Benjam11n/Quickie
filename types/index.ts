@@ -4,16 +4,32 @@ import { WishlistPerfume, WishlistPerfumeView } from '@/database';
 import { Rating } from './fragrance';
 
 export interface PerfumePosition {
-  perfume: string; // ObjectId as string
+  perfume: string;
   position: {
     x: number;
     y: number;
   };
 }
 
+export interface PerfumePositionView {
+  perfume: { _id: string; name: string; images: string[] };
+  position: {
+    x: number;
+    y: number;
+  };
+}
+
+export type BoardLayout = 'grid3x3' | 'grid2x4' | 'grid4x2' | 'pinterest';
+
+export interface BoardDimensions {
+  layout: BoardLayout;
+  cols: number;
+  rows: number;
+}
+
 export interface MoodBoard {
   _id: string;
-  userId: string;
+  author: string;
   name: string;
   description?: string;
   perfumes: PerfumePosition[];
@@ -23,6 +39,7 @@ export interface MoodBoard {
   likes?: number;
   createdAt: string;
   updatedAt: string;
+  dimensions: BoardDimensions;
 }
 
 export interface MoodBoardView {
@@ -30,13 +47,14 @@ export interface MoodBoardView {
   author: { _id: string; username: string };
   name: string;
   description?: string;
-  perfumes: PerfumePosition[];
+  perfumes: PerfumePositionView[];
   tags: string[];
   isPublic: boolean;
   views?: number;
   likes?: number;
   createdAt?: string;
   updatedAt?: string;
+  dimensions: BoardDimensions;
 }
 
 export interface VendingLocation {

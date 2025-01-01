@@ -1,7 +1,6 @@
 'use client';
 import { ArrowLeft, Save } from 'lucide-react';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { Session } from 'next-auth';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -11,12 +10,13 @@ import { BoardCanvas } from '@/components/mood-board/BoardCanvas';
 import { BoardSidebar } from '@/components/mood-board/BoardSidebar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ROUTES } from '@/constants/routes';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { useEditMoodboardStore } from '@/hooks/stores/use-edit-mood-boards-store';
 import { updateMoodBoard } from '@/lib/actions/moodboard.action';
 import { MoodBoardView } from '@/types';
 import { PerfumeView } from '@/types/fragrance';
+
+import { Textarea } from '../ui/textarea';
 
 interface EditBoardPageProps {
   initialBoard: MoodBoardView;
@@ -26,6 +26,7 @@ interface EditBoardPageProps {
 export default function EditBoardPageClient({
   initialBoard,
 }: EditBoardPageProps) {
+  const router = useRouter();
   const { data: perfumesResponse, isPending } = usePerfumes({
     page: 1,
     pageSize: 100,
@@ -38,9 +39,10 @@ export default function EditBoardPageClient({
     hasChanges,
     initializeBoard,
     updateName,
+    updateDescription,
     addPerfume,
+    removePerfume,
     getChanges,
-    // resetChanges,
   } = useEditMoodboardStore();
 
   // Initialize edit state
@@ -55,8 +57,16 @@ export default function EditBoardPageClient({
     const result = await updateMoodBoard({
       boardId: currentBoard._id,
       name: changes.name || currentBoard.name,
+      description: changes.description || currentBoard.description,
       tags: changes.tags || currentBoard.tags,
       isPublic: changes.isPublic ?? currentBoard.isPublic,
+      perfumes:
+        changes.perfumes ||
+        currentBoard.perfumes.map((perfumePosition) => ({
+          perfume: perfumePosition.perfume._id,
+          position: perfumePosition.position,
+        })),
+      dimensions: changes.dimensions || currentBoard.dimensions,
       ...changes,
     });
 
@@ -87,7 +97,7 @@ export default function EditBoardPageClient({
       const x = selectedSquare % 3;
       const y = Math.floor(selectedSquare / 3);
 
-      addPerfume(product._id, { x, y });
+      addPerfume(product, { x, y });
       setSelectedSquare(null);
     }
   };
@@ -109,10 +119,8 @@ export default function EditBoardPageClient({
   return (
     <div className="container py-10">
       <div className="mb-8 flex items-center gap-4">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href={ROUTES.USER_PROFILE}>
-            <ArrowLeft className="size-4" />
-          </Link>
+        <Button variant="ghost" size="icon" onClick={router.back}>
+          <ArrowLeft className="size-4" />
         </Button>
         <div className="flex-1">
           <Input
@@ -126,6 +134,15 @@ export default function EditBoardPageClient({
           Save Changes
         </Button>
       </div>
+      <div className="mb-6">
+        <Textarea
+          placeholder="Add a description for your board..."
+          value={currentBoard?.description || ''}
+          onChange={(e) => updateDescription(e.target.value)}
+          className="min-h-[100px] resize-none rounded-md bg-transparent hover:bg-accent"
+        />
+      </div>
+
       <div className="flex gap-6">
         <div className="flex-1">
           <BoardCanvas
@@ -133,6 +150,9 @@ export default function EditBoardPageClient({
             perfumes={perfumes}
             selectedSquare={selectedSquare}
             onSquareSelect={setSelectedSquare}
+            onRemovePerfume={(perfumeId) => {
+              removePerfume(perfumeId);
+            }}
           />
         </div>
         <BoardSidebar

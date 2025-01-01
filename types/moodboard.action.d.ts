@@ -1,4 +1,4 @@
-import { Position } from '.';
+import { BoardDimensions, Position } from '.';
 
 declare global {
   interface CreateMoodBoardParams {
@@ -9,9 +9,8 @@ declare global {
   }
 
   interface UpdateMoodBoardParams extends CreateMoodBoardParams {
+    dimensions: BoardDimensions;
     boardId: string;
-    // views?: number;
-    // likes?: number;
     perfumes?: {
       perfume: string;
       position: Position;

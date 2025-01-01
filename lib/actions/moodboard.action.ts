@@ -12,8 +12,8 @@ import { MoodBoard as MoodBoardType, MoodBoardView } from '@/types';
 import action from '../handlers/action';
 import handleError from '../handlers/error';
 import {
+  CreateMoodBoardSchema,
   GetMoodBoardSchema,
-  MoodBoardSchema,
   PaginatedSearchParamsSchema,
   UpdateMoodBoardSchema,
 } from '../validations';
@@ -23,7 +23,7 @@ export async function createMoodBoard(
 ): Promise<ActionResponse<MoodBoardType>> {
   const validationResult = await action({
     params,
-    schema: MoodBoardSchema,
+    schema: CreateMoodBoardSchema,
     authorize: true,
   });
 
@@ -98,7 +98,7 @@ export async function updateMoodBoard(
   if (validationResult instanceof Error) {
     return handleError(validationResult) as ErrorResponse;
   }
-  const { name, description, tags, isPublic, perfumes, boardId } =
+  const { name, description, tags, isPublic, perfumes, boardId, dimensions } =
     validationResult.params!;
   const userId = validationResult?.session?.user?.id;
 
@@ -108,17 +108,20 @@ export async function updateMoodBoard(
   try {
     const moodboard = await MoodBoard.findById(boardId)
       .populate('tags')
-      .populate({ path: 'author', select: '_id name image' })
       .populate({
-        path: 'perfumes',
-        select: 'perfume position',
+        path: 'author',
+        select: 'username image',
+      })
+      .populate({
+        path: 'perfumes.perfume',
+        select: 'name images',
       });
 
     if (!moodboard) {
       throw new Error('moodboard not found');
     }
 
-    if (moodboard.userId.toString() !== userId) {
+    if (moodboard.author._id.toString() !== userId) {
       throw new Error('Unauthorized');
     }
 
@@ -126,13 +129,26 @@ export async function updateMoodBoard(
       moodboard.name !== name ||
       moodboard.description !== description ||
       moodboard.isPublic !== isPublic ||
-      moodboard.perfumes !== perfumes
+      moodboard.dimensions !== dimensions
     ) {
       moodboard.name = name;
       moodboard.description = description;
       moodboard.isPublic = isPublic;
-      moodboard.perfumes = perfumes;
+      moodboard.dimensions = dimensions;
       await moodboard.save({ session });
+    }
+
+    if (perfumes) {
+      // Clear existing perfumes
+      moodboard.perfumes = [];
+
+      // Add new perfumes
+      for (const perfumePosition of perfumes) {
+        moodboard.perfumes.push({
+          perfume: perfumePosition.perfume,
+          position: perfumePosition.position,
+        });
+      }
     }
 
     const tagsToAdd =
@@ -199,9 +215,20 @@ export async function updateMoodBoard(
     await moodboard.save({ session });
     await session.commitTransaction();
 
+    const updatedMoodboard = await MoodBoard.findById(boardId)
+      .populate('tags')
+      .populate({
+        path: 'author',
+        select: 'username image',
+      })
+      .populate({
+        path: 'perfumes.perfume',
+        select: 'name images',
+      });
+
     return {
       success: true,
-      data: JSON.parse(JSON.stringify(moodboard)),
+      data: JSON.parse(JSON.stringify(updatedMoodboard)),
     };
   } catch (error) {
     await session.abortTransaction();
@@ -256,7 +283,16 @@ export async function updatePerfumePosition(
           },
         },
         { new: true }
-      );
+      )
+        .populate('tags')
+        .populate({
+          path: 'author',
+          select: 'username image',
+        })
+        .populate({
+          path: 'perfumes.perfume',
+          select: 'name images',
+        });
 
       revalidatePath(`/moodboards/${params.boardId}`);
       return { success: true, data: boardWithNewPerfume };
@@ -367,10 +403,16 @@ export async function toggleLike(boardId: string): Promise<ActionResponse> {
       boardId,
       { $inc: { likes: 1 } },
       { new: true }
-    ).populate({
-      path: 'author',
-      select: '_id username image',
-    });
+    )
+      .populate('tags')
+      .populate({
+        path: 'author',
+        select: 'username image',
+      })
+      .populate({
+        path: 'perfumes.perfume',
+        select: 'name images',
+      });
 
     revalidatePath(`/moodboards/${boardId}`);
     return { success: true, data: updatedBoard };
@@ -395,7 +437,16 @@ export async function getMoodBoard(
   const { boardId } = validationResult.params!;
 
   try {
-    const moodboard = await MoodBoard.findById(boardId).populate('tags');
+    const moodboard = await MoodBoard.findById(boardId)
+      .populate('tags')
+      .populate({
+        path: 'author',
+        select: 'username image',
+      })
+      .populate({
+        path: 'perfumes.perfume',
+        select: 'name images',
+      });
 
     if (!moodboard) {
       throw new Error('Mood Board not found');
@@ -455,7 +506,14 @@ export async function getMoodBoards(
 
     const moodboards = await MoodBoard.find(filterQuery)
       .populate('tags', 'name')
-      .populate('author', 'name image')
+      .populate({
+        path: 'author',
+        select: 'username image',
+      })
+      .populate({
+        path: 'perfumes.perfume',
+        select: 'name images',
+      })
       .lean()
       .sort(sortCriteria)
       .skip(skip)

@@ -24,7 +24,7 @@ export function BoardSidebar({
   selectedSquare,
 }: BoardSidebarProps) {
   const [newTag, setNewTag] = useState('');
-  const { currentBoard, addTag, removeTag, toggleVisibility } =
+  const { originalBoard, currentBoard, addTag, removeTag, toggleVisibility } =
     useEditMoodboardStore();
 
   if (!currentBoard) return null;
@@ -39,7 +39,7 @@ export function BoardSidebar({
 
   const noteDistribution = currentBoard.perfumes.reduce(
     (acc, perfume) => {
-      const product = perfumes.find((p) => p._id === perfume.perfume);
+      const product = perfumes.find((p) => p._id === perfume.perfume._id);
       if (!product) return acc;
 
       Object.values(product.notes)
@@ -120,7 +120,7 @@ export function BoardSidebar({
                 .filter(
                   (product) =>
                     !currentBoard.perfumes.some(
-                      (p) => p.perfume === product._id
+                      (p) => p.perfume._id === product._id
                     )
                 )
                 .map((product) => (

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { auth } from '@/auth';
-import { ViewBoard } from '@/components/mood-board/BoardView';
+import { BoardView } from '@/components/mood-board/BoardViewPage';
 import { getMoodBoard } from '@/lib/actions/moodboard.action';
 
 export default async function BoardPage({
@@ -16,5 +16,5 @@ export default async function BoardPage({
     notFound();
   }
 
-  return <ViewBoard board={data} user={session?.user} />;
+  return <BoardView board={data} user={session?.user} />;
 }

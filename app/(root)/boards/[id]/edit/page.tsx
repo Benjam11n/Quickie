@@ -1,4 +1,5 @@
 import { notFound, redirect } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { auth } from '@/auth';
 import EditBoardPageClient from '@/components/mood-board/EditBoardPageClient';
@@ -18,6 +19,7 @@ export default async function EditBoardPage({ params }: RouteParams) {
   if (!success || !moodboard) return notFound();
 
   if (moodboard.author._id !== session.user.id) {
+    toast.error('Unauthorized to edit mood board.');
     return redirect(ROUTES.BOARDS_VIEW(moodboard._id));
   }
 

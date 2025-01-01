@@ -326,6 +326,29 @@ export const GetVendingMachineSchema = z.object({
     .min(1, { message: 'Vending Machine ID is required.' }),
 });
 
+const BoardLayoutSchema = z.enum([
+  'grid3x3',
+  'grid2x4',
+  'grid4x2',
+  'pinterest',
+]);
+
+const BoardDimensionsSchema = z
+  .object({
+    layout: BoardLayoutSchema,
+    cols: z
+      .number()
+      .int()
+      .min(1, { message: 'Must have at least 1 column' })
+      .max(6, { message: 'Cannot exceed 6 columns' }),
+    rows: z
+      .number()
+      .int()
+      .min(1, { message: 'Must have at least 1 row' })
+      .max(6, { message: 'Cannot exceed 6 rows' }),
+  })
+  .required();
+
 // Main MoodBoard schema
 export const MoodBoardSchema = z.object({
   name: z
@@ -370,6 +393,7 @@ export const CreateMoodBoardSchema = MoodBoardSchema.pick({
 // Schema for updating a moodboard
 export const UpdateMoodBoardSchema = MoodBoardSchema.extend({
   boardId: z.string().min(1, { message: 'Board ID is required.' }),
+  dimensions: BoardDimensionsSchema.required(),
 });
 
 // Schema for updating perfume position

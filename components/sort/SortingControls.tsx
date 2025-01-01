@@ -56,7 +56,10 @@ const SortingControls = ({ route }: LocalSearchProps) => {
   }, [sortBy, router, route, searchParams, pathname]);
 
   return (
-    <Select onValueChange={(value) => setSortBy(value as SortOption)}>
+    <Select
+      onValueChange={(value) => setSortBy(value as SortOption)}
+      value={sortBy}
+    >
       <SelectTrigger className="w-[200px]">
         <SelectValue placeholder="Sort by..." />
       </SelectTrigger>

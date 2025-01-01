@@ -1,6 +1,7 @@
 'use client';
 
 import { ArrowLeft, Edit, Heart } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound, useRouter } from 'next/navigation';
 import { User } from 'next-auth';
@@ -8,19 +9,19 @@ import { useState } from 'react';
 
 import Loading from '@/app/(root)/loading';
 import { ShareDialog } from '@/components/comparison/ShareDialog';
-import { BoardCanvas } from '@/components/mood-board/BoardCanvas';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { toggleLike } from '@/lib/actions/moodboard.action';
 import { MoodBoardView } from '@/types';
+import { BoardCanvasView } from './BoardCanvasView';
 
-interface ViewBoardProps {
+interface BoardViewProps {
   board: MoodBoardView;
   user?: User | null;
 }
 
-export function ViewBoard({ board, user }: ViewBoardProps) {
+export function BoardView({ board, user }: BoardViewProps) {
   const { data: perfumesResponse, isPending } = usePerfumes({
     page: 1,
     pageSize: 100,
@@ -52,10 +53,8 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
       <div className="mb-8">
         <div className="mb-4 flex items-center gap-4">
           {isOwner && user?.id ? (
-            <Button variant="ghost" size="icon" asChild>
-              <Link href={ROUTES.USER_PROFILE}>
-                <ArrowLeft className="size-4" />
-              </Link>
+            <Button variant="ghost" size="icon" onClick={router.back}>
+              <ArrowLeft className="size-4" />
             </Button>
           ) : (
             <Button
@@ -67,9 +66,9 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
           )}
           <div className="flex-1 gap-2">
             <h1 className="text-3xl font-bold">
-              <span className="holographic-text">{board.name}</span>
+              <span className="holographic-text text-4xl">{board.name}</span>
             </h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-lg font-semibold text-muted-foreground">
               Created by {board.author.username || 'Anonymous'}
             </p>
           </div>
@@ -94,30 +93,38 @@ export function ViewBoard({ board, user }: ViewBoardProps) {
         </div>
 
         {board.description && (
-          <p className="ml-14 text-sm text-muted-foreground">
+          <p className="ml-14 max-w-xl text-sm text-muted-foreground lg:max-w-3xl">
             {board.description}
           </p>
         )}
       </div>
 
       <div className="flex flex-col gap-6">
-        <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-accent/10">
-          {/* // TODO: Improve UI */}
-          <BoardCanvas board={board} perfumes={perfumes} />
+        <div className="flex flex-col gap-6">
+          <div className="relative w-full overflow-hidden rounded-lg bg-accent/10">
+            <BoardCanvasView board={board} perfumes={perfumes} />
+          </div>
         </div>
 
         <div className="mt-8">
           <h2 className="mb-4 text-xl font-semibold">Perfumes in this board</h2>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-            {board.perfumes.map((perfume) => (
+            {board.perfumes.map((perfumePosition) => (
               <Link
-                key={perfume.perfume}
-                href={`/fragrances/${perfume.perfume}`}
+                key={perfumePosition.perfume._id}
+                href={ROUTES.PRODUCT(perfumePosition.perfume._id)}
                 className="group relative aspect-square overflow-hidden rounded-lg bg-accent/10"
               >
-                {/* You can add perfume image here */}
-                <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                <Image
+                  src={perfumePosition.perfume.images[0]}
+                  alt={perfumePosition.perfume.name}
+                  fill
+                />
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 opacity-0 transition-opacity group-hover:opacity-100">
                   <span className="text-sm font-medium text-white">
+                    {perfumePosition.perfume.name}
+                  </span>
+                  <span className="text-sm font-medium text-primary">
                     View Details
                   </span>
                 </div>
