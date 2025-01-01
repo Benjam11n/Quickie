@@ -157,7 +157,7 @@ export function PerfumeCard({
             )}
           </div>
 
-          {review && (
+          {review?.review && (
             <p className="line-clamp-2 text-sm text-muted-foreground">
               &quot;{review.review}&quot;
             </p>

@@ -318,7 +318,7 @@ export async function getWishlist(
       })
       .populate({
         path: 'perfumes.perfume',
-        select: 'name brand price images affiliateLink',
+        select: 'name brand price images affiliateLink fullPrice',
         populate: {
           path: 'brand',
           select: 'name',

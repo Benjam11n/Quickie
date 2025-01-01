@@ -9,6 +9,7 @@ import Note from '../database/note.model';
 import Perfume from '../database/perfume.model';
 import Review from '../database/review.model';
 import Tag from '../database/tag.model';
+import VendingMachine from '../database/vending-machine.model';
 import Wishlist from '../database/wishlist.model';
 import dbConnect from '../lib/mongoose';
 
@@ -380,6 +381,125 @@ async function seedReviews() {
   }
 }
 
+async function seedVendingMachines() {
+  try {
+    await VendingMachine.deleteMany({});
+    console.log('Cleared existing vending machines');
+
+    // Get perfumes for inventory
+    const perfumes = await Perfume.find();
+    const authorId = new Types.ObjectId('67653f80f5e53f9472caa184');
+
+    // Singapore locations with areas
+    const locations = [
+      {
+        coordinates: [103.8522, 1.2874], // Marina Bay Sands
+        address: '10 Bayfront Avenue, Marina Bay Sands',
+        area: 'Marina Bay',
+      },
+      {
+        coordinates: [103.8519, 1.3039], // Suntec City
+        address: '3 Temasek Boulevard, Suntec City',
+        area: 'City Hall',
+      },
+      {
+        coordinates: [103.8332, 1.3048], // Orchard ION
+        address: '2 Orchard Turn, ION Orchard',
+        area: 'Orchard',
+      },
+      {
+        coordinates: [103.8557, 1.2846], // Raffles Place
+        address: '5 Raffles Place',
+        area: 'CBD',
+      },
+      {
+        coordinates: [103.8451, 1.2768], // VivoCity
+        address: '1 HarbourFront Walk, VivoCity',
+        area: 'HarbourFront',
+      },
+      {
+        coordinates: [103.849, 1.3512], // NEX
+        address: '23 Serangoon Central, NEX',
+        area: 'Serangoon',
+      },
+      {
+        coordinates: [103.8492, 1.3766], // Junction 8
+        address: '9 Bishan Place, Junction 8',
+        area: 'Bishan',
+      },
+      {
+        coordinates: [103.7467, 1.338], // Jurong East MRT
+        address: '10 Jurong East Street 12',
+        area: 'Jurong East',
+      },
+      {
+        coordinates: [103.8927, 1.3197], // Paya Lebar Quarter
+        address: '10 Paya Lebar Road, PLQ',
+        area: 'Paya Lebar',
+      },
+      {
+        coordinates: [103.8936, 1.3516], // Hougang Mall
+        address: '90 Hougang Avenue 10',
+        area: 'Hougang',
+      },
+    ];
+
+    const vendingMachines = locations.map((location) => {
+      // Generate random inventory for each machine
+      const inventory = faker.helpers
+        .shuffle([...perfumes])
+        .slice(0, faker.number.int({ min: 5, max: 10 }))
+        .map((perfume) => ({
+          perfume: perfume._id,
+          stock: faker.number.int({ min: 0, max: 20 }),
+          lastRefilled: faker.date.recent({ days: 14 }),
+        }));
+
+      // Generate popular times (24 hours)
+      const popularTimes: Record<string, number> = {};
+      for (let hour = 0; hour < 24; hour++) {
+        const timeKey = `${hour.toString().padStart(2, '0')}:00`;
+        // More traffic during lunch (11-14) and after work (17-20)
+        const isLunchHour = hour >= 11 && hour <= 14;
+        const isAfterWork = hour >= 17 && hour <= 20;
+        const baseTraffic =
+          isLunchHour || isAfterWork
+            ? faker.number.int({ min: 70, max: 100 })
+            : faker.number.int({ min: 10, max: 40 });
+        popularTimes[timeKey] = baseTraffic;
+      }
+
+      return {
+        location: {
+          type: 'Point',
+          coordinates: location.coordinates,
+          address: location.address,
+          area: location.area,
+        },
+        inventory,
+        status: faker.helpers.arrayElement([
+          'active',
+          'active',
+          'active',
+          'maintenance',
+          'inactive',
+        ]), // 60% chance of being active
+        metrics: {
+          totalSamples: faker.number.int({ min: 100, max: 1000 }),
+          popularTimes,
+        },
+        author: authorId,
+      };
+    });
+
+    await VendingMachine.insertMany(vendingMachines);
+    console.log(`Seeded ${vendingMachines.length} vending machines`);
+  } catch (error) {
+    console.error('Error seeding vending machines:', error);
+    throw error;
+  }
+}
+
 async function main() {
   try {
     await dbConnect();
@@ -391,6 +511,9 @@ async function main() {
 
     await seedReviews();
     console.log('Completed seeding reviews');
+
+    await seedVendingMachines();
+    console.log('Completed seeding vending machines');
   } catch (error) {
     console.error('Error in seeding:', error);
   } finally {
