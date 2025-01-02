@@ -106,7 +106,7 @@ async function seedData() {
     // Step 5: Seed Perfumes (without deleting)
     const authorId = new Types.ObjectId('67653f80f5e53f9472caa184'); // Fixed author ID
 
-    const perfumes = Array.from({ length: 50 }, () => ({
+    const perfumes = Array.from({ length: 200 }, () => ({
       name: faker.commerce.productName(),
       brand: brandIds[faker.number.int({ min: 0, max: brandIds.length - 1 })], // Random brand
       affiliateLink: 'example.com',
@@ -506,7 +506,7 @@ async function main() {
     console.log('Connected to MongoDB');
 
     // Run seeders sequentially
-    await seedData();
+    // await seedData();
     console.log('Completed seeding base data');
 
     await seedReviews();
