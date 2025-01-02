@@ -54,7 +54,7 @@ cp .env.example .env.local
 Required environment variables:
 
 - `MONGODB_URI`: Your MongoDB connection string
-- `NEXTAUTH_SECRET`: Secret for NextAuth.js
+- `AUTH_SECRET`: Secret for NextAuth.js
 - `AUTH_GITHUB_ID`: For GitHub OAuth authentication
 - `AUTH_GITHUB_SECRET`: For GitHub OAuth authentication
 - `AUTH_GOOGLE_ID`: For Google OAuth authentication
@@ -367,7 +367,7 @@ Below is a guide for setting up each required environment variable:
   4. Copy the connection string
 - **Required for**: Database functionality (all features)
 
-### NEXTAUTH_SECRET
+### AUTH_SECRET
 
 - **Purpose**: Encrypts authentication tokens and cookies
 - **How to get**: You can generate a secure random string using:
@@ -417,7 +417,7 @@ Below is a guide for setting up each required environment variable:
 
 ## Notes
 
-- For local development, you need at least MONGODB_URI and NEXTAUTH_SECRET
+- For local development, you need at least MONGODB_URI and AUTH_SECRET
 - OAuth providers (GitHub/Google) are optional but recommended for testing social login
 - Email functionality can be tested with Resend's test domain in development
 - For production, update all callback URLs to your production domain
