@@ -1,6 +1,7 @@
 'use client';
 
 import L from 'leaflet';
+import { useEffect, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
@@ -32,6 +33,30 @@ export function LocationMap({
   selectedLocation,
   onLocationSelect,
 }: LocationMapProps) {
+  const [userPosition, setUserPosition] = useState<[number, number] | null>(
+    null
+  );
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserPosition([position.coords.latitude, position.coords.longitude]);
+      },
+      (error) => {
+        console.error('Error getting user location:', error);
+      }
+    );
+  }, []);
+
+  const userMarkerIcon = useMemo(
+    () =>
+      L.divIcon({
+        className: 'bg-red-500 rounded-full border-2 border-white w-8 h-8',
+        iconSize: [24, 24],
+      }),
+    []
+  );
+
   return (
     <MapContainer
       center={[1.3521, 103.8198]}
@@ -61,16 +86,13 @@ export function LocationMap({
           <Popup>
             <div className="space-y-4 p-4">
               <div>
-                <h3 className="font-semibold">
+                <h3 className="text-lg font-semibold">
                   {vendingMachine.location.address}
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  {vendingMachine.location.address}
-                </p>
               </div>
 
-              <div className="space-y-2">
-                <h4 className="text-sm font-medium">Available Fragrances:</h4>
+              <div>
+                <h4 className="text-sm font-semibold">Available Fragrances:</h4>
                 {vendingMachine.inventory.map((item) => {
                   const product = item.perfume;
 
@@ -98,6 +120,11 @@ export function LocationMap({
           </Popup>
         </Marker>
       ))}
+      {userPosition && (
+        <Marker position={userPosition} icon={userMarkerIcon}>
+          <Popup>You are here</Popup>
+        </Marker>
+      )}
     </MapContainer>
   );
 }

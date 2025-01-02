@@ -1,6 +1,6 @@
 'use server';
 
-import mongoose, { FilterQuery } from 'mongoose';
+import mongoose, { FilterQuery, PipelineStage } from 'mongoose';
 
 import VendingMachine from '@/database/vending-machine.model';
 import { VendingMachineView } from '@/types';
@@ -182,7 +182,7 @@ export async function getVendingMachine(
 }
 
 export async function getVendingMachines(
-  params: PaginatedSearchParams
+  params: PaginatedSearchParams & { lat?: number; lng?: number }
 ): Promise<
   ActionResponse<{ vendingMachines: VendingMachineView[]; isNext: boolean }>
 > {
@@ -195,7 +195,7 @@ export async function getVendingMachines(
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { page = 1, pageSize = 10, query, sortBy } = params;
+  const { page = 1, pageSize = 10, query } = params;
 
   const skip = (Number(page) - 1) * pageSize;
   const limit = Number(pageSize);
@@ -208,45 +208,94 @@ export async function getVendingMachines(
     ];
   }
 
-  let sortCriteria = {};
-  switch (sortBy) {
-    case 'name-desc':
-      sortCriteria = { 'location.address': -1 };
-      break;
-    case 'name-asc':
-      sortCriteria = { 'loation.address': 1 };
-      break;
-    default:
-      sortCriteria = { createdAt: -1 };
-      break;
-  }
-
   try {
-    const totalVendingMachines = await VendingMachine.countDocuments();
-
-    const vendingMachines = await VendingMachine.find(filterQuery)
-      .populate({
-        path: 'inventory.perfume',
-        select: '_id id name brand price images',
-        populate: {
-          path: 'brand',
-          select: 'name',
+    // In getVendingMachines:
+    if (params.lat && params.lng) {
+      const geoNearPipeline: PipelineStage[] = [
+        {
+          $geoNear: {
+            near: {
+              type: 'Point',
+              coordinates: [Number(params.lng), Number(params.lat)],
+            },
+            distanceField: 'distance',
+            spherical: true,
+            query: filterQuery,
+          },
+        } as unknown as PipelineStage,
+        {
+          $lookup: {
+            from: 'perfumes',
+            localField: 'inventory.perfume',
+            foreignField: '_id',
+            as: 'allPerfumes',
+          },
         },
-      })
-      .lean()
-      .sort(sortCriteria)
-      .skip(skip)
-      .limit(limit);
+        {
+          $addFields: {
+            inventory: {
+              $map: {
+                input: '$inventory',
+                as: 'inv',
+                in: {
+                  perfume: {
+                    $arrayElemAt: [
+                      {
+                        $filter: {
+                          input: '$allPerfumes',
+                          cond: { $eq: ['$$this._id', '$$inv.perfume'] },
+                        },
+                      },
+                      0,
+                    ],
+                  },
+                  stock: '$$inv.stock',
+                  lastRefilled: '$$inv.lastRefilled',
+                },
+              },
+            },
+          },
+        },
+        { $skip: skip },
+        { $limit: limit },
+      ];
+      const vendingMachines = await VendingMachine.aggregate(geoNearPipeline);
+      const totalVendingMachines =
+        await VendingMachine.countDocuments(filterQuery);
 
-    const isNext = totalVendingMachines > skip + vendingMachines.length;
+      return {
+        success: true,
+        data: {
+          vendingMachines: JSON.parse(JSON.stringify(vendingMachines)),
+          isNext: totalVendingMachines > skip + vendingMachines.length,
+        },
+      };
+    } else {
+      const totalVendingMachines = await VendingMachine.countDocuments();
 
-    return {
-      success: true,
-      data: {
-        vendingMachines: JSON.parse(JSON.stringify(vendingMachines)),
-        isNext,
-      },
-    };
+      const vendingMachines = await VendingMachine.find(filterQuery)
+        .populate({
+          path: 'inventory.perfume',
+          select: '_id id name brand price images',
+          populate: {
+            path: 'brand',
+            select: 'name',
+          },
+        })
+        .lean()
+        .skip(skip)
+        .limit(limit);
+
+      const isNext = totalVendingMachines > skip + vendingMachines.length;
+
+      return {
+        success: true,
+        data: {
+          vendingMachines: JSON.parse(JSON.stringify(vendingMachines)),
+          isNext,
+        },
+      };
+    }
   } catch (error) {
     return handleError(error) as ErrorResponse;
   }

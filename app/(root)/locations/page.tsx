@@ -9,14 +9,22 @@ interface SearchParams {
 }
 
 const LocationsPage = async ({ searchParams }: SearchParams) => {
-  // todo: implement sorting and filtering
-  const { page, pageSize, query } = await searchParams;
+  const {
+    page = '1',
+    pageSize = '10',
+    query = '',
+    lat,
+    lng,
+  } = await searchParams;
   const { success, data, error } = await getVendingMachines({
-    page: Number(page) || 1,
-    pageSize: Number(pageSize) || 10,
-    query: query || '',
+    page: Number(page),
+    pageSize: Number(pageSize),
+    query,
+    lat: lat ? Number(lat) : undefined,
+    lng: lng ? Number(lng) : undefined,
   });
-  const { vendingMachines } = data || {};
+
+  const vendingMachines = data?.vendingMachines || [];
 
   return (
     <div className="container py-10">
