@@ -4,17 +4,15 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { deleteMoodBoard } from '@/lib/actions/moodboard.action';
-import { MoodBoard } from '@/types';
+import { MoodBoardView } from '@/types';
 
 import { BoardPreview } from './BoardPreview';
-import { useRouter } from 'next/navigation';
 
 interface BoardListProps {
-  boards: MoodBoard[];
+  boards: MoodBoardView[];
 }
 
 export function BoardList({ boards }: BoardListProps) {
-  const router = useRouter();
   const handleDelete = async (id: string) => {
     await deleteMoodBoard(id);
   };

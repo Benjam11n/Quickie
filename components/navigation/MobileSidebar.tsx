@@ -2,7 +2,8 @@
 
 import { DialogDescription } from '@radix-ui/react-dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { Sparkles, Menu, LogIn, UserPen } from 'lucide-react';
+import { Menu, LogIn, UserPen } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { User } from 'next-auth';
 
@@ -44,8 +45,13 @@ const MobileSidebar = ({ user }: MobileSidebarProps) => {
           {/* Header */}
           <SheetHeader className="border-b p-4">
             <div className="flex items-center justify-start gap-3">
-              <SheetTitle className="flex items-center gap-2">
-                <Sparkles className="size-5 text-primary" />
+              <SheetTitle className="flex items-center gap-3">
+                <Image
+                  src="/images/nav-logo.png"
+                  alt="Quickie logo"
+                  width={35}
+                  height={35}
+                />
                 <span className="font-bold">Quickie</span>
               </SheetTitle>
             </div>

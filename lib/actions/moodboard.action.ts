@@ -7,7 +7,7 @@ import { auth } from '@/auth';
 import MoodBoard from '@/database/moodboard.model';
 import TagMoodBoard from '@/database/tag-moodboard.model';
 import Tag, { ITagDoc } from '@/database/tag.model';
-import { MoodBoard as MoodBoardType, MoodBoardView } from '@/types';
+import { MoodBoardView } from '@/types';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -20,7 +20,7 @@ import {
 
 export async function createMoodBoard(
   params: CreateMoodBoardParams
-): Promise<ActionResponse<MoodBoardType>> {
+): Promise<ActionResponse<MoodBoardView>> {
   const validationResult = await action({
     params,
     schema: CreateMoodBoardSchema,
@@ -460,7 +460,7 @@ export async function getMoodBoard(
 
 export async function getMoodBoards(
   params: PaginatedSearchParams
-): Promise<ActionResponse<{ moodboards: MoodBoardType[]; isNext: boolean }>> {
+): Promise<ActionResponse<{ moodboards: MoodBoardView[]; isNext: boolean }>> {
   const validationResult = await action({
     params,
     schema: PaginatedSearchParamsSchema,

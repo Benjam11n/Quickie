@@ -1,4 +1,4 @@
-import { Sparkles } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { auth } from '@/auth';
@@ -22,7 +22,12 @@ export async function NavBar() {
             prefetch
             className="flex items-center space-x-2"
           >
-            <Sparkles className="size-6" />
+            <Image
+              src="/images/nav-logo.png"
+              alt="Quickie logo"
+              width={40}
+              height={40}
+            />
             <span className="inline-block font-bold">Quickie</span>
           </Link>
           <div className="hidden gap-6 lg:flex">

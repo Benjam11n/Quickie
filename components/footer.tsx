@@ -1,11 +1,5 @@
-import {
-  MapPin,
-  Mail,
-  Instagram,
-  Twitter,
-  Facebook,
-  Heart,
-} from 'lucide-react';
+import { MapPin, Mail, Instagram, Twitter, Facebook } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { auth } from '@/auth';
@@ -25,8 +19,23 @@ export default async function Footer() {
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <Heart className="size-6 text-primary" />
-              <span className="text-xl font-bold">Quickie</span>
+              <Image
+                src="/images/text-logo-light.png"
+                alt="Quickie logo"
+                width={80}
+                height={80}
+                className="dark:hidden"
+              />
+              <Image
+                src="/images/text-logo-dark.png"
+                alt="Quickie logo"
+                width={80}
+                height={80}
+                className="hidden dark:block"
+              />
+              <div className="pl-4 text-lg font-bold">
+                Reimagining Fragrance Discovery
+              </div>
             </div>
             <p className="text-sm text-muted-foreground">
               Experience fragrance discovery reimagined through our innovative

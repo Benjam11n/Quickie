@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Share2, Trash2 } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { toast } from 'sonner';
 
@@ -9,10 +10,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
-import { MoodBoard } from '@/types';
+import { MoodBoardView } from '@/types';
 
 interface BoardPreviewProps {
-  board: MoodBoard;
+  board: MoodBoardView;
   onDelete: () => void;
 }
 
@@ -25,10 +26,14 @@ export function BoardPreview({ board, onDelete }: BoardPreviewProps) {
     >
       <Link href={ROUTES.BOARDS_VIEW(board._id)}>
         <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg">
-          <div className="relative aspect-video bg-accent/50">
+          <div className="relative aspect-square bg-accent/50">
             {/* Preview would go here */}
             <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-              {board.perfumes.length} perfumes
+              <Image
+                src={board.perfumes[0].perfume.images[0]}
+                alt={board.perfumes[0].perfume.name}
+                fill
+              />
             </div>
           </div>
 
@@ -39,7 +44,10 @@ export function BoardPreview({ board, onDelete }: BoardPreviewProps) {
                   {board.name}
                 </h3>
                 <p className="text-sm text-muted-foreground">
-                  Created {new Date(board.createdAt).toLocaleDateString()}
+                  Created{' '}
+                  {board.createdAt
+                    ? new Date(board.createdAt).toLocaleDateString()
+                    : 'Unknown date'}
                 </p>
               </div>
 
