@@ -1,6 +1,6 @@
 import { Schema, Document, model, models, Types } from 'mongoose';
 
-import { Rating } from '@/types/fragrance';
+import { Rating } from '@/types/models/fragrance';
 
 export interface IReview {
   author: Types.ObjectId;

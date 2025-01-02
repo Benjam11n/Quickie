@@ -3,12 +3,12 @@ import Link from 'next/link';
 
 import { ROUTES } from '@/constants/routes';
 import { cn } from '@/lib/utils';
-import { MoodBoardView } from '@/types';
-import { PerfumeView } from '@/types/fragrance';
+import { MoodBoard } from '@/types';
+import { Perfume } from '@/types/models/fragrance';
 
 interface BoardCanvasViewProps {
-  board: MoodBoardView;
-  perfumes: PerfumeView[];
+  board: MoodBoard;
+  perfumes: Perfume[];
 }
 
 export function BoardCanvasView({ board, perfumes }: BoardCanvasViewProps) {

@@ -8,7 +8,7 @@ import {
   removeFromWishlist,
   updateWishlist,
 } from '@/lib/actions/wishlist.action';
-import { WishlistView } from '@/types';
+import { Wishlist } from '@/types';
 
 export function useWishlistMutations() {
   const queryClient = useQueryClient();
@@ -23,9 +23,9 @@ export function useWishlistMutations() {
         );
       }
 
-      return result.data as WishlistView;
+      return result.data as Wishlist;
     },
-    onSuccess: (data: WishlistView) => {
+    onSuccess: (data: Wishlist) => {
       toast.success('Successfully created wishlist.');
 
       const wishlistId = data._id;
@@ -56,9 +56,9 @@ export function useWishlistMutations() {
         );
       }
 
-      return result.data as WishlistView;
+      return result.data as Wishlist;
     },
-    onSuccess: (data: WishlistView) => {
+    onSuccess: (data: Wishlist) => {
       toast.success('Successfully updated wishlist.');
 
       const wishlistId = data._id;
@@ -89,9 +89,9 @@ export function useWishlistMutations() {
         );
       }
 
-      return result.data as WishlistView;
+      return result.data as Wishlist;
     },
-    onSuccess: (data: WishlistView) => {
+    onSuccess: (data: Wishlist) => {
       toast.success('Successfully added to wishlist.');
 
       const wishlistId = data._id;
@@ -126,9 +126,9 @@ export function useWishlistMutations() {
         );
       }
 
-      return result.data as WishlistView;
+      return result.data as Wishlist;
     },
-    onSuccess: (data: WishlistView) => {
+    onSuccess: (data: Wishlist) => {
       toast.success('Successfully removed from wishlist.');
 
       const wishlistId = data._id;

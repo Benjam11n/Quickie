@@ -1,15 +1,15 @@
-import { EnhancedFragrance } from '@/types/fragrance';
+import { PerfumeVisualiser } from '@/types/models/fragrance';
 
 import { NoteHarmonyVisualizer } from './NoteHarmonyVisualizer';
 import { ScentJourney } from './ScentJourney';
 import { ScentProfile } from './ScentProfile';
 import { SeasonalWheel } from './SeasonalWheel';
 
-interface EnhancedVisualizerProps {
-  fragrance: EnhancedFragrance;
+interface VisualizerProps {
+  fragrance: PerfumeVisualiser;
 }
 
-export function EnhancedVisualizer({ fragrance }: EnhancedVisualizerProps) {
+export function Visualizer({ fragrance }: VisualizerProps) {
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
       {/* Scent Journey - Full width */}

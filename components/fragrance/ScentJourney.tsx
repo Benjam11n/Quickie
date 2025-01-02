@@ -13,14 +13,14 @@ import {
 
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { TimelinePoint, Note } from '@/types/fragrance';
+import { TimelinePoint, Note } from '@/types/models/fragrance';
 
 interface ScentJourneyProps {
   timeline: TimelinePoint[];
   notes: {
-    top: Note[];
-    middle: Note[];
-    base: Note[];
+    top: { note: Note; intensity: number }[];
+    middle: { note: Note; intensity: number }[];
+    base: { note: Note; intensity: number }[];
   };
 }
 
@@ -36,17 +36,24 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
   const [playbackSpeed, setPlaybackSpeed] = useState(1); // Speed multiplier
 
   // Combine all notes into a single lookup object
-  const allNotes: { [key: string]: Note } = useMemo(
-    () => ({
-      ...notes.top.reduce((acc, note) => ({ ...acc, [note.name]: note }), {}),
-      ...notes.middle.reduce(
-        (acc, note) => ({ ...acc, [note.name]: note }),
-        {}
-      ),
-      ...notes.base.reduce((acc, note) => ({ ...acc, [note.name]: note }), {}),
-    }),
-    [notes]
-  );
+  const allNotes: { [key: string]: { note: Note; intensity: number } } =
+    useMemo(
+      () => ({
+        ...notes.top.reduce(
+          (acc, note) => ({ ...acc, [note.note.name]: note }),
+          {}
+        ),
+        ...notes.middle.reduce(
+          (acc, note) => ({ ...acc, [note.note.name]: note }),
+          {}
+        ),
+        ...notes.base.reduce(
+          (acc, note) => ({ ...acc, [note.note.name]: note }),
+          {}
+        ),
+      }),
+      [notes]
+    );
 
   // Animation logic
   useEffect(() => {
@@ -182,8 +189,8 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
                                 key={`${noteName}-${index}`}
                                 className="inline-flex items-center rounded-full px-2 py-1 text-xs"
                                 style={{
-                                  backgroundColor: `${note.color}20`,
-                                  color: note.color,
+                                  backgroundColor: `${note.note.family.color}20`,
+                                  color: note.note.family.color,
                                 }}
                               >
                                 {noteName}
@@ -249,18 +256,18 @@ export function ScentJourney({ timeline, notes }: ScentJourneyProps) {
                       'border border-transparent hover:border-primary'
                     )}
                     style={{
-                      backgroundColor: `${note.color}10`,
+                      backgroundColor: `${note.note.family.color}10`,
                     }}
                   >
                     <div className="flex items-center gap-2">
                       <div
                         className="size-3 rounded-full"
-                        style={{ backgroundColor: note.color }}
+                        style={{ backgroundColor: note.note.family.color }}
                       />
                       <span className="font-medium">{noteName}</span>
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      {note.family}
+                      {note.note.family.name}
                     </p>
                   </div>
                 );

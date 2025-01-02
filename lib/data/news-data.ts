@@ -1,4 +1,4 @@
-import { HeroArticle, Category, ArticleCard } from '@/types/news';
+import { HeroArticle, Category, ArticleCard } from '@/types/models/news';
 
 export const mockCategories: Category[] = [
   { name: 'All', slug: 'all', count: 42, isActive: true },

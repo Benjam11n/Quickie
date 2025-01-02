@@ -59,10 +59,12 @@ export async function signUpWithCredentials(
 
     // Create collection for user
     await Collection.create(
-      {
-        author: newUser._id,
-        perfumes: [],
-      },
+      [
+        {
+          author: newUser._id,
+          perfumes: [],
+        },
+      ],
       { session }
     );
 
@@ -94,7 +96,8 @@ export async function signInWithCredentials(
   const { email, password } = validationResult.params!;
 
   try {
-    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    const existingUser = await User.findOne({ email });
+    console.log('existingUser', existingUser);
     if (!existingUser) throw new NotFoundError('User');
 
     const existingAccount = await Account.findOne({

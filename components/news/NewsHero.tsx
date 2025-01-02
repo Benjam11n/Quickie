@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { HeroArticle } from '@/types/news';
+import { HeroArticle } from '@/types/models/news';
 
 interface NewsHeroProps {
   article: HeroArticle;

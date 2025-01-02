@@ -6,7 +6,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
 import { Badge } from '@/components/ui/badge';
-import { VendingMachineView } from '@/types';
+import { VendingMachine } from '@/types';
 
 import MapController from './MapController';
 
@@ -23,7 +23,7 @@ const icon = L.icon({
 });
 
 interface LocationMapProps {
-  vendingMachines: VendingMachineView[];
+  vendingMachines: VendingMachine[];
   selectedLocation: string | null;
   onLocationSelect: (id: string) => void;
 }

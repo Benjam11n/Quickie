@@ -1,4 +1,4 @@
-import { BoardDimensions, Position } from '.';
+import { BoardDimensions } from '../models';
 
 declare global {
   interface CreateMoodBoardParams {
@@ -11,9 +11,12 @@ declare global {
   interface UpdateMoodBoardParams extends CreateMoodBoardParams {
     dimensions: BoardDimensions;
     boardId: string;
-    perfumes?: {
+    perfumes: {
       perfume: string;
-      position: Position;
+      position: {
+        x: number;
+        y: number;
+      };
     }[];
   }
 

@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { Category } from '@/types/news';
+import { Category } from '@/types/models/news';
 
 interface CategoryNavProps {
   categories: Category[];

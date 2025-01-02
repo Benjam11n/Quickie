@@ -7,7 +7,7 @@ import Note from '@/database/note.model';
 import Perfume, { IPerfumeDoc } from '@/database/perfume.model';
 import TagPerfume from '@/database/tag-perfume.model';
 import Tag, { ITagDoc } from '@/database/tag.model';
-import { PerfumeView } from '@/types/fragrance';
+import { Perfume as PerfumeType } from '@/types/models/fragrance';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -144,7 +144,7 @@ export async function updatePerfume(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       })
       .populate({
@@ -152,7 +152,7 @@ export async function updatePerfume(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       })
       .populate({
@@ -160,7 +160,7 @@ export async function updatePerfume(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       });
 
@@ -257,7 +257,7 @@ export async function updatePerfume(
 
 export async function getPerfume(
   params: GetPerfumeParams
-): Promise<ActionResponse<PerfumeView>> {
+): Promise<ActionResponse<PerfumeType>> {
   const validationResult = await action({
     params,
     schema: GetPerfumeSchema,
@@ -281,7 +281,7 @@ export async function getPerfume(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       })
       .populate({
@@ -289,7 +289,7 @@ export async function getPerfume(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       })
       .populate({
@@ -297,7 +297,7 @@ export async function getPerfume(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       });
 
@@ -313,7 +313,7 @@ export async function getPerfume(
 
 export async function getPerfumesByIds(
   params: GetPerfumesByIdsParams
-): Promise<ActionResponse<PerfumeView[]>> {
+): Promise<ActionResponse<PerfumeType[]>> {
   const validationResult = await action({
     params,
     schema: GetPerfumesByIdsSchema,
@@ -337,7 +337,7 @@ export async function getPerfumesByIds(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       })
       .populate({
@@ -345,7 +345,7 @@ export async function getPerfumesByIds(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       })
       .populate({
@@ -353,7 +353,7 @@ export async function getPerfumesByIds(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       });
 
@@ -369,7 +369,7 @@ export async function getPerfumesByIds(
 
 export async function getPerfumesPaginated(
   params: PaginatedSearchParams
-): Promise<ActionResponse<{ perfumes: PerfumeView[]; isNext: boolean }>> {
+): Promise<ActionResponse<{ perfumes: PerfumeType[]; isNext: boolean }>> {
   const validationResult = await action({
     params,
     schema: PaginatedSearchParamsSchema,
@@ -500,7 +500,7 @@ export async function getPerfumesPaginated(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       })
       .populate({
@@ -508,7 +508,7 @@ export async function getPerfumesPaginated(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       })
       .populate({
@@ -516,7 +516,7 @@ export async function getPerfumesPaginated(
         select: 'name family',
         populate: {
           path: 'family',
-          select: 'name',
+          select: 'name color',
         },
       })
       .lean()

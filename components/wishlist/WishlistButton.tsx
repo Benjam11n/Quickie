@@ -1,6 +1,6 @@
 import { Check } from 'lucide-react';
 
-import { WishlistView } from '@/types';
+import { Wishlist } from '@/types';
 
 import { Button } from '../ui/button';
 
@@ -10,7 +10,7 @@ const WishlistButton = ({
   onSelect,
   onUnSelect,
 }: {
-  wishlist: WishlistView;
+  wishlist: Wishlist;
   includesPerfume: boolean;
   onSelect: (wishlistId: string) => void;
   onUnSelect: (wishlistId: string) => void;

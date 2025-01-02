@@ -5,7 +5,7 @@ import {
   getReview,
   getUserReviews,
 } from '@/lib/actions/review.action';
-import { ReviewView } from '@/types';
+import { Review } from '@/types';
 
 export function usePerfumeReviews(perfumeId: string) {
   return useQuery({
@@ -18,7 +18,7 @@ export function usePerfumeReviews(perfumeId: string) {
 export function useReview(
   perfumeId: string,
   userId?: string
-): UseQueryResult<ActionResponse<ReviewView>> {
+): UseQueryResult<ActionResponse<Review>> {
   return useQuery({
     queryKey: ['reviews', perfumeId, userId],
     queryFn: () => getReview({ perfume: perfumeId, userId: userId as string }),

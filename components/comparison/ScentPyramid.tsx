@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { cn } from '@/lib/utils';
-import { Note } from '@/types/fragrance';
+import { Note } from '@/types/models/fragrance';
 
 interface Notes {
   top: { note: Note; intensity: number }[];

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
 import { EMPTY_VENDING_MACHINES } from '@/constants/states';
-import { VendingMachineView } from '@/types';
+import { VendingMachine } from '@/types';
 
 import DataRenderer from '../DataRenderer';
 
@@ -18,7 +18,7 @@ function getVendingMachineName(address: string): string {
 }
 
 interface FeaturedVendingLocationsProps {
-  vendingMachines?: VendingMachineView[];
+  vendingMachines?: VendingMachine[];
   success: boolean;
   error?: {
     message: string;

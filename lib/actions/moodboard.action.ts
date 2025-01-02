@@ -7,7 +7,7 @@ import { auth } from '@/auth';
 import MoodBoard from '@/database/moodboard.model';
 import TagMoodBoard from '@/database/tag-moodboard.model';
 import Tag, { ITagDoc } from '@/database/tag.model';
-import { MoodBoardView } from '@/types';
+import { MoodBoard as MoodBoardType } from '@/types/models/moodboard';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -20,7 +20,7 @@ import {
 
 export async function createMoodBoard(
   params: CreateMoodBoardParams
-): Promise<ActionResponse<MoodBoardView>> {
+): Promise<ActionResponse<MoodBoardType>> {
   const validationResult = await action({
     params,
     schema: CreateMoodBoardSchema,
@@ -88,7 +88,7 @@ export async function createMoodBoard(
 
 export async function updateMoodBoard(
   params: UpdateMoodBoardParams
-): Promise<ActionResponse<MoodBoardView>> {
+): Promise<ActionResponse<MoodBoardType>> {
   const validationResult = await action({
     params,
     schema: UpdateMoodBoardSchema,
@@ -423,7 +423,7 @@ export async function toggleLike(boardId: string): Promise<ActionResponse> {
 
 export async function getMoodBoard(
   params: GetMoodBoardParams
-): Promise<ActionResponse<MoodBoardView>> {
+): Promise<ActionResponse<MoodBoardType>> {
   const validationResult = await action({
     params,
     schema: GetMoodBoardSchema,
@@ -460,7 +460,7 @@ export async function getMoodBoard(
 
 export async function getMoodBoards(
   params: PaginatedSearchParams
-): Promise<ActionResponse<{ moodboards: MoodBoardView[]; isNext: boolean }>> {
+): Promise<ActionResponse<{ moodboards: MoodBoardType[]; isNext: boolean }>> {
   const validationResult = await action({
     params,
     schema: PaginatedSearchParamsSchema,

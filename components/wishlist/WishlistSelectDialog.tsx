@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ROUTES } from '@/constants/routes';
-import { WishlistView } from '@/types';
+import { Wishlist } from '@/types';
 
 import WishlistButton from './WishlistButton';
 
@@ -26,7 +26,7 @@ interface WishlistSelectDialogProps {
   onUnSelect: (wishlistId: string) => void;
   perfume: string;
   perfumeName?: string;
-  wishlists: WishlistView[];
+  wishlists: Wishlist[];
   isLoading: boolean;
 }
 

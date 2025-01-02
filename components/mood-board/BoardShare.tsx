@@ -12,7 +12,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { MoodBoard } from '@/types';
+import { MoodBoard } from '@/types/models/moodboard';
 
 interface BoardShareProps {
   board: MoodBoard;

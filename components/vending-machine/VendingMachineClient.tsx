@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 
 import { LocationCard } from '@/components/vending-machine/LocationCard';
 import { LocationMap } from '@/components/vending-machine/LocationMap';
-import { VendingMachineView } from '@/types';
+import { VendingMachine } from '@/types';
 
 interface VendingMachineClientProps {
-  vendingMachines: VendingMachineView[];
+  vendingMachines: VendingMachine[];
 }
 
 export default function VendingMachineClient({

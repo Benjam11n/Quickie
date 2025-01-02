@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
-import { PerfumeView } from '@/types/fragrance';
+import { Perfume } from '@/types/models/fragrance';
 
 import {
   Carousel,
@@ -26,7 +26,7 @@ import {
 } from '../ui/carousel';
 
 interface FeaturedPerfumesProps {
-  perfumes?: PerfumeView[];
+  perfumes?: Perfume[];
   success: boolean;
   error?: {
     message: string;

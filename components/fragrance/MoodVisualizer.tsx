@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 
 import { Card } from '@/components/ui/card';
-import { FragranceCharacteristic } from '@/types/fragrance';
+import { FragranceCharacteristic } from '@/types/models/fragrance';
 
 interface MoodVisualizerProps {
   characteristics: FragranceCharacteristic[];

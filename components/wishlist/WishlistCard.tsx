@@ -19,12 +19,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ROUTES } from '@/constants/routes';
-import { WishlistView } from '@/types';
+import { Wishlist } from '@/types';
 
 import ConfirmationDialog from '../ConfirmationDialog';
 
 interface WishlistCardProps {
-  wishlist: WishlistView;
+  wishlist: Wishlist;
   onDelete: () => void;
   onEdit: () => void;
 }

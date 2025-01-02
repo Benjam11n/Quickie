@@ -4,10 +4,10 @@ import Link from 'next/link';
 import { StarRating } from '@/components/StarRating';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
-import { ReviewView } from '@/types';
+import { Review } from '@/types';
 
 interface RatingsListProps {
-  reviews: ReviewView[];
+  reviews: Review[];
 }
 
 export function RatingsList({ reviews }: RatingsListProps) {

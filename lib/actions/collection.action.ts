@@ -3,7 +3,7 @@
 import mongoose, { Types } from 'mongoose';
 
 import Collection, { ICollectionDoc } from '@/database/collection.model';
-import { CollectionView } from '@/types';
+import { Collection as CollectionType } from '@/types';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -15,7 +15,7 @@ import {
 
 export async function getCollection(
   params: GetCollectionParams
-): Promise<ActionResponse<CollectionView>> {
+): Promise<ActionResponse<CollectionType>> {
   const validationResult = await action({
     params,
     schema: GetCollectionSchema,

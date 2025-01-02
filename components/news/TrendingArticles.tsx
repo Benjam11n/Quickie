@@ -5,7 +5,7 @@ import { MessageCircle, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 
 import { Card } from '@/components/ui/card';
-import { TrendingArticle } from '@/types/news';
+import { TrendingArticle } from '@/types/models/news';
 
 const trendingArticles: TrendingArticle[] = [
   {

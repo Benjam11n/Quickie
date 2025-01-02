@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
 import { useWishlists } from '@/hooks/queries/use-wishlists';
 import { cn } from '@/lib/utils';
-import { ReviewView } from '@/types';
+import { Review } from '@/types';
 
 import AffiliateNotice from './AffiliateNotice';
 import { AuthCheck } from '../auth/AuthCheck';
@@ -29,7 +29,7 @@ interface PerfumeCardProps {
   };
 
   // Optional data
-  review?: ReviewView;
+  review?: Review;
   affiliateLink?: string; // Only needed if buyable
 
   // Interactive features - all optional

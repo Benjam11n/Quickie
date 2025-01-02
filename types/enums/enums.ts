@@ -23,14 +23,3 @@ export enum TimeOfDay {
   Evening = 'Evening',
   Night = 'Night',
 }
-
-export enum NoteFamily {
-  Citrus = 'Citrus',
-  Floral = 'Floral',
-  Woody = 'Woody',
-  Oriental = 'Oriental',
-  Fresh = 'Fresh',
-  Spicy = 'Spicy',
-  Green = 'Green',
-  Aquatic = 'Aquatic',
-}

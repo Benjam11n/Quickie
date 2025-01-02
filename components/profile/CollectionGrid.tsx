@@ -1,8 +1,8 @@
 import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
-import { CollectionPerfumeView } from '@/types';
+import { CollectionPerfume } from '@/types';
 
 interface CollectionGridProps {
-  items: CollectionPerfumeView[];
+  items: CollectionPerfume[];
 }
 
 export function CollectionGrid({ items }: CollectionGridProps) {

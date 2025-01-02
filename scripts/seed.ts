@@ -22,7 +22,7 @@ async function seedData() {
     await dbConnect();
     console.log('Connected to MongoDB');
 
-    await Collection.findByIdAndUpdate('67725f9a513b755049187bfd', {
+    await Collection.findByIdAndUpdate('6776d556b133eb7565036c5f', {
       perfumes: [],
     });
     await Wishlist.find();
@@ -104,7 +104,7 @@ async function seedData() {
     console.log('Brands seeded:', brandIds);
 
     // Step 5: Seed Perfumes (without deleting)
-    const authorId = new Types.ObjectId('67653f80f5e53f9472caa184'); // Fixed author ID
+    const authorId = new Types.ObjectId('6776d5dfb133eb7565036c6d'); // Fixed author ID
 
     const perfumes = Array.from({ length: 200 }, () => ({
       name: faker.commerce.productName(),
@@ -204,7 +204,7 @@ async function seedReviews() {
 
     // Create multiple author IDs to simulate different reviewers
     const authorIds = [
-      new Types.ObjectId('67653f80f5e53f9472caa184'), // Your original author
+      new Types.ObjectId('6776d5dfb133eb7565036c6d'), // Your original author
       new Types.ObjectId(), // Random additional reviewers
       new Types.ObjectId(),
       new Types.ObjectId(),
@@ -388,7 +388,7 @@ async function seedVendingMachines() {
 
     // Get perfumes for inventory
     const perfumes = await Perfume.find();
-    const authorId = new Types.ObjectId('67653f80f5e53f9472caa184');
+    const authorId = new Types.ObjectId('6776d5dfb133eb7565036c6d');
 
     // Singapore locations with areas
     const locations = [
@@ -506,7 +506,7 @@ async function main() {
     console.log('Connected to MongoDB');
 
     // Run seeders sequentially
-    // await seedData();
+    await seedData();
     console.log('Completed seeding base data');
 
     await seedReviews();

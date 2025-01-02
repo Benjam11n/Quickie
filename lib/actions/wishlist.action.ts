@@ -4,7 +4,7 @@ import mongoose, { Types } from 'mongoose';
 import { revalidatePath } from 'next/cache';
 
 import Wishlist from '@/database/wishlist.model';
-import { WishlistView } from '@/types';
+import { Wishlist as WishlistType } from '@/types';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -20,7 +20,7 @@ import {
 
 export async function addToWishlist(
   params: AddToWishlistParams
-): Promise<ActionResponse<WishlistView>> {
+): Promise<ActionResponse<WishlistType>> {
   const validationResult = await action({
     params,
     schema: AddToWishlistSchema,
@@ -93,7 +93,7 @@ export async function addToWishlist(
 
 export async function removeFromWishlist(
   params: RemoveFromWishlistParams
-): Promise<ActionResponse<WishlistView>> {
+): Promise<ActionResponse<WishlistType>> {
   const validationResult = await action({
     params,
     schema: RemoveFromWishlistSchema,
@@ -139,7 +139,7 @@ export async function removeFromWishlist(
 
 export async function createWishlist(
   params: CreateWishlistParams
-): Promise<ActionResponse<WishlistView>> {
+): Promise<ActionResponse<WishlistType>> {
   const validationResult = await action({
     params,
     schema: CreateWishlistSchema,
@@ -191,7 +191,7 @@ export async function createWishlist(
 
 export async function updateWishlist(
   params: UpdateWishlistParams
-): Promise<ActionResponse<WishlistView>> {
+): Promise<ActionResponse<WishlistType>> {
   const validationResult = await action({
     params,
     schema: UpdateWishlistSchema,
@@ -297,7 +297,7 @@ export async function deleteWishlist(
 
 export async function getWishlist(
   params: GetWishlistParams
-): Promise<ActionResponse<WishlistView>> {
+): Promise<ActionResponse<WishlistType>> {
   const validationResult = await action({
     params,
     schema: GetWishlistSchema,
@@ -337,7 +337,7 @@ export async function getWishlist(
 
 export async function getUserWishlists(
   params: GetUserWishlistsParams
-): Promise<ActionResponse<WishlistView[]>> {
+): Promise<ActionResponse<WishlistType[]>> {
   const validationResult = await action({
     params,
     schema: GetUserWishlistsSchema,

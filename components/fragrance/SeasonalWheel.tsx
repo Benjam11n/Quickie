@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { Season, Weather } from '@/types/enums';
-import { SeasonalRating } from '@/types/fragrance';
+import { Season, Weather } from '@/types/enums/enums';
+import { SeasonalRating } from '@/types/models/fragrance';
 
 interface SeasonalWheelProps {
   seasonal: SeasonalRating[];

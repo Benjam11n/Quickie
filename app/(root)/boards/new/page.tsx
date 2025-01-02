@@ -21,7 +21,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ROUTES } from '@/constants/routes';
 import { createMoodBoard } from '@/lib/actions/moodboard.action';
-import { MoodBoard } from '@/types';
+import { MoodBoard } from '@/types/models/moodboard';
 
 const MoodboardNewSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),

@@ -1,4 +1,4 @@
-import { Rating } from './fragrance';
+import { Rating } from '../models/fragrance';
 
 declare global {
   interface CreateReviewParams {

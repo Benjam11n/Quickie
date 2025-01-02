@@ -1,4 +1,4 @@
-export { EnhancedVisualizer } from './EnhancedVisualizer';
+export { Visualizer } from './Visualizer';
 export { MoodVisualizer } from './MoodVisualizer';
 export { NoteHarmonyVisualizer } from './NoteHarmonyVisualizer';
 export { ScentJourney } from './ScentJourney';

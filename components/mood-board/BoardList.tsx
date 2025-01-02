@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { deleteMoodBoard } from '@/lib/actions/moodboard.action';
-import { MoodBoardView } from '@/types';
+import { MoodBoard } from '@/types';
 
 import { BoardPreview } from './BoardPreview';
 
 interface BoardListProps {
-  boards: MoodBoardView[];
+  boards: MoodBoard[];
 }
 
 export function BoardList({ boards }: BoardListProps) {

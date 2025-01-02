@@ -10,10 +10,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
-import { MoodBoardView } from '@/types';
+import { MoodBoard } from '@/types';
 
 interface BoardPreviewProps {
-  board: MoodBoardView;
+  board: MoodBoard;
   onDelete: () => void;
 }
 

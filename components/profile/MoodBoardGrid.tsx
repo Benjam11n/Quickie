@@ -2,12 +2,12 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { MoodBoardView } from '@/types';
+import { MoodBoard } from '@/types';
 
 import { BoardList } from '../mood-board/BoardList';
 
 interface MoodBoardGridProps {
-  boards: MoodBoardView[];
+  boards: MoodBoard[];
 }
 
 export function MoodBoardGrid({ boards }: MoodBoardGridProps) {

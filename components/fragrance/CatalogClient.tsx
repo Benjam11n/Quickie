@@ -17,7 +17,7 @@ import { useUserReviews } from '@/hooks/queries/use-reviews';
 import { useWishlists } from '@/hooks/queries/use-wishlists';
 import { useComparisonStore } from '@/hooks/stores/use-comparison-store';
 import { getPerfumesPaginated } from '@/lib/actions/perfume.action';
-import { PerfumeView } from '@/types/fragrance';
+import { Perfume } from '@/types/models/fragrance';
 
 import ComparisonBar from './ComparisonBar';
 import DataRenderer from '../DataRenderer';
@@ -27,7 +27,7 @@ import { WishlistSelectDialog } from '../wishlist/WishlistSelectDialog';
 
 interface CatalogPageProps {
   userId?: string;
-  perfumes?: PerfumeView[];
+  perfumes?: Perfume[];
   isNext?: boolean;
   success: boolean;
   error?: {
@@ -252,7 +252,7 @@ export default function CatalogClient({
               render={(perfumes) => (
                 <>
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                    {perfumes.map((perfume) => {
+                    {perfumes.map((perfume, index) => {
                       const isFavourite =
                         wishlistsResponse?.data?.some((wishlist) =>
                           wishlist.perfumes.some(
@@ -283,7 +283,7 @@ export default function CatalogClient({
 
                       return (
                         <PerfumeCard
-                          key={perfume._id}
+                          key={perfume._id + String(index)}
                           id={perfume._id}
                           name={perfume.name}
                           price={perfume.fullPrice}

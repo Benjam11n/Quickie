@@ -10,10 +10,10 @@ import {
   Tooltip,
 } from 'recharts';
 
-import { PerfumeView } from '@/types/fragrance';
+import { Perfume } from '@/types/models/fragrance';
 
 interface CharacteristicsChartProps {
-  products: PerfumeView[];
+  products: Perfume[];
 }
 
 export function CharacteristicsChart({ products }: CharacteristicsChartProps) {

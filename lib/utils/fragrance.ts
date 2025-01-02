@@ -1,50 +1,18 @@
-// todo: remove this file
-
-import { Season, TimeOfDay, Weather, NoteFamily } from '@/types/enums';
+import { Season, TimeOfDay, Weather } from '@/types/enums/enums';
 import {
-  EnhancedFragrance,
+  PerfumeVisualiser,
   Note,
   TimelinePoint,
   SeasonalRating,
   NoteHarmony,
   FragranceCharacteristic,
-  PerfumeView,
-} from '@/types/fragrance';
-
-const NOTE_COLORS = {
-  [NoteFamily.Citrus]: '#F59E0B',
-  [NoteFamily.Floral]: '#EC4899',
-  [NoteFamily.Woody]: '#92400E',
-  [NoteFamily.Oriental]: '#7C3AED',
-  [NoteFamily.Fresh]: '#10B981',
-  [NoteFamily.Spicy]: '#EF4444',
-  [NoteFamily.Green]: '#34D399',
-  [NoteFamily.Aquatic]: '#0EA5E9',
-};
-
-function mapNote(
-  name: string,
-  intensity: number,
-  family: NoteFamily
-): { note: Note; intensity: number } {
-  return {
-    note: {
-      name,
-      color: NOTE_COLORS[family],
-      family,
-    },
-    intensity,
-  };
-}
-
-// Add these fields to perfume model.
-// Intensity of notes, family
-// Seasonal values
+  Perfume,
+} from '@/types/models/fragrance';
 
 function generateTimeline(notes: {
-  top: Note[];
-  middle: Note[];
-  base: Note[];
+  top: { note: Note; intensity: number }[];
+  middle: { note: Note; intensity: number }[];
+  base: { note: Note; intensity: number }[];
 }): TimelinePoint[] {
   const timeline: TimelinePoint[] = [];
 
@@ -53,7 +21,7 @@ function generateTimeline(notes: {
     timeline.push({
       time: i,
       intensity: Math.max(0, 100 - i * 2),
-      activeNotes: notes.top.map((n) => n.name),
+      activeNotes: notes.top.map((n) => n.note.name),
       phase: 'top',
     });
   }
@@ -64,8 +32,8 @@ function generateTimeline(notes: {
       time: i,
       intensity: Math.max(0, 80 - (i - 30) / 2),
       activeNotes: [
-        ...notes.middle.map((n) => n.name),
-        ...notes.base.slice(0, 1).map((n) => n.name),
+        ...notes.middle.map((n) => n.note.name),
+        ...notes.base.slice(0, 1).map((n) => n.note.name),
       ],
       phase: 'middle',
     });
@@ -76,7 +44,7 @@ function generateTimeline(notes: {
     timeline.push({
       time: i,
       intensity: Math.max(0, 60 - (i - 180) / 8),
-      activeNotes: notes.base.map((n) => n.name),
+      activeNotes: notes.base.map((n) => n.note.name),
       phase: 'base',
     });
   }
@@ -84,40 +52,31 @@ function generateTimeline(notes: {
   return timeline;
 }
 
-function generateSeasonalRatings(product: PerfumeView): SeasonalRating[] {
-  const { scentProfile } = product;
+function generateSeasonalRatings(product: Perfume): SeasonalRating[] {
+  const { seasonalCompatibility } = product;
 
   return [
     {
       season: Season.Spring,
-      rating: Math.min(
-        100,
-        (scentProfile.versatility + scentProfile.uniqueness) / 2
-      ),
+      rating: seasonalCompatibility.spring,
       conditions: [Weather.Sunny, Weather.Rainy],
       timeOfDay: [TimeOfDay.Morning, TimeOfDay.Afternoon],
     },
     {
       season: Season.Summer,
-      rating: Math.min(
-        100,
-        (scentProfile.sillage + scentProfile.longevity) / 2
-      ),
+      rating: seasonalCompatibility.summer,
       conditions: [Weather.Hot, Weather.Sunny],
       timeOfDay: [TimeOfDay.Morning, TimeOfDay.Evening],
     },
     {
       season: Season.Fall,
-      rating: Math.min(100, (scentProfile.uniqueness + scentProfile.value) / 2),
+      rating: seasonalCompatibility.fall,
       conditions: [Weather.Cloudy, Weather.Cold],
       timeOfDay: [TimeOfDay.Afternoon, TimeOfDay.Evening],
     },
     {
       season: Season.Winter,
-      rating: Math.min(
-        100,
-        (scentProfile.intensity + scentProfile.longevity) / 2
-      ),
+      rating: seasonalCompatibility.winter,
       conditions: [Weather.Cold, Weather.Snowy],
       timeOfDay: [TimeOfDay.Afternoon, TimeOfDay.Night],
     },
@@ -129,6 +88,7 @@ function generateNoteHarmony(notes: {
   middle: { note: Note; intensity: number }[];
   base: { note: Note; intensity: number }[];
 }): NoteHarmony[] {
+  console.log(notes);
   const allNotes = [...notes.top, ...notes.middle, ...notes.base];
 
   return allNotes.map((note) => ({
@@ -137,7 +97,7 @@ function generateNoteHarmony(notes: {
       .filter(
         (n) =>
           n.note?.name !== note.note?.name &&
-          n.note?.family === note.note.family
+          n.note?.family._id === note.note.family._id
       )
       .slice(0, 2)
       .map((n) => n.note),
@@ -145,7 +105,7 @@ function generateNoteHarmony(notes: {
       .filter(
         (n) =>
           n.note?.name !== note.note?.name &&
-          n.note?.family !== note.note.family
+          n.note?.family._id !== note.note.family._id
       )
       .slice(0, 2)
       .map((n) => n.note),
@@ -153,9 +113,7 @@ function generateNoteHarmony(notes: {
   }));
 }
 
-function generateCharacteristics(
-  product: PerfumeView
-): FragranceCharacteristic[] {
+function generateCharacteristics(product: Perfume): FragranceCharacteristic[] {
   const { scentProfile } = product;
 
   return [
@@ -186,38 +144,14 @@ function generateCharacteristics(
   ];
 }
 
-export function mapProductToEnhancedFragrance(
-  product: PerfumeView
-): EnhancedFragrance {
-  // Map notes with colors and families
-  const mappedNotes = {
-    top: product.notes.top.map((n) =>
-      mapNote(n.note?.name, n.intensity, NoteFamily.Fresh)
-    ),
-    middle: product.notes.middle.map((n) =>
-      mapNote(n.note?.name, n.intensity, NoteFamily.Floral)
-    ),
-    base: product.notes.base.map((n) =>
-      mapNote(n.note?.name, n.intensity, NoteFamily.Woody)
-    ),
-  };
-
+export function mapToPerfumeVisualizer(product: Perfume): PerfumeVisualiser {
   return {
     _id: product._id,
-    id: product._id,
-    name: product.name,
-    // todo:
-    brand: product?.brand?.name,
-    notes: mappedNotes,
-    timeline: generateTimeline(mappedNotes),
+    notes: product.notes,
+    timeline: generateTimeline(product.notes),
     seasonal: generateSeasonalRatings(product),
-    harmony: generateNoteHarmony(mappedNotes),
+    harmony: generateNoteHarmony(product.notes),
     characteristics: generateCharacteristics(product),
     scentProfile: product.scentProfile,
-    colorProfile: {
-      primary: '#EC4899',
-      secondary: '#8B5CF6',
-      accent: '#10B981',
-    },
   };
 }

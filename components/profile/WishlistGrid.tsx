@@ -4,13 +4,13 @@ import { useRouter } from 'next/navigation';
 
 import { ROUTES } from '@/constants/routes';
 import { useWishlistMutations } from '@/hooks/mutations/use-wishlist-mutations';
-import { WishlistView } from '@/types';
+import { Wishlist } from '@/types';
 
 import { Button } from '../ui/button';
 import { WishlistCard } from '../wishlist/WishlistCard';
 
 interface WishlistsGridProps {
-  wishlists: WishlistView[];
+  wishlists: Wishlist[];
 }
 
 export function WishlistsGrid({ wishlists }: WishlistsGridProps) {

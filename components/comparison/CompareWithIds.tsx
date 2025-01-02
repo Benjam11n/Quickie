@@ -8,12 +8,12 @@ import { ProductSelector } from '@/components/fragrance/ProductSelector';
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
-import { PerfumeView } from '@/types/fragrance';
+import { Perfume } from '@/types/models/fragrance';
 
 const MAX_COMPARISONS = 2;
 
 interface CompareWithIdsProps {
-  initialProducts: PerfumeView[];
+  initialProducts: Perfume[];
 }
 
 export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
@@ -28,7 +28,7 @@ export function CompareWithIds({ initialProducts }: CompareWithIdsProps) {
     query: query || '',
   });
 
-  const handleAddProduct = (product: PerfumeView) => {
+  const handleAddProduct = (product: Perfume) => {
     const newProducts =
       initialProducts.length >= MAX_COMPARISONS
         ? [...initialProducts.slice(1), product]

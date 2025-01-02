@@ -2,7 +2,7 @@ import { Bookmark, ExternalLink, Heart } from 'lucide-react';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
-import { PerfumeView } from '@/types/fragrance';
+import { Perfume } from '@/types/models/fragrance';
 
 import AffiliateNotice from './AffiliateNotice';
 import { AuthCheck } from '../auth/AuthCheck';
@@ -10,7 +10,7 @@ import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 
 interface ProductInfoProps {
-  perfume: PerfumeView;
+  perfume: Perfume;
   inCollection: boolean;
   isFavourite: boolean;
   onCollectionClick: () => void;

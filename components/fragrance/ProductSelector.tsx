@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
-import { PerfumeView } from '@/types/fragrance';
+import { Perfume } from '@/types/models/fragrance';
 
 import LocalSearch from '../search/LocalSearch';
 import { SprayLoader } from '../SprayLoader';
@@ -21,7 +21,7 @@ import { SprayLoader } from '../SprayLoader';
 interface ProductSelectorProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onSelect: (product: PerfumeView) => void;
+  onSelect: (product: Perfume) => void;
   selectedIds?: string[];
 }
 

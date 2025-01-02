@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query';
 
 import { getUserWishlists, getWishlist } from '@/lib/actions/wishlist.action';
-import { WishlistView } from '@/types';
+import { Wishlist } from '@/types';
 
 export function useWishlists(userId?: string) {
   const queryClient = useQueryClient();
@@ -33,7 +33,7 @@ export function useWishlists(userId?: string) {
 
 export function useWishlist(
   wishlistId: string
-): UseQueryResult<ActionResponse<WishlistView>> {
+): UseQueryResult<ActionResponse<Wishlist>> {
   return useQuery({
     queryKey: ['wishlist', wishlistId],
     queryFn: () => getWishlist({ wishlistId }),

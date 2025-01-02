@@ -14,10 +14,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { VendingMachineView } from '@/types';
+import { VendingMachine } from '@/types';
 
 interface LocationCardProps {
-  vendingMachine: VendingMachineView;
+  vendingMachine: VendingMachine;
   isSelected: boolean;
   onSelect: () => void;
 }

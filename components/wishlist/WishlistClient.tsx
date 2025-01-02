@@ -9,7 +9,7 @@ import { useWishlistMutations } from '@/hooks/mutations/use-wishlist-mutations';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { useWishlist } from '@/hooks/queries/use-wishlists';
 import { useWishlistEditStore } from '@/hooks/stores/use-edit-wishlist-store';
-import { PerfumeView } from '@/types/fragrance';
+import { Perfume } from '@/types/models/fragrance';
 
 import { PerfumeCard, ProductSelector } from '../fragrance';
 import { Button } from '../ui/button';
@@ -60,7 +60,7 @@ const WishlistClient = ({ id }: WishlistClientProps) => {
 
   const wishlist = wishlistResponse?.data;
 
-  const handleAddPerfume = async (product: PerfumeView) => {
+  const handleAddPerfume = async (product: Perfume) => {
     setShowSelector(false);
 
     await addToWishlistMutation.mutateAsync({

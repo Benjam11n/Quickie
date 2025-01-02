@@ -12,8 +12,8 @@ import { useState } from 'react';
 
 import { useEditMoodboardStore } from '@/hooks/stores/use-edit-mood-boards-store';
 import { cn } from '@/lib/utils';
-import { BoardDimensions, BoardLayout, MoodBoardView } from '@/types';
-import { PerfumeView } from '@/types/fragrance';
+import { BoardDimensions, BoardLayout, MoodBoard } from '@/types';
+import { Perfume } from '@/types/models/fragrance';
 
 import { DraggablePerfume } from './DraggablePerfume';
 import { DroppableArea } from './DroppableArea';
@@ -27,8 +27,8 @@ import {
 } from '../ui/select';
 
 interface BoardCanvasProps {
-  board: MoodBoardView;
-  perfumes: PerfumeView[];
+  board: MoodBoard;
+  perfumes: Perfume[];
   selectedSquare?: number | null;
   onSquareSelect?: (squareId: number) => void;
   onRemovePerfume?: (perfumeId: string) => void;

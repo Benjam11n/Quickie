@@ -7,9 +7,9 @@ import {
   deleteReview as deleteReviewAction,
   handleReviewInteraction,
 } from '@/lib/actions/review.action';
-import { ReviewInteractionType, ReviewView } from '@/types';
+import { ReviewInteraction, Review } from '@/types';
 
-export function useReviewMutations(perfume: string, review?: ReviewView) {
+export function useReviewMutations(perfume: string, review?: Review) {
   const queryClient = useQueryClient();
 
   const submitReview = useMutation({
@@ -87,7 +87,7 @@ export function useReviewMutations(perfume: string, review?: ReviewView) {
   });
 
   const interactionMutation = useMutation({
-    mutationFn: async ({ type }: { type: ReviewInteractionType }) => {
+    mutationFn: async ({ type }: { type: ReviewInteraction }) => {
       const result = await handleReviewInteraction({
         reviewId: review!._id,
         type,

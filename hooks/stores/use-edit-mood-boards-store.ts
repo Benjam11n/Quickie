@@ -2,20 +2,15 @@
 
 import { create } from 'zustand';
 
-import {
-  BoardDimensions,
-  MoodBoard,
-  MoodBoardView,
-  PerfumePositionView,
-} from '@/types';
+import { BoardDimensions, MoodBoard, PerfumePosition } from '@/types';
 
 interface EditMoodboardStore {
-  originalBoard: MoodBoardView | null;
-  currentBoard: MoodBoardView | null;
+  originalBoard: MoodBoard | null;
+  currentBoard: MoodBoard | null;
   hasChanges: boolean;
 
   // Initialization
-  initializeBoard: (board: MoodBoardView) => void;
+  initializeBoard: (board: MoodBoard) => void;
 
   // Board mutations
   updateName: (name: string) => void;
@@ -83,7 +78,7 @@ export const useEditMoodboardStore = create<EditMoodboardStore>((set, get) => ({
         return state;
       }
 
-      const newPerfumePosition: PerfumePositionView = {
+      const newPerfumePosition: PerfumePosition = {
         perfume: {
           _id: perfume._id,
           name: perfume.name,

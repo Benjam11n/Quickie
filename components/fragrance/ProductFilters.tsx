@@ -11,7 +11,7 @@ import { IBrandDoc, INoteDoc } from '@/database';
 import { ITagDoc } from '@/database/tag.model';
 import { getPerfumeFilters } from '@/lib/actions/perfume.action';
 import { removeKeysFromUrlQuery } from '@/lib/url';
-import { FragranceFilters } from '@/types/fragrance';
+import { FragranceFilters } from '@/types/models/fragrance';
 
 interface ProductFiltersProps {
   route: string;

@@ -4,13 +4,13 @@ import L from 'leaflet';
 import { useEffect, useRef } from 'react';
 import { useMap } from 'react-leaflet';
 
-import { VendingMachineView } from '@/types';
+import { VendingMachine } from '@/types';
 
 export default function MapController({
   vendingMachines,
   selectedLocation,
 }: {
-  vendingMachines: VendingMachineView[];
+  vendingMachines: VendingMachine[];
   selectedLocation: string | null;
 }) {
   const map = useMap();

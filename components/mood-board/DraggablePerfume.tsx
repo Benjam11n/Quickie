@@ -2,11 +2,11 @@ import { useDraggable } from '@dnd-kit/core';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-import { PerfumeView } from '@/types/fragrance';
+import { Perfume } from '@/types/models/fragrance';
 
 interface DraggablePerfumeProps {
   id: string;
-  product: PerfumeView;
+  product: Perfume;
   isActive: boolean;
 }
 

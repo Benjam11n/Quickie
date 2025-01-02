@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { NoteHarmony, Note } from '@/types/fragrance';
+import { NoteHarmony, Note } from '@/types/models/fragrance';
 
 import { Button } from '../ui/button';
 
@@ -69,8 +69,8 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
           'hover:shadow-lg hover:shadow-primary/20'
         )}
         style={{
-          backgroundColor: `${note.color}20`,
-          border: `2px solid ${note.color}`,
+          backgroundColor: `${note.family.color}20`,
+          border: `2px solid ${note.family.color}`,
           transform: 'translate(-50%, -50%)',
         }}
         onClick={() =>
@@ -84,7 +84,9 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
       >
         <div className="text-center">
           <div className="mx-4 text-xs font-medium">{note.name}</div>
-          <div className="text-xs text-muted-foreground">{note.family}</div>
+          <div className="text-xs text-muted-foreground">
+            {note.family.name}
+          </div>
         </div>
       </motion.div>
     );
@@ -136,7 +138,7 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
                     y1={startPosition.y}
                     x2={endPosition.x}
                     y2={endPosition.y}
-                    stroke={note.color}
+                    stroke={note.family.color}
                     strokeWidth={2}
                     strokeDasharray="5,5"
                     className="absolute left-0 top-0"
@@ -158,7 +160,9 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
                   <div className="flex items-center gap-2">
                     <div
                       className="size-3 rounded-full"
-                      style={{ backgroundColor: selectedHarmony.primary.color }}
+                      style={{
+                        backgroundColor: selectedHarmony.primary.family.color,
+                      }}
                     />
                     <h4 className="font-medium">
                       {selectedHarmony.primary.name}
@@ -184,8 +188,8 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
                           key={note.name}
                           className="inline-flex items-center rounded-full px-2 py-1 text-xs"
                           style={{
-                            backgroundColor: `${note.color}20`,
-                            color: note.color,
+                            backgroundColor: `${note.family.color}20`,
+                            color: note.family.color,
                           }}
                         >
                           {note.name}
@@ -204,8 +208,8 @@ export function NoteHarmonyVisualizer({ harmony }: NoteHarmonyVisualizerProps) {
                           key={note.name}
                           className="inline-flex items-center rounded-full px-2 py-1 text-xs"
                           style={{
-                            backgroundColor: `${note.color}20`,
-                            color: note.color,
+                            backgroundColor: `${note.family.color}20`,
+                            color: note.family.color,
                           }}
                         >
                           {note.name}

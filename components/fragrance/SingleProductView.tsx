@@ -10,12 +10,12 @@ import { useCollection } from '@/hooks/queries/use-collection';
 import { usePerfume } from '@/hooks/queries/use-perfumes';
 import { useReview } from '@/hooks/queries/use-reviews';
 import { useWishlists } from '@/hooks/queries/use-wishlists';
-import { mapProductToEnhancedFragrance } from '@/lib/utils/fragrance-mapper';
+import { mapToPerfumeVisualizer } from '@/lib/utils/fragrance';
 
-import { EnhancedVisualizer } from './EnhancedVisualizer';
 import { ProductHeader } from './ProductHeader';
 import { ProductImages } from './ProductImages';
 import { ProductInfo } from './ProductInfo';
+import { Visualizer } from './Visualizer';
 import { AuthCheck } from '../auth/AuthCheck';
 import { ReviewCard } from '../rating';
 import { WishlistSelectDialog } from '../wishlist/WishlistSelectDialog';
@@ -81,7 +81,7 @@ export function SingleProductView({
         .includes(perfume._id)
     : false;
 
-  const enhancedFragrance = mapProductToEnhancedFragrance(perfume);
+  const perfumeVisualizer = mapToPerfumeVisualizer(perfume);
 
   const handleWishlistChange = (
     wishlistId: string,
@@ -122,7 +122,7 @@ export function SingleProductView({
         />
       </div>
 
-      <EnhancedVisualizer fragrance={enhancedFragrance} />
+      <Visualizer fragrance={perfumeVisualizer} />
 
       <AuthCheck>
         <ReviewCard perfume={perfume} initialReview={review} />

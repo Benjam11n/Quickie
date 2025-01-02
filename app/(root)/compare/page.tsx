@@ -10,7 +10,7 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ROUTES } from '@/constants/routes';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
-import { PerfumeView } from '@/types/fragrance';
+import { Perfume } from '@/types/models/fragrance';
 
 export default function ComparePage() {
   const router = useRouter();
@@ -25,7 +25,7 @@ export default function ComparePage() {
     query: query || '',
   });
 
-  const handleAddProduct = (product: PerfumeView) => {
+  const handleAddProduct = (product: Perfume) => {
     const newProducts = [product];
 
     setShowSelector(false);

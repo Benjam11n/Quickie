@@ -22,7 +22,7 @@ import { getCollection } from '@/lib/actions/collection.action';
 import { getMoodBoards } from '@/lib/actions/moodboard.action';
 import { getUserReviews } from '@/lib/actions/review.action';
 import { getUserWishlists } from '@/lib/actions/wishlist.action';
-import { WishlistView } from '@/types';
+import { Wishlist } from '@/types';
 
 interface ProfilePageProps {
   searchParams: { [key: string]: string };
@@ -83,7 +83,7 @@ export default async function ProfilePageClient({
     wishlists: wishlists?.length || 0,
   };
 
-  const calculateInsights = (wishlists: WishlistView[]): Insights => {
+  const calculateInsights = (wishlists: Wishlist[]): Insights => {
     const allPerfumes =
       wishlists?.flatMap((wishlist) => wishlist.perfumes) || [];
 

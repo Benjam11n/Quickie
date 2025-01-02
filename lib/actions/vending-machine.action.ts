@@ -3,7 +3,7 @@
 import mongoose, { FilterQuery, PipelineStage } from 'mongoose';
 
 import VendingMachine from '@/database/vending-machine.model';
-import { VendingMachineView } from '@/types';
+import { VendingMachine as VendingMachineType } from '@/types';
 
 import action from '../handlers/action';
 import handleError from '../handlers/error';
@@ -57,7 +57,7 @@ export async function createVendingMachine(
 
 export async function updateVendingMachine(
   params: UpdateVendingMachineParams
-): Promise<ActionResponse<VendingMachineView>> {
+): Promise<ActionResponse<VendingMachineType>> {
   const validationResult = await action({
     params,
     schema: UpdateVendingMachineSchema,
@@ -146,7 +146,7 @@ export async function updateVendingMachine(
 
 export async function getVendingMachine(
   params: GetVendingMachineParams
-): Promise<ActionResponse<VendingMachineView>> {
+): Promise<ActionResponse<VendingMachineType>> {
   const validationResult = await action({
     params,
     schema: GetVendingMachineSchema,
@@ -184,7 +184,7 @@ export async function getVendingMachine(
 export async function getVendingMachines(
   params: PaginatedSearchParams & { lat?: number; lng?: number }
 ): Promise<
-  ActionResponse<{ vendingMachines: VendingMachineView[]; isNext: boolean }>
+  ActionResponse<{ vendingMachines: VendingMachineType[]; isNext: boolean }>
 > {
   const validationResult = await action({
     params,

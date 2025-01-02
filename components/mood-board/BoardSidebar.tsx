@@ -10,11 +10,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useEditMoodboardStore } from '@/hooks/stores/use-edit-mood-boards-store';
-import { PerfumeView } from '@/types/fragrance';
+import { Perfume } from '@/types/models/fragrance';
 
 interface BoardSidebarProps {
-  perfumes: PerfumeView[];
-  onAddPerfume: (product: PerfumeView) => void;
+  perfumes: Perfume[];
+  onAddPerfume: (product: Perfume) => void;
   selectedSquare: number | null;
 }
 

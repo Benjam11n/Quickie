@@ -12,8 +12,8 @@ import { useReviewMutations } from '@/hooks/mutations/use-review-mutations';
 import { useReviewInteractions } from '@/hooks/queries/use-review-interactions';
 import { useReviewStore } from '@/hooks/stores/use-review-store';
 import { cn } from '@/lib/utils';
-import { ReviewInteractionType, ReviewView } from '@/types';
-import { PerfumeView } from '@/types/fragrance';
+import { Review, ReviewInteraction } from '@/types';
+import { Perfume } from '@/types/models/fragrance';
 
 import { RatingDistribution } from './RatingDistribution';
 import { RatingMetrics } from './RatingMetrics';
@@ -21,8 +21,8 @@ import { AuthCheck } from '../auth/AuthCheck';
 import ConfirmationDialog from '../ConfirmationDialog';
 
 interface ReviewCardProps {
-  perfume: PerfumeView;
-  initialReview?: ReviewView;
+  perfume: Perfume;
+  initialReview?: Review;
 }
 
 export function ReviewCard({ perfume, initialReview }: ReviewCardProps) {
@@ -99,7 +99,7 @@ export function ReviewCard({ perfume, initialReview }: ReviewCardProps) {
               className="gap-2"
               onClick={() =>
                 interactionMutation.mutate({
-                  type: 'like' as ReviewInteractionType,
+                  type: 'like' as ReviewInteraction,
                 })
               }
             >
@@ -112,7 +112,7 @@ export function ReviewCard({ perfume, initialReview }: ReviewCardProps) {
               className="gap-2"
               onClick={() =>
                 interactionMutation.mutate({
-                  type: 'dislike' as ReviewInteractionType,
+                  type: 'dislike' as ReviewInteraction,
                 })
               }
             >

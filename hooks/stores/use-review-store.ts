@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
-import { ReviewView } from '@/types';
-import { PerfumeView, Rating, RatingDistribution } from '@/types/fragrance';
+import { Review } from '@/types';
+import { Perfume, Rating, RatingDistribution } from '@/types/models/fragrance';
 
 interface ReviewState {
   rating: Rating;
@@ -12,8 +12,8 @@ interface ReviewState {
   setRating: (rating: ReviewState['rating']) => void;
   setReview: (review: string) => void;
   reset: () => void;
-  initializeFromReview: (review: ReviewView | undefined) => void;
-  initializeFromPerfume: (perfume: PerfumeView | undefined) => void;
+  initializeFromReview: (review: Review | undefined) => void;
+  initializeFromPerfume: (perfume: Perfume | undefined) => void;
 }
 
 export const useReviewStore = create<ReviewState>((set) => ({

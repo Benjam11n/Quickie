@@ -151,19 +151,21 @@ export const SignInWithOAuthSchema = z.object({
 });
 
 // Perfume positions
-export const PerfumePositionSchema = z.object({
-  perfume: z.string().min(1, { message: 'Perfume ID is required.' }),
-  position: z.object({
-    x: z
-      .number()
-      .min(0, { message: 'X position cannot be negative.' })
-      .max(100, { message: 'X position cannot exceed 100.' }),
-    y: z
-      .number()
-      .min(0, { message: 'Y position cannot be negative.' })
-      .max(100, { message: 'Y position cannot exceed 100.' }),
-  }),
-});
+export const PerfumePositionSchema = z
+  .object({
+    perfume: z.string().min(1, { message: 'Perfume ID is required.' }),
+    position: z.object({
+      x: z
+        .number()
+        .min(0, { message: 'X position cannot be negative.' })
+        .max(100, { message: 'X position cannot exceed 100.' }),
+      y: z
+        .number()
+        .min(0, { message: 'Y position cannot be negative.' })
+        .max(100, { message: 'Y position cannot exceed 100.' }),
+    }),
+  })
+  .required();
 
 // Sub-schemas
 const ScentProfileSchema = z.object({
@@ -361,7 +363,7 @@ export const MoodBoardSchema = z.object({
     .max(500, { message: 'Description cannot exceed 500 characters.' })
     .optional(),
 
-  perfumes: z.array(PerfumePositionSchema).default([]),
+  perfumes: z.array(PerfumePositionSchema),
 
   tags: z
     .array(z.string().max(30, { message: 'Tag cannot exceed 30 characters.' }))

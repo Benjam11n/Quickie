@@ -13,13 +13,13 @@ import { Input } from '@/components/ui/input';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { useEditMoodboardStore } from '@/hooks/stores/use-edit-mood-boards-store';
 import { updateMoodBoard } from '@/lib/actions/moodboard.action';
-import { MoodBoardView } from '@/types';
-import { PerfumeView } from '@/types/fragrance';
+import { MoodBoard, PerfumePosition } from '@/types';
+import { Perfume } from '@/types/models/fragrance';
 
 import { Textarea } from '../ui/textarea';
 
 interface EditBoardPageProps {
-  initialBoard: MoodBoardView;
+  initialBoard: MoodBoard;
   session: Session;
 }
 
@@ -54,18 +54,23 @@ export default function EditBoardPageClient({
     if (!hasChanges || !currentBoard) return;
 
     const changes = getChanges();
+
+    const mapPerfumePosition = (p: PerfumePosition) => ({
+      perfume: p.perfume._id,
+      position: p.position,
+    });
+
+    const updatedPerfumes =
+      changes.perfumes?.map(mapPerfumePosition) ||
+      currentBoard.perfumes.map(mapPerfumePosition);
+
     const result = await updateMoodBoard({
       boardId: currentBoard._id,
       name: changes.name || currentBoard.name,
       description: changes.description || currentBoard.description,
       tags: changes.tags || currentBoard.tags,
       isPublic: changes.isPublic ?? currentBoard.isPublic,
-      perfumes:
-        changes.perfumes ||
-        currentBoard.perfumes.map((perfumePosition) => ({
-          perfume: perfumePosition.perfume._id,
-          position: perfumePosition.position,
-        })),
+      perfumes: updatedPerfumes,
       dimensions: changes.dimensions || currentBoard.dimensions,
       ...changes,
     });
@@ -92,7 +97,7 @@ export default function EditBoardPageClient({
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [hasChanges]);
 
-  const handleAddPerfume = (product: PerfumeView) => {
+  const handleAddPerfume = (product: Perfume) => {
     if (selectedSquare !== null) {
       const x = selectedSquare % 3;
       const y = Math.floor(selectedSquare / 3);
