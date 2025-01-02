@@ -5,7 +5,7 @@ import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 
 import Account, { IAccountDoc } from './database/account.model';
-import User, { IUserDoc } from './database/user.model';
+import User, { IUserDoc, UserRole } from './database/user.model';
 import { api } from './lib/api';
 import { SignInSchema } from './lib/validations';
 
@@ -42,6 +42,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               email: user.email,
               image: user.image,
               isPrivate: user.isPrivate,
+              role: user.role,
             };
           }
         }
@@ -52,6 +53,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async session({ session, token }) {
       session.user.id = token.sub as string;
+      session.user.role = token.role as UserRole;
+
       if (token.sub) {
         const { data: userData, success } = (await api.users.getById(
           token.sub
@@ -66,22 +69,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       return session;
     },
-    async jwt({ token, account }) {
-      if (account) {
-        const { data: existingAccount, success } =
-          (await api.accounts.getByProvider(
-            account.type === 'credentials'
-              ? token.email!
-              : account.providerAccountId
-          )) as ActionResponse<IAccountDoc>;
-
-        if (!success || !existingAccount) return token;
-
-        const userId = existingAccount.userId;
-
-        if (userId) token.sub = userId.toString();
+    async jwt({ token, user, account }) {
+      // Type user properly when it comes from credentials
+      if (user && 'role' in user) {
+        token.role = user.role as UserRole;
       }
 
+      if (account && account.type !== 'credentials') {
+        const { data: existingAccount, success } =
+          (await api.accounts.getByProvider(
+            account.providerAccountId
+          )) as APIResponse<IAccountDoc>;
+
+        if (success && existingAccount) {
+          const userId = existingAccount.userId;
+          if (userId) {
+            token.sub = userId.toString();
+
+            const { data: userData, success: userSuccess } =
+              (await api.users.getById(userId)) as APIResponse<IUserDoc>;
+
+            if (userSuccess && userData) {
+              token.role = userData.role;
+            }
+          }
+        }
+      }
       return token;
     },
     async signIn({ user, profile, account }) {

@@ -11,6 +11,17 @@ export default async function middleware(req: NextRequest) {
   const isAuthenticated = !!token;
   const pathname = req.nextUrl.pathname;
 
+  // Admin pages - redirect if not admin
+  if (req.nextUrl.pathname.startsWith('/admin')) {
+    if (!token) {
+      return NextResponse.redirect(new URL('/login', req.url));
+    }
+
+    if (token.role !== 'ADMIN') {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
+  }
+
   // Auth pages - redirect to home if already logged in
   const authRoutes = ['/sign-in', '/sign-up'];
   if (authRoutes.includes(pathname) && isAuthenticated) {

@@ -24,7 +24,7 @@ export function BoardSidebar({
   selectedSquare,
 }: BoardSidebarProps) {
   const [newTag, setNewTag] = useState('');
-  const { originalBoard, currentBoard, addTag, removeTag, toggleVisibility } =
+  const { currentBoard, addTag, removeTag, toggleVisibility } =
     useEditMoodboardStore();
 
   if (!currentBoard) return null;

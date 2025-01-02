@@ -1,6 +1,7 @@
 'use client';
 
 import { Copy, Share2 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -12,7 +13,6 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { MoodBoard } from '@/types';
-import { usePathname } from 'next/navigation';
 
 interface BoardShareProps {
   board: MoodBoard;

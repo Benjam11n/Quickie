@@ -2,7 +2,7 @@
 
 import Autoplay from 'embla-carousel-autoplay';
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
-import { Bookmark } from 'lucide-react';
+import { MousePointerClick } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -15,6 +15,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ROUTES } from '@/constants/routes';
+import { PerfumeView } from '@/types/fragrance';
 
 import {
   Carousel,
@@ -24,37 +25,20 @@ import {
   CarouselPrevious,
 } from '../ui/carousel';
 
-const featuredPerfumes = [
-  {
-    name: 'Midnight Rendezvous',
-    link: 'midnight-rendezvous',
-    brand: 'Quickie Signature',
-    description: 'A seductive affair of dark rose and vanilla bourbon',
-    price: '$129.99',
-    image:
-      'https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?w=800&auto=format&fit=crop&q=60',
-  },
-  {
-    name: 'Morning After',
-    link: 'morning-after',
-    brand: 'Quickie Essentials',
-    description: 'Fresh and invigorating, like new beginnings',
-    price: '$89.99',
-    image:
-      'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&auto=format&fit=crop&q=60',
-  },
-  {
-    name: 'Secret Affair',
-    link: 'secret-affair',
-    brand: 'Quickie Reserve',
-    description: 'Mysterious amber wrapped in forbidden spices',
-    price: '$149.99',
-    image:
-      'https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&auto=format&fit=crop&q=60',
-  },
-];
+interface FeaturedPerfumesProps {
+  perfumes?: PerfumeView[];
+  success: boolean;
+  error?: {
+    message: string;
+    details?: Record<string, string[]>;
+  };
+}
 
-export function FeaturedPerfumes() {
+export function FeaturedPerfumes({
+  perfumes,
+  success,
+  error,
+}: FeaturedPerfumesProps) {
   return (
     <section className="container py-12">
       <div className="mb-12 space-y-4 text-center">
@@ -69,6 +53,22 @@ export function FeaturedPerfumes() {
       </div>
 
       <div className="relative">
+        {!success && (
+          <div className="container py-12 text-center">
+            <p className="text-red-500">
+              {error?.message || 'Failed to load featured perfumes'}
+            </p>
+          </div>
+        )}
+
+        {!perfumes?.length && (
+          <div className="container py-12 text-center">
+            <p className="text-muted-foreground">
+              No featured perfumes available
+            </p>
+          </div>
+        )}
+
         <Carousel
           opts={{
             align: 'start',
@@ -88,7 +88,7 @@ export function FeaturedPerfumes() {
           className="w-full"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
-            {featuredPerfumes.map((perfume, index) => (
+            {perfumes?.map((perfume, index) => (
               <CarouselItem
                 key={index}
                 className="pl-2 sm:basis-1/2 md:pl-4 lg:basis-1/3 xl:basis-1/4"
@@ -96,7 +96,7 @@ export function FeaturedPerfumes() {
                 <Card className="group overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                   <div className="relative aspect-square overflow-hidden">
                     <Image
-                      src={perfume.image}
+                      src={perfume.images[0]}
                       alt={perfume.name}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -109,9 +109,9 @@ export function FeaturedPerfumes() {
                         className="mb-6 bg-white/90 text-black hover:bg-white/100"
                         asChild
                       >
-                        <Link href={ROUTES.PRODUCT(perfume.link)} prefetch>
-                          <Bookmark className="mr-2 size-4" />
-                          Add To Collection
+                        <Link href={ROUTES.PRODUCT(perfume._id)} prefetch>
+                          <MousePointerClick className="mr-1 size-4" />
+                          View Perfume
                         </Link>
                       </Button>
                     </div>
@@ -121,7 +121,7 @@ export function FeaturedPerfumes() {
                       {perfume.name}
                     </CardTitle>
                     <CardDescription className="line-clamp-1">
-                      {perfume.brand}
+                      {perfume.brand.name}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -129,7 +129,7 @@ export function FeaturedPerfumes() {
                       {perfume.description}
                     </p>
                     <p className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-lg font-bold text-transparent">
-                      {perfume.price}
+                      {perfume.fullPrice}
                     </p>
                   </CardContent>
                 </Card>

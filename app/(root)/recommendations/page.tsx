@@ -2,9 +2,9 @@
 
 import { Sparkles, ThumbsUp } from 'lucide-react';
 import { notFound } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
-import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
 import { QuizCard } from '@/components/QuizCard';
 import { Card } from '@/components/ui/card';
 import { useCollection } from '@/hooks/queries/use-collection';
@@ -13,15 +13,15 @@ import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import Loading from '../loading';
 
 export default function RecommendationsPage() {
+  const { data: session } = useSession();
   const [showQuiz, setShowQuiz] = useState(true);
   const { data: perfumeResponse, isPending: isLoadingPerfumes } = usePerfumes({
     page: 1,
     pageSize: 100,
     query: '',
-    filter: '',
   });
   const { data: collectionResponse, isPending: isLoadingCollection } =
-    useCollection();
+    useCollection(session?.user.id);
 
   if (isLoadingPerfumes || isLoadingCollection) {
     return <Loading />;
@@ -34,80 +34,7 @@ export default function RecommendationsPage() {
   const { perfumes } = perfumeResponse.data;
   const collection = collectionResponse?.data;
 
-  // Simple recommendation algorithm based on user ratings and preferences
-  const getRecommendations = () => {
-    const ratedProducts = collection.perfumes;
-
-    if (ratedProducts.length === 0) {
-      return perfumes.slice(0, 3); // Return top products if no ratings
-    }
-
-    // Calculate average rating for each note and category
-    const preferences = ratedProducts.reduce(
-      (acc, item) => {
-        const perfume = perfumes.find((p) => p.id === item.perfume._id);
-        if (!perfume || !item.rating) return acc;
-
-        // Process tags
-        perfume.tags?.forEach((tag) => {
-          if (!acc.tags[tag.name]) {
-            acc.tags[tag] = { total: 0, count: 0 };
-          }
-          acc.tags[tag].total += item.rating;
-          acc.tags[tag].count += 1;
-        });
-
-        // Process notes
-        Object.values(perfume.notes)
-          .flat()
-          .forEach((note) => {
-            if (!acc.notes[note.name]) {
-              acc.notes[note.name] = { total: 0, count: 0 };
-            }
-            acc.notes[note.name].total += item.rating * (note.percentage / 100);
-            acc.notes[note.name].count += 1;
-          });
-
-        return acc;
-      },
-      { tags: {}, notes: {} }
-    );
-
-    // Score each product based on preferences
-    const scoredProducts = perfumes
-      .filter(
-        (product) => !collections.some((item) => item.productId === product.id)
-      )
-      .map((product) => {
-        let score = 0;
-
-        // Category score
-        product.tags?.forEach((tag) => {
-          if (preferences.tags[tag]) {
-            score += preferences.tags[tag].total / preferences.tags[tag].count;
-          }
-        });
-
-        // Notes score
-        Object.values(product.notes)
-          .flat()
-          .forEach((note) => {
-            if (preferences.notes[note.name]) {
-              score +=
-                (preferences.notes[note.name].total /
-                  preferences.notes[note.name].count) *
-                (note.percentage / 100);
-            }
-          });
-
-        return { product, score };
-      })
-      .sort((a, b) => b.score - a.score);
-
-    return scoredProducts.slice(0, 6).map((item) => item.product);
-  };
-
-  const recommendations = getRecommendations();
+  console.log(perfumes, collection);
 
   return (
     <div className="container py-10">
@@ -158,7 +85,8 @@ export default function RecommendationsPage() {
             </div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {recommendations.map((perfume) => (
+              {/* Add recommendations page */}
+              {/* {recommendations.map((perfume) => (
                 <PerfumeCard
                   key={perfume._id}
                   id={perfume._id}
@@ -167,7 +95,7 @@ export default function RecommendationsPage() {
                   images={perfume.images}
                   brand={perfume.brand}
                 />
-              ))}
+              ))} */}
             </div>
           </>
         )}

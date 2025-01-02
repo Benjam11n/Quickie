@@ -1,4 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { Schema, Document, models, model, Types } from 'mongoose';
+
+export enum UserRole {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
+}
 
 export interface IUser {
   name: string;
@@ -20,6 +26,7 @@ export interface IUser {
   }>;
   wishlist: Types.ObjectId[];
 
+  role: UserRole;
   isPrivate: boolean;
 }
 
@@ -45,6 +52,11 @@ const UserSchema = new Schema<IUserDoc>(
       },
     ],
     isPrivate: { type: Boolean, default: false, required: true },
+    role: {
+      type: String,
+      enum: Object.values(UserRole),
+      default: UserRole.USER,
+    },
   },
   { timestamps: true }
 );

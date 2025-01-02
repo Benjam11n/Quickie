@@ -1,5 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
+
 import { RatingDistribution as FragranceDistribution } from '@/types/fragrance';
 
 interface RatingDistributionProps {

@@ -16,6 +16,9 @@ export const ROUTES = {
   FULL_COMPARE: (ids: string) => `/compare/${ids}`,
   NOTES_COMPARE: (ids: string) => `/compare/notes/${ids}`,
 
+  // Recommendations
+  RECOMMENDATION: '/recommendations',
+
   // Mood boards
   USER_PROFILE: `/profile`,
   PROFILE: (username: string) => `/profile/${username}`,

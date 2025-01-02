@@ -40,7 +40,7 @@ const features = [
   {
     icon: Zap,
     title: 'Instant Sampling',
-    description: 'Try before you commit with our travel-sized portions',
+    description: 'Try before you commit with our innovative vending machines.',
     gradient: 'from-orange-500 to-yellow-500',
   },
   {

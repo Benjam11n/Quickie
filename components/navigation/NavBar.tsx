@@ -38,6 +38,17 @@ export async function NavBar() {
                 label={navLink.label}
               />
             ))}
+
+            {/* todo: complete AI recommendations */}
+            {/* <Link
+              href={ROUTES.RECOMMENDATION}
+              className="flex items-center text-lg font-medium sm:text-sm"
+            >
+              <Sparkles className="mr-2 size-4 text-primary" />
+              <h2 className="holographic-text text-lg font-medium sm:text-sm">
+                AI Recommendations
+              </h2>
+            </Link> */}
           </div>
         </div>
         <div className="ml-auto flex items-center gap-2">

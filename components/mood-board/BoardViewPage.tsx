@@ -14,6 +14,7 @@ import { ROUTES } from '@/constants/routes';
 import { usePerfumes } from '@/hooks/queries/use-perfumes';
 import { toggleLike } from '@/lib/actions/moodboard.action';
 import { MoodBoardView } from '@/types';
+
 import { BoardCanvasView } from './BoardCanvasView';
 
 interface BoardViewProps {

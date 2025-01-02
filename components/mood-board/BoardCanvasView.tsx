@@ -1,9 +1,10 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
 import { ROUTES } from '@/constants/routes';
 import { cn } from '@/lib/utils';
 import { MoodBoardView } from '@/types';
 import { PerfumeView } from '@/types/fragrance';
-import Image from 'next/image';
-import Link from 'next/link';
 
 interface BoardCanvasViewProps {
   board: MoodBoardView;
