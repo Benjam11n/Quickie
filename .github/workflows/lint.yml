@@ -33,3 +33,9 @@ jobs:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CONFIG_FILE: .eslintrc.json
+
+      - name: Upload Super-Linter Summary
+        uses: actions/upload-artifact@v3
+        with:
+          name: super-linter-summary
+          path: super-linter-output/super-linter-summary.md
