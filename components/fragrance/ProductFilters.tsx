@@ -13,6 +13,65 @@ import { getPerfumeFilters } from '@/lib/actions/perfume.action';
 import { removeKeysFromUrlQuery } from '@/lib/url';
 import { FragranceFilters } from '@/types/models/fragrance';
 
+import { Skeleton } from '../ui/skeleton';
+
+const FilterLoadingState = () => {
+  return (
+    <div className="space-y-6">
+      {/* Price Range Section */}
+      <div className="space-y-4">
+        <Skeleton className="h-6 w-24" /> {/* Price Range label */}
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-full" /> {/* Slider */}
+          <div className="flex justify-between">
+            <Skeleton className="h-4 w-12" /> {/* Min price */}
+            <Skeleton className="h-4 w-12" /> {/* Max price */}
+          </div>
+        </div>
+      </div>
+
+      {/* Brands Section */}
+      <div className="space-y-4">
+        <Skeleton className="h-6 w-16" /> {/* Brands label */}
+        <div className="space-y-2">
+          {[1, 2, 3, 4, 5].map((index) => (
+            <div key={`brand-${index}`} className="flex items-center space-x-2">
+              <Skeleton className="size-4" /> {/* Checkbox */}
+              <Skeleton className="h-4 w-24" /> {/* Brand name */}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Tags Section */}
+      <div className="space-y-4">
+        <Skeleton className="h-6 w-12" /> {/* Tags label */}
+        <div className="space-y-2">
+          {[1, 2, 3, 4].map((index) => (
+            <div key={`tag-${index}`} className="flex items-center space-x-2">
+              <Skeleton className="size-4" /> {/* Checkbox */}
+              <Skeleton className="h-4 w-20" /> {/* Tag name */}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Notes Section */}
+      <div className="space-y-4">
+        <Skeleton className="h-6 w-14" /> {/* Notes label */}
+        <div className="space-y-2">
+          {[1, 2, 3, 4].map((index) => (
+            <div key={`note-${index}`} className="flex items-center space-x-2">
+              <Skeleton className="size-4" /> {/* Checkbox */}
+              <Skeleton className="h-4 w-24" /> {/* Note name */}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 interface ProductFiltersProps {
   route: string;
 }
@@ -34,10 +93,14 @@ export function ProductFilters({ route }: ProductFiltersProps) {
     brands: IBrandDoc[];
   }>();
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    getPerfumeFilters().then((data) => setFilterData(data));
+    getPerfumeFilters().then((data) => {
+      setFilterData(data);
+      setIsLoading(false);
+    });
   }, []);
-  // TODO: handle isPending
 
   useEffect(() => {
     if (Object.keys(filters).length > 0) {
@@ -79,7 +142,9 @@ export function ProductFilters({ route }: ProductFiltersProps) {
     }
   }, [filters, router, route, searchParams, pathname]);
 
-  return (
+  return isLoading ? (
+    <FilterLoadingState />
+  ) : (
     <div className="space-y-6">
       <div className="space-y-4">
         <h3 className="font-semibold">Price Range</h3>

@@ -463,7 +463,7 @@ export async function getPerfumesPaginated(
   }
 
   // Step 6: Set up sorting criteria
-  // todo: add not sorting options
+  // todo: add more sorting options
   let sortCriteria = {};
   switch (sortBy) {
     case 'price-desc':
