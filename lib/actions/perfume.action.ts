@@ -466,6 +466,18 @@ export async function getPerfumesPaginated(
   // todo: add more sorting options
   let sortCriteria = {};
   switch (sortBy) {
+    case 'popularity-asc':
+      sortCriteria = { 'rating.count': 1 };
+      break;
+    case 'popularity-desc':
+      sortCriteria = { 'rating.count': -1 };
+      break;
+    case 'rating-asc':
+      sortCriteria = { 'rating.average': 1 };
+      break;
+    case 'rating-desc':
+      sortCriteria = { 'rating.average': -1 };
+      break;
     case 'price-desc':
       sortCriteria = { fullPrice: -1 };
       break;

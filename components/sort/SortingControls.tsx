@@ -14,6 +14,10 @@ import {
 } from '../ui/select';
 
 type SortOption =
+  | 'popularity-asc'
+  | 'popularity-desc'
+  | 'rating-asc'
+  | 'rating-desc'
   | 'price-asc'
   | 'price-desc'
   | 'name-asc'
@@ -64,6 +68,10 @@ const SortingControls = ({ route }: LocalSearchProps) => {
         <SelectValue placeholder="Sort by..." />
       </SelectTrigger>
       <SelectContent>
+        <SelectItem value="popularity-desc">Popularity: High to Low</SelectItem>
+        <SelectItem value="popularity-asc">Popularity: Low to High</SelectItem>
+        <SelectItem value="rating-desc">Rating: High to Low</SelectItem>
+        <SelectItem value="rating-asc">Rating: Low to High</SelectItem>
         <SelectItem value="price-desc">Price: High to Low</SelectItem>
         <SelectItem value="price-asc">Price: Low to High</SelectItem>
         <SelectItem value="name-asc">Name (A-Z)</SelectItem>
