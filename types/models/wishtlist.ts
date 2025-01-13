@@ -10,13 +10,7 @@ export interface WishlistPerfumeView {
       average: number;
       count: number;
     };
-    notes: {
-      top: { name: string };
-      middle: { name: string };
-      base: { name: string };
-    };
   };
-  notes?: string;
   priority?: 'low' | 'medium' | 'high';
   priceAlert?: number;
   addedAt: Date;

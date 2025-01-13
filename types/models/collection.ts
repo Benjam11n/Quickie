@@ -7,6 +7,15 @@ export interface CollectionPerfume {
     fullPrice: number;
     affiliateLink: string;
     images: string[];
+    notes: {
+      top: [{ note: { _id: string; name: string }; intensity: number }];
+      middle: [{ note: { _id: string; name: string }; intensity: number }];
+      base: [{ note: { _id: string; name: string }; intensity: number }];
+    };
+    rating: {
+      average: number;
+      count: number;
+    };
   };
   addedAt: Date;
 }

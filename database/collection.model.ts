@@ -1,4 +1,3 @@
-// models/Collection.ts
 import { Schema, model, models, Types } from 'mongoose';
 
 interface ICollection {

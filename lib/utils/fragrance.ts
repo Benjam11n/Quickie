@@ -88,7 +88,6 @@ function generateNoteHarmony(notes: {
   middle: { note: Note; intensity: number }[];
   base: { note: Note; intensity: number }[];
 }): NoteHarmony[] {
-  console.log(notes);
   const allNotes = [...notes.top, ...notes.middle, ...notes.base];
 
   return allNotes.map((note) => ({

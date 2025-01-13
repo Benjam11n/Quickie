@@ -36,11 +36,17 @@ export async function getCollection(
       })
       .populate({
         path: 'perfumes.perfume',
-        select: '_id id name brand affiliateLink fullPrice images',
-        populate: {
-          path: 'brand',
-          select: 'name',
-        },
+        select: 'name brand affiliateLink fullPrice images notes rating',
+        populate: [
+          {
+            path: 'brand',
+            select: 'name',
+          },
+          {
+            path: 'notes.top.note notes.middle.note notes.base.note',
+            select: 'name',
+          },
+        ],
       });
 
     if (!collection) {
@@ -91,11 +97,17 @@ export async function addToCollection(
       author: userId,
     }).populate({
       path: 'perfumes.perfume',
-      select: 'name brand fullPrice images',
-      populate: {
-        path: 'brand',
-        select: 'name',
-      },
+      select: 'name brand affiliateLink fullPrice images notes rating',
+      populate: [
+        {
+          path: 'brand',
+          select: 'name',
+        },
+        {
+          path: 'notes.top.note notes.middle.note notes.base.note',
+          select: 'name',
+        },
+      ],
     });
 
     return {
@@ -140,7 +152,20 @@ export async function removeFromCollection(
   session.startTransaction();
 
   try {
-    const collection = await Collection.findOne({ author: userId });
+    const collection = await Collection.findOne({ author: userId }).populate({
+      path: 'perfumes.perfume',
+      select: 'name brand affiliateLink fullPrice images notes rating',
+      populate: [
+        {
+          path: 'brand',
+          select: 'name',
+        },
+        {
+          path: 'notes.top.note notes.middle.note notes.base.note',
+          select: 'name',
+        },
+      ],
+    });
 
     if (!collection) {
       throw new Error('Collection not found');

@@ -358,17 +358,11 @@ export async function getUserWishlists(
       })
       .populate({
         path: 'perfumes.perfume',
-        select: 'name brand price images affiliateLink notes',
-        populate: [
-          {
-            path: 'brand',
-            select: 'name',
-          },
-          {
-            path: 'notes',
-            select: 'name',
-          },
-        ],
+        select: 'name brand price images affiliateLink',
+        populate: {
+          path: 'brand',
+          select: 'name',
+        },
       });
 
     return {
