@@ -22,8 +22,19 @@ import { Perfume } from '@/types/models/fragrance';
 import ComparisonBar from './ComparisonBar';
 import DataRenderer from '../DataRenderer';
 import LocalSearch from '../search/LocalSearch';
-import SortingControls from '../sort/SortingControls';
+import { SortingControls, SortOption } from '../sort/SortingControls';
 import { WishlistSelectDialog } from '../wishlist/WishlistSelectDialog';
+
+const PERFUME_SORT_OPTIONS: SortOption[] = [
+  { value: 'popularity-desc', label: 'Popularity: High to Low' },
+  { value: 'popularity-asc', label: 'Popularity: Low to High' },
+  { value: 'rating-desc', label: 'Rating: High to Low' },
+  { value: 'rating-asc', label: 'Rating: Low to High' },
+  { value: 'price-desc', label: 'Price: High to Low' },
+  { value: 'price-asc', label: 'Price: Low to High' },
+  { value: 'name-asc', label: 'Name (A-Z)' },
+  { value: 'name-desc', label: 'Name (Z-A)' },
+];
 
 interface CatalogPageProps {
   userId?: string;
@@ -217,7 +228,11 @@ export default function CatalogClient({
               otherClasses="flex-1"
             />
           </div>
-          <SortingControls route="/catalog" />
+          <SortingControls
+            route="/catalog"
+            sortOptions={PERFUME_SORT_OPTIONS}
+            defaultOption="popularity-desc"
+          />
           <Button
             variant="outline"
             onClick={() => setShowFilters(!showFilters)}

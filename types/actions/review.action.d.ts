@@ -36,6 +36,8 @@ declare global {
 
   interface GetUserReviewsParams {
     userId: string;
+    sortBy?: string;
+    query?: string;
   }
 
   interface GetPerfumeReviewsParams {

@@ -11,7 +11,7 @@ interface ProfilePageProps {
 
 export default async function ProfilePage({ searchParams }: ProfilePageProps) {
   const session = await auth();
-  const { page, pageSize, query } = searchParams;
+  const { page, pageSize, query, sortBy } = await searchParams;
   const userId = session?.user?.id || '';
 
   const [wishlistResult, reviewResult, collectionResult, moodboardResult] =
@@ -19,9 +19,8 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
       getUserWishlists({ userId }),
       getUserReviews({
         userId,
-        page: Number(page) || 1,
-        pageSize: Number(pageSize) || 10,
         query: query || '',
+        sortBy,
       }),
       getCollection({ userId }),
       getMoodBoards({
@@ -31,13 +30,13 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
       }),
     ]);
 
-  const { reviews } = reviewResult.data || {};
+  const { reviews, total: reviewsTotal } = reviewResult.data || {};
   const wishlists = wishlistResult.data;
   const collection = collectionResult.data;
   const { moodboards } = moodboardResult.data || {};
 
   const stats = {
-    reviews: reviews?.length || 0,
+    reviews: reviewsTotal || 0,
     perfumes: collection?.perfumes.length || 0,
     wishlists: wishlists?.length || 0,
   };

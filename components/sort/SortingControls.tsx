@@ -3,40 +3,36 @@
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { formUrlQuery, removeKeysFromUrlQuery } from '@/lib/url';
-
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../ui/select';
+} from '@/components/ui/select';
+import { formUrlQuery, removeKeysFromUrlQuery } from '@/lib/url';
 
-type SortOption =
-  | 'popularity-asc'
-  | 'popularity-desc'
-  | 'rating-asc'
-  | 'rating-desc'
-  | 'price-asc'
-  | 'price-desc'
-  | 'name-asc'
-  | 'name-desc'
-  | 'rating-desc'
-  | 'rating-asc';
-
-interface LocalSearchProps {
-  route: string;
+export interface SortOption {
+  value: string;
+  label: string;
 }
 
-const SortingControls = ({ route }: LocalSearchProps) => {
+interface SortingControlsProps {
+  route: string;
+  sortOptions: SortOption[];
+  defaultOption: string;
+}
+
+export function SortingControls({
+  route,
+  sortOptions,
+  defaultOption,
+}: SortingControlsProps) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const initialSortBy =
-    (searchParams.get('sortBy') as SortOption) || 'price-desc';
-
-  const [sortBy, setSortBy] = useState<SortOption>(initialSortBy);
+  const initialSortBy = searchParams.get('sortBy') || defaultOption;
+  const [sortBy, setSortBy] = useState<string>(initialSortBy);
 
   useEffect(() => {
     if (sortBy) {
@@ -45,40 +41,30 @@ const SortingControls = ({ route }: LocalSearchProps) => {
         key: 'sortBy',
         value: sortBy,
       });
-
       router.push(newUrl, { scroll: false });
     } else {
       if (pathname === route) {
         const newUrl = removeKeysFromUrlQuery({
           params: searchParams.toString(),
-          keysToRemove: ['query'],
+          keysToRemove: ['sortBy'],
         });
-
         router.push(newUrl, { scroll: false });
       }
     }
   }, [sortBy, router, route, searchParams, pathname]);
 
   return (
-    <Select
-      onValueChange={(value) => setSortBy(value as SortOption)}
-      value={sortBy}
-    >
+    <Select onValueChange={(value) => setSortBy(value)} value={sortBy}>
       <SelectTrigger className="w-[200px]">
         <SelectValue placeholder="Sort by..." />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="popularity-desc">Popularity: High to Low</SelectItem>
-        <SelectItem value="popularity-asc">Popularity: Low to High</SelectItem>
-        <SelectItem value="rating-desc">Rating: High to Low</SelectItem>
-        <SelectItem value="rating-asc">Rating: Low to High</SelectItem>
-        <SelectItem value="price-desc">Price: High to Low</SelectItem>
-        <SelectItem value="price-asc">Price: Low to High</SelectItem>
-        <SelectItem value="name-asc">Name (A-Z)</SelectItem>
-        <SelectItem value="name-desc">Name (Z-A)</SelectItem>
+        {sortOptions.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );
-};
-
-export default SortingControls;
+}

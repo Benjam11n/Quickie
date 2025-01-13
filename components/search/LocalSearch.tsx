@@ -52,7 +52,7 @@ const LocalSearch = ({
 
   return (
     <div
-      className={`flex min-h-[36px] grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
+      className={`flex min-h-[36px] grow items-center gap-4 rounded-[10px] ${otherClasses}`}
     >
       <Input
         type="text"

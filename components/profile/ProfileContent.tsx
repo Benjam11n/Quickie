@@ -1,4 +1,7 @@
+'use client';
+
 import { Layout, Grid, Star, BookMarked } from 'lucide-react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 
 import DataRenderer from '@/components/DataRenderer';
 import { CollectionGrid } from '@/components/profile/CollectionGrid';
@@ -12,12 +15,21 @@ import { RatingsList } from '@/components/profile/RatingsList';
 import { WishlistsGrid } from '@/components/profile/WishlistGrid';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
-  DEFAULT_EMPTY,
   EMPTY_COLLECTIONS,
   EMPTY_MOODBOARDS,
   EMPTY_WISHLISTS,
 } from '@/constants/states';
 import { Collection, MoodBoard, Review, Wishlist } from '@/types';
+
+const TAB_VALUES = [
+  'collection',
+  'wishlists',
+  'moodboards',
+  'reviews',
+  'insights',
+] as const;
+
+type TabValue = (typeof TAB_VALUES)[number];
 
 interface ProfileContentProps {
   username: string;
@@ -97,7 +109,24 @@ export function ProfileContent({
   stats,
   queryResults,
 }: ProfileContentProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Get current tab from URL or default to 'collection'
+  const currentTab = searchParams.get('tab');
+  const activeTab = TAB_VALUES.includes(currentTab as TabValue)
+    ? (currentTab as string)
+    : 'collection';
+
   const insights = calculateInsights(collection);
+
+  // Update URL when tab changes
+  const handleTabChange = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('tab', value);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   return (
     <div className="min-h-screen">
@@ -109,7 +138,11 @@ export function ProfileContent({
       />
 
       <div className="container py-8">
-        <Tabs defaultValue="collection" className="space-y-8">
+        <Tabs
+          value={activeTab}
+          onValueChange={handleTabChange}
+          className="space-y-8"
+        >
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="collection" className="gap-2">
               <Layout className="size-4" />
@@ -164,13 +197,7 @@ export function ProfileContent({
           </TabsContent>
 
           <TabsContent value="reviews">
-            <DataRenderer
-              success={queryResults.reviewSuccess}
-              error={queryResults.reviewError}
-              data={reviews}
-              empty={DEFAULT_EMPTY}
-              render={(reviews) => <RatingsList reviews={reviews} />}
-            />
+            <RatingsList reviews={reviews || []} />
           </TabsContent>
 
           <TabsContent value="insights">

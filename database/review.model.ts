@@ -8,6 +8,7 @@ export interface IReview {
   vendingMachineId?: Types.ObjectId;
   rating: Rating;
   review?: string;
+  averageRating: number;
 }
 
 export interface IReviewDoc extends IReview, Document {}
@@ -57,6 +58,7 @@ const ReviewSchema = new Schema<IReview>(
         max: 5,
       },
     },
+    averageRating: { type: Number },
     review: {
       type: String,
       required: false,
@@ -69,6 +71,20 @@ const ReviewSchema = new Schema<IReview>(
 // Create compound indexes
 ReviewSchema.index({ perfume: 1, createdAt: -1 });
 ReviewSchema.index({ author: 1, perfume: 1 }, { unique: true });
+
+ReviewSchema.pre('save', function (next) {
+  if (this.isModified('rating')) {
+    const rating = this.rating;
+    this.averageRating =
+      (rating.complexity +
+        rating.longevity +
+        rating.uniqueness +
+        rating.sillage +
+        rating.value) /
+      5;
+  }
+  next();
+});
 
 const Review = models?.Review || model<IReview>('Review', ReviewSchema);
 

@@ -467,6 +467,8 @@ export const GetReviewSchema = z.object({
 
 export const GetUserReviewsSchema = z.object({
   userId: z.string().min(1, { message: 'User ID is required.' }),
+  query: z.string().optional(),
+  sortBy: z.string().optional(),
 });
 
 export const GetPerfumeReviewsSchema = z.object({
@@ -481,7 +483,7 @@ export const PaginatedSearchParamsSchema = z.object({
   priceRange: z.string().optional(),
   notes: z.string().optional(),
   tags: z.string().optional(),
-  sort: z.string().optional(),
+  sortBy: z.string().optional(),
 });
 
 export const CreateWishlistSchema = z.object({

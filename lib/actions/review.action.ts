@@ -1,6 +1,6 @@
 'use server';
 
-import mongoose, { Types } from 'mongoose';
+import mongoose, { FilterQuery, Types } from 'mongoose';
 import { revalidatePath } from 'next/cache';
 
 import Perfume, { IPerfumeDoc } from '@/database/perfume.model';
@@ -8,6 +8,7 @@ import ReviewInteraction, {
   ReviewInteractionCounts,
 } from '@/database/review-interaction.model';
 import Review, { IReviewDoc } from '@/database/review.model';
+import VendingMachine from '@/database/vending-machine.model';
 import { Review as ReviewType } from '@/types';
 
 import action from '../handlers/action';
@@ -467,27 +468,70 @@ export async function getReview(
 }
 
 export async function getUserReviews(
-  params: GetUserReviewsParams & PaginatedSearchParams
-): Promise<ActionResponse<{ reviews: ReviewType[]; isNext: boolean }>> {
+  params: GetUserReviewsParams
+): Promise<ActionResponse<{ reviews: ReviewType[]; total: number }>> {
   const validationResult = await action({
     params,
     schema: GetUserReviewsSchema,
   });
-
   if (validationResult instanceof Error) {
     return handleError(validationResult) as ErrorResponse;
   }
 
-  const { userId } = validationResult.params!;
-  const { page = 1, pageSize = 10 } = params;
-  const skip = (Number(page) - 1) * pageSize;
+  const { userId, sortBy, query } = validationResult.params!;
+  const filterQuery: FilterQuery<typeof Review> = { author: userId };
+
+  // First, let's find the matching perfumes and vending machines
+  let matchingPerfumeIds: Types.ObjectId[] = [];
+  let matchingVendingMachineIds: Types.ObjectId[] = [];
+
+  if (query) {
+    // Find matching perfumes
+    const matchingPerfumes = await Perfume.find({
+      $or: [
+        { name: { $regex: new RegExp(query, 'i') } },
+        { 'brand.name': { $regex: new RegExp(query, 'i') } },
+      ],
+    }).select('_id');
+    matchingPerfumeIds = matchingPerfumes.map((p) => p._id);
+
+    // Find matching vending machines
+    const matchingVendingMachines = await VendingMachine.find({
+      'location.address': { $regex: new RegExp(query, 'i') },
+    }).select('_id');
+    matchingVendingMachineIds = matchingVendingMachines.map((vm) => vm._id);
+
+    // Update filter query to include matches
+    if (matchingPerfumeIds.length > 0 || matchingVendingMachineIds.length > 0) {
+      filterQuery.$or = [
+        { perfume: { $in: matchingPerfumeIds } },
+        { vendingMachineId: { $in: matchingVendingMachineIds } },
+      ];
+    }
+  }
+
+  let sortCriteria: Record<string, 1 | -1> = {};
+  switch (sortBy) {
+    case 'date-desc':
+      sortCriteria = { createdAt: -1 };
+      break;
+    case 'date-asc':
+      sortCriteria = { createdAt: 1 };
+      break;
+    case 'rating-desc':
+      sortCriteria = { averageRating: -1 };
+      break;
+    case 'rating-asc':
+      sortCriteria = { averageRating: 1 };
+      break;
+    default:
+      sortCriteria = { createdAt: -1 };
+  }
 
   try {
-    // Get total count for pagination
     const totalReviews = await Review.countDocuments({ author: userId });
 
-    // Get reviews with populated author and sorted by date
-    const reviews = await Review.find({ author: userId })
+    const reviews = await Review.find(filterQuery)
       .populate({
         path: 'author',
         select: 'name image',
@@ -504,22 +548,19 @@ export async function getUserReviews(
         path: 'vendingMachineId',
         select: 'location',
       })
-      .sort({ createdAt: -1 }) // Most recent first
-      .skip(skip)
-      // Set a suitable limit
+      .sort(sortCriteria)
       .limit(100)
       .lean();
-
-    const isNext = totalReviews > skip + reviews.length;
 
     return {
       success: true,
       data: {
         reviews: JSON.parse(JSON.stringify(reviews)),
-        isNext,
+        total: totalReviews,
       },
     };
   } catch (error) {
+    console.error('Error in getUserReviews:', error);
     return handleError(error) as ErrorResponse;
   }
 }
@@ -537,6 +578,7 @@ export async function getPerfumeReviews(
   }
 
   const { perfume } = validationResult.params!;
+
   const { page = 1, pageSize = 10 } = params;
   const skip = (Number(page) - 1) * pageSize;
   const limit = Number(pageSize);
