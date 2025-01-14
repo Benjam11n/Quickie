@@ -39,7 +39,7 @@ export function NoteComparisonView({ perfumes }: NoteComparisonViewProps) {
     const newProducts = perfumes.filter((p) => p._id !== productId);
 
     if (newProducts.length === 0) {
-      router.push(ROUTES.NOTES_COMPARE(''));
+      router.push(ROUTES.COMPARE);
     } else {
       const productIds = newProducts.map((p) => p._id).join('/');
       router.push(ROUTES.NOTES_COMPARE(productIds));
