@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: 'Quickie | Instant Fragrance Gratification',
   description:
     "Life's too short for long-term commitments. Get your fragrance fix, instantly.",
+  icons: {
+    icon: '/images/nav-logo.png',
+  },
 };
 
 export default async function RootLayout({
