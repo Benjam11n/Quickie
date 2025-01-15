@@ -8,7 +8,6 @@ import { useInView } from 'react-intersection-observer';
 import { PerfumeCard } from '@/components/fragrance/PerfumeCard';
 import { ProductFilters } from '@/components/fragrance/ProductFilters';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { EMPTY_PERFUME } from '@/constants/states';
 import { useCollectionMutations } from '@/hooks/mutations/use-collection-mutations';
 import { useWishlistMutations } from '@/hooks/mutations/use-wishlist-mutations';
@@ -220,35 +219,45 @@ export default function CatalogClient({
         </div>
 
         {/* Search and Filters */}
-        <div className="flex flex-col gap-4 md:flex-row">
-          <div className="relative flex-1">
+        <div className="flex flex-col space-y-4">
+          {/* Search Bar */}
+          <div className="w-full">
             <LocalSearch
               route="/catalog"
               placeholder="Search perfumes..."
-              otherClasses="flex-1"
+              otherClasses="w-full"
             />
           </div>
-          <SortingControls
-            route="/catalog"
-            sortOptions={PERFUME_SORT_OPTIONS}
-            defaultOption="popularity-desc"
-          />
-          <Button
-            variant="outline"
-            onClick={() => setShowFilters(!showFilters)}
-            className="w-[200px]"
-          >
-            <SlidersHorizontal className="mr-2 size-4" />
-            Filters
-          </Button>
+
+          {/* Controls */}
+          <div className="flex flex-col space-y-3 sm:flex-row sm:space-x-3 sm:space-y-0">
+            <div className="w-full sm:w-1/2">
+              <SortingControls
+                route="/catalog"
+                sortOptions={PERFUME_SORT_OPTIONS}
+                defaultOption="popularity-desc"
+              />
+            </div>
+
+            <Button
+              variant="outline"
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex w-full items-center justify-center sm:w-1/2"
+            >
+              <SlidersHorizontal className="mr-2 size-4" />
+              Filters
+            </Button>
+          </div>
         </div>
 
         {/* Main Content */}
         <div className="flex gap-8">
           {showFilters && (
-            <Card className="w-[300px] shrink-0 p-6">
-              <ProductFilters route="/catalog" />
-            </Card>
+            <ProductFilters
+              route="/catalog"
+              showFilters={showFilters}
+              setShowFilters={setShowFilters}
+            />
           )}
 
           <div className="flex-1 space-y-6">

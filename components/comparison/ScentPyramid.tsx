@@ -70,16 +70,16 @@ export function ScentPyramid({
               `}
               initial={{
                 width: `${100 - (index + 1) * 15}%`,
-                opacity: 0.7,
+                opacity: 0.8,
               }}
               whileHover={{
                 width: '90%',
                 opacity: 0.9,
-                transition: { duration: 0.3 },
+                transition: { duration: 0.15 },
               }}
               animate={{
                 width: selectedNote ? '95%' : `${100 - (index + 1) * 15}%`,
-                opacity: selectedNote ? 0.9 : 0.7,
+                opacity: selectedNote ? 0.9 : 0.8,
               }}
             >
               <div className="absolute inset-0 bg-black/10" />

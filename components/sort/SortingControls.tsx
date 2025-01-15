@@ -55,7 +55,7 @@ export function SortingControls({
 
   return (
     <Select onValueChange={(value) => setSortBy(value)} value={sortBy}>
-      <SelectTrigger className="w-[200px]">
+      <SelectTrigger className="w-full">
         <SelectValue placeholder="Sort by..." />
       </SelectTrigger>
       <SelectContent>

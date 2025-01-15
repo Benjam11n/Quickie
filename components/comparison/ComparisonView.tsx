@@ -77,7 +77,6 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
                   fill
                   className="size-full object-cover transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
               </div>
 
               {/* Product Info */}
@@ -91,7 +90,7 @@ export function ComparisonView({ products, onRemove }: ComparisonViewProps) {
 
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
-                    <div className="bg-gradient-to-r from-pink-500 to-violet-500 bg-clip-text text-xl font-bold text-transparent">
+                    <div className="holographic-text text-xl font-bold">
                       ${product.fullPrice}
                     </div>
                     <div className="text-sm text-muted-foreground">
