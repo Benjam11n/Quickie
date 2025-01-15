@@ -2,11 +2,12 @@
 
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { User as UserType } from 'next-auth';
+import { signOut } from 'next-auth/react';
 
 import { Button } from '@/components/ui/button';
 import { ROUTES } from '@/constants/routes';
-import { signOutAction } from '@/lib/actions/auth.action';
 
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
@@ -16,6 +17,12 @@ interface AuthButtonsProps {
 
 export function AuthButtons({ user }: AuthButtonsProps) {
   const userName = user?.name;
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    await signOut({ redirect: false });
+    router.refresh();
+  };
 
   if (userName) {
     return (
@@ -24,7 +31,7 @@ export function AuthButtons({ user }: AuthButtonsProps) {
           variant="ghost"
           size="sm"
           aria-label="Sign out"
-          onClick={signOutAction}
+          onClick={handleSignOut}
           className="mr-1"
         >
           <LogOut />

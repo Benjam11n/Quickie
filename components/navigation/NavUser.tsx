@@ -8,7 +8,9 @@ import {
   LogOut,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { User } from 'next-auth';
+import { signOut } from 'next-auth/react';
 import { useMediaQuery } from 'react-responsive';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -24,7 +26,6 @@ import {
 import { ROUTES } from '@/constants/routes';
 import { useCollection } from '@/hooks/queries/use-collection';
 import { useUserReviews } from '@/hooks/queries/use-reviews';
-import { signOutAction } from '@/lib/actions/auth.action';
 
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
@@ -35,12 +36,18 @@ interface NavUserProps {
 }
 
 export function NavUser({ user }: NavUserProps) {
+  const router = useRouter();
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const { data: collectionResponse, isPending: isLoadingCollection } =
     useCollection(user.id);
   const { data: reviewsResponse, isPending: isLoadingReviews } = useUserReviews(
     user.id
   );
+
+  const handleSignOut = async () => {
+    await signOut({ redirect: false });
+    router.refresh();
+  };
 
   if (isLoadingCollection || isLoadingReviews) {
     return (
@@ -152,7 +159,7 @@ export function NavUser({ user }: NavUserProps) {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <button onClick={signOutAction}>
+        <button onClick={handleSignOut}>
           <DropdownMenuItem className="w-full">
             <LogOut />
 
