@@ -14,12 +14,14 @@ import { getPerfumeFilters } from '@/lib/actions/perfume.action';
 import { removeKeysFromUrlQuery } from '@/lib/url';
 import { FragranceFilters } from '@/types/models/fragrance';
 
+import { Button } from '../ui/button';
 import { DialogDescription, DialogTitle } from '../ui/dialog';
 import { ScrollArea } from '../ui/scroll-area';
 import {
   Sheet,
   SheetContent,
   SheetDescription,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
 } from '../ui/sheet';
@@ -343,6 +345,21 @@ export function ProductFilters({
                 </div>
               </div>
             </ScrollArea>
+            <SheetFooter className="absolute inset-x-0 bottom-0 mt-6 flex-row gap-3 bg-background p-6">
+              <Button
+                className="flex-1"
+                onClick={() => {
+                  setFilters({
+                    priceRange: [0, 500],
+                    brands: [],
+                    tags: [],
+                    notes: [],
+                  });
+                }}
+              >
+                Reset
+              </Button>
+            </SheetFooter>
           </>
         )}
       </SheetContent>
