@@ -49,18 +49,3 @@ export default async function middleware(req: NextRequest) {
 
   return NextResponse.next();
 }
-
-export const config = {
-  matcher: [
-    '/sign-in',
-    '/sign-up',
-    '/profile',
-    '/profile/settings',
-    '/wishlists/:path*',
-    '/collection/:path*',
-    '/boards/:path/edit',
-    '/boards/new',
-    '/admin/:path*',
-    '/waitlist/:path*',
-  ],
-};

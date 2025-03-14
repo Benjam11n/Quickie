@@ -154,7 +154,7 @@ export function ProfileContent({
             </TabsTrigger>
             <TabsTrigger value="moodboards" className="gap-2">
               <Grid className="size-4" />
-              Mood Boards
+              Boards
             </TabsTrigger>
             <TabsTrigger value="reviews" className="gap-2">
               <Star className="size-4" />

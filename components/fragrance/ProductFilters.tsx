@@ -96,7 +96,6 @@ const FilterLoadingState = () => {
       {/* Footer */}
       <div className="absolute inset-x-0 bottom-0 flex gap-3 bg-background p-6">
         <Skeleton className="h-10 w-full" />
-        <Skeleton className="h-10 w-full" />
       </div>
     </div>
   );
@@ -119,7 +118,7 @@ export function ProductFilters({
   const getInitialFilters = () => {
     const params = new URLSearchParams(searchParams.toString());
     return {
-      priceRange: params.get('priceRange')?.split(',').map(Number) || [0, 500],
+      priceRange: params.get('priceRange')?.split(',').map(Number) || [0, 1500],
       brands: params.get('brands')?.split(',').filter(Boolean) || [],
       tags: params.get('tags')?.split(',').filter(Boolean) || [],
       notes: params.get('notes')?.split(',').filter(Boolean) || [],
@@ -208,7 +207,7 @@ export function ProductFilters({
                   <div className="space-y-2 px-1">
                     <Slider
                       defaultValue={filters.priceRange}
-                      max={500}
+                      max={1500}
                       step={10}
                       onValueChange={(value) =>
                         setFilters({ ...filters, priceRange: value })
@@ -350,14 +349,14 @@ export function ProductFilters({
                 className="flex-1"
                 onClick={() => {
                   setFilters({
-                    priceRange: [0, 500],
+                    priceRange: [0, 1500],
                     brands: [],
                     tags: [],
                     notes: [],
                   });
                 }}
               >
-                Reset
+                Clear Filters
               </Button>
             </SheetFooter>
           </>
